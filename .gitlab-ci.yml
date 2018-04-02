@@ -1,0 +1,11 @@
+
+
+pages:
+  stage: deploy
+  script:
+  - echo 'Nowt'
+  artifacts:
+    paths:
+    - public
+  only:
+  - master

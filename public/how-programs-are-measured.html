@@ -32,7 +32,7 @@ a{color:black;text-decoration:none}article,footer,header{margin:auto;max-width:3
   </section>
   <section>
     <h3 id="time">How programs are timed</h3>
-    <p>Each program is run as a child-process of <a href="./benchmarksgame-script.zip">a Python script</a> using <a href="http://docs.python.org/library/subprocess.html#popen-objects"><code>Popen</code></a>:
+    <p>Each program is run as a child-process of <a href="./download/benchmarksgame-script.zip">a Python script</a> using <a href="http://docs.python.org/library/subprocess.html#popen-objects"><code>Popen</code></a>:
     <ul>
       <li><p>secs - The time is taken before forking the child-process and after the child-process exits, using <a href="http://docs.python.org/library/time.html?highlight=time.time#time.time"><code>time.time()</code></a>
       <li><p>CPU - The script child-process <code>usr+sys rusage</code> time is taken using <a href="http://docs.python.org/library/os.html?highlight=os.wait3#os.wait3"><code>os.wait3</code></a>
@@ -62,7 +62,7 @@ a{color:black;text-decoration:none}article,footer,header{margin:auto;max-width:3
   </section>
   <section>
     <h3 id="data-files">Data files</h3>
-    <p>The <a href="./summarydata.html">summary data shown</a> only includes measurements for programs that successfully completed every workload; only includes measurements for the fastest programs and only includes the fastest measurement for those programs. Additional measurements (not just the fastest programs, not just the fastest measurements) are included in a separate compressed data file.
+    <p>The <a href="./summarydata/summarydata.html">summary data shown</a> only includes measurements for programs that successfully completed every workload; only includes measurements for the fastest programs and only includes the fastest measurement for those programs. Additional measurements (not just the fastest programs, not just the fastest measurements) are included in a separate compressed data file.
   </section>
 </article>
 <footer>

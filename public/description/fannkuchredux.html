@@ -42,12 +42,12 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,header
       </ul>
       <li><p>Do this for all n! permutations, and record the maximum number of flips needed for any permutation.
     </ul>
-    <p><strong>diff</strong> program output N = 7 with this <a href="./fannkuchredux-output.txt">output file</a> to check your program output has the correct format, before you <a href="./play.html">contribute your program</a>.
+    <p><strong>diff</strong> program output N = 7 with this <a href="../download/fannkuchredux-output.txt">output file</a> to check your program output has the correct format, before you <a href="../play.html">contribute your program</a>.
     <p>Use a larger command line argument (12) to check program performance.
   </section>
   <section>
     <h3>Example</h3>
-    <p>Thanks to Oleg Mazurov for insisting on a checksum and providing this helpful description of <a href="./fannkuchredux-java-1.html">the approach he took</a> -
+    <p>Thanks to Oleg Mazurov for insisting on a checksum and providing this helpful description of <a href="../program/fannkuchredux-java-1.html">the approach he took</a> -
     <ul>
       <li><p> common idea for parallel implementation is to divide all work (n! permutations) into chunks small enough to avoid load imbalance but large enough to keep overhead low. I set the number of chunks as a parameter (NCHUNKS = 150) from which I derive the size of a chunk (CHUNKSZ) and the actual number of chunks/tasks to be processed (NTASKS), which may be different from NCHUNKS because of rounding.
       <li><p>Task scheduling is trivial: threads will atomically get and increment the taskId variable to derive a range of permutation indices to work on: <pre>

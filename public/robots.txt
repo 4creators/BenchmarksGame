@@ -1,0 +1,3 @@
+User-agent: * 
+Disallow: /download/
+Sitemap: https://benchmarksgame-team.pages.debian.net/benchmarksgame/sitemap.xml

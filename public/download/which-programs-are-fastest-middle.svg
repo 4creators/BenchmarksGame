@@ -36,23 +36,39 @@
 <rect x="58" y="24" width="452" height="288" fill="url(#grade)"  />
 </mask>
 <g id="backgroundText" style="text-anchor: end; font-family: Ubuntu,Verdana,sans-serif; font-size: 1em;">
-<text x="14" y="0" transform="rotate(270,14,0)" xml:space="preserve">   Node.js   Node.js   Node.js   Node.js   Node.js   Node.js</text>
+<text x="14" y="0" transform="rotate(270,14,0)" xml:space="preserve">   Node js   Node js   Node js   Node js   Node js   Node js</text>
 <text x="37" y="0" transform="rotate(270,37,0)" xml:space="preserve">Dart   Dart   Dart   Dart   Dart   Dart   Dart   Dart   Dart</text>
 <text x="60" y="0" transform="rotate(270,60,0)" xml:space="preserve">   TypeScript   TypeScript   TypeScript   TypeScript</text>
 <text x="83" y="0" transform="rotate(270,83,0)" xml:space="preserve">   Racket   Racket   Racket   Racket   Racket   Racket</text>
-<text x="106" y="0" transform="rotate(270,106,0)" xml:space="preserve">   </text>
+<br />
+<b>Warning</b>:  Division by zero in <b>/home/dunham/8000-benchmarksgame/website/lib/lib_chartSVG.php</b> on line <b>289</b><br />
+<br />
+<b>Warning</b>:  str_repeat() expects parameter 2 to be integer, float given in <b>/home/dunham/8000-benchmarksgame/website/lib/lib_chartSVG.php</b> on line <b>290</b><br />
+<text x="106" y="0" transform="rotate(270,106,0)" xml:space="preserve"></text>
 <text x="129" y="0" transform="rotate(270,129,0)" xml:space="preserve">   PHP   PHP   PHP   PHP   PHP   PHP   PHP   PHP   PHP   PHP</text>
 <text x="152" y="0" transform="rotate(270,152,0)" xml:space="preserve">Hack   Hack   Hack   Hack   Hack   Hack   Hack   Hack   Hack</text>
 <text x="175" y="0" transform="rotate(270,175,0)" xml:space="preserve">   Erlang HiPE   Erlang HiPE   Erlang HiPE   Erlang HiPE</text>
-<text x="198" y="0" transform="rotate(270,198,0)" xml:space="preserve">   </text>
+<br />
+<b>Warning</b>:  Division by zero in <b>/home/dunham/8000-benchmarksgame/website/lib/lib_chartSVG.php</b> on line <b>289</b><br />
+<br />
+<b>Warning</b>:  str_repeat() expects parameter 2 to be integer, float given in <b>/home/dunham/8000-benchmarksgame/website/lib/lib_chartSVG.php</b> on line <b>290</b><br />
+<text x="198" y="0" transform="rotate(270,198,0)" xml:space="preserve"></text>
 <text x="221" y="0" transform="rotate(270,221,0)" xml:space="preserve">Perl   Perl   Perl   Perl   Perl   Perl   Perl   Perl   Perl</text>
 <text x="244" y="0" transform="rotate(270,244,0)" xml:space="preserve">   Python 3   Python 3   Python 3   Python 3   Python 3</text>
 <text x="267" y="0" transform="rotate(270,267,0)" xml:space="preserve">Ruby   Ruby   Ruby   Ruby   Ruby   Ruby   Ruby   Ruby   Ruby</text>
 <text x="290" y="0" transform="rotate(270,290,0)" xml:space="preserve">   Smalltalk VW   Smalltalk VW   Smalltalk VW   Smalltalk VW</text>
 <text x="313" y="0" transform="rotate(270,313,0)" xml:space="preserve">   Ruby JRuby   Ruby JRuby   Ruby JRuby   Ruby JRuby</text>
-<text x="336" y="0" transform="rotate(270,336,0)" xml:space="preserve">   </text>
+<br />
+<b>Warning</b>:  Division by zero in <b>/home/dunham/8000-benchmarksgame/website/lib/lib_chartSVG.php</b> on line <b>289</b><br />
+<br />
+<b>Warning</b>:  str_repeat() expects parameter 2 to be integer, float given in <b>/home/dunham/8000-benchmarksgame/website/lib/lib_chartSVG.php</b> on line <b>290</b><br />
+<text x="336" y="0" transform="rotate(270,336,0)" xml:space="preserve"></text>
 <text x="359" y="0" transform="rotate(270,359,0)" xml:space="preserve">   Lua   Lua   Lua   Lua   Lua   Lua   Lua   Lua   Lua   Lua</text>
-<text x="382" y="0" transform="rotate(270,382,0)" xml:space="preserve">   </text>
+<br />
+<b>Warning</b>:  Division by zero in <b>/home/dunham/8000-benchmarksgame/website/lib/lib_chartSVG.php</b> on line <b>289</b><br />
+<br />
+<b>Warning</b>:  str_repeat() expects parameter 2 to be integer, float given in <b>/home/dunham/8000-benchmarksgame/website/lib/lib_chartSVG.php</b> on line <b>290</b><br />
+<text x="382" y="0" transform="rotate(270,382,0)" xml:space="preserve"></text>
 <text x="405" y="0" transform="rotate(270,405,0)" xml:space="preserve">Matz's Interpreter   Matz's Interpreter   Matz's Interpreter</text>
 </g>
 </defs>
@@ -253,5 +269,4 @@
 <line x1="58" y1="264" x2="511" y2="264" />
 </g>
 </svg>
-
 

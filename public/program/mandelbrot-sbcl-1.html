@@ -328,16 +328,16 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-SBCL 1.4.0
+This is SBCL 1.4.6, an implementation of ANSI Common Lisp.
 
 
-Thu, 26 Oct 2017 17:15:42 GMT
+Thu, 05 Apr 2018 21:25:14 GMT
 
 MAKE:
 cp: 'mandelbrot.sbcl' and './mandelbrot.sbcl' are the same file
-SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;mandelbrot.sbcl_compile&quot;)'
+SBCL built with: /opt/src/sbcl-1.4.6/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;mandelbrot.sbcl_compile&quot;)'
 ### START mandelbrot.sbcl_compile
-(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (load (compile-file &quot;mandelbrot.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
+(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (require :sb-concurrency)      (load (compile-file &quot;mandelbrot.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
 ### END mandelbrot.sbcl_compile
 
 ; compiling file &quot;/home/dunham/benchmarksgame/bench/mandelbrot/mandelbrot.sbcl&quot; (written 24 JAN 2013 01:22:34 PM):
@@ -353,30 +353,10 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ; in: EVAL-WHEN (:LOAD-TOPLEVEL :COMPILE-TOPLEVEL :EXECUTE)
 ;     (SB-VM::FROB :LE SB-VM::CMPPD SB-VM::CMPLE-MOVMSKPD 3)
 ; --&gt; PROGN SB-C:DEFINE-VOP PROGN LET SB-C::MAKE-VOP-INFO SB-INT:NAMED-LAMBDA 
-; --&gt; FUNCTION LET* SB-ASSEM:ASSEMBLE LET* SYMBOL-MACROLET SB-VM::GENERATE 
+; --&gt; FUNCTION LET* SB-ASSEM:ASSEMBLE LET* SYMBOL-MACROLET SB-VM::GENERATE FLET 
 ; ==&gt;
-;   (FLET ((SB-VM::GET-CONSTANT (SB-C:TN)
-;            (SB-C:REGISTER-INLINE-CONSTANT (SB-C:TN-VALUE SB-C:TN))))
-;     (DECLARE (IGNORABLE (FUNCTION SB-VM::GET-CONSTANT)))
-;     (COND
-;      ((SB-C:LOCATION= SB-VM::X SB-VM::R)
-;       (WHEN (SB-C:SC-IS SB-VM::Y SB-VM::FP-COMPLEX-DOUBLE-IMMEDIATE) (SETF #))
-;       (SB-ASSEM:INST SB-VM::CMPPD :LE SB-VM::X SB-VM::Y)
-;       (SB-ASSEM:INST SB-VM::MOVMSKPD SB-VM::R SB-VM::X))
-;      ((NOT (SB-C:LOCATION= SB-VM::R SB-VM::Y))
-;       (IF (SB-C:SC-IS SB-VM::X SB-VM::FP-COMPLEX-DOUBLE-IMMEDIATE)
-;           (SB-ASSEM:INST SB-VM::MOVAPD SB-VM::R #)
-;           (SB-C:MOVE SB-VM::TMP SB-VM::X))
-;       (WHEN (SB-C:SC-IS SB-VM::Y SB-VM::FP-COMPLEX-DOUBLE-IMMEDIATE) (SETF #))
-;       (SB-ASSEM:INST SB-VM::CMPPD :LE SB-VM::TMP SB-VM::Y)
-;       (SB-ASSEM:INST SB-VM::MOVMSKPD SB-VM::R SB-VM::TMP))
-;      (T
-;       (IF (SB-C:SC-IS SB-VM::X SB-VM::FP-COMPLEX-DOUBLE-IMMEDIATE)
-;           (SB-ASSEM:INST SB-VM::MOVAPD SB-VM::TMP #)
-;           (SB-C:MOVE SB-VM::TMP SB-VM::X))
-;       (WHEN (SB-C:SC-IS SB-VM::Y SB-VM::FP-COMPLEX-DOUBLE-IMMEDIATE) (SETF #))
-;       (SB-ASSEM:INST SB-VM::CMPPD :LE SB-VM::TMP SB-VM::Y)
-;       (SB-ASSEM:INST SB-VM::MOVMSKPD SB-VM::R SB-VM::TMP))))
+;   (SB-VM::GET-CONSTANT (SB-C:TN)
+;    (SB-C:REGISTER-INLINE-CONSTANT (SB-C:TN-VALUE SB-C:TN)))
 ; 
 ; note: Return type not fixed values, so can't use known return convention:
 ;   *
@@ -443,7 +423,7 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ;       The second argument is a REAL, not a FIXNUM.
 
 ; --&gt; BLOCK LET SB-LOOP::WITH-LOOP-LIST-COLLECTION-HEAD LET* TAGBODY 
-; --&gt; SB-LOOP::LOOP-REALLY-DESETQ SETQ THE 1+ 
+; --&gt; SB-LOOP::LOOP-DESETQ SETQ THE 1+ 
 ; ==&gt;
 ;   (+ VOPS::I 1)
 ; 
@@ -489,14 +469,7 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ;                 VOPS::CRVS VOPS::INVERSE-H)))
 ; --&gt; FUNCTION SB-C::%%ALLOCATE-CLOSURES 
 ; ==&gt;
-;   (SB-C::%ALLOCATE-CLOSURES
-;    '(#&lt;SB-C::CLAMBDA
-;        :%SOURCE-NAME SB-C::.ANONYMOUS.
-;        :%DEBUG-NAME (LAMBDA # :IN VOPS::MAIN)
-;        :KIND NIL
-;        :TYPE #&lt;SB-KERNEL:FUN-TYPE #&gt;
-;        :WHERE-FROM :DEFINED
-;        :VARS NIL {1003A895E3}&gt;))
+;   (SB-C::%ALLOCATE-CLOSURES '(#'(LAMBDA () :IN VOPS::MAIN)))
 ; 
 ; note: doing float to pointer coercion (cost 13) from INVERSE-H, for:
 ;       the second argument of CLOSURE-INIT
@@ -525,14 +498,7 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ; --&gt; THE LIST CONS SB-THREAD:MAKE-THREAD LET LAMBDA FUNCTION 
 ; --&gt; SB-C::%%ALLOCATE-CLOSURES 
 ; ==&gt;
-;   (SB-C::%ALLOCATE-CLOSURES
-;    '(#&lt;SB-C::CLAMBDA
-;        :%SOURCE-NAME SB-C::.ANONYMOUS.
-;        :%DEBUG-NAME (LAMBDA # :IN VOPS::MAIN)
-;        :KIND NIL
-;        :TYPE #&lt;SB-KERNEL:FUN-TYPE #&gt;
-;        :WHERE-FROM :DEFINED
-;        :VARS NIL {1001B84B53}&gt;))
+;   (SB-C::%ALLOCATE-CLOSURES '(#'(LAMBDA () :IN VOPS::MAIN)))
 ; 
 ; note: doing float to pointer coercion (cost 13) from VOPS::INVERSE-H, for:
 ;       the second argument of CLOSURE-INIT
@@ -542,16 +508,16 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 
 
 ; /home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/mandelbrot.fasl written
-; compilation finished in 0:00:00.462
+; compilation finished in 0:00:00.449
 ### START mandelbrot.sbcl_run
 (main) (quit)
 ### END mandelbrot.sbcl_run
 
 
-4.00s to complete and log all make actions
+3.45s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/sbcl-1.4.0/bin/sbcl  --noinform --core sbcl.core --userinit /dev/null --load mandelbrot.sbcl_run 16000
+/opt/src/sbcl-1.4.6/bin/sbcl  --noinform --core sbcl.core --userinit /dev/null --load mandelbrot.sbcl_run 16000
 
 (BINARY) PROGRAM OUTPUT NOT SHOWN
     </pre>

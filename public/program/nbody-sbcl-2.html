@@ -174,16 +174,16 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-SBCL 1.4.0
+This is SBCL 1.4.6, an implementation of ANSI Common Lisp.
 
 
-Thu, 26 Oct 2017 17:16:36 GMT
+Thu, 05 Apr 2018 21:26:08 GMT
 
 MAKE:
 cp: 'nbody.sbcl-2.sbcl' and './nbody.sbcl-2.sbcl' are the same file
-SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;nbody.sbcl-2.sbcl_compile&quot;)'
+SBCL built with: /opt/src/sbcl-1.4.6/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;nbody.sbcl-2.sbcl_compile&quot;)'
 ### START nbody.sbcl-2.sbcl_compile
-(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (load (compile-file &quot;nbody.sbcl-2.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
+(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (require :sb-concurrency)      (load (compile-file &quot;nbody.sbcl-2.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
 ### END nbody.sbcl-2.sbcl_compile
 
 ; compiling file &quot;/home/dunham/benchmarksgame/bench/nbody/nbody.sbcl-2.sbcl&quot; (written 24 JAN 2013 01:22:34 PM):
@@ -204,170 +204,122 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ;       VZ
 ;       MASS)
 ; --&gt; PROGN DEFUN PROGN SB-IMPL::%DEFUN SB-IMPL::%DEFUN SB-INT:NAMED-LAMBDA 
-; --&gt; FUNCTION BLOCK THE ELT AREF SB-KERNEL:HAIRY-DATA-VECTOR-REF 
-; --&gt; MULTIPLE-VALUE-BIND MULTIPLE-VALUE-CALL 
 ; ==&gt;
-;   #'(LAMBDA (&amp;OPTIONAL (ARRAY) (SB-INT:INDEX) &amp;REST #:G2)
-;       (DECLARE (IGNORE #:G2))
-;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT 1) ARRAY))
-;       (SB-KERNEL:DATA-VECTOR-REF ARRAY SB-INT:INDEX))
+;   #'(SB-INT:NAMED-LAMBDA X
+;         (STRUCTURE)
+;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT (*)) STRUCTURE))
+;       (BLOCK X (THE (AND T DOUBLE-FLOAT) (ELT STRUCTURE 0))))
 ; 
 ; note: doing float to pointer coercion (cost 13) to &quot;&lt;return value&gt;&quot;
 
-; --&gt; PROGN DEFUN PROGN SB-IMPL::%DEFUN SB-IMPL::%DEFUN SB-INT:NAMED-LAMBDA 
-; --&gt; FUNCTION BLOCK SETF SB-KERNEL:%SETELT SETF LET* FUNCALL SB-C::%FUNCALL 
-; --&gt; (SETF AREF) SB-KERNEL:HAIRY-DATA-VECTOR-SET MULTIPLE-VALUE-BIND 
-; --&gt; MULTIPLE-VALUE-CALL 
 ; ==&gt;
-;   #'(LAMBDA (&amp;OPTIONAL (ARRAY) (SB-INT:INDEX) &amp;REST #:G10)
-;       (DECLARE (IGNORE #:G10))
-;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT 1) ARRAY)
-;                (TYPE DOUBLE-FLOAT SB-C::NEW-VALUE))
-;       (SB-KERNEL:DATA-VECTOR-SET ARRAY SB-INT:INDEX SB-C::NEW-VALUE))
+;   #'(SB-INT:NAMED-LAMBDA (SETF X)
+;         (SB-KERNEL::VALUE STRUCTURE)
+;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT (*)) STRUCTURE)
+;                (TYPE (AND T DOUBLE-FLOAT) SB-KERNEL::VALUE))
+;       (BLOCK X (SETF (ELT STRUCTURE 0) SB-KERNEL::VALUE)))
 ; 
 ; note: doing float to pointer coercion (cost 13) to &quot;&lt;return value&gt;&quot;
 
-; --&gt; PROGN DEFUN PROGN SB-IMPL::%DEFUN SB-IMPL::%DEFUN SB-INT:NAMED-LAMBDA 
-; --&gt; FUNCTION BLOCK THE ELT AREF SB-KERNEL:HAIRY-DATA-VECTOR-REF 
-; --&gt; MULTIPLE-VALUE-BIND MULTIPLE-VALUE-CALL 
 ; ==&gt;
-;   #'(LAMBDA (&amp;OPTIONAL (ARRAY) (SB-INT:INDEX) &amp;REST #:G15)
-;       (DECLARE (IGNORE #:G15))
-;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT 1) ARRAY))
-;       (SB-KERNEL:DATA-VECTOR-REF ARRAY SB-INT:INDEX))
+;   #'(SB-INT:NAMED-LAMBDA Y
+;         (STRUCTURE)
+;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT (*)) STRUCTURE))
+;       (BLOCK Y (THE (AND T DOUBLE-FLOAT) (ELT STRUCTURE 1))))
 ; 
 ; note: doing float to pointer coercion (cost 13) to &quot;&lt;return value&gt;&quot;
 
-; --&gt; PROGN DEFUN PROGN SB-IMPL::%DEFUN SB-IMPL::%DEFUN SB-INT:NAMED-LAMBDA 
-; --&gt; FUNCTION BLOCK SETF SB-KERNEL:%SETELT SETF LET* FUNCALL SB-C::%FUNCALL 
-; --&gt; (SETF AREF) SB-KERNEL:HAIRY-DATA-VECTOR-SET MULTIPLE-VALUE-BIND 
-; --&gt; MULTIPLE-VALUE-CALL 
 ; ==&gt;
-;   #'(LAMBDA (&amp;OPTIONAL (ARRAY) (SB-INT:INDEX) &amp;REST #:G23)
-;       (DECLARE (IGNORE #:G23))
-;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT 1) ARRAY)
-;                (TYPE DOUBLE-FLOAT SB-C::NEW-VALUE))
-;       (SB-KERNEL:DATA-VECTOR-SET ARRAY SB-INT:INDEX SB-C::NEW-VALUE))
+;   #'(SB-INT:NAMED-LAMBDA (SETF Y)
+;         (SB-KERNEL::VALUE STRUCTURE)
+;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT (*)) STRUCTURE)
+;                (TYPE (AND T DOUBLE-FLOAT) SB-KERNEL::VALUE))
+;       (BLOCK Y (SETF (ELT STRUCTURE 1) SB-KERNEL::VALUE)))
 ; 
 ; note: doing float to pointer coercion (cost 13) to &quot;&lt;return value&gt;&quot;
 
-; --&gt; PROGN DEFUN PROGN SB-IMPL::%DEFUN SB-IMPL::%DEFUN SB-INT:NAMED-LAMBDA 
-; --&gt; FUNCTION BLOCK THE ELT AREF SB-KERNEL:HAIRY-DATA-VECTOR-REF 
-; --&gt; MULTIPLE-VALUE-BIND MULTIPLE-VALUE-CALL 
 ; ==&gt;
-;   #'(LAMBDA (&amp;OPTIONAL (ARRAY) (SB-INT:INDEX) &amp;REST #:G28)
-;       (DECLARE (IGNORE #:G28))
-;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT 1) ARRAY))
-;       (SB-KERNEL:DATA-VECTOR-REF ARRAY SB-INT:INDEX))
+;   #'(SB-INT:NAMED-LAMBDA Z
+;         (STRUCTURE)
+;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT (*)) STRUCTURE))
+;       (BLOCK Z (THE (AND T DOUBLE-FLOAT) (ELT STRUCTURE 2))))
 ; 
 ; note: doing float to pointer coercion (cost 13) to &quot;&lt;return value&gt;&quot;
 
-; --&gt; PROGN DEFUN PROGN SB-IMPL::%DEFUN SB-IMPL::%DEFUN SB-INT:NAMED-LAMBDA 
-; --&gt; FUNCTION BLOCK SETF SB-KERNEL:%SETELT SETF LET* FUNCALL SB-C::%FUNCALL 
-; --&gt; (SETF AREF) SB-KERNEL:HAIRY-DATA-VECTOR-SET MULTIPLE-VALUE-BIND 
-; --&gt; MULTIPLE-VALUE-CALL 
 ; ==&gt;
-;   #'(LAMBDA (&amp;OPTIONAL (ARRAY) (SB-INT:INDEX) &amp;REST #:G36)
-;       (DECLARE (IGNORE #:G36))
-;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT 1) ARRAY)
-;                (TYPE DOUBLE-FLOAT SB-C::NEW-VALUE))
-;       (SB-KERNEL:DATA-VECTOR-SET ARRAY SB-INT:INDEX SB-C::NEW-VALUE))
+;   #'(SB-INT:NAMED-LAMBDA (SETF Z)
+;         (SB-KERNEL::VALUE STRUCTURE)
+;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT (*)) STRUCTURE)
+;                (TYPE (AND T DOUBLE-FLOAT) SB-KERNEL::VALUE))
+;       (BLOCK Z (SETF (ELT STRUCTURE 2) SB-KERNEL::VALUE)))
 ; 
 ; note: doing float to pointer coercion (cost 13) to &quot;&lt;return value&gt;&quot;
 
-; --&gt; PROGN DEFUN PROGN SB-IMPL::%DEFUN SB-IMPL::%DEFUN SB-INT:NAMED-LAMBDA 
-; --&gt; FUNCTION BLOCK THE ELT AREF SB-KERNEL:HAIRY-DATA-VECTOR-REF 
-; --&gt; MULTIPLE-VALUE-BIND MULTIPLE-VALUE-CALL 
 ; ==&gt;
-;   #'(LAMBDA (&amp;OPTIONAL (ARRAY) (SB-INT:INDEX) &amp;REST #:G41)
-;       (DECLARE (IGNORE #:G41))
-;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT 1) ARRAY))
-;       (SB-KERNEL:DATA-VECTOR-REF ARRAY SB-INT:INDEX))
+;   #'(SB-INT:NAMED-LAMBDA VX
+;         (STRUCTURE)
+;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT (*)) STRUCTURE))
+;       (BLOCK VX (THE (AND T DOUBLE-FLOAT) (ELT STRUCTURE 3))))
 ; 
 ; note: doing float to pointer coercion (cost 13) to &quot;&lt;return value&gt;&quot;
 
-; --&gt; PROGN DEFUN PROGN SB-IMPL::%DEFUN SB-IMPL::%DEFUN SB-INT:NAMED-LAMBDA 
-; --&gt; FUNCTION BLOCK SETF SB-KERNEL:%SETELT SETF LET* FUNCALL SB-C::%FUNCALL 
-; --&gt; (SETF AREF) SB-KERNEL:HAIRY-DATA-VECTOR-SET MULTIPLE-VALUE-BIND 
-; --&gt; MULTIPLE-VALUE-CALL 
 ; ==&gt;
-;   #'(LAMBDA (&amp;OPTIONAL (ARRAY) (SB-INT:INDEX) &amp;REST #:G49)
-;       (DECLARE (IGNORE #:G49))
-;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT 1) ARRAY)
-;                (TYPE DOUBLE-FLOAT SB-C::NEW-VALUE))
-;       (SB-KERNEL:DATA-VECTOR-SET ARRAY SB-INT:INDEX SB-C::NEW-VALUE))
+;   #'(SB-INT:NAMED-LAMBDA (SETF VX)
+;         (SB-KERNEL::VALUE STRUCTURE)
+;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT (*)) STRUCTURE)
+;                (TYPE (AND T DOUBLE-FLOAT) SB-KERNEL::VALUE))
+;       (BLOCK VX (SETF (ELT STRUCTURE 3) SB-KERNEL::VALUE)))
 ; 
 ; note: doing float to pointer coercion (cost 13) to &quot;&lt;return value&gt;&quot;
 
-; --&gt; PROGN DEFUN PROGN SB-IMPL::%DEFUN SB-IMPL::%DEFUN SB-INT:NAMED-LAMBDA 
-; --&gt; FUNCTION BLOCK THE ELT AREF SB-KERNEL:HAIRY-DATA-VECTOR-REF 
-; --&gt; MULTIPLE-VALUE-BIND MULTIPLE-VALUE-CALL 
 ; ==&gt;
-;   #'(LAMBDA (&amp;OPTIONAL (ARRAY) (SB-INT:INDEX) &amp;REST #:G54)
-;       (DECLARE (IGNORE #:G54))
-;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT 1) ARRAY))
-;       (SB-KERNEL:DATA-VECTOR-REF ARRAY SB-INT:INDEX))
+;   #'(SB-INT:NAMED-LAMBDA VY
+;         (STRUCTURE)
+;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT (*)) STRUCTURE))
+;       (BLOCK VY (THE (AND T DOUBLE-FLOAT) (ELT STRUCTURE 4))))
 ; 
 ; note: doing float to pointer coercion (cost 13) to &quot;&lt;return value&gt;&quot;
 
-; --&gt; PROGN DEFUN PROGN SB-IMPL::%DEFUN SB-IMPL::%DEFUN SB-INT:NAMED-LAMBDA 
-; --&gt; FUNCTION BLOCK SETF SB-KERNEL:%SETELT SETF LET* FUNCALL SB-C::%FUNCALL 
-; --&gt; (SETF AREF) SB-KERNEL:HAIRY-DATA-VECTOR-SET MULTIPLE-VALUE-BIND 
-; --&gt; MULTIPLE-VALUE-CALL 
 ; ==&gt;
-;   #'(LAMBDA (&amp;OPTIONAL (ARRAY) (SB-INT:INDEX) &amp;REST #:G62)
-;       (DECLARE (IGNORE #:G62))
-;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT 1) ARRAY)
-;                (TYPE DOUBLE-FLOAT SB-C::NEW-VALUE))
-;       (SB-KERNEL:DATA-VECTOR-SET ARRAY SB-INT:INDEX SB-C::NEW-VALUE))
+;   #'(SB-INT:NAMED-LAMBDA (SETF VY)
+;         (SB-KERNEL::VALUE STRUCTURE)
+;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT (*)) STRUCTURE)
+;                (TYPE (AND T DOUBLE-FLOAT) SB-KERNEL::VALUE))
+;       (BLOCK VY (SETF (ELT STRUCTURE 4) SB-KERNEL::VALUE)))
 ; 
 ; note: doing float to pointer coercion (cost 13) to &quot;&lt;return value&gt;&quot;
 
-; --&gt; PROGN DEFUN PROGN SB-IMPL::%DEFUN SB-IMPL::%DEFUN SB-INT:NAMED-LAMBDA 
-; --&gt; FUNCTION BLOCK THE ELT AREF SB-KERNEL:HAIRY-DATA-VECTOR-REF 
-; --&gt; MULTIPLE-VALUE-BIND MULTIPLE-VALUE-CALL 
 ; ==&gt;
-;   #'(LAMBDA (&amp;OPTIONAL (ARRAY) (SB-INT:INDEX) &amp;REST #:G67)
-;       (DECLARE (IGNORE #:G67))
-;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT 1) ARRAY))
-;       (SB-KERNEL:DATA-VECTOR-REF ARRAY SB-INT:INDEX))
+;   #'(SB-INT:NAMED-LAMBDA VZ
+;         (STRUCTURE)
+;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT (*)) STRUCTURE))
+;       (BLOCK VZ (THE (AND T DOUBLE-FLOAT) (ELT STRUCTURE 5))))
 ; 
 ; note: doing float to pointer coercion (cost 13) to &quot;&lt;return value&gt;&quot;
 
-; --&gt; PROGN DEFUN PROGN SB-IMPL::%DEFUN SB-IMPL::%DEFUN SB-INT:NAMED-LAMBDA 
-; --&gt; FUNCTION BLOCK SETF SB-KERNEL:%SETELT SETF LET* FUNCALL SB-C::%FUNCALL 
-; --&gt; (SETF AREF) SB-KERNEL:HAIRY-DATA-VECTOR-SET MULTIPLE-VALUE-BIND 
-; --&gt; MULTIPLE-VALUE-CALL 
 ; ==&gt;
-;   #'(LAMBDA (&amp;OPTIONAL (ARRAY) (SB-INT:INDEX) &amp;REST #:G75)
-;       (DECLARE (IGNORE #:G75))
-;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT 1) ARRAY)
-;                (TYPE DOUBLE-FLOAT SB-C::NEW-VALUE))
-;       (SB-KERNEL:DATA-VECTOR-SET ARRAY SB-INT:INDEX SB-C::NEW-VALUE))
+;   #'(SB-INT:NAMED-LAMBDA (SETF VZ)
+;         (SB-KERNEL::VALUE STRUCTURE)
+;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT (*)) STRUCTURE)
+;                (TYPE (AND T DOUBLE-FLOAT) SB-KERNEL::VALUE))
+;       (BLOCK VZ (SETF (ELT STRUCTURE 5) SB-KERNEL::VALUE)))
 ; 
 ; note: doing float to pointer coercion (cost 13) to &quot;&lt;return value&gt;&quot;
 
-; --&gt; PROGN DEFUN PROGN SB-IMPL::%DEFUN SB-IMPL::%DEFUN SB-INT:NAMED-LAMBDA 
-; --&gt; FUNCTION BLOCK THE ELT AREF SB-KERNEL:HAIRY-DATA-VECTOR-REF 
-; --&gt; MULTIPLE-VALUE-BIND MULTIPLE-VALUE-CALL 
 ; ==&gt;
-;   #'(LAMBDA (&amp;OPTIONAL (ARRAY) (SB-INT:INDEX) &amp;REST #:G80)
-;       (DECLARE (IGNORE #:G80))
-;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT 1) ARRAY))
-;       (SB-KERNEL:DATA-VECTOR-REF ARRAY SB-INT:INDEX))
+;   #'(SB-INT:NAMED-LAMBDA MASS
+;         (STRUCTURE)
+;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT (*)) STRUCTURE))
+;       (BLOCK MASS (THE (AND T DOUBLE-FLOAT) (ELT STRUCTURE 6))))
 ; 
 ; note: doing float to pointer coercion (cost 13) to &quot;&lt;return value&gt;&quot;
 
-; --&gt; PROGN DEFUN PROGN SB-IMPL::%DEFUN SB-IMPL::%DEFUN SB-INT:NAMED-LAMBDA 
-; --&gt; FUNCTION BLOCK SETF SB-KERNEL:%SETELT SETF LET* FUNCALL SB-C::%FUNCALL 
-; --&gt; (SETF AREF) SB-KERNEL:HAIRY-DATA-VECTOR-SET MULTIPLE-VALUE-BIND 
-; --&gt; MULTIPLE-VALUE-CALL 
 ; ==&gt;
-;   #'(LAMBDA (&amp;OPTIONAL (ARRAY) (SB-INT:INDEX) &amp;REST #:G88)
-;       (DECLARE (IGNORE #:G88))
-;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT 1) ARRAY)
-;                (TYPE DOUBLE-FLOAT SB-C::NEW-VALUE))
-;       (SB-KERNEL:DATA-VECTOR-SET ARRAY SB-INT:INDEX SB-C::NEW-VALUE))
+;   #'(SB-INT:NAMED-LAMBDA (SETF MASS)
+;         (SB-KERNEL::VALUE STRUCTURE)
+;       (DECLARE (TYPE (SIMPLE-ARRAY DOUBLE-FLOAT (*)) STRUCTURE)
+;                (TYPE (AND T DOUBLE-FLOAT) SB-KERNEL::VALUE))
+;       (BLOCK MASS (SETF (ELT STRUCTURE 6) SB-KERNEL::VALUE)))
 ; 
 ; note: doing float to pointer coercion (cost 13) to &quot;&lt;return value&gt;&quot;
 
@@ -603,16 +555,16 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 
 
 ; /home/dunham/benchmarksgame_quadcore/nbody/tmp/nbody.sbcl-2.fasl written
-; compilation finished in 0:00:00.102
+; compilation finished in 0:00:00.086
 ### START nbody.sbcl-2.sbcl_run
 (main) (quit)
 ### END nbody.sbcl-2.sbcl_run
 
 
-3.59s to complete and log all make actions
+3.01s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/sbcl-1.4.0/bin/sbcl --dynamic-space-size 500 --noinform --core sbcl.core --userinit /dev/null --load nbody.sbcl-2.sbcl_run 50000000
+/opt/src/sbcl-1.4.6/bin/sbcl --dynamic-space-size 500 --noinform --core sbcl.core --userinit /dev/null --load nbody.sbcl-2.sbcl_run 50000000
 
 PROGRAM OUTPUT:
 -0.169075164

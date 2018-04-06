@@ -82,16 +82,16 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-SBCL 1.4.0
+This is SBCL 1.4.6, an implementation of ANSI Common Lisp.
 
 
-Thu, 26 Oct 2017 17:50:11 GMT
+Thu, 05 Apr 2018 22:18:05 GMT
 
 MAKE:
 cp: 'threadring.sbcl' and './threadring.sbcl' are the same file
-SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;threadring.sbcl_compile&quot;)'
+SBCL built with: /opt/src/sbcl-1.4.6/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;threadring.sbcl_compile&quot;)'
 ### START threadring.sbcl_compile
-(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (load (compile-file &quot;threadring.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
+(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (require :sb-concurrency)      (load (compile-file &quot;threadring.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
 ### END threadring.sbcl_compile
 
 ; compiling file &quot;/home/dunham/benchmarksgame/bench/threadring/threadring.sbcl&quot; (written 24 JAN 2013 01:22:34 PM):
@@ -107,16 +107,16 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ; compiling (DEFUN MAIN ...)
 
 ; /home/dunham/benchmarksgame_quadcore/threadring/tmp/threadring.fasl written
-; compilation finished in 0:00:00.020
+; compilation finished in 0:00:00.021
 ### START threadring.sbcl_run
 (main) (quit)
 ### END threadring.sbcl_run
 
 
-3.50s to complete and log all make actions
+2.96s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/sbcl-1.4.0/bin/sbcl  --noinform --core sbcl.core --userinit /dev/null --load threadring.sbcl_run 50000000
+/opt/src/sbcl-1.4.6/bin/sbcl  --noinform --core sbcl.core --userinit /dev/null --load threadring.sbcl_run 50000000
 
 PROGRAM OUTPUT:
 292

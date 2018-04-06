@@ -295,16 +295,16 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-SBCL 1.4.0
+This is SBCL 1.4.6, an implementation of ANSI Common Lisp.
 
 
-Thu, 26 Oct 2017 16:25:17 GMT
+Thu, 05 Apr 2018 20:34:01 GMT
 
 MAKE:
 cp: 'chameneosredux.sbcl-3.sbcl' and './chameneosredux.sbcl-3.sbcl' are the same file
-SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;chameneosredux.sbcl-3.sbcl_compile&quot;)'
+SBCL built with: /opt/src/sbcl-1.4.6/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;chameneosredux.sbcl-3.sbcl_compile&quot;)'
 ### START chameneosredux.sbcl-3.sbcl_compile
-(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (load (compile-file &quot;chameneosredux.sbcl-3.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
+(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (require :sb-concurrency)      (load (compile-file &quot;chameneosredux.sbcl-3.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
 ### END chameneosredux.sbcl-3.sbcl_compile
 
 ; compiling file &quot;/home/dunham/benchmarksgame/bench/chameneosredux/chameneosredux.sbcl-3.sbcl&quot; (written 24 JAN 2013 01:22:33 PM):
@@ -329,16 +329,16 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ; compiling (DEFUN MAIN ...)
 
 ; /home/dunham/benchmarksgame_quadcore/chameneosredux/tmp/chameneosredux.sbcl-3.fasl written
-; compilation finished in 0:00:00.204
+; compilation finished in 0:00:00.203
 ### START chameneosredux.sbcl-3.sbcl_run
 (main) (quit)
 ### END chameneosredux.sbcl-3.sbcl_run
 
 
-3.73s to complete and log all make actions
+3.16s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/sbcl-1.4.0/bin/sbcl  --noinform --core sbcl.core --userinit /dev/null --load chameneosredux.sbcl-3.sbcl_run 6000000
+/opt/src/sbcl-1.4.6/bin/sbcl  --noinform --core sbcl.core --userinit /dev/null --load chameneosredux.sbcl-3.sbcl_run 6000000
 
 PROGRAM OUTPUT:
 blue + blue -&gt; blue
@@ -352,22 +352,22 @@ yellow + red -&gt; blue
 yellow + yellow -&gt; yellow
 
  blue red yellow
-4460624 zero
-3856085 zero
-3683291 zero
+4178287 zero
+4205917 zero
+3615796 zero
  one two zero zero zero zero zero zero
 
  blue red yellow red yellow blue red yellow red blue
-1456850 zero
-1726051 zero
-1240631 zero
-1846751 zero
-1265888 zero
-1034576 zero
-945867 zero
-895653 zero
-860856 zero
-726877 zero
+884256 zero
+1281338 zero
+1699595 zero
+1225331 zero
+1340302 zero
+1581979 zero
+940564 zero
+1153929 zero
+1040856 zero
+851850 zero
  one two zero zero zero zero zero zero
 
     </pre>

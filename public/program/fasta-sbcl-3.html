@@ -162,16 +162,16 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-SBCL 1.4.0
+This is SBCL 1.4.6, an implementation of ANSI Common Lisp.
 
 
-Thu, 26 Oct 2017 16:50:24 GMT
+Thu, 05 Apr 2018 21:02:22 GMT
 
 MAKE:
 cp: 'fasta.sbcl-3.sbcl' and './fasta.sbcl-3.sbcl' are the same file
-SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;fasta.sbcl-3.sbcl_compile&quot;)'
+SBCL built with: /opt/src/sbcl-1.4.6/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;fasta.sbcl-3.sbcl_compile&quot;)'
 ### START fasta.sbcl-3.sbcl_compile
-(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (load (compile-file &quot;fasta.sbcl-3.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
+(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (require :sb-concurrency)      (load (compile-file &quot;fasta.sbcl-3.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
 ### END fasta.sbcl-3.sbcl_compile
 
 ; compiling file &quot;/home/dunham/benchmarksgame/bench/fasta/fasta.sbcl-3.sbcl&quot; (written 24 JAN 2013 01:22:33 PM):
@@ -197,6 +197,7 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ;                                                          T).
 
 ; --&gt; CEILING MULTIPLE-VALUE-BIND MULTIPLE-VALUE-CALL TRUNCATE LET VALUES - 
+; --&gt; LOCALLY 
 ; ==&gt;
 ;   (SB-KERNEL:%SINGLE-FLOAT SB-C::RES)
 ; 
@@ -249,7 +250,7 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 
 
 ; /home/dunham/benchmarksgame_quadcore/fasta/tmp/fasta.sbcl-3.fasl written
-; compilation finished in 0:00:00.070
+; compilation finished in 0:00:00.061
 WARNING:
    Proclaiming COMMON-LISP-USER::NEXT-RANDOM to be INLINE, but 1 call to it was
    previously compiled. A declaration of NOTINLINE at the call site will
@@ -260,10 +261,10 @@ WARNING:
 ### END fasta.sbcl-3.sbcl_run
 
 
-3.55s to complete and log all make actions
+2.98s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/sbcl-1.4.0/bin/sbcl --dynamic-space-size 500 --noinform --core sbcl.core --userinit /dev/null --load fasta.sbcl-3.sbcl_run 25000000
+/opt/src/sbcl-1.4.6/bin/sbcl --dynamic-space-size 500 --noinform --core sbcl.core --userinit /dev/null --load fasta.sbcl-3.sbcl_run 25000000
 
 (TRUNCATED) PROGRAM OUTPUT:
 &gt;ONE Homo sapiens alu

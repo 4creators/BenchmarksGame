@@ -87,16 +87,16 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-SBCL 1.4.0
+This is SBCL 1.4.6, an implementation of ANSI Common Lisp.
 
 
-Thu, 26 Oct 2017 17:25:08 GMT
+Thu, 05 Apr 2018 21:33:25 GMT
 
 MAKE:
 cp: 'pidigits.sbcl-2.sbcl' and './pidigits.sbcl-2.sbcl' are the same file
-SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;pidigits.sbcl-2.sbcl_compile&quot;)'
+SBCL built with: /opt/src/sbcl-1.4.6/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;pidigits.sbcl-2.sbcl_compile&quot;)'
 ### START pidigits.sbcl-2.sbcl_compile
-(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (load (compile-file &quot;pidigits.sbcl-2.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
+(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (require :sb-concurrency)      (load (compile-file &quot;pidigits.sbcl-2.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
 ### END pidigits.sbcl-2.sbcl_compile
 
 ; compiling file &quot;/home/dunham/benchmarksgame/bench/pidigits/pidigits.sbcl-2.sbcl&quot; (written 24 JAN 2013 01:22:34 PM):
@@ -145,21 +145,22 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ;       The first argument is a INTEGER, not a FIXNUM.
 ;       etc.
 
+; --&gt; MULTIPLE-VALUE-BIND MULTIPLE-VALUE-CALL FUNCTION IF AND IF IF PLUSP 
 ; ==&gt;
-;   (&lt; NUMBER 0)
+;   (&gt; NUMBER 0)
 ; 
-; note: forced to do GENERIC-&lt; (cost 10)
+; note: forced to do GENERIC-&gt; (cost 10)
 ;       unable to do inline fixnum comparison (cost 3) because:
 ;       The first argument is a INTEGER, not a FIXNUM.
 ;       unable to do inline fixnum comparison (cost 4) because:
 ;       The first argument is a INTEGER, not a FIXNUM.
 ;       etc.
 
-; --&gt; MULTIPLE-VALUE-BIND MULTIPLE-VALUE-CALL FUNCTION IF AND IF IF PLUSP 
+; --&gt; MULTIPLE-VALUE-BIND MULTIPLE-VALUE-CALL FUNCTION IF AND IF IF MINUSP 
 ; ==&gt;
-;   (&gt; NUMBER 0)
+;   (&lt; NUMBER 0)
 ; 
-; note: forced to do GENERIC-&gt; (cost 10)
+; note: forced to do GENERIC-&lt; (cost 10)
 ;       unable to do inline fixnum comparison (cost 3) because:
 ;       The first argument is a INTEGER, not a FIXNUM.
 ;       unable to do inline fixnum comparison (cost 4) because:
@@ -278,16 +279,16 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 
 
 ; /home/dunham/benchmarksgame_quadcore/pidigits/tmp/pidigits.sbcl-2.fasl written
-; compilation finished in 0:00:00.023
+; compilation finished in 0:00:00.022
 ### START pidigits.sbcl-2.sbcl_run
 (main) (quit)
 ### END pidigits.sbcl-2.sbcl_run
 
 
-3.50s to complete and log all make actions
+2.94s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/sbcl-1.4.0/bin/sbcl  --noinform --core sbcl.core --userinit /dev/null --load pidigits.sbcl-2.sbcl_run 10000
+/opt/src/sbcl-1.4.6/bin/sbcl  --noinform --core sbcl.core --userinit /dev/null --load pidigits.sbcl-2.sbcl_run 10000
 
 (TRUNCATED) PROGRAM OUTPUT:
 3141592653	:10

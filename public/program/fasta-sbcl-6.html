@@ -180,16 +180,16 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-SBCL 1.4.0
+This is SBCL 1.4.6, an implementation of ANSI Common Lisp.
 
 
-Thu, 26 Oct 2017 16:55:45 GMT
+Thu, 05 Apr 2018 21:03:35 GMT
 
 MAKE:
 cp: 'fasta.sbcl-6.sbcl' and './fasta.sbcl-6.sbcl' are the same file
-SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;fasta.sbcl-6.sbcl_compile&quot;)'
+SBCL built with: /opt/src/sbcl-1.4.6/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;fasta.sbcl-6.sbcl_compile&quot;)'
 ### START fasta.sbcl-6.sbcl_compile
-(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (load (compile-file &quot;fasta.sbcl-6.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
+(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (require :sb-concurrency)      (load (compile-file &quot;fasta.sbcl-6.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
 ### END fasta.sbcl-6.sbcl_compile
 
 ; compiling file &quot;/home/dunham/benchmarksgame/bench/fasta/fasta.sbcl-6.sbcl&quot; (written 24 JAN 2013 01:22:33 PM):
@@ -227,12 +227,29 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ; compiling (LET (# # ...) ...)
 ; compiling (DECLAIM (INLINE FIND-AMINO-ACID ...))
 ; compiling (DEFUN FIND-AMINO-ACID ...)
+; file: /home/dunham/benchmarksgame/bench/fasta/fasta.sbcl-6.sbcl
+; in: DEFUN FIND-AMINO-ACID
+;     (&lt; P X)
+; 
+; note: forced to do GENERIC-&lt; (cost 10)
+;       unable to do inline fixnum comparison (cost 4) because:
+;       The second argument is a REAL, not a FIXNUM.
+
 ; compiling (DECLAIM (INLINE OUTPUT-LINE ...))
 ; compiling (DEFUN OUTPUT-LINE ...)
 ; compiling (DEFUN FLUSH ...)
 ; compiling (DEFUN RANDOMIZE ...)
 ; file: /home/dunham/benchmarksgame/bench/fasta/fasta.sbcl-6.sbcl
 ; in: DEFUN RANDOMIZE
+;     (FIND-AMINO-ACID AMINO-ACIDS-SYMS AMINO-ACIDS-CPROBS (NEXT-RANDOM))
+; --&gt; BLOCK LET POSITION-IF LAMBDA FUNCTION &lt; IF 
+; ==&gt;
+;   (&lt; P X)
+; 
+; note: forced to do GENERIC-&lt; (cost 10)
+;       unable to do inline fixnum comparison (cost 4) because:
+;       The second argument is a REAL, not a FIXNUM.
+
 ;     (DEFUN RANDOMIZE (AMINO-ACIDS-SYMS AMINO-ACIDS-CPROBS TITLE N)
 ;       (DECLARE (TYPE FIXNUM N))
 ;       (DECLARE (TYPE (SIMPLE-ARRAY FIXNUM (*)) AMINO-ACIDS-CPROBS))
@@ -254,8 +271,7 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ;                                                                     +BUFFER-SIZE+
 ;                                                                     :ELEMENT-TYPE
 ;                                                                     'BASE-CHAR)
-;                              WITH I OF-TYPE FIXNUM = ...)))
-;                    (SB-C:SOURCE-LOCATION))
+;                              WITH I OF-TYPE FIXNUM = ...))))
 ; 
 ; caught STYLE-WARNING:
 ;   Call to COMMON-LISP-USER::NEXT-RANDOM could not be inlined because its source
@@ -268,20 +284,20 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ; compiling (DEFUN MAINP ...); 
 ; compilation unit finished
 ;   caught 1 STYLE-WARNING condition
-;   printed 1 note
+;   printed 3 notes
 
 
 ; /home/dunham/benchmarksgame_quadcore/fasta/tmp/fasta.sbcl-6.fasl written
-; compilation finished in 0:00:00.151
+; compilation finished in 0:00:00.119
 ### START fasta.sbcl-6.sbcl_run
 (main) (quit)
 ### END fasta.sbcl-6.sbcl_run
 
 
-3.85s to complete and log all make actions
+3.08s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/sbcl-1.4.0/bin/sbcl --dynamic-space-size 500 --noinform --core sbcl.core --userinit /dev/null --load fasta.sbcl-6.sbcl_run 25000000
+/opt/src/sbcl-1.4.6/bin/sbcl --dynamic-space-size 500 --noinform --core sbcl.core --userinit /dev/null --load fasta.sbcl-6.sbcl_run 25000000
 
 (TRUNCATED) PROGRAM OUTPUT:
 &gt;ONE Homo sapiens alu

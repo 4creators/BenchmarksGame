@@ -202,16 +202,16 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-SBCL 1.4.0
+This is SBCL 1.4.6, an implementation of ANSI Common Lisp.
 
 
-Thu, 26 Oct 2017 17:27:35 GMT
+Thu, 05 Apr 2018 21:37:08 GMT
 
 MAKE:
 cp: 'pidigits.sbcl' and './pidigits.sbcl' are the same file
-SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;pidigits.sbcl_compile&quot;)'
+SBCL built with: /opt/src/sbcl-1.4.6/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;pidigits.sbcl_compile&quot;)'
 ### START pidigits.sbcl_compile
-(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (load (compile-file &quot;pidigits.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
+(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (require :sb-concurrency)      (load (compile-file &quot;pidigits.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
 ### END pidigits.sbcl_compile
 
 ; compiling file &quot;/home/dunham/benchmarksgame/bench/pidigits/pidigits.sbcl&quot; (written 06 OCT 2016 10:51:43 AM):
@@ -281,7 +281,7 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 
 
 ; /home/dunham/benchmarksgame_quadcore/pidigits/tmp/pidigits.fasl written
-; compilation finished in 0:00:00.123
+; compilation finished in 0:00:00.111
 STYLE-WARNING: Undefined alien: &quot;__gmpz_init&quot;
 STYLE-WARNING: Undefined alien: &quot;__gmpz_init_set_ui&quot;
 STYLE-WARNING: Undefined alien: &quot;__gmpz_get_ui&quot;
@@ -297,10 +297,10 @@ STYLE-WARNING: Undefined alien: &quot;__gmpz_submul_ui&quot;
 ### END pidigits.sbcl_run
 
 
-3.63s to complete and log all make actions
+3.05s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/sbcl-1.4.0/bin/sbcl  --noinform --core sbcl.core --userinit /dev/null --load pidigits.sbcl_run 2000
+/opt/src/sbcl-1.4.6/bin/sbcl  --noinform --core sbcl.core --userinit /dev/null --load pidigits.sbcl_run 2000
 
 UNEXPECTED OUTPUT 
 

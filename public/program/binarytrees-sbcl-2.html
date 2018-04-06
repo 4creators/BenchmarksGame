@@ -95,16 +95,16 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-SBCL 1.4.0
+This is SBCL 1.4.6, an implementation of ANSI Common Lisp.
 
 
-Thu, 26 Oct 2017 16:25:13 GMT
+Thu, 05 Apr 2018 20:22:58 GMT
 
 MAKE:
 cp: 'binarytrees.sbcl-2.sbcl' and './binarytrees.sbcl-2.sbcl' are the same file
-SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;binarytrees.sbcl-2.sbcl_compile&quot;)'
+SBCL built with: /opt/src/sbcl-1.4.6/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;binarytrees.sbcl-2.sbcl_compile&quot;)'
 ### START binarytrees.sbcl-2.sbcl_compile
-(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (load (compile-file &quot;binarytrees.sbcl-2.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
+(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (require :sb-concurrency)      (load (compile-file &quot;binarytrees.sbcl-2.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
 ### END binarytrees.sbcl-2.sbcl_compile
 
 ; compiling file &quot;/home/dunham/benchmarksgame/bench/binarytrees/binarytrees.sbcl-2.sbcl&quot; (written 24 JAN 2013 01:22:33 PM):
@@ -153,8 +153,18 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ; note: doing signed word to integer coercion (cost 20), for:
 ;       the second argument of GENERIC-+
 
-; compiling (DEFUN MAIN ...); 
+; compiling (DEFUN MAIN ...)
+; file: /home/dunham/benchmarksgame/bench/binarytrees/binarytrees.sbcl-2.sbcl
+; in: DEFUN MAIN
+;     (PURIFY)
+; 
+; caught STYLE-WARNING:
+;   undefined function: PURIFY
+; 
 ; compilation unit finished
+;   Undefined function:
+;     PURIFY
+;   caught 1 STYLE-WARNING condition
 ;   printed 4 notes
 
 
@@ -165,29 +175,21 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ### END binarytrees.sbcl-2.sbcl_run
 
 
-3.49s to complete and log all make actions
+2.93s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/sbcl-1.4.0/bin/sbcl  --noinform --core sbcl.core --userinit /dev/null --load binarytrees.sbcl-2.sbcl_run 7
+/opt/src/sbcl-1.4.6/bin/sbcl  --noinform --core sbcl.core --userinit /dev/null --load binarytrees.sbcl-2.sbcl_run 7
 
-UNEXPECTED OUTPUT 
+TIMED OUT after 300s
 
-1,4c1,4
-&lt; stretch tree of depth 8	 check: -1
-&lt; 256	 trees of depth 4	 check: -256
-&lt; 64	 trees of depth 6	 check: -64
-&lt; long lived tree of depth 7	 check: -1
----
-&gt; stretch tree of depth 8	 check: 511
-&gt; 128	 trees of depth 4	 check: 3968
-&gt; 32	 trees of depth 6	 check: 4064
-&gt; long lived tree of depth 7	 check: 255
 
 PROGRAM OUTPUT:
 stretch tree of depth 8	 check: -1
-256	 trees of depth 4	 check: -256
-64	 trees of depth 6	 check: -64
-long lived tree of depth 7	 check: -1
+
+While evaluating the form starting at line 1, column 0
+  of #P&quot;/home/dunham/benchmarksgame_quadcore/binarytrees/tmp/binarytrees.sbcl-2.sbcl_run&quot;:
+
+debugger invoked on a UNDEFINED-FUNCTION in thread #&lt;THREAD &quot;main thread&quot; RUNNING {10005605B3}&gt;: The function SB-EXT:PURIFY is undefined.
     </pre>
   </section>
 </article>

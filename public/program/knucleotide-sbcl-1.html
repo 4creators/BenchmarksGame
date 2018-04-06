@@ -272,16 +272,16 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-SBCL 1.4.0
+This is SBCL 1.4.6, an implementation of ANSI Common Lisp.
 
 
-Thu, 26 Oct 2017 17:11:40 GMT
+Thu, 05 Apr 2018 21:20:43 GMT
 
 MAKE:
 cp: 'knucleotide.sbcl' and './knucleotide.sbcl' are the same file
-SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;knucleotide.sbcl_compile&quot;)'
+SBCL built with: /opt/src/sbcl-1.4.6/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;knucleotide.sbcl_compile&quot;)'
 ### START knucleotide.sbcl_compile
-(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (load (compile-file &quot;knucleotide.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
+(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (require :sb-concurrency)      (load (compile-file &quot;knucleotide.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
 ### END knucleotide.sbcl_compile
 
 ; compiling file &quot;/home/dunham/benchmarksgame/bench/knucleotide/knucleotide.sbcl&quot; (written 15 APR 2017 07:23:50 PM):
@@ -309,7 +309,7 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ;     (FUNCALL (KNUCLEOTIDE::MY-TASK-MYLAMBDA KNUCLEOTIDE::THETASK))
 ; --&gt; SB-C::%FUNCALL THE 
 ; ==&gt;
-;   (SB-KERNEL:%COERCE-CALLABLE-TO-FUN
+;   (SB-KERNEL:%COERCE-CALLABLE-FOR-CALL
 ;    (KNUCLEOTIDE::MY-TASK-MYLAMBDA KNUCLEOTIDE::THETASK))
 ; 
 ; note: unable to
@@ -418,7 +418,7 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ;     (MAP '(VECTOR (UNSIGNED-BYTE 8)) #'CHAR-CODE KNUCLEOTIDE::NUCLEOTIDEFRAGMENT)
 ; --&gt; TRULY-THE SB-KERNEL:%MAP MAP-INTO MAKE-SEQUENCE MIN LET 
 ; ==&gt;
-;   (LENGTH #:G26)
+;   (LENGTH #:G7)
 ; 
 ; note: unable to
 ;   optimize
@@ -458,7 +458,7 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ;           DO (IF (EQL (KNUCLEOTIDE::RESULT-KEYLENGTH KNUCLEOTIDE::RESULT)
 ;                       (LENGTH KNUCLEOTIDE::NUCLEOTIDEFRAGMENT))
 ;                  (SETF COUNT (+ COUNT #))))
-; --&gt; BLOCK LET LET TAGBODY SB-LOOP::LOOP-REALLY-DESETQ SETQ THE AREF 
+; --&gt; BLOCK LET LET TAGBODY SB-LOOP::LOOP-DESETQ SETQ THE AREF 
 ; ==&gt;
 ;   (SB-KERNEL:HAIRY-DATA-VECTOR-REF ARRAY SB-INT:INDEX)
 ; 
@@ -576,36 +576,12 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ; compiling (DEFUN MAIN ...)
 ; file: /home/dunham/benchmarksgame/bench/knucleotide/knucleotide.sbcl
 ; in: DEFUN MAIN
-;     (LENGTH KNUCLEOTIDE::MSEQUENCE)
-; 
-; note: unable to
-;   optimize
-; due to type uncertainty:
-;   The first argument is a SEQUENCE, not a (SIMPLE-ARRAY * (*)).
-; 
-; note: unable to
-;   optimize
-; due to type uncertainty:
-;   The first argument is a SEQUENCE, not a VECTOR.
-
 ;     (ELT KNUCLEOTIDE::*MY-TASK-LIST* 0)
 ; 
 ; note: unable to
 ;   optimize
 ; due to type uncertainty:
 ;   The first argument is a VECTOR, not a (SIMPLE-ARRAY * (*)).
-
-;     (LENGTH KNUCLEOTIDE::MSEQUENCE)
-; 
-; note: unable to
-;   optimize
-; due to type uncertainty:
-;   The first argument is a SEQUENCE, not a (SIMPLE-ARRAY * (*)).
-; 
-; note: unable to
-;   optimize
-; due to type uncertainty:
-;   The first argument is a SEQUENCE, not a VECTOR.
 
 ;     (ELT KNUCLEOTIDE::*MY-TASK-LIST* 1)
 ; 
@@ -625,20 +601,20 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ; compiling (DEFUN MAIN ...); 
 ; compilation unit finished
 ;   caught 1 STYLE-WARNING condition
-;   printed 40 notes
+;   printed 36 notes
 
 
 ; /home/dunham/benchmarksgame_quadcore/knucleotide/tmp/knucleotide.fasl written
-; compilation finished in 0:00:00.142
+; compilation finished in 0:00:00.156
 ### START knucleotide.sbcl_run
 (main) (quit)
 ### END knucleotide.sbcl_run
 
 
-3.64s to complete and log all make actions
+3.11s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/sbcl-1.4.0/bin/sbcl  --noinform --core sbcl.core --userinit /dev/null --load knucleotide.sbcl_run 0 &lt; knucleotide-input25000000.txt
+/opt/src/sbcl-1.4.6/bin/sbcl  --noinform --core sbcl.core --userinit /dev/null --load knucleotide.sbcl_run 0 &lt; knucleotide-input25000000.txt
 
 PROGRAM OUTPUT:
 A 30.295

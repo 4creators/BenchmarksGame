@@ -82,16 +82,16 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-SBCL 1.4.0
+This is SBCL 1.4.6, an implementation of ANSI Common Lisp.
 
 
-Thu, 26 Oct 2017 17:23:44 GMT
+Thu, 05 Apr 2018 21:35:53 GMT
 
 MAKE:
 cp: 'pidigits.sbcl-3.sbcl' and './pidigits.sbcl-3.sbcl' are the same file
-SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;pidigits.sbcl-3.sbcl_compile&quot;)'
+SBCL built with: /opt/src/sbcl-1.4.6/bin/sbcl --userinit /dev/null --batch --eval '(load &quot;pidigits.sbcl-3.sbcl_compile&quot;)'
 ### START pidigits.sbcl-3.sbcl_compile
-(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (load (compile-file &quot;pidigits.sbcl-3.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
+(handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (require :sb-concurrency)      (load (compile-file &quot;pidigits.sbcl-3.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
 ### END pidigits.sbcl-3.sbcl_compile
 
 ; compiling file &quot;/home/dunham/benchmarksgame/bench/pidigits/pidigits.sbcl-3.sbcl&quot; (written 09 NOV 2016 01:42:08 PM):
@@ -288,10 +288,10 @@ SBCL built with: /opt/src/sbcl-1.4.0/bin/sbcl --userinit /dev/null --batch --eva
 ### END pidigits.sbcl-3.sbcl_run
 
 
-3.61s to complete and log all make actions
+2.99s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/sbcl-1.4.0/bin/sbcl  --noinform --core sbcl.core --userinit /dev/null --load pidigits.sbcl-3.sbcl_run 10000
+/opt/src/sbcl-1.4.6/bin/sbcl  --noinform --core sbcl.core --userinit /dev/null --load pidigits.sbcl-3.sbcl_run 10000
 
 (TRUNCATED) PROGRAM OUTPUT:
 3141592653	:10

@@ -28,6 +28,27 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
 <span class="slc">// Contributed by Sylvester Saguban</span>
 <span class="slc">// taken some inspirations from C++ G++ #3 from Branimir Maksimovic</span>
 <span class="slc">//</span>
+<span class="slc">// Improvements to algorithm of C++ G++ #3:</span>
+<span class="slc">// - Only doing incremental update to key instead of</span>
+<span class="slc">//   recomputing it for every insert to hash table,</span>
+<span class="slc">//   this aligns it to the other fast implementations.</span>
+<span class="slc">//   Notably C GCC, Rust #6, Rust #4.</span>
+<span class="slc">// - Returning the hash object by moving instead of</span>
+<span class="slc">//   returning by copy.</span>
+<span class="slc">// - Using std::thread instead of std::async so routines</span>
+<span class="slc">//   are guaranteed to run on their own threads.</span>
+
+<span class="slc">// Improvements aimed at better compiler optimizations:</span>
+<span class="slc">// - Passing the count/string length as a function</span>
+<span class="slc">//   template argument so it is known in advance by</span>
+<span class="slc">//   the compiler. For programming languages without</span>
+<span class="slc">//   value generics, the same optimization can done</span>
+<span class="slc">//   by making those values as constants.</span>
+<span class="slc">// - &apos;Key&apos; class uses this template value so &apos;size&apos;</span>
+<span class="slc">//   member variable is not needed inside the class,</span>
+<span class="slc">//   this also reduced the memory usage against the</span>
+<span class="slc">//   original implementation.</span>
+
 <span class="slc">// compile with these flags:</span>
 <span class="slc">// -std=c++17 -march=native -msse -msse2 -msse3 -O3</span>
 
@@ -61,8 +82,10 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
 <span class="kwc">template</span> <span class="opt">&lt;</span><span class="kwb">size_t</span> size<span class="opt">&gt;</span>
 <span class="kwb">struct</span> Key
 <span class="opt">{</span>
-    <span class="slc">// select type to use for &apos;data&apos;</span>
+    <span class="slc">// select type to use for &apos;data&apos;, if hash key can fit on 32-bit integer</span>
+    <span class="slc">// then use uint32_t else use uint64_t.</span>
     <span class="kwa">using</span> Data <span class="opt">=</span> typename <span class="kwc">std</span><span class="opt">::</span>conditional<span class="opt">&lt;</span>size<span class="opt">&lt;=</span><span class="num">16</span><span class="opt">,</span> <span class="kwb">uint32_t</span><span class="opt">,</span> <span class="kwb">uint64_t</span><span class="opt">&gt;::</span>type<span class="opt">;</span>
+
     <span class="kwb">struct</span> Hash <span class="opt">{</span>
         Data <span class="kwc">operator</span><span class="opt">()(</span><span class="kwb">const</span> Key<span class="opt">&amp;</span> t<span class="opt">)</span><span class="kwb">const</span><span class="opt">{</span> <span class="kwa">return</span> t<span class="opt">.</span>_data<span class="opt">; }</span>
     <span class="opt">};</span>
@@ -70,6 +93,9 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <span class="kwd">Key</span><span class="opt">(</span>Data data<span class="opt">) :</span> <span class="kwd">_data</span><span class="opt">(</span>data<span class="opt">) {</span>
     <span class="opt">}</span>
 
+    <span class="slc">// uses std::string_view instead of std::string because std::string always</span>
+    <span class="slc">// allocates a copy from the heap. while std::string_view is only a wrapper</span>
+    <span class="slc">// of a pointer and a size</span>
     <span class="kwd">Key</span><span class="opt">(</span><span class="kwb">const</span> <span class="kwc">std</span><span class="opt">::</span>string_view<span class="opt">&amp;</span> str<span class="opt">) {</span>
         _data <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
         <span class="kwa">for</span><span class="opt">(</span><span class="kwb">unsigned</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> size<span class="opt">; ++</span>i<span class="opt">){</span>
@@ -97,6 +123,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
         _data <span class="opt">&amp;=</span> _mask<span class="opt">;</span>
     <span class="opt">}</span>
 
+    <span class="slc">// implicit casting operator to string</span>
     <span class="kwc">operator std</span><span class="opt">::</span><span class="kwd">string</span><span class="opt">()</span> <span class="kwb">const</span> <span class="opt">{</span>
         <span class="kwc">std</span><span class="opt">::</span>string tmp<span class="opt">;</span>
         Data data <span class="opt">=</span> _data<span class="opt">;</span>
@@ -120,6 +147,9 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
 <span class="kwc">template</span> <span class="opt">&lt;</span><span class="kwb">size_t</span> size<span class="opt">&gt;</span>
 <span class="kwb">void</span> <span class="kwd">Calculate</span><span class="opt">(</span><span class="kwb">const</span> <span class="kwc">Cfg</span><span class="opt">::</span>Data<span class="opt">&amp;</span> input<span class="opt">,</span> <span class="kwb">size_t</span> begin<span class="opt">,</span> HashTable<span class="opt">&lt;</span>size<span class="opt">&gt;&amp;</span> table<span class="opt">)</span>
 <span class="opt">{</span>
+    <span class="slc">// original implementation fully recomputes the hash key for each</span>
+    <span class="slc">// insert to the hash table. This implementation only partially</span>
+    <span class="slc">// updates the hash, this is the same with C GCC, Rust #6 and Rust #4</span>
     Key<span class="opt">&lt;</span>size<span class="opt">&gt;</span> <span class="kwd">key</span><span class="opt">(</span><span class="num">0</span><span class="opt">);</span>
     <span class="slc">// initialize key</span>
     key<span class="opt">.</span><span class="kwd">InitKey</span><span class="opt">(</span>input<span class="opt">.</span><span class="kwd">data</span><span class="opt">() +</span> begin<span class="opt">);</span>
@@ -160,12 +190,14 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <span class="kwa">for</span><span class="opt">(</span><span class="kwb">unsigned</span> i <span class="opt">=</span> <span class="num">1</span> <span class="opt">;</span> i <span class="opt">&lt;</span> cfg<span class="opt">.</span>thread_count<span class="opt">; ++</span>i<span class="opt">)</span>
         <span class="kwa">for</span><span class="opt">(</span><span class="kwc">auto</span><span class="opt">&amp;</span> j <span class="opt">:</span> hash_tables<span class="opt">[</span>i<span class="opt">])</span>
             frequencies<span class="opt">[</span>j<span class="opt">.</span>first<span class="opt">] +=</span> j<span class="opt">.</span>second<span class="opt">;</span>
+    <span class="slc">// return the &apos;frequency&apos; by move instead of copy.</span>
     <span class="kwa">return</span> <span class="kwc">std</span><span class="opt">::</span><span class="kwd">move</span><span class="opt">(</span>frequencies<span class="opt">);</span>
 <span class="opt">}</span>
 
 <span class="kwc">template</span> <span class="opt">&lt;</span><span class="kwb">unsigned</span> size<span class="opt">&gt;</span>
 <span class="kwb">void</span> <span class="kwd">WriteFrequencies</span><span class="opt">(</span><span class="kwb">const</span> <span class="kwc">Cfg</span><span class="opt">::</span>Data<span class="opt">&amp;</span> input<span class="opt">)</span>
 <span class="opt">{</span>
+    <span class="slc">// we &quot;receive&quot; the returned object by move instead of copy.</span>
     <span class="kwc">auto</span><span class="opt">&amp;&amp;</span> frequencies <span class="opt">=</span> CalculateInThreads<span class="opt">&lt;</span>size<span class="opt">&gt;(</span>input<span class="opt">);</span>
     <span class="kwc">std</span><span class="opt">::</span>map<span class="opt">&lt;</span><span class="kwb">unsigned</span><span class="opt">,</span> <span class="kwc">std</span><span class="opt">::</span>string<span class="opt">,</span> <span class="kwc">std</span><span class="opt">::</span>greater<span class="opt">&lt;</span><span class="kwb">unsigned</span><span class="opt">&gt;&gt;</span> freq<span class="opt">;</span>
     <span class="kwa">for</span><span class="opt">(</span><span class="kwb">const</span> <span class="kwc">auto</span><span class="opt">&amp;</span> i<span class="opt">:</span> frequencies<span class="opt">)</span>
@@ -179,6 +211,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
 
 <span class="kwc">template</span> <span class="opt">&lt;</span><span class="kwb">unsigned</span> size<span class="opt">&gt;</span>
 <span class="kwb">void</span> <span class="kwd">WriteCount</span><span class="opt">(</span> <span class="kwb">const</span> <span class="kwc">Cfg</span><span class="opt">::</span>Data<span class="opt">&amp;</span> input<span class="opt">,</span> <span class="kwb">const</span> <span class="kwc">std</span><span class="opt">::</span>string<span class="opt">&amp;</span> text <span class="opt">) {</span>
+    <span class="slc">// we &quot;receive&quot; the returned object by move instead of copy.</span>
     <span class="kwc">auto</span><span class="opt">&amp;&amp;</span> frequencies <span class="opt">=</span> CalculateInThreads<span class="opt">&lt;</span>size<span class="opt">&gt;(</span>input<span class="opt">);</span>
     <span class="kwc">std</span><span class="opt">::</span>cout <span class="opt">&lt;&lt;</span> frequencies<span class="opt">[</span>Key<span class="opt">&lt;</span>size<span class="opt">&gt;(</span>text<span class="opt">)] &lt;&lt;</span> <span class="str">&apos;</span><span class="esc">\t</span><span class="str">&apos;</span> <span class="opt">&lt;&lt;</span> text <span class="opt">&lt;&lt;</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">;</span>
 <span class="opt">}</span>
@@ -202,6 +235,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
 
     WriteFrequencies<span class="opt">&lt;</span><span class="num">1</span><span class="opt">&gt;(</span>data<span class="opt">);</span>
     WriteFrequencies<span class="opt">&lt;</span><span class="num">2</span><span class="opt">&gt;(</span>data<span class="opt">);</span>
+    <span class="slc">// value at left is the length of the passed string.</span>
     WriteCount<span class="opt">&lt;</span><span class="num">3</span><span class="opt">&gt;(</span>data<span class="opt">,</span> <span class="str">&quot;GGT&quot;</span><span class="opt">);</span>
     WriteCount<span class="opt">&lt;</span><span class="num">4</span><span class="opt">&gt;(</span>data<span class="opt">,</span> <span class="str">&quot;GGTA&quot;</span><span class="opt">);</span>
     WriteCount<span class="opt">&lt;</span><span class="num">6</span><span class="opt">&gt;(</span>data<span class="opt">,</span> <span class="str">&quot;GGTATT&quot;</span><span class="opt">);</span>
@@ -218,14 +252,14 @@ NOTES:
 g++ (Ubuntu 7.2.0-8ubuntu3) 7.2.0
 
 
-Tue, 10 Apr 2018 16:16:00 GMT
+Wed, 11 Apr 2018 18:56:29 GMT
 
 MAKE:
 /usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native  -std=c++17 knucleotide.gpp-2.c++ -o knucleotide.gpp-2.c++.o &amp;&amp;  \
         /usr/bin/g++ knucleotide.gpp-2.c++.o -o knucleotide.gpp-2.gpp_run -lpthread 
 rm knucleotide.gpp-2.c++
 
-10.33s to complete and log all make actions
+10.22s to complete and log all make actions
 
 COMMAND LINE:
 ./knucleotide.gpp-2.gpp_run 0 &lt; knucleotide-input25000000.txt

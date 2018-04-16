@@ -4,7 +4,13 @@
       <loc>https://benchmarksgame-team.pages.debian.net/benchmarksgame/</loc>
    </url>
    <url>
-      <loc>https://benchmarksgame-team.pages.debian.net/benchmarksgame/compare/</loc>
+      <loc>https://benchmarksgame-team.pages.debian.net/benchmarksgame/which-programs-are-fastest.html</loc>
+   </url>
+   <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/benchmarksgame/dont-jump-to-conclusions.html</loc>
+   </url>
+   <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/benchmarksgame/why-measure-toy-benchmark-programs.html</loc>
    </url>
    <url>
       <loc>https://benchmarksgame-team.pages.debian.net/benchmarksgame/how-programs-are-measured.html</loc>
@@ -13,6 +19,6 @@
       <loc>https://benchmarksgame-team.pages.debian.net/benchmarksgame/play.html</loc>
    </url>
    <url>
-      <loc>https://benchmarksgame-team.pages.debian.net/benchmarksgame/dont-jump-to-conclusions.html</loc>
+      <loc>https://benchmarksgame-team.pages.debian.net/benchmarksgame/for-programming-language-researchers.html</loc>
    </url>
 </urlset>

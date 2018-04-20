@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="all" />
-<meta name="description" content="Chapel programs vs C gcc programs (performance on 64-bit Ubuntu quad core)." />
-<title>Chapel&nbsp;vs&nbsp;C gcc (64-bit Ubuntu quad core) | Computer Language Benchmarks Game </title>
+<meta name="description" content="Chapel programs vs Java programs (performance on 64-bit Ubuntu quad core)." />
+<title>Chapel&nbsp;vs&nbsp;Java (64-bit Ubuntu quad core) | Computer Language Benchmarks Game </title>
 <style><!--
 a{color:black;text-decoration:none}article,footer{padding: 0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans,Ubuntu,Verdana,sans-serif;margin:0;-webkit-text-size-adjust:100%}h1,h2,h3,nav li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}h1{font-size:1.4em;font-weight:bold;margin:0;padding:.4em}h1,h1 a{color:white}h1 small{font-size:0.64em}h2,h3{margin:1.5em 0 0}h2{font-size:1.4em;font-weight:normal}h3{font-size:1.2em}li{display:inline-block}nav li{list-style-type:none}nav li a{display:block;font-size:1.2em;margin:.5em .5em 0;padding:.5em .5em .3em}nav ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin:.3em 0 0}p a,span{border-bottom:.1em solid #333;padding-bottom:.1em}
 #u64,#u64q{background-color:#dd4814}#u32{background-color:#ffb515}#u32q{background-color:#ff6309}.best{font-weight:bold}.message{font-size:.8em}table{color:#333;margin:1.3em auto 0;text-align:right}tbody:after{content:"-";display:block;line-height:2.6em;visibility:hidden}tbody:last-child{text-align:left}td{border-bottom:.15em dotted #eee;padding:.7em 0 0 1em}td a,th a{display:block}td:first-child,th:first-child{text-align:left;padding-left:0}td:nth-child(6),th:nth-child(6){display:table-cell}th{font-weight:normal;padding:.7em 0 0 1em}
@@ -14,15 +14,15 @@ a{color:black;text-decoration:none}article,footer{padding: 0 0 2.9em}article,div
 </header>
 <article>
   <div>
-    <h2>Chapel programs versus C gcc</h2>
+    <h2>Chapel programs versus Java</h2>
     <aside>
 
     <nav>
       <ul>
-        <li class="best">vs C
+        <li><a href="./chapel-gcc.html"><span>vs C</span></a>
         <li><a href="./chapel-gpp.html"><span>vs C++</span></a>
         <li><a href="./chapel.html"><span>vs Go</span></a>
-        <li><a href="./chapel-java.html"><span>vs Java</span></a>
+        <li class="best">vs Java
         <li><a href="./chapel-python3.html"><span>vs Python</span></a>
       </ul>
     </nav>
@@ -52,37 +52,12 @@ a{color:black;text-decoration:none}article,footer{padding: 0 0 2.9em}article,div
         <td>1.62
         <td class="message">100%&nbsp;1%&nbsp;1%&nbsp;1%
       <tr>
-        <td><a href="../program/pidigits-gcc-1.html"><span>C&nbsp;gcc</span></a>
-        <td>1.74
-        <td>2,716
-        <td>452
-        <td>1.74
-        <td class="message">100%&nbsp;1%&nbsp;1%&nbsp;2%
-      <tbody>
-      <tr>
-        <th colspan="3"><a href="../performance/fasta.html"><span>fasta</span></a>
-        <th colspan="3">
-      <tr>
-        <th>source
-        <th>secs
-        <th>mem
-        <th>gz
-        <th>cpu
-        <th>cpu load
-      <tr>
-        <td><a href="../program/fasta-chapel-2.html"><span>Chapel</span></a>
-        <td>1.69
-        <td>5,728
-        <td>1392
-        <td>5.83
-        <td class="message">100%&nbsp;82%&nbsp;82%&nbsp;83%
-      <tr>
-        <td><a href="../program/fasta-gcc-2.html"><span>C&nbsp;gcc</span></a>
-        <td>1.32
-        <td>2,912
-        <td>2268
-        <td>5.25
-        <td class="message">100%&nbsp;99%&nbsp;100%&nbsp;99%
+        <td><a href="../program/pidigits-java-2.html"><span>Java</span></a>
+        <td>3.13
+        <td>36,984
+        <td>938
+        <td>3.36
+        <td class="message">4%&nbsp;4%&nbsp;99%&nbsp;3%
       <tbody>
       <tr>
         <th colspan="3"><a href="../performance/fannkuchredux.html"><span>fannkuch-redux</span></a>
@@ -96,21 +71,21 @@ a{color:black;text-decoration:none}article,footer{padding: 0 0 2.9em}article,div
         <th>cpu load
       <tr>
         <td><a href="../program/fannkuchredux-chapel-1.html"><span>Chapel</span></a>
-        <td>11.22
+        <td class="best">11.22
         <td>4,000
         <td>728
         <td>44.58
         <td class="message">100%&nbsp;99%&nbsp;100%&nbsp;100%
       <tr>
-        <td><a href="../program/fannkuchredux-gcc-5.html"><span>C&nbsp;gcc</span></a>
-        <td>8.66
-        <td>980
-        <td>910
-        <td>34.22
-        <td class="message">100%&nbsp;97%&nbsp;100%&nbsp;100%
+        <td><a href="../program/fannkuchredux-java-1.html"><span>Java</span></a>
+        <td>18.27
+        <td>31,820
+        <td>1282
+        <td>72.06
+        <td class="message">99%&nbsp;99%&nbsp;98%&nbsp;98%
       <tbody>
       <tr>
-        <th colspan="3"><a href="../performance/spectralnorm.html"><span>spectral-norm</span></a>
+        <th colspan="3"><a href="../performance/fasta.html"><span>fasta</span></a>
         <th colspan="3">
       <tr>
         <th>source
@@ -120,119 +95,19 @@ a{color:black;text-decoration:none}article,footer{padding: 0 0 2.9em}article,div
         <th>cpu
         <th>cpu load
       <tr>
-        <td><a href="../program/spectralnorm-chapel-1.html"><span>Chapel</span></a>
-        <td>3.99
-        <td>5,148
-        <td>310
-        <td>15.81
-        <td class="message">100%&nbsp;99%&nbsp;100%&nbsp;99%
+        <td><a href="../program/fasta-chapel-2.html"><span>Chapel</span></a>
+        <td class="best">1.69
+        <td>5,728
+        <td>1392
+        <td>5.83
+        <td class="message">100%&nbsp;82%&nbsp;82%&nbsp;83%
       <tr>
-        <td><a href="../program/spectralnorm-gcc-5.html"><span>C&nbsp;gcc</span></a>
-        <td>2.00
-        <td>1,300
-        <td>569
-        <td>7.89
-        <td class="message">99%&nbsp;99%&nbsp;100%&nbsp;99%
-      <tbody>
-      <tr>
-        <th colspan="3"><a href="../performance/nbody.html"><span>n-body</span></a>
-        <th colspan="3">
-      <tr>
-        <th>source
-        <th>secs
-        <th>mem
-        <th>gz
-        <th>cpu
-        <th>cpu load
-      <tr>
-        <td><a href="../program/nbody-chapel-1.html"><span>Chapel</span></a>
-        <td>20.60
-        <td>4,872
-        <td>962
-        <td>20.60
-        <td class="message">100%&nbsp;1%&nbsp;1%&nbsp;0%
-      <tr>
-        <td><a href="../program/nbody-gcc-4.html"><span>C&nbsp;gcc</span></a>
-        <td>9.12
-        <td>1,176
-        <td>1490
-        <td>9.12
-        <td class="message">1%&nbsp;100%&nbsp;2%&nbsp;2%
-      <tbody>
-      <tr>
-        <th colspan="3"><a href="../performance/knucleotide.html"><span>k-nucleotide</span></a>
-        <th colspan="3">
-      <tr>
-        <th>source
-        <th>secs
-        <th>mem
-        <th>gz
-        <th>cpu
-        <th>cpu load
-      <tr>
-        <td><a href="../program/knucleotide-chapel-1.html"><span>Chapel</span></a>
-        <td>18.31
-        <td>293,140
-        <td>1063
-        <td>66.47
-        <td class="message">100%&nbsp;88%&nbsp;88%&nbsp;88%
-      <tr>
-        <td><a href="../program/knucleotide-gcc-1.html"><span>C&nbsp;gcc</span></a>
-        <td>6.67
-        <td>130,160
-        <td>1506
-        <td>19.33
-        <td class="message">76%&nbsp;50%&nbsp;92%&nbsp;75%
-      <tbody>
-      <tr>
-        <th colspan="3"><a href="../performance/mandelbrot.html"><span>mandelbrot</span></a>
-        <th colspan="3">
-      <tr>
-        <th>source
-        <th>secs
-        <th>mem
-        <th>gz
-        <th>cpu
-        <th>cpu load
-      <tr>
-        <td><a href="../program/mandelbrot-chapel-2.html"><span>Chapel</span></a>
-        <td>5.47
-        <td>35,756
-        <td>620
-        <td>21.66
-        <td class="message">100%&nbsp;99%&nbsp;99%&nbsp;99%
-      <tr>
-        <td><a href="../program/mandelbrot-gcc-6.html"><span>C&nbsp;gcc</span></a>
-        <td>1.64
-        <td>29,424
-        <td>1135
-        <td>6.53
-        <td class="message">99%&nbsp;100%&nbsp;100%&nbsp;100%
-      <tbody>
-      <tr>
-        <th colspan="3"><a href="../performance/revcomp.html"><span>reverse-complement</span></a>
-        <th colspan="3">
-      <tr>
-        <th>source
-        <th>secs
-        <th>mem
-        <th>gz
-        <th>cpu
-        <th>cpu load
-      <tr>
-        <td><a href="../program/revcomp-chapel-1.html"><span>Chapel</span></a>
-        <td>6.70
-        <td>1,002,992
-        <td>643
-        <td>9.01
-        <td class="message">99%&nbsp;17%&nbsp;7%&nbsp;15%
-      <tr>
-        <td><a href="../program/revcomp-gcc-3.html"><span>C&nbsp;gcc</span></a>
-        <td>1.78
-        <td>994,444
-        <td>1438
-        <td>3.96
-        <td class="message">42%&nbsp;49%&nbsp;96%&nbsp;42%
+        <td><a href="../program/fasta-java-5.html"><span>Java</span></a>
+        <td>2.27
+        <td>43,628
+        <td>2473
+        <td>5.93
+        <td class="message">51%&nbsp;75%&nbsp;57%&nbsp;81%
       <tbody>
       <tr>
         <th colspan="3"><a href="../performance/regexredux.html"><span>regex-redux</span></a>
@@ -246,18 +121,93 @@ a{color:black;text-decoration:none}article,footer{padding: 0 0 2.9em}article,div
         <th>cpu load
       <tr>
         <td><a href="../program/regexredux-chapel-1.html"><span>Chapel</span></a>
-        <td>8.16
+        <td class="best">8.16
         <td>792,460
         <td>477
         <td>16.36
         <td class="message">100%&nbsp;17%&nbsp;16%&nbsp;70%
       <tr>
-        <td><a href="../program/regexredux-gcc-4.html"><span>C&nbsp;gcc</span></a>
-        <td>1.48
-        <td>152,352
-        <td>1230
-        <td>4.05
-        <td class="message">59%&nbsp;99%&nbsp;57%&nbsp;61%
+        <td><a href="../program/regexredux-java-3.html"><span>Java</span></a>
+        <td>10.51
+        <td>573,972
+        <td>929
+        <td>31.30
+        <td class="message">70%&nbsp;73%&nbsp;70%&nbsp;86%
+      <tbody>
+      <tr>
+        <th colspan="3"><a href="../performance/mandelbrot.html"><span>mandelbrot</span></a>
+        <th colspan="3">
+      <tr>
+        <th>source
+        <th>secs
+        <th>mem
+        <th>gz
+        <th>cpu
+        <th>cpu load
+      <tr>
+        <td><a href="../program/mandelbrot-chapel-2.html"><span>Chapel</span></a>
+        <td class="best">5.47
+        <td>35,756
+        <td>620
+        <td>21.66
+        <td class="message">100%&nbsp;99%&nbsp;99%&nbsp;99%
+      <tr>
+        <td><a href="../program/mandelbrot-java-2.html"><span>Java</span></a>
+        <td>6.10
+        <td>76,520
+        <td>796
+        <td>23.59
+        <td class="message">97%&nbsp;98%&nbsp;98%&nbsp;96%
+      <tbody>
+      <tr>
+        <th colspan="3"><a href="../performance/spectralnorm.html"><span>spectral-norm</span></a>
+        <th colspan="3">
+      <tr>
+        <th>source
+        <th>secs
+        <th>mem
+        <th>gz
+        <th>cpu
+        <th>cpu load
+      <tr>
+        <td><a href="../program/spectralnorm-chapel-1.html"><span>Chapel</span></a>
+        <td class="best">3.99
+        <td>5,148
+        <td>310
+        <td>15.81
+        <td class="message">100%&nbsp;99%&nbsp;100%&nbsp;99%
+      <tr>
+        <td><a href="../program/spectralnorm-java-2.html"><span>Java</span></a>
+        <td>4.38
+        <td>35,388
+        <td>950
+        <td>16.80
+        <td class="message">96%&nbsp;96%&nbsp;95%&nbsp;97%
+      <tbody>
+      <tr>
+        <th colspan="3"><a href="../performance/nbody.html"><span>n-body</span></a>
+        <th colspan="3">
+      <tr>
+        <th>source
+        <th>secs
+        <th>mem
+        <th>gz
+        <th>cpu
+        <th>cpu load
+      <tr>
+        <td><a href="../program/nbody-chapel-1.html"><span>Chapel</span></a>
+        <td class="best">20.60
+        <td>4,872
+        <td>962
+        <td>20.60
+        <td class="message">100%&nbsp;1%&nbsp;1%&nbsp;0%
+      <tr>
+        <td><a href="../program/nbody-java-4.html"><span>Java</span></a>
+        <td>22.17
+        <td>33,040
+        <td>1489
+        <td>22.27
+        <td class="message">100%&nbsp;1%&nbsp;0%&nbsp;1%
       <tbody>
       <tr>
         <th colspan="3"><a href="../performance/binarytrees.html"><span>binary-trees</span></a>
@@ -277,12 +227,62 @@ a{color:black;text-decoration:none}article,footer{padding: 0 0 2.9em}article,div
         <td>43.74
         <td class="message">100%&nbsp;77%&nbsp;76%&nbsp;58%
       <tr>
-        <td><a href="../program/binarytrees-gcc-3.html"><span>C&nbsp;gcc</span></a>
-        <td>2.44
-        <td>133,956
-        <td>836
-        <td>7.57
-        <td class="message">80%&nbsp;65%&nbsp;68%&nbsp;100%
+        <td><a href="../program/binarytrees-java-7.html"><span>Java</span></a>
+        <td>8.39
+        <td>933,808
+        <td>835
+        <td>28.28
+        <td class="message">82%&nbsp;86%&nbsp;84%&nbsp;88%
+      <tbody>
+      <tr>
+        <th colspan="3"><a href="../performance/knucleotide.html"><span>k-nucleotide</span></a>
+        <th colspan="3">
+      <tr>
+        <th>source
+        <th>secs
+        <th>mem
+        <th>gz
+        <th>cpu
+        <th>cpu load
+      <tr>
+        <td><a href="../program/knucleotide-chapel-1.html"><span>Chapel</span></a>
+        <td>18.31
+        <td>293,140
+        <td>1063
+        <td>66.47
+        <td class="message">100%&nbsp;88%&nbsp;88%&nbsp;88%
+      <tr>
+        <td><a href="../program/knucleotide-java-1.html"><span>Java</span></a>
+        <td>8.75
+        <td>385,056
+        <td>1812
+        <td>27.09
+        <td class="message">85%&nbsp;72%&nbsp;70%&nbsp;85%
+      <tbody>
+      <tr>
+        <th colspan="3"><a href="../performance/revcomp.html"><span>reverse-complement</span></a>
+        <th colspan="3">
+      <tr>
+        <th>source
+        <th>secs
+        <th>mem
+        <th>gz
+        <th>cpu
+        <th>cpu load
+      <tr>
+        <td><a href="../program/revcomp-chapel-1.html"><span>Chapel</span></a>
+        <td>6.70
+        <td>1,002,992
+        <td>643
+        <td>9.01
+        <td class="message">99%&nbsp;17%&nbsp;7%&nbsp;15%
+      <tr>
+        <td><a href="../program/revcomp-java-8.html"><span>Java</span></a>
+        <td>3.15
+        <td>680,424
+        <td>2183
+        <td>7.07
+        <td class="message">52%&nbsp;70%&nbsp;43%&nbsp;63%
       <tbody>
       <tr>
         <td>Chapel
@@ -290,8 +290,10 @@ a{color:black;text-decoration:none}article,footer{padding: 0 0 2.9em}article,div
 Copyright (c) 2004-2017, Cray Inc.
 
       <tr>
-        <td>C&nbsp;gcc
-        <td colspan="5" class="message"><p>gcc (Ubuntu 7.2.0-8ubuntu3) 7.2.0
+        <td>Java
+        <td colspan="5" class="message"><p>java 10 2018-03-20<br/>
+Java(TM) SE Runtime Environment 18.3 (build 10+46)<br/>
+Java HotSpot(TM) 64-Bit Server VM 18.3 (build 10+46, mixed mode)
 
     </table>
     <nav>

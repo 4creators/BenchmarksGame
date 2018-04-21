@@ -100,10 +100,32 @@ NOTES:
 ruby 1.8.7 (2008-08-11 patchlevel 72) [x86_64-linux]
 
 
-Fri, 20 Apr 2018 05:11:20 GMT
+Sat, 21 Apr 2018 06:19:34 GMT
 
 COMMAND LINE:
 /usr/bin/ruby revcomp.mri-3.mri 0 &lt; revcomp-input100000000.txt
+
+PROGRAM FAILED 
+
+
+PROGRAM OUTPUT:
+
+revcomp.mri-3.mri:43:in `read': failed to allocate memory (NoMemoryError)
+	from revcomp.mri-3.mri:68:in `join'
+	from revcomp.mri-3.mri:68:in `to_proc'
+	from revcomp.mri-3.mri:64:in `each'
+	from revcomp.mri-3.mri:64
+revcomp.mri-3.mri:35:in `write': Broken pipe (Errno::EPIPE)
+	from revcomp.mri-3.mri:35:in `dump'
+	from revcomp.mri-3.mri:35:in `forking_worker'
+	from revcomp.mri-3.mri:31:in `fork'
+	from revcomp.mri-3.mri:31:in `forking_worker'
+	from revcomp.mri-3.mri:60
+	from revcomp.mri-3.mri:56:in `initialize'
+	from revcomp.mri-3.mri:56:in `new'
+	from revcomp.mri-3.mri:56
+	from revcomp.mri-3.mri:53:in `each_line'
+	from revcomp.mri-3.mri:53
     </pre>
   </section>
 </article>

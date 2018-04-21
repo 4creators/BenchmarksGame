@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>regex-redux Ruby Truffle&nbsp;#3 program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans,Ubuntu,Verdana,sans-serif;margin:0;-webkit-text-size-adjust:100%}h1,h2,h3,li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h1{font-size:1.4em;font-weight:bold;margin:0;padding:.4em}h1,h1 a{color:white}h1 small{font-size:0.64em}h2,h3{margin:1.5em 0 0}h2{font-size:1.4em;font-weight:normal}h3{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin:.5em .5em 0;padding:.5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin:.3em 0 0}p a,a span{border-bottom:.1em solid #333;padding-bottom:.1em}#u64,#u64q{background-color:#dd4814}#u32{background-color:#ffb515}#u32q{background-color:#ff6309}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width:60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header id="top">
+  <h1 id="u64q"><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h1>
+</header>
+<article>
+  <div>
+    <h2>regex-redux Ruby Truffle&nbsp;#3 program</h2>
+    <aside>
+      <p><a href="../description/regexredux.html#regexredux">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h3>source code</h3>
+    </div>
+    <pre>
+# The Computer Language Benchmarks Game
+# http://benchmarksgame.alioth.debian.org
+#
+# Rewrite for regex-redux by Aaron Tavistock
+
+class RegexRedux
+
+  MATCHERS = [
+    /agggtaaa|tttaccct/,
+    /[cgt]gggtaaa|tttaccc[acg]/,
+    /a[act]ggtaaa|tttacc[agt]t/,
+    /ag[act]gtaaa|tttac[agt]ct/,
+    /agg[act]taaa|ttta[agt]cct/,
+    /aggg[acg]aaa|ttt[cgt]ccct/,
+    /agggt[cgt]aa|tt[acg]accct/,
+    /agggta[cgt]a|t[acg]taccct/,
+    /agggtaa[cgt]|[acg]ttaccct/
+  ]
+
+  FINAL_TRANSFORM = {
+    /tHa[Nt]/ =&gt; &apos;&lt;4&gt;&apos;, 
+    /aND|caN|Ha[DS]|WaS/ =&gt; &apos;&lt;3&gt;&apos;, 
+    /a[NSt]|BY/ =&gt; &apos;&lt;2&gt;&apos;, 
+    /&lt;[^&gt;]*&gt;/ =&gt; &apos;|&apos;,
+    /\|[^|][^|]*\|/ =&gt; &apos;-&apos;
+  }
+
+  def initialize(io)
+    &#64;seq = io.readlines.join
+    &#64;original_size = &#64;seq.size
+    &#64;clean_size = remove_breaks!
+    &#64;match_results = match_results
+    &#64;final_size = final_transform!
+  end
+
+  def to_s
+    &quot;%s\n\n%d\n%d\n%d&quot; % [
+      &#64;match_results.join(&quot;\n&quot;),
+      &#64;original_size,
+      &#64;clean_size,
+      &#64;final_size
+    ]
+  end
+
+  def pattern_count(regex)
+    count = 0
+    &#64;seq.scan(regex) { count += 1 }
+    &quot;#{regex.source} #{count}&quot;
+  end 
+
+  def forked_pattern_count(regex)
+    reader, writer = IO.pipe
+    Process.fork do
+      reader.close
+      writer.write(original_pattern_count(regex))
+    end
+
+    writer.close
+    results = reader.read
+    reader.close
+  
+    results
+  end
+
+  if RUBY_PLATFORM != &apos;java&apos;
+    alias_method :original_pattern_count, :pattern_count
+    alias_method :pattern_count, :forked_pattern_count
+  end
+
+  def remove_breaks!
+    &#64;seq.gsub!(/&gt;.*\n|\n/, &apos;&apos;)
+    &#64;seq.size
+  end
+
+  def match_results
+    threads = MATCHERS.map do |matcher|
+      Thread.new do
+        Thread.current[:result] = pattern_count(matcher)
+      end
+    end
+    threads.each(&amp;:join)
+    threads.map { |t| t[:result] }
+  end
+
+  def final_transform!
+    FINAL_TRANSFORM.each { |f,r| &#64;seq.gsub!(f,r) }
+    &#64;seq.size
+  end
+
+end
+
+regex_redux = RegexRedux.new(STDIN)
+puts regex_redux.to_s
+
+    
+    </pre>
+  </section>
+  <section>
+    <h3 id="log">notes, command-line, and program output</h3>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
+
+
+Sat, 21 Apr 2018 02:09:55 GMT
+
+COMMAND LINE:
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 regexredux.truffle-3.truffle 0 &lt; regexredux-input50000.txt
+
+PROGRAM FAILED 
+
+
+PROGRAM OUTPUT:
+
+regexredux.truffle-3.truffle:53:in `fork': fork is not available (NotImplementedError)
+	from regexredux.truffle-3.truffle:53:in `forked_pattern_count'
+	from regexredux.truffle-3.truffle:78:in `block (2 levels) in match_results'
+    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>license</span></a>
+    </ul>
+  </nav>
+</footer>
+

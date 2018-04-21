@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>thread-ring Ruby Truffle program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans,Ubuntu,Verdana,sans-serif;margin:0;-webkit-text-size-adjust:100%}h1,h2,h3,li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h1{font-size:1.4em;font-weight:bold;margin:0;padding:.4em}h1,h1 a{color:white}h1 small{font-size:0.64em}h2,h3{margin:1.5em 0 0}h2{font-size:1.4em;font-weight:normal}h3{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin:.5em .5em 0;padding:.5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin:.3em 0 0}p a,a span{border-bottom:.1em solid #333;padding-bottom:.1em}#u64,#u64q{background-color:#dd4814}#u32{background-color:#ffb515}#u32q{background-color:#ff6309}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width:60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header id="top">
+  <h1 id="u64q"><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h1>
+</header>
+<article>
+  <div>
+    <h2>thread-ring Ruby Truffle program</h2>
+    <aside>
+      <p><a href="../description/threadring.html#threadring">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h3>source code</h3>
+    </div>
+    <pre>
+# The Computer Language Benchmarks Game
+# http://benchmarksgame.alioth.debian.org
+# contributed by Klaus Friedel
+#
+
+#require &quot;thread&quot;
+
+THREAD_COUNT = 503
+
+class Receiver
+  &#64;next
+  &#64;mailbox
+
+  def initialize(name)
+    &#64;name = name
+    &#64;mailbox = Queue.new
+  end
+
+  def next=(n)
+    &#64;next = n
+  end
+
+  def put(msg)
+    &#64;mailbox.push(msg)
+  end
+
+  def messageloop
+    while true
+      hopsRemaining = &#64;mailbox.pop
+      if(hopsRemaining == 0)
+        print &#64;name, &quot;\n&quot;
+        exit(0)
+      end
+      &#64;next.put(hopsRemaining - 1)
+    end
+  end
+end
+
+##########
+#  Main  #
+##########
+receivers = []
+for i in 0..THREAD_COUNT-1
+  receivers[i] = Receiver.new(i+1)
+  if(i &gt; 0)
+    receivers[i-1].next = receivers[i]
+  end
+end
+#close the ring
+receivers[THREAD_COUNT-1].next = receivers[0]
+
+# start the threads
+for i in 0..THREAD_COUNT-1
+  Thread.start(i){|k| receivers[k].messageloop}
+end
+
+receivers[0].put(ARGV[0].to_i)
+
+sleep
+
+    </pre>
+  </section>
+  <section>
+    <h3 id="log">notes, command-line, and program output</h3>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
+
+
+Sat, 21 Apr 2018 02:19:14 GMT
+
+COMMAND LINE:
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 threadring.truffle 50000000
+
+PROGRAM OUTPUT:
+292
+    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>license</span></a>
+    </ul>
+  </nav>
+</footer>
+

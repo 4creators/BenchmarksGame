@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>pidigits Ruby Truffle&nbsp;#2 program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans,Ubuntu,Verdana,sans-serif;margin:0;-webkit-text-size-adjust:100%}h1,h2,h3,li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h1{font-size:1.4em;font-weight:bold;margin:0;padding:.4em}h1,h1 a{color:white}h1 small{font-size:0.64em}h2,h3{margin:1.5em 0 0}h2{font-size:1.4em;font-weight:normal}h3{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin:.5em .5em 0;padding:.5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin:.3em 0 0}p a,a span{border-bottom:.1em solid #333;padding-bottom:.1em}#u64,#u64q{background-color:#dd4814}#u32{background-color:#ffb515}#u32q{background-color:#ff6309}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width:60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header id="top">
+  <h1 id="u64q"><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h1>
+</header>
+<article>
+  <div>
+    <h2>pidigits Ruby Truffle&nbsp;#2 program</h2>
+    <aside>
+      <p><a href="../description/pidigits.html#pidigits">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h3>source code</h3>
+    </div>
+    <pre>
+# The Computer Language Benchmarks Game
+# http://benchmarksgame.alioth.debian.org
+#
+# Use libgmp-ruby_1.0 
+#
+# contributed by Gabriele Renzi
+# modified by Pilho Kim
+
+require &apos;gmp&apos;
+
+class PiDigitSpigot
+    def initialize()
+        &#64;ZERO = GMP::Z.new(0)
+        &#64;ONE = GMP::Z.new(1)
+        &#64;THREE = GMP::Z.new(3)
+        &#64;FOUR = GMP::Z.new(4)
+        &#64;TEN = GMP::Z.new(10)
+        &#64;z = Transformation.new &#64;ONE,&#64;ZERO,&#64;ZERO,&#64;ONE
+        &#64;x = Transformation.new &#64;ZERO,&#64;ZERO,&#64;ZERO,&#64;ZERO
+        &#64;inverse = Transformation.new &#64;ZERO,&#64;ZERO,&#64;ZERO,&#64;ZERO
+    end
+
+    def next!
+        &#64;y = &#64;z.extract(&#64;THREE)
+        if safe? &#64;y
+            &#64;z = produce(&#64;y)
+            &#64;y
+        else
+            &#64;z = consume &#64;x.next!()
+            next!()
+        end
+    end
+
+    def safe?(digit)
+        digit == &#64;z.extract(&#64;FOUR)
+    end
+
+    def produce(i)
+        &#64;inverse.qrst(&#64;TEN,-&#64;TEN*i,&#64;ZERO,&#64;ONE).compose(&#64;z)
+    end
+
+    def consume(a)
+        &#64;z.compose(a)
+    end
+end
+
+
+class Transformation
+    attr_reader :q, :r, :s, :t
+    def initialize (q, r, s, t)
+        &#64;ZERO = GMP::Z.new(0)
+        &#64;ONE = GMP::Z.new(1)
+        &#64;TWO = GMP::Z.new(2)
+        &#64;FOUR = GMP::Z.new(4)
+        &#64;q,&#64;r,&#64;s,&#64;t,&#64;k = q,r,s,t,&#64;ZERO
+    end
+
+    def next!()
+        &#64;q = &#64;k = &#64;k + &#64;ONE
+        &#64;r = &#64;FOUR * &#64;k + &#64;TWO
+        &#64;s = &#64;ZERO
+        &#64;t = &#64;TWO * &#64;k + &#64;ONE
+        self
+    end
+
+    def extract(j)
+        (&#64;q * j + &#64;r).tdiv( &#64;s * j + &#64;t )
+    end
+
+    def compose(a)
+        self.class.new( &#64;q * a.q,
+                        &#64;q * a.r + r * a.t,
+                        &#64;s * a.q + t * a.s,
+                        &#64;s * a.r + t * a.t
+                    )
+    end
+
+    def qrst *args
+        initialize *args
+        self
+    end
+
+end
+
+
+&#64;zero = GMP::Z.new(0)
+&#64;one = GMP::Z.new(1)
+&#64;two = GMP::Z.new(2)
+&#64;four = GMP::Z.new(4)
+&#64;ten = GMP::Z.new(10)
+
+WIDTH = 10
+n = Integer(ARGV[0] || &quot;27&quot;)
+j = 0
+
+digits = PiDigitSpigot.new
+
+while n &gt; 0
+    if n &gt;= WIDTH
+        WIDTH.times {print digits.next!}
+        j += WIDTH
+    else
+        n.times {print digits.next!}
+        (WIDTH-n).times {print &quot; &quot;}
+        j += n
+    end
+    puts &quot;\t:&quot;+j.to_s
+    n -= WIDTH
+end
+    </pre>
+  </section>
+  <section>
+    <h3 id="log">notes, command-line, and program output</h3>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
+
+
+Sat, 21 Apr 2018 02:03:23 GMT
+
+COMMAND LINE:
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 pidigits.truffle-2.truffle 2000
+
+PROGRAM FAILED 
+
+
+PROGRAM OUTPUT:
+
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/jre/languages/ruby/lib/mri/rubygems/core_ext/kernel_require.rb:55:in `gem_original_require': cannot load such file -- gmp (LoadError)
+	from /opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/jre/languages/ruby/lib/mri/rubygems/core_ext/kernel_require.rb:55:in `require'
+	from /opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/jre/languages/ruby/lib/truffle/truffle/lazy-rubygems.rb:23:in `require'
+	from pidigits.truffle-2.truffle:9:in `&lt;main&gt;'
+    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>license</span></a>
+    </ul>
+  </nav>
+</footer>
+

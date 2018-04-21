@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>mandelbrot Ruby Truffle&nbsp;#7 program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans,Ubuntu,Verdana,sans-serif;margin:0;-webkit-text-size-adjust:100%}h1,h2,h3,li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h1{font-size:1.4em;font-weight:bold;margin:0;padding:.4em}h1,h1 a{color:white}h1 small{font-size:0.64em}h2,h3{margin:1.5em 0 0}h2{font-size:1.4em;font-weight:normal}h3{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin:.5em .5em 0;padding:.5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin:.3em 0 0}p a,a span{border-bottom:.1em solid #333;padding-bottom:.1em}#u64,#u64q{background-color:#dd4814}#u32{background-color:#ffb515}#u32q{background-color:#ff6309}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width:60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header id="top">
+  <h1 id="u64q"><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h1>
+</header>
+<article>
+  <div>
+    <h2>mandelbrot Ruby Truffle&nbsp;#7 program</h2>
+    <aside>
+      <p><a href="../description/mandelbrot.html#mandelbrot">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h3>source code</h3>
+    </div>
+    <pre>
+# The Computer Language Benchmarks Game
+# http://benchmarksgame.alioth.debian.org
+#
+# Contributed by Aaron Tavistock
+
+WORKER_COUNT = begin
+  cpu_count = if File.readable?(&apos;/proc/cpuinfo&apos;) # Linux
+    %x(cat /proc/cpuinfo | grep -c processor).chomp.to_i
+  elsif File.executable?(&apos;/usr/sbin/sysctl&apos;)  #OS/X
+    %x(/usr/sbin/sysctl -n hw.ncpu).chomp.to_i
+  else
+    1
+  end
+  [(cpu_count * 2.0).to_i, 2].max
+rescue
+  2
+end
+
+class WorkerPool
+
+  def initialize
+    &#64;work = Queue.new
+    &#64;pool = Array.new(WORKER_COUNT) do |i|
+      Thread.new do
+        Thread.current[:id] = i
+        catch(:exit) do
+          while(true) do
+            work, args = &#64;work.pop
+            work.call(*args)
+          end
+        end
+      end
+    end
+  end
+
+  def schedule(*args, &amp;block)
+    &#64;work &lt;&lt; [block, args]
+  end
+
+  def shutdown
+    &#64;pool.size.times do
+      schedule { throw :exit }
+    end
+    &#64;pool.each do |t|
+      t.join
+    end
+  end
+
+end
+
+class Mandel
+
+  attr_reader :output
+
+  def initialize(size)
+    &#64;size = size.to_i
+    &#64;output = Array.new(&#64;size)
+    &#64;two_over_size = 2.0 / &#64;size.to_f
+  end
+
+  def process
+    workers = WorkerPool.new
+    &#64;size.times do |row|
+      workers.schedule(row) do |y|
+        &#64;output[y] = process_row(y)
+      end
+    end
+    workers.shutdown
+  end
+
+  def process_row(y)
+    ci = (&#64;two_over_size * y.to_f) - 1.0
+    render_row(ci)
+  end
+
+  def forking_process_row(y)
+    read, write = IO.pipe
+    Process.fork do
+      read.close
+      ci = (&#64;two_over_size * y.to_f) - 1.0
+      write.print( render_row(ci) )
+    end
+    Process.wait
+    write.close
+    read.read
+  end
+
+  if RUBY_PLATFORM != &apos;java&apos;
+    alias_method :original_process_row, :process_row
+    alias_method :process_row, :forking_process_row
+  end
+
+  def header
+    &quot;P4\n#{&#64;size} #{&#64;size}&quot;
+  end
+
+  private
+
+  def render_row(ci)
+    row_bits = Array.new(&#64;size) do |col|
+      cr = (&#64;two_over_size * col.to_f) - 1.5
+      get_bit(cr, ci)
+    end
+
+    row = &apos;&apos;
+    row_bits.each_slice(8) do |byte|
+      if byte.size &lt; 8
+        byte = byte.fill(0, byte.size, 8 - byte.size)
+      end
+      row &lt;&lt; byte.join.to_i(2).chr
+    end
+    row
+  end
+
+  def get_bit(cr, ci)
+    zrzr = 0.0
+    zizi = 0.0
+    zrzi = 0.0
+
+    count = 50
+    while count &gt; 0
+
+      zr = zrzr - zizi + cr
+      zi = 2.0 * zrzi + ci
+
+      zrzr = zr * zr
+      zizi = zi * zi
+      zrzi = zr * zi
+
+      if zrzr + zizi &gt; 4.0
+        return 0b0
+      end
+
+      count -= 1
+    end
+
+    0b1
+  end
+
+end
+
+size = ARGV.shift || 1000
+m = Mandel.new(size)
+m.process
+print &quot;#{m.header}\n#{m.output.join}&quot;
+    </pre>
+  </section>
+  <section>
+    <h3 id="log">notes, command-line, and program output</h3>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
+
+
+Sat, 21 Apr 2018 01:48:35 GMT
+
+COMMAND LINE:
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 mandelbrot.truffle-7.truffle 1000
+
+PROGRAM FAILED 
+
+
+(BINARY) PROGRAM OUTPUT NOT SHOWN
+
+mandelbrot.truffle-7.truffle:78:in `fork': fork is not available (NotImplementedError)
+	from mandelbrot.truffle-7.truffle:78:in `forking_process_row'
+	from mandelbrot.truffle-7.truffle:65:in `block (2 levels) in process'
+	from mandelbrot.truffle-7.truffle:29:in `call'
+	from mandelbrot.truffle-7.truffle:29:in `block (3 levels) in initialize'
+	from mandelbrot.truffle-7.truffle:26:in `catch'
+	from mandelbrot.truffle-7.truffle:26:in `block (2 levels) in initialize'
+    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>license</span></a>
+    </ul>
+  </nav>
+</footer>
+

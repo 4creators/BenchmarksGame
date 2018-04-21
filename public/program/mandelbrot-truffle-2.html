@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,follow,noarchive">
 
-<title>mandelbrot Ruby Truffle&nbsp;#2 program | Computer Language Benchmarks Game </title>
+<title>mandelbrot Truffle Ruby&nbsp;#2 program | Computer Language Benchmarks Game </title>
 <style><!--
 a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans,Ubuntu,Verdana,sans-serif;margin:0;-webkit-text-size-adjust:100%}h1,h2,h3,li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h1{font-size:1.4em;font-weight:bold;margin:0;padding:.4em}h1,h1 a{color:white}h1 small{font-size:0.64em}h2,h3{margin:1.5em 0 0}h2{font-size:1.4em;font-weight:normal}h3{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin:.5em .5em 0;padding:.5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin:.3em 0 0}p a,a span{border-bottom:.1em solid #333;padding-bottom:.1em}#u64,#u64q{background-color:#dd4814}#u32{background-color:#ffb515}#u32q{background-color:#ff6309}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width:60em){article,footer,header{font-size:1.25em}}
 --></style>
@@ -12,7 +12,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
 </header>
 <article>
   <div>
-    <h2>mandelbrot Ruby Truffle&nbsp;#2 program</h2>
+    <h2>mandelbrot Truffle Ruby&nbsp;#2 program</h2>
     <aside>
       <p><a href="../description/mandelbrot.html#mandelbrot">description</a>
     </aside>
@@ -22,150 +22,150 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
       <h3>source code</h3>
     </div>
     <pre>
-# The Computer Language Benchmarks Game
-# http://benchmarksgame.alioth.debian.org
-#
-#  contributed by Karl von Laudermann
-#  modified by Jeremy Echols
-#  modified by Detlef Reichl
-#  modified by Joseph LaFata
+<span class="slc"># The Computer Language Benchmarks Game</span>
+<span class="slc"># http://benchmarksgame.alioth.debian.org</span>
+<span class="slc">#</span>
+<span class="slc">#  contributed by Karl von Laudermann</span>
+<span class="slc">#  modified by Jeremy Echols</span>
+<span class="slc">#  modified by Detlef Reichl</span>
+<span class="slc">#  modified by Joseph LaFata</span>
 
-PAD = &quot;\\\\__MARSHAL_RECORD_SEPARATOR__//&quot; # silly, but works
+PAD <span class="opt">=</span> <span class="str">&quot;</span><span class="esc">\\\\</span><span class="str">__MARSHAL_RECORD_SEPARATOR__//&quot;</span> <span class="slc"># silly, but works</span>
 
-class Worker
+<span class="kwa">class</span> Worker
   
-  attr_reader :reader
+  attr_reader <span class="kwc">:reader</span>
   
-  def initialize(enum, index, total, &amp;block)
-    &#64;enum             = enum
-    &#64;index            = index
-    &#64;total            = total
-    &#64;reader, &#64;writer  = IO.pipe
+  <span class="kwa">def</span> <span class="kwd">initialize</span><span class="opt">(</span>enum<span class="opt">,</span> index<span class="opt">,</span> total<span class="opt">, &amp;</span>block<span class="opt">)</span>
+    <span class="kwb">&#64;enum</span>             <span class="opt">=</span> enum
+    <span class="kwb">&#64;index</span>            <span class="opt">=</span> index
+    <span class="kwb">&#64;total</span>            <span class="opt">=</span> total
+    <span class="kwb">&#64;reader</span><span class="opt">,</span> <span class="kwb">&#64;writer</span>  <span class="opt">=</span> IO<span class="opt">.</span>pipe
     
-    if RUBY_PLATFORM == &quot;java&quot;
-      &#64;t = Thread.new do
-        self.execute(&amp;block)
-      end
-    else
-      &#64;p = Process.fork do
-        &#64;reader.close
-        self.execute(&amp;block)
-        &#64;writer.close
-      end
+    <span class="kwa">if</span> <span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&quot;java&quot;</span>
+      <span class="kwb">&#64;t</span> <span class="opt">=</span> Thread<span class="opt">.</span>new <span class="kwa">do</span>
+        <span class="kwa">self</span><span class="opt">.</span><span class="kwd">execute</span><span class="opt">(&amp;</span>block<span class="opt">)</span>
+      <span class="kwa">end</span>
+    <span class="kwa">else</span>
+      <span class="kwb">&#64;p</span> <span class="opt">=</span> Process<span class="opt">.</span>fork <span class="kwa">do</span>
+        <span class="kwb">&#64;reader</span><span class="opt">.</span>close
+        <span class="kwa">self</span><span class="opt">.</span><span class="kwd">execute</span><span class="opt">(&amp;</span>block<span class="opt">)</span>
+        <span class="kwb">&#64;writer</span><span class="opt">.</span>close
+      <span class="kwa">end</span>
       
-      &#64;writer.close
-    end
-  end
+      <span class="kwb">&#64;writer</span><span class="opt">.</span>close
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
   
-  def execute(&amp;block)
-    (0 ... &#64;enum.size).step(&#64;total) do |bi|
-      idx = bi + &#64;index
-      if item = &#64;enum[idx]
-        res = yield(item)
-        &#64;writer.write(Marshal.dump([idx, res]) + PAD)
-      end
-    end
+  <span class="kwa">def</span> <span class="kwd">execute</span><span class="opt">(&amp;</span>block<span class="opt">)</span>
+    <span class="opt">(</span><span class="num">0</span> <span class="opt">...</span> <span class="kwb">&#64;enum</span><span class="opt">.</span>size<span class="opt">).</span><span class="kwd">step</span><span class="opt">(</span><span class="kwb">&#64;total</span><span class="opt">)</span> <span class="kwa">do</span> <span class="opt">|</span>bi<span class="opt">|</span>
+      idx <span class="opt">=</span> bi <span class="opt">+</span> <span class="kwb">&#64;index</span>
+      <span class="kwa">if</span> item <span class="opt">=</span> <span class="kwb">&#64;enum</span><span class="opt">[</span>idx<span class="opt">]</span>
+        res <span class="opt">=</span> <span class="kwa">yield</span><span class="opt">(</span>item<span class="opt">)</span>
+        <span class="kwb">&#64;writer</span><span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>Marshal<span class="opt">.</span><span class="kwd">dump</span><span class="opt">([</span>idx<span class="opt">,</span> res<span class="opt">]) +</span> PAD<span class="opt">)</span>
+      <span class="kwa">end</span>
+    <span class="kwa">end</span>
     
-    &#64;writer.write(Marshal.dump(:end) + PAD)
-  end
-end
+    <span class="kwb">&#64;writer</span><span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>Marshal<span class="opt">.</span><span class="kwd">dump</span><span class="opt">(</span><span class="kwc">:end</span><span class="opt">) +</span> PAD<span class="opt">)</span>
+  <span class="kwa">end</span>
+<span class="kwa">end</span>
 
-def parallel_map(enum, worker_count = 8, &amp;block)
-  count = [enum.size, worker_count].min
+<span class="kwa">def</span> <span class="kwd">parallel_map</span><span class="opt">(</span>enum<span class="opt">,</span> worker_count <span class="opt">=</span> <span class="num">8</span><span class="opt">, &amp;</span>block<span class="opt">)</span>
+  count <span class="opt">= [</span>enum<span class="opt">.</span>size<span class="opt">,</span> worker_count<span class="opt">].</span>min
   
-  Array.new(enum.size).tap do |res|  
-    workers = (0 ... count).map do |idx|
-      Worker.new(enum, idx, count, &amp;block)
-    end
+  Array<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span>enum<span class="opt">.</span>size<span class="opt">).</span>tap <span class="kwa">do</span> <span class="opt">|</span>res<span class="opt">|</span>  
+    workers <span class="opt">= (</span><span class="num">0</span> <span class="opt">...</span> count<span class="opt">).</span>map <span class="kwa">do</span> <span class="opt">|</span>idx<span class="opt">|</span>
+      Worker<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span>enum<span class="opt">,</span> idx<span class="opt">,</span> count<span class="opt">, &amp;</span>block<span class="opt">)</span>
+    <span class="kwa">end</span>
   
-    ios = workers.map { |w| w.reader }
+    ios <span class="opt">=</span> workers<span class="opt">.</span>map { |w| w.reader }
 
-    while ios.size &gt; 0 do
-      sr, sw, se = IO.select(ios, nil, nil, 0.01)
+    <span class="kwa">while</span> ios<span class="opt">.</span>size <span class="opt">&gt;</span> <span class="num">0</span> <span class="kwa">do</span>
+      sr<span class="opt">,</span> sw<span class="opt">,</span> se <span class="opt">=</span> IO<span class="opt">.</span><span class="kwd">select</span><span class="opt">(</span>ios<span class="opt">,</span> <span class="kwa">nil</span><span class="opt">,</span> <span class="kwa">nil</span><span class="opt">,</span> <span class="num">0.01</span><span class="opt">)</span>
 
-      if sr
-        sr.each do |io|
-          buf = &quot;&quot;
+      <span class="kwa">if</span> sr
+        sr<span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span>io<span class="opt">|</span>
+          buf <span class="opt">=</span> <span class="str">&quot;&quot;</span>
           
-          while sbuf = io.readpartial(4096)
-            buf += sbuf
-            break if sbuf.size &lt; 4096
-          end
+          <span class="kwa">while</span> sbuf <span class="opt">=</span> io<span class="opt">.</span><span class="kwd">readpartial</span><span class="opt">(</span><span class="num">4096</span><span class="opt">)</span>
+            buf <span class="opt">+=</span> sbuf
+            <span class="kwa">break if</span> sbuf<span class="opt">.</span>size <span class="opt">&lt;</span> <span class="num">4096</span>
+          <span class="kwa">end</span>
           
-          msgs = buf.split(PAD)
+          msgs <span class="opt">=</span> buf<span class="opt">.</span><span class="kwd">split</span><span class="opt">(</span>PAD<span class="opt">)</span>
           
-          msgs.each do |msg|
-            m = Marshal.load(msg)
-            if m == :end
-              ios.delete(io)
-            else
-              idx, content = m
-              res[idx] = content
-            end
-          end
-        end
-      end      
-    end
+          msgs<span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span>msg<span class="opt">|</span>
+            m <span class="opt">=</span> Marshal<span class="opt">.</span><span class="kwd">load</span><span class="opt">(</span>msg<span class="opt">)</span>
+            <span class="kwa">if</span> m <span class="opt">==</span> <span class="kwc">:end</span>
+              ios<span class="opt">.</span><span class="kwd">delete</span><span class="opt">(</span>io<span class="opt">)</span>
+            <span class="kwa">else</span>
+              idx<span class="opt">,</span> content <span class="opt">=</span> m
+              res<span class="opt">[</span>idx<span class="opt">] =</span> content
+            <span class="kwa">end</span>
+          <span class="kwa">end</span>
+        <span class="kwa">end</span>
+      <span class="kwa">end</span>      
+    <span class="kwa">end</span>
     
-    Process.waitall
-  end
-end
+    Process<span class="opt">.</span>waitall
+  <span class="kwa">end</span>
+<span class="kwa">end</span>
 
-$size = (ARGV[0] || 100).to_i
-csize = $size - 1
+<span class="kwb">$size</span> <span class="opt">= (</span><span class="kwc">ARGV</span><span class="opt">[</span><span class="num">0</span><span class="opt">] ||</span> <span class="num">100</span><span class="opt">).</span>to_i
+csize <span class="opt">=</span> <span class="kwb">$size</span> <span class="opt">-</span> <span class="num">1</span>
 
-puts &quot;P4&quot;
-puts &quot;#{$size} #{$size}&quot;
+puts <span class="str">&quot;P4&quot;</span>
+puts <span class="str">&quot;</span><span class="ipl">#{$size}</span> <span class="str"></span><span class="ipl">#{$size}</span><span class="str">&quot;</span>
 
-set = (0 ... $size).to_a
+set <span class="opt">= (</span><span class="num">0</span> <span class="opt">...</span> <span class="kwb">$size</span><span class="opt">).</span>to_a
 
-results = parallel_map(set, 8) do |y|
-  res = &quot;&quot;
+results <span class="opt">=</span> <span class="kwd">parallel_map</span><span class="opt">(</span>set<span class="opt">,</span> <span class="num">8</span><span class="opt">)</span> <span class="kwa">do</span> <span class="opt">|</span>y<span class="opt">|</span>
+  res <span class="opt">=</span> <span class="str">&quot;&quot;</span>
   
-  byte_acc = 0
-  bit_num  = 0
+  byte_acc <span class="opt">=</span> <span class="num">0</span>
+  bit_num  <span class="opt">=</span> <span class="num">0</span>
   
-  ci = (2.0 * y / $size) - 1.0
+  ci <span class="opt">= (</span><span class="num">2.0</span> <span class="opt">*</span> y <span class="opt">/</span> <span class="kwb">$size</span><span class="opt">) -</span> <span class="num">1.0</span>
 
-  $size.times do |x|
-    zrzr = zr = 0.0
-    zizi = zi = 0.0
-    cr = (2.0 * x / $size) - 1.5
-    escape = 0b1
+  <span class="kwb">$size</span><span class="opt">.</span>times <span class="kwa">do</span> <span class="opt">|</span>x<span class="opt">|</span>
+    zrzr <span class="opt">=</span> zr <span class="opt">=</span> <span class="num">0.0</span>
+    zizi <span class="opt">=</span> zi <span class="opt">=</span> <span class="num">0.0</span>
+    cr <span class="opt">= (</span><span class="num">2.0</span> <span class="opt">*</span> x <span class="opt">/</span> <span class="kwb">$size</span><span class="opt">) -</span> <span class="num">1.5</span>
+    escape <span class="opt">=</span> <span class="num">0b1</span>
   
-    50.times do
-      tr = zrzr - zizi + cr
-      ti = 2.0 * zr * zi + ci
-      zr = tr
-      zi = ti
-      # preserve recalculation
-      zrzr = zr * zr
-      zizi = zi * zi
-      if zrzr + zizi &gt; 4.0
-        escape = 0b0
-        break
-      end
-    end
+    <span class="num">50</span><span class="opt">.</span>times <span class="kwa">do</span>
+      tr <span class="opt">=</span> zrzr <span class="opt">-</span> zizi <span class="opt">+</span> cr
+      ti <span class="opt">=</span> <span class="num">2.0</span> <span class="opt">*</span> zr <span class="opt">*</span> zi <span class="opt">+</span> ci
+      zr <span class="opt">=</span> tr
+      zi <span class="opt">=</span> ti
+      <span class="slc"># preserve recalculation</span>
+      zrzr <span class="opt">=</span> zr <span class="opt">*</span> zr
+      zizi <span class="opt">=</span> zi <span class="opt">*</span> zi
+      <span class="kwa">if</span> zrzr <span class="opt">+</span> zizi <span class="opt">&gt;</span> <span class="num">4.0</span>
+        escape <span class="opt">=</span> <span class="num">0b0</span>
+        <span class="kwa">break</span>
+      <span class="kwa">end</span>
+    <span class="kwa">end</span>
   
-    byte_acc = (byte_acc &lt;&lt; 1) | escape
-    bit_num  += 1
+    byte_acc <span class="opt">= (</span>byte_acc <span class="opt">&lt;&lt;</span> <span class="num">1</span><span class="opt">) |</span> escape
+    bit_num  <span class="opt">+=</span> <span class="num">1</span>
     
-    if (bit_num == 8)
-      res += byte_acc.chr
-      byte_acc = 0
-      bit_num = 0
-    elsif (x == csize)
-      byte_acc &lt;&lt;= (8 - bit_num)
-      res += byte_acc.chr
-      byte_acc = 0
-      bit_num = 0
-    end
-  end
+    <span class="kwa">if</span> <span class="opt">(</span>bit_num <span class="opt">==</span> <span class="num">8</span><span class="opt">)</span>
+      res <span class="opt">+=</span> byte_acc<span class="opt">.</span>chr
+      byte_acc <span class="opt">=</span> <span class="num">0</span>
+      bit_num <span class="opt">=</span> <span class="num">0</span>
+    <span class="kwa">elsif</span> <span class="opt">(</span>x <span class="opt">==</span> csize<span class="opt">)</span>
+      byte_acc <span class="opt">&lt;&lt;= (</span><span class="num">8</span> <span class="opt">-</span> bit_num<span class="opt">)</span>
+      res <span class="opt">+=</span> byte_acc<span class="opt">.</span>chr
+      byte_acc <span class="opt">=</span> <span class="num">0</span>
+      bit_num <span class="opt">=</span> <span class="num">0</span>
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
 
   res
-end
+<span class="kwa">end</span>
 
-print results.join
+print results<span class="opt">.</span>join
     </pre>
   </section>
   <section>

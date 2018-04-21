@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,follow,noarchive">
 
-<title>spectral-norm Ruby Truffle&nbsp;#5 program | Computer Language Benchmarks Game </title>
+<title>spectral-norm Truffle Ruby&nbsp;#5 program | Computer Language Benchmarks Game </title>
 <style><!--
 a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans,Ubuntu,Verdana,sans-serif;margin:0;-webkit-text-size-adjust:100%}h1,h2,h3,li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h1{font-size:1.4em;font-weight:bold;margin:0;padding:.4em}h1,h1 a{color:white}h1 small{font-size:0.64em}h2,h3{margin:1.5em 0 0}h2{font-size:1.4em;font-weight:normal}h3{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin:.5em .5em 0;padding:.5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin:.3em 0 0}p a,a span{border-bottom:.1em solid #333;padding-bottom:.1em}#u64,#u64q{background-color:#dd4814}#u32{background-color:#ffb515}#u32q{background-color:#ff6309}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width:60em){article,footer,header{font-size:1.25em}}
 --></style>
@@ -12,7 +12,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
 </header>
 <article>
   <div>
-    <h2>spectral-norm Ruby Truffle&nbsp;#5 program</h2>
+    <h2>spectral-norm Truffle Ruby&nbsp;#5 program</h2>
     <aside>
       <p><a href="../description/spectralnorm.html#spectralnorm">description</a>
     </aside>
@@ -22,148 +22,148 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
       <h3>source code</h3>
     </div>
     <pre>
-# The Computer Language Benchmarks Game
-# http://benchmarksgame.alioth.debian.org
-# Contributed by Rick Branson
-# fixed by Isaac Gouy
-#
-# There is currently a bug in JRuby as of 11/16/2010 that causes
-# Marshal to read IOs in a blocking manner, which will cause this
-# script to hang.
+<span class="slc"># The Computer Language Benchmarks Game</span>
+<span class="slc"># http://benchmarksgame.alioth.debian.org</span>
+<span class="slc"># Contributed by Rick Branson</span>
+<span class="slc"># fixed by Isaac Gouy</span>
+<span class="slc">#</span>
+<span class="slc"># There is currently a bug in JRuby as of 11/16/2010 that causes</span>
+<span class="slc"># Marshal to read IOs in a blocking manner, which will cause this</span>
+<span class="slc"># script to hang.</span>
 
-IS_THREADED = RUBY_PLATFORM == &quot;java&quot;
+IS_THREADED <span class="opt">=</span> <span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&quot;java&quot;</span>
 
-if IS_THREADED
-  require &quot;fcntl&quot;
-end
+<span class="kwa">if</span> IS_THREADED
+  <span class="kwa">require</span> <span class="str">&quot;fcntl&quot;</span>
+<span class="kwa">end</span>
 
-class Worker
+<span class="kwa">class</span> Worker
   
-  attr_reader :reader
+  attr_reader <span class="kwc">:reader</span>
   
-  def initialize(enum, index, total, &amp;block)
-    &#64;enum   = enum
-    &#64;index  = index
-    &#64;total  = total
+  <span class="kwa">def</span> <span class="kwd">initialize</span><span class="opt">(</span>enum<span class="opt">,</span> index<span class="opt">,</span> total<span class="opt">, &amp;</span>block<span class="opt">)</span>
+    <span class="kwb">&#64;enum</span>   <span class="opt">=</span> enum
+    <span class="kwb">&#64;index</span>  <span class="opt">=</span> index
+    <span class="kwb">&#64;total</span>  <span class="opt">=</span> total
     
-    &#64;reader, &#64;writer = IO.pipe
+    <span class="kwb">&#64;reader</span><span class="opt">,</span> <span class="kwb">&#64;writer</span> <span class="opt">=</span> IO<span class="opt">.</span>pipe
       
-    if IS_THREADED
-      &#64;thread = Thread.new do
-        self.execute(&amp;block)
-      end
-    else
-      &#64;p = Process.fork do
-        &#64;reader.close
-        self.execute(&amp;block)
-        &#64;writer.close
-      end
+    <span class="kwa">if</span> IS_THREADED
+      <span class="kwb">&#64;thread</span> <span class="opt">=</span> Thread<span class="opt">.</span>new <span class="kwa">do</span>
+        <span class="kwa">self</span><span class="opt">.</span><span class="kwd">execute</span><span class="opt">(&amp;</span>block<span class="opt">)</span>
+      <span class="kwa">end</span>
+    <span class="kwa">else</span>
+      <span class="kwb">&#64;p</span> <span class="opt">=</span> Process<span class="opt">.</span>fork <span class="kwa">do</span>
+        <span class="kwb">&#64;reader</span><span class="opt">.</span>close
+        <span class="kwa">self</span><span class="opt">.</span><span class="kwd">execute</span><span class="opt">(&amp;</span>block<span class="opt">)</span>
+        <span class="kwb">&#64;writer</span><span class="opt">.</span>close
+      <span class="kwa">end</span>
       
-      &#64;writer.close
-    end
-  end
+      <span class="kwb">&#64;writer</span><span class="opt">.</span>close
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
   
-  def execute(&amp;block)
-    chk   = &#64;enum.size / &#64;total
+  <span class="kwa">def</span> <span class="kwd">execute</span><span class="opt">(&amp;</span>block<span class="opt">)</span>
+    chk   <span class="opt">=</span> <span class="kwb">&#64;enum</span><span class="opt">.</span>size <span class="opt">/</span> <span class="kwb">&#64;total</span>
     
-    (0 ... &#64;enum.size).step(&#64;total) do |i|
-      idx = i + &#64;index
-      d = &#64;enum[idx]
-      to_parent([idx, yield(d)]) unless d == nil
-    end
-  end
+    <span class="opt">(</span><span class="num">0</span> <span class="opt">...</span> <span class="kwb">&#64;enum</span><span class="opt">.</span>size<span class="opt">).</span><span class="kwd">step</span><span class="opt">(</span><span class="kwb">&#64;total</span><span class="opt">)</span> <span class="kwa">do</span> <span class="opt">|</span>i<span class="opt">|</span>
+      idx <span class="opt">=</span> i <span class="opt">+</span> <span class="kwb">&#64;index</span>
+      d <span class="opt">=</span> <span class="kwb">&#64;enum</span><span class="opt">[</span>idx<span class="opt">]</span>
+      <span class="kwd">to_parent</span><span class="opt">([</span>idx<span class="opt">,</span> <span class="kwa">yield</span><span class="opt">(</span>d<span class="opt">)])</span> <span class="kwa">unless</span> d <span class="opt">==</span> <span class="kwa">nil</span>
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
 
-  def to_parent(msg)
-    Marshal.dump(msg, &#64;writer)
-  end
+  <span class="kwa">def</span> <span class="kwd">to_parent</span><span class="opt">(</span>msg<span class="opt">)</span>
+    Marshal<span class="opt">.</span><span class="kwd">dump</span><span class="opt">(</span>msg<span class="opt">,</span> <span class="kwb">&#64;writer</span><span class="opt">)</span>
+  <span class="kwa">end</span>
   
-  def self.gather(workers)
-    res = []
-    ios = workers.map { |w| w.reader }
+  <span class="kwa">def self</span><span class="opt">.</span><span class="kwd">gather</span><span class="opt">(</span>workers<span class="opt">)</span>
+    res <span class="opt">= []</span>
+    ios <span class="opt">=</span> workers<span class="opt">.</span>map { |w| w.reader }
 
-    while ios.size &gt; 0 do
-      sr, sw, se = IO.select(ios, nil, nil)
+    <span class="kwa">while</span> ios<span class="opt">.</span>size <span class="opt">&gt;</span> <span class="num">0</span> <span class="kwa">do</span>
+      sr<span class="opt">,</span> sw<span class="opt">,</span> se <span class="opt">=</span> IO<span class="opt">.</span><span class="kwd">select</span><span class="opt">(</span>ios<span class="opt">,</span> <span class="kwa">nil</span><span class="opt">,</span> <span class="kwa">nil</span><span class="opt">)</span>
 
-      if sr
-        sr.each do |io|
-          begin
-            loop do
-              msg = Marshal.load(io)          
-              idx, content = msg
-              res[idx] = content
-            end
-          rescue EOFError
-            ios.delete(io)
-          end
-        end
-      end
-    end
+      <span class="kwa">if</span> sr
+        sr<span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span>io<span class="opt">|</span>
+          <span class="kwa">begin</span>
+            <span class="kwa">loop do</span>
+              msg <span class="opt">=</span> Marshal<span class="opt">.</span><span class="kwd">load</span><span class="opt">(</span>io<span class="opt">)</span>          
+              idx<span class="opt">,</span> content <span class="opt">=</span> msg
+              res<span class="opt">[</span>idx<span class="opt">] =</span> content
+            <span class="kwa">end</span>
+          <span class="kwa">rescue</span> EOFError
+            ios<span class="opt">.</span><span class="kwd">delete</span><span class="opt">(</span>io<span class="opt">)</span>
+          <span class="kwa">end</span>
+        <span class="kwa">end</span>
+      <span class="kwa">end</span>
+    <span class="kwa">end</span>
     
-    Process.waitall
+    Process<span class="opt">.</span>waitall
     res
-  end
+  <span class="kwa">end</span>
 
-  def self.map(enum, worker_count = 6, &amp;block)
-    count = [enum.size, worker_count].min
+  <span class="kwa">def self</span><span class="opt">.</span><span class="kwd">map</span><span class="opt">(</span>enum<span class="opt">,</span> worker_count <span class="opt">=</span> <span class="num">6</span><span class="opt">, &amp;</span>block<span class="opt">)</span>
+    count <span class="opt">= [</span>enum<span class="opt">.</span>size<span class="opt">,</span> worker_count<span class="opt">].</span>min
 
-    workers = (0 ... count).map do |idx|
-      Worker.new(enum, idx, count, &amp;block)
-    end
+    workers <span class="opt">= (</span><span class="num">0</span> <span class="opt">...</span> count<span class="opt">).</span>map <span class="kwa">do</span> <span class="opt">|</span>idx<span class="opt">|</span>
+      Worker<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span>enum<span class="opt">,</span> idx<span class="opt">,</span> count<span class="opt">, &amp;</span>block<span class="opt">)</span>
+    <span class="kwa">end</span>
 
-    Worker.gather(workers)    
-  end
-end
+    Worker<span class="opt">.</span><span class="kwd">gather</span><span class="opt">(</span>workers<span class="opt">)</span>    
+  <span class="kwa">end</span>
+<span class="kwa">end</span>
 
-def eval_a(i, j)
-  1.0/((i+j)*(i+j+1.0)/2.0+i+1.0)
-end
+<span class="kwa">def</span> <span class="kwd">eval_a</span><span class="opt">(</span>i<span class="opt">,</span> j<span class="opt">)</span>
+  <span class="num">1.0</span><span class="kwc">/((i+j)*(i+j+1.0)/</span><span class="num">2.0</span><span class="opt">+</span>i<span class="opt">+</span><span class="num">1.0</span><span class="opt">)</span>
+<span class="kwa">end</span>
 
-def eval_A_times_u(u)
-  usz     = u.size
-  urange  = (0 ... usz)
-  umap    = urange.to_a
+<span class="kwa">def</span> <span class="kwd">eval_A_times_u</span><span class="opt">(</span>u<span class="opt">)</span>
+  usz     <span class="opt">=</span> u<span class="opt">.</span>size
+  urange  <span class="opt">= (</span><span class="num">0</span> <span class="opt">...</span> usz<span class="opt">)</span>
+  umap    <span class="opt">=</span> urange<span class="opt">.</span>to_a
   
-  Worker.map(umap) do |i|
-    urange.inject(0) do |sum, j|
-      sum += eval_a(j, i) * u[j]
-    end
-  end
-end
+  Worker<span class="opt">.</span><span class="kwd">map</span><span class="opt">(</span>umap<span class="opt">)</span> <span class="kwa">do</span> <span class="opt">|</span>i<span class="opt">|</span>
+    urange<span class="opt">.</span><span class="kwd">inject</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span> <span class="kwa">do</span> <span class="opt">|</span>sum<span class="opt">,</span> j<span class="opt">|</span>
+      sum <span class="opt">+=</span> <span class="kwd">eval_a</span><span class="opt">(</span>j<span class="opt">,</span> i<span class="opt">) *</span> u<span class="opt">[</span>j<span class="opt">]</span>
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
+<span class="kwa">end</span>
 
-def eval_At_times_u(u)
-  usz     = u.size
-  urange  = (0 ... usz)
-  umap    = urange.to_a
+<span class="kwa">def</span> <span class="kwd">eval_At_times_u</span><span class="opt">(</span>u<span class="opt">)</span>
+  usz     <span class="opt">=</span> u<span class="opt">.</span>size
+  urange  <span class="opt">= (</span><span class="num">0</span> <span class="opt">...</span> usz<span class="opt">)</span>
+  umap    <span class="opt">=</span> urange<span class="opt">.</span>to_a
   
-  Worker.map(umap) do |i|
-    urange.inject(0) do |sum, j|
-      sum += eval_a(i, j) * u[j]      
-    end
-  end
-end
+  Worker<span class="opt">.</span><span class="kwd">map</span><span class="opt">(</span>umap<span class="opt">)</span> <span class="kwa">do</span> <span class="opt">|</span>i<span class="opt">|</span>
+    urange<span class="opt">.</span><span class="kwd">inject</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span> <span class="kwa">do</span> <span class="opt">|</span>sum<span class="opt">,</span> j<span class="opt">|</span>
+      sum <span class="opt">+=</span> <span class="kwd">eval_a</span><span class="opt">(</span>i<span class="opt">,</span> j<span class="opt">) *</span> u<span class="opt">[</span>j<span class="opt">]</span>      
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
+<span class="kwa">end</span>
 
-def eval_AtA_times_u(u)
-  eval_At_times_u(eval_A_times_u(u))
-end
+<span class="kwa">def</span> <span class="kwd">eval_AtA_times_u</span><span class="opt">(</span>u<span class="opt">)</span>
+  <span class="kwd">eval_At_times_u</span><span class="opt">(</span><span class="kwd">eval_A_times_u</span><span class="opt">(</span>u<span class="opt">))</span>
+<span class="kwa">end</span>
 
-n = ARGV[0].to_i
-u = [1] * n
-v = nil
+n <span class="opt">=</span> <span class="kwc">ARGV</span><span class="opt">[</span><span class="num">0</span><span class="opt">].</span>to_i
+u <span class="opt">= [</span><span class="num">1</span><span class="opt">] *</span> n
+v <span class="opt">=</span> <span class="kwa">nil</span>
 
-10.times do
-  v = eval_AtA_times_u(u)
-  u = eval_AtA_times_u(v)
-end
+<span class="num">10</span><span class="opt">.</span>times <span class="kwa">do</span>
+  v <span class="opt">=</span> <span class="kwd">eval_AtA_times_u</span><span class="opt">(</span>u<span class="opt">)</span>
+  u <span class="opt">=</span> <span class="kwd">eval_AtA_times_u</span><span class="opt">(</span>v<span class="opt">)</span>
+<span class="kwa">end</span>
 
-vBv = 0
-vv  = 0
+vBv <span class="opt">=</span> <span class="num">0</span>
+vv  <span class="opt">=</span> <span class="num">0</span>
 
-(0 ... n).each do |i|
-  vBv += u[i] * v[i]
-  vv  += v[i] * v[i]
-end
+<span class="opt">(</span><span class="num">0</span> <span class="opt">...</span> n<span class="opt">).</span>each <span class="kwa">do</span> <span class="opt">|</span>i<span class="opt">|</span>
+  vBv <span class="opt">+=</span> u<span class="opt">[</span>i<span class="opt">] *</span> v<span class="opt">[</span>i<span class="opt">]</span>
+  vv  <span class="opt">+=</span> v<span class="opt">[</span>i<span class="opt">] *</span> v<span class="opt">[</span>i<span class="opt">]</span>
+<span class="kwa">end</span>
 
-print &quot;%0.9f&quot; % (Math.sqrt(vBv / vv)), &quot;\n&quot;
+print <span class="str">&quot;%0.9f&quot;</span> <span class="opt">% (</span>Math<span class="opt">.</span><span class="kwd">sqrt</span><span class="opt">(</span>vBv <span class="opt">/</span> vv<span class="opt">)),</span> <span class="str">&quot;</span><span class="esc">\n</span><span class="str">&quot;</span>
     </pre>
   </section>
   <section>

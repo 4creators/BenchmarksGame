@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,follow,noarchive">
 
-<title>regex-redux Ruby Truffle&nbsp;#3 program | Computer Language Benchmarks Game </title>
+<title>regex-redux Truffle Ruby&nbsp;#3 program | Computer Language Benchmarks Game </title>
 <style><!--
 a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans,Ubuntu,Verdana,sans-serif;margin:0;-webkit-text-size-adjust:100%}h1,h2,h3,li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h1{font-size:1.4em;font-weight:bold;margin:0;padding:.4em}h1,h1 a{color:white}h1 small{font-size:0.64em}h2,h3{margin:1.5em 0 0}h2{font-size:1.4em;font-weight:normal}h3{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin:.5em .5em 0;padding:.5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin:.3em 0 0}p a,a span{border-bottom:.1em solid #333;padding-bottom:.1em}#u64,#u64q{background-color:#dd4814}#u32{background-color:#ffb515}#u32q{background-color:#ff6309}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width:60em){article,footer,header{font-size:1.25em}}
 --></style>
@@ -12,7 +12,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
 </header>
 <article>
   <div>
-    <h2>regex-redux Ruby Truffle&nbsp;#3 program</h2>
+    <h2>regex-redux Truffle Ruby&nbsp;#3 program</h2>
     <aside>
       <p><a href="../description/regexredux.html#regexredux">description</a>
     </aside>
@@ -22,99 +22,99 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
       <h3>source code</h3>
     </div>
     <pre>
-# The Computer Language Benchmarks Game
-# http://benchmarksgame.alioth.debian.org
-#
-# Rewrite for regex-redux by Aaron Tavistock
+<span class="slc"># The Computer Language Benchmarks Game</span>
+<span class="slc"># http://benchmarksgame.alioth.debian.org</span>
+<span class="slc">#</span>
+<span class="slc"># Rewrite for regex-redux by Aaron Tavistock</span>
 
-class RegexRedux
+<span class="kwa">class</span> RegexRedux
 
-  MATCHERS = [
-    /agggtaaa|tttaccct/,
-    /[cgt]gggtaaa|tttaccc[acg]/,
-    /a[act]ggtaaa|tttacc[agt]t/,
-    /ag[act]gtaaa|tttac[agt]ct/,
-    /agg[act]taaa|ttta[agt]cct/,
-    /aggg[acg]aaa|ttt[cgt]ccct/,
-    /agggt[cgt]aa|tt[acg]accct/,
-    /agggta[cgt]a|t[acg]taccct/,
-    /agggtaa[cgt]|[acg]ttaccct/
-  ]
+  MATCHERS <span class="opt">= [</span>
+    <span class="kwc">/agggtaaa|tttaccct/</span><span class="opt">,</span>
+    <span class="kwc">/[cgt]gggtaaa|tttaccc[acg]/</span><span class="opt">,</span>
+    <span class="kwc">/a[act]ggtaaa|tttacc[agt]t/</span><span class="opt">,</span>
+    <span class="kwc">/ag[act]gtaaa|tttac[agt]ct/</span><span class="opt">,</span>
+    <span class="kwc">/agg[act]taaa|ttta[agt]cct/</span><span class="opt">,</span>
+    <span class="kwc">/aggg[acg]aaa|ttt[cgt]ccct/</span><span class="opt">,</span>
+    <span class="kwc">/agggt[cgt]aa|tt[acg]accct/</span><span class="opt">,</span>
+    <span class="kwc">/agggta[cgt]a|t[acg]taccct/</span><span class="opt">,</span>
+    <span class="kwc">/agggtaa[cgt]|[acg]ttaccct/</span>
+  <span class="opt">]</span>
 
-  FINAL_TRANSFORM = {
-    /tHa[Nt]/ =&gt; &apos;&lt;4&gt;&apos;, 
-    /aND|caN|Ha[DS]|WaS/ =&gt; &apos;&lt;3&gt;&apos;, 
-    /a[NSt]|BY/ =&gt; &apos;&lt;2&gt;&apos;, 
-    /&lt;[^&gt;]*&gt;/ =&gt; &apos;|&apos;,
-    /\|[^|][^|]*\|/ =&gt; &apos;-&apos;
-  }
+  FINAL_TRANSFORM <span class="opt">= {</span>
+    <span class="kwc">/tHa[Nt]/</span> <span class="opt">=&gt;</span> <span class="str">&apos;&lt;4&gt;&apos;</span><span class="opt">,</span> 
+    <span class="kwc">/aND|caN|Ha[DS]|WaS/</span> <span class="opt">=&gt;</span> <span class="str">&apos;&lt;3&gt;&apos;</span><span class="opt">,</span> 
+    <span class="kwc">/a[NSt]|BY/</span> <span class="opt">=&gt;</span> <span class="str">&apos;&lt;2&gt;&apos;</span><span class="opt">,</span> 
+    <span class="kwc">/&lt;[^&gt;]*&gt;/</span> <span class="opt">=&gt;</span> <span class="str">&apos;|&apos;</span><span class="opt">,</span>
+    <span class="kwc">/\|[^|][^|]*\|/</span> <span class="opt">=&gt;</span> <span class="str">&apos;-&apos;</span>
+  <span class="opt">}</span>
 
-  def initialize(io)
-    &#64;seq = io.readlines.join
-    &#64;original_size = &#64;seq.size
-    &#64;clean_size = remove_breaks!
-    &#64;match_results = match_results
-    &#64;final_size = final_transform!
-  end
+  <span class="kwa">def</span> <span class="kwd">initialize</span><span class="opt">(</span>io<span class="opt">)</span>
+    <span class="kwb">&#64;seq</span> <span class="opt">=</span> io<span class="opt">.</span>readlines<span class="opt">.</span>join
+    <span class="kwb">&#64;original_size</span> <span class="opt">=</span> <span class="kwb">&#64;seq</span><span class="opt">.</span>size
+    <span class="kwb">&#64;clean_size</span> <span class="opt">=</span> remove_breaks<span class="opt">!</span>
+    <span class="kwb">&#64;match_results</span> <span class="opt">=</span> match_results
+    <span class="kwb">&#64;final_size</span> <span class="opt">=</span> final_transform<span class="opt">!</span>
+  <span class="kwa">end</span>
 
-  def to_s
-    &quot;%s\n\n%d\n%d\n%d&quot; % [
-      &#64;match_results.join(&quot;\n&quot;),
-      &#64;original_size,
-      &#64;clean_size,
-      &#64;final_size
-    ]
-  end
+  <span class="kwa">def</span> to_s
+    <span class="str">&quot;%s</span><span class="esc">\n\n</span><span class="str">%d</span><span class="esc">\n</span><span class="str">%d</span><span class="esc">\n</span><span class="str">%d&quot;</span> <span class="opt">% [</span>
+      <span class="kwb">&#64;match_results</span><span class="opt">.</span><span class="kwd">join</span><span class="opt">(</span><span class="str">&quot;</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">),</span>
+      <span class="kwb">&#64;original_size</span><span class="opt">,</span>
+      <span class="kwb">&#64;clean_size</span><span class="opt">,</span>
+      <span class="kwb">&#64;final_size</span>
+    <span class="opt">]</span>
+  <span class="kwa">end</span>
 
-  def pattern_count(regex)
-    count = 0
-    &#64;seq.scan(regex) { count += 1 }
-    &quot;#{regex.source} #{count}&quot;
-  end 
+  <span class="kwa">def</span> <span class="kwd">pattern_count</span><span class="opt">(</span>regex<span class="opt">)</span>
+    count <span class="opt">=</span> <span class="num">0</span>
+    <span class="kwb">&#64;seq</span><span class="opt">.</span><span class="kwd">scan</span><span class="opt">(</span>regex<span class="opt">)</span> { count += 1 }
+    <span class="str">&quot;</span><span class="ipl">#{regex.source}</span> <span class="str"></span><span class="ipl">#{count}</span><span class="str">&quot;</span>
+  <span class="kwa">end</span> 
 
-  def forked_pattern_count(regex)
-    reader, writer = IO.pipe
-    Process.fork do
-      reader.close
-      writer.write(original_pattern_count(regex))
-    end
+  <span class="kwa">def</span> <span class="kwd">forked_pattern_count</span><span class="opt">(</span>regex<span class="opt">)</span>
+    reader<span class="opt">,</span> writer <span class="opt">=</span> IO<span class="opt">.</span>pipe
+    Process<span class="opt">.</span>fork <span class="kwa">do</span>
+      reader<span class="opt">.</span>close
+      writer<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span><span class="kwd">original_pattern_count</span><span class="opt">(</span>regex<span class="opt">))</span>
+    <span class="kwa">end</span>
 
-    writer.close
-    results = reader.read
-    reader.close
+    writer<span class="opt">.</span>close
+    results <span class="opt">=</span> reader<span class="opt">.</span>read
+    reader<span class="opt">.</span>close
   
     results
-  end
+  <span class="kwa">end</span>
 
-  if RUBY_PLATFORM != &apos;java&apos;
-    alias_method :original_pattern_count, :pattern_count
-    alias_method :pattern_count, :forked_pattern_count
-  end
+  <span class="kwa">if</span> <span class="kwc">RUBY_PLATFORM</span> <span class="opt">!=</span> <span class="str">&apos;java&apos;</span>
+    alias_method <span class="kwc">:original_pattern_count</span><span class="opt">,</span> <span class="kwc">:pattern_count</span>
+    alias_method <span class="kwc">:pattern_count</span><span class="opt">,</span> <span class="kwc">:forked_pattern_count</span>
+  <span class="kwa">end</span>
 
-  def remove_breaks!
-    &#64;seq.gsub!(/&gt;.*\n|\n/, &apos;&apos;)
-    &#64;seq.size
-  end
+  <span class="kwa">def</span> remove_breaks<span class="opt">!</span>
+    <span class="kwb">&#64;seq</span><span class="opt">.</span>gsub<span class="opt">!(</span><span class="kwc">/&gt;.*\n|\n/</span><span class="opt">,</span> <span class="str">&apos;&apos;</span><span class="opt">)</span>
+    <span class="kwb">&#64;seq</span><span class="opt">.</span>size
+  <span class="kwa">end</span>
 
-  def match_results
-    threads = MATCHERS.map do |matcher|
-      Thread.new do
-        Thread.current[:result] = pattern_count(matcher)
-      end
-    end
-    threads.each(&amp;:join)
-    threads.map { |t| t[:result] }
-  end
+  <span class="kwa">def</span> match_results
+    threads <span class="opt">=</span> MATCHERS<span class="opt">.</span>map <span class="kwa">do</span> <span class="opt">|</span>matcher<span class="opt">|</span>
+      Thread<span class="opt">.</span>new <span class="kwa">do</span>
+        Thread<span class="opt">.</span>current<span class="opt">[</span><span class="kwc">:result</span><span class="opt">] =</span> <span class="kwd">pattern_count</span><span class="opt">(</span>matcher<span class="opt">)</span>
+      <span class="kwa">end</span>
+    <span class="kwa">end</span>
+    threads<span class="opt">.</span><span class="kwd">each</span><span class="opt">(&amp;</span><span class="kwc">:join</span><span class="opt">)</span>
+    threads<span class="opt">.</span>map { |t| t[:result] }
+  <span class="kwa">end</span>
 
-  def final_transform!
-    FINAL_TRANSFORM.each { |f,r| &#64;seq.gsub!(f,r) }
-    &#64;seq.size
-  end
+  <span class="kwa">def</span> final_transform<span class="opt">!</span>
+    FINAL_TRANSFORM<span class="opt">.</span>each { |f,r| &#64;seq.gsub!(f,r) }
+    <span class="kwb">&#64;seq</span><span class="opt">.</span>size
+  <span class="kwa">end</span>
 
-end
+<span class="kwa">end</span>
 
-regex_redux = RegexRedux.new(STDIN)
-puts regex_redux.to_s
+regex_redux <span class="opt">=</span> RegexRedux<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span><span class="kwc">STDIN</span><span class="opt">)</span>
+puts regex_redux<span class="opt">.</span>to_s
 
     
     </pre>

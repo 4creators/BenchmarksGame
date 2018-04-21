@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,follow,noarchive">
 
-<title>meteor-contest Ruby Truffle program | Computer Language Benchmarks Game </title>
+<title>meteor-contest Truffle Ruby program | Computer Language Benchmarks Game </title>
 <style><!--
 a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans,Ubuntu,Verdana,sans-serif;margin:0;-webkit-text-size-adjust:100%}h1,h2,h3,li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h1{font-size:1.4em;font-weight:bold;margin:0;padding:.4em}h1,h1 a{color:white}h1 small{font-size:0.64em}h2,h3{margin:1.5em 0 0}h2{font-size:1.4em;font-weight:normal}h3{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin:.5em .5em 0;padding:.5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin:.3em 0 0}p a,a span{border-bottom:.1em solid #333;padding-bottom:.1em}#u64,#u64q{background-color:#dd4814}#u32{background-color:#ffb515}#u32q{background-color:#ff6309}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width:60em){article,footer,header{font-size:1.25em}}
 --></style>
@@ -12,7 +12,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
 </header>
 <article>
   <div>
-    <h2>meteor-contest Ruby Truffle program</h2>
+    <h2>meteor-contest Truffle Ruby program</h2>
     <aside>
       <p><a href="../description/meteor.html#meteor">description</a>
     </aside>
@@ -22,389 +22,389 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
       <h3>source code</h3>
     </div>
     <pre>
-# The Computer Language Benchmarks Game
-# http://benchmarksgame.alioth.debian.org
-#   contributed by Kevin Barnes (Ruby novice)
+<span class="slc"># The Computer Language Benchmarks Game</span>
+<span class="slc"># http://benchmarksgame.alioth.debian.org</span>
+<span class="slc">#   contributed by Kevin Barnes (Ruby novice)</span>
 
-def blank_board
-  0b111111100000100000100000100000100000100000100000100000100000100000
-end
+<span class="kwa">def</span> blank_board
+  <span class="num">0b111111100000100000100000100000100000100000100000100000100000100000</span>
+<span class="kwa">end</span>
 
-def is_even( location)
-  (location % 12) &lt; 6
-end
+<span class="kwa">def</span> <span class="kwd">is_even</span><span class="opt">(</span> location<span class="opt">)</span>
+  <span class="opt">(</span>location <span class="opt">%</span> <span class="num">12</span><span class="opt">) &lt;</span> <span class="num">6</span>
+<span class="kwa">end</span>
 
-def create_collector_support
-    odd_map = [0b11, 0b110, 0b1100, 0b11000, 0b10000] 
-    even_map = [0b1, 0b11, 0b110, 0b1100, 0b11000] 
+<span class="kwa">def</span> create_collector_support
+    odd_map <span class="opt">= [</span><span class="num">0b11</span><span class="opt">,</span> <span class="num">0b110</span><span class="opt">,</span> <span class="num">0b1100</span><span class="opt">,</span> <span class="num">0b11000</span><span class="opt">,</span> <span class="num">0b10000</span><span class="opt">]</span> 
+    even_map <span class="opt">= [</span><span class="num">0b1</span><span class="opt">,</span> <span class="num">0b11</span><span class="opt">,</span> <span class="num">0b110</span><span class="opt">,</span> <span class="num">0b1100</span><span class="opt">,</span> <span class="num">0b11000</span><span class="opt">]</span> 
     
-    all_odds = Array.new(0b100000)
-    all_evens = Array.new(0b100000)
-    bit_counts = Array.new(0b100000)
-    new_regions = Array.new(0b100000)
-    0.upto(0b11111) do | i |
-      bit_count = odd = even = 0
-      0.upto(4) do | bit |
-        if (i[bit] == 1) then
-          bit_count += 1
-          odd |= odd_map[bit]
-          even |= even_map[bit]
-        end
-      end
-      all_odds[i] = odd
-      all_evens[i] = even
-      bit_counts[i] = bit_count
-      new_regions[i] = create_regions( i)
-    end
+    all_odds <span class="opt">=</span> Array<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span><span class="num">0b100000</span><span class="opt">)</span>
+    all_evens <span class="opt">=</span> Array<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span><span class="num">0b100000</span><span class="opt">)</span>
+    bit_counts <span class="opt">=</span> Array<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span><span class="num">0b100000</span><span class="opt">)</span>
+    new_regions <span class="opt">=</span> Array<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span><span class="num">0b100000</span><span class="opt">)</span>
+    <span class="num">0</span><span class="opt">.</span><span class="kwd">upto</span><span class="opt">(</span><span class="num">0b11111</span><span class="opt">)</span> <span class="kwa">do</span> <span class="opt">|</span> i <span class="opt">|</span>
+      bit_count <span class="opt">=</span> odd <span class="opt">=</span> even <span class="opt">=</span> <span class="num">0</span>
+      <span class="num">0</span><span class="opt">.</span><span class="kwd">upto</span><span class="opt">(</span><span class="num">4</span><span class="opt">)</span> <span class="kwa">do</span> <span class="opt">|</span> bit <span class="opt">|</span>
+        <span class="kwa">if</span> <span class="opt">(</span>i<span class="opt">[</span>bit<span class="opt">] ==</span> <span class="num">1</span><span class="opt">)</span> <span class="kwa">then</span>
+          bit_count <span class="opt">+=</span> <span class="num">1</span>
+          odd <span class="opt">|=</span> odd_map<span class="opt">[</span>bit<span class="opt">]</span>
+          even <span class="opt">|=</span> even_map<span class="opt">[</span>bit<span class="opt">]</span>
+        <span class="kwa">end</span>
+      <span class="kwa">end</span>
+      all_odds<span class="opt">[</span>i<span class="opt">] =</span> odd
+      all_evens<span class="opt">[</span>i<span class="opt">] =</span> even
+      bit_counts<span class="opt">[</span>i<span class="opt">] =</span> bit_count
+      new_regions<span class="opt">[</span>i<span class="opt">] =</span> <span class="kwd">create_regions</span><span class="opt">(</span> i<span class="opt">)</span>
+    <span class="kwa">end</span>
 
-    &#64;&#64;converter = []
-    10.times { | row | &#64;&#64;converter.push((row % 2 == 0) ? all_evens : all_odds) }
-    &#64;&#64;bit_counts = bit_counts
-    &#64;&#64;regions = new_regions.collect { | set | set.collect { | value | [ value, bit_counts[value], value] } }
+    &#64;<span class="kwb">&#64;converter</span> <span class="opt">= []</span>
+    <span class="num">10</span><span class="opt">.</span>times { | row | &#64;&#64;converter.push((row % 2 == 0) ? all_evens : all_odds) }
+    &#64;<span class="kwb">&#64;bit_counts</span> <span class="opt">=</span> bit_counts
+    &#64;<span class="kwb">&#64;regions</span> <span class="opt">=</span> new_regions<span class="opt">.</span>collect { | set | set.collect { | value | [ value, bit_counts[value], value] } <span class="opt">}</span>
 
-  end
+  <span class="kwa">end</span>
   
-def prunable( board, location, slotting = false)
-  collectors = []
-  (location / 6).to_i.upto(9) do | row_on | 
-    regions = &#64;&#64;regions[(board &gt;&gt; (row_on * 6)) &amp; 0b11111 ^ 0b11111]
-    converter = &#64;&#64;converter[row_on]
-    initial_collector_count = collectors.length
-    regions.each do | region |
-      collector_found = nil
-      region_mask = region[0]
-      initial_collector_count.times do | collector_num |
-        collector = collectors[collector_num]
-        if (collector) then
-          collector_mask = collector[0]
-          if (collector_mask &amp; region_mask != 0) then
-            if (collector_found) then
-              collector_found[0] |= collector_mask
-              collector_found[1] += collector[1]
-              collector_found[2] |= collector[2]
-              collectors[collector_num] = nil
-            else
-              collector_found = collector
-              collector[1] += region[1]
-              collector[2] |= region_mask
-            end
-          end
-        end
-      end
-      if (collector_found == nil) then
-        collectors.push(Array.new(region))
-      end
-    end
-    collectors.length.times do | collector_num |
-      collector = collectors[collector_num]
-      if (collector) then
-        if (collector[2] == 0) then
-          return true if (collector[1] % 5 != 0)
-          collectors[collector_num] = nil
-        else
-          return false if (collector[2] == 0b11111 &amp;&amp; !slotting)
-          collector[0] = converter[collector[2]]
-          collector[2] = 0
-        end
-      end
-    end
-    collectors.compact!
-  end
-  return false if (collectors.length &lt;= 1) 
-  collectors.any? { | collector | (collector[1] % 5) != 0 }
-end
+<span class="kwa">def</span> <span class="kwd">prunable</span><span class="opt">(</span> board<span class="opt">,</span> location<span class="opt">,</span> slotting <span class="opt">=</span> <span class="kwa">false</span><span class="opt">)</span>
+  collectors <span class="opt">= []</span>
+  <span class="opt">(</span>location <span class="opt">/</span> <span class="num">6</span><span class="opt">).</span>to_i<span class="opt">.</span><span class="kwd">upto</span><span class="opt">(</span><span class="num">9</span><span class="opt">)</span> <span class="kwa">do</span> <span class="opt">|</span> row_on <span class="opt">|</span> 
+    regions <span class="opt">=</span> &#64;<span class="kwb">&#64;regions</span><span class="opt">[(</span>board <span class="opt">&gt;&gt; (</span>row_on <span class="opt">*</span> <span class="num">6</span><span class="opt">)) &amp;</span> <span class="num">0b11111</span> ^ <span class="num">0b11111</span><span class="opt">]</span>
+    converter <span class="opt">=</span> &#64;<span class="kwb">&#64;converter</span><span class="opt">[</span>row_on<span class="opt">]</span>
+    initial_collector_count <span class="opt">=</span> collectors<span class="opt">.</span>length
+    regions<span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span> region <span class="opt">|</span>
+      collector_found <span class="opt">=</span> <span class="kwa">nil</span>
+      region_mask <span class="opt">=</span> region<span class="opt">[</span><span class="num">0</span><span class="opt">]</span>
+      initial_collector_count<span class="opt">.</span>times <span class="kwa">do</span> <span class="opt">|</span> collector_num <span class="opt">|</span>
+        collector <span class="opt">=</span> collectors<span class="opt">[</span>collector_num<span class="opt">]</span>
+        <span class="kwa">if</span> <span class="opt">(</span>collector<span class="opt">)</span> <span class="kwa">then</span>
+          collector_mask <span class="opt">=</span> collector<span class="opt">[</span><span class="num">0</span><span class="opt">]</span>
+          <span class="kwa">if</span> <span class="opt">(</span>collector_mask <span class="opt">&amp;</span> region_mask <span class="opt">!=</span> <span class="num">0</span><span class="opt">)</span> <span class="kwa">then</span>
+            <span class="kwa">if</span> <span class="opt">(</span>collector_found<span class="opt">)</span> <span class="kwa">then</span>
+              collector_found<span class="opt">[</span><span class="num">0</span><span class="opt">] |=</span> collector_mask
+              collector_found<span class="opt">[</span><span class="num">1</span><span class="opt">] +=</span> collector<span class="opt">[</span><span class="num">1</span><span class="opt">]</span>
+              collector_found<span class="opt">[</span><span class="num">2</span><span class="opt">] |=</span> collector<span class="opt">[</span><span class="num">2</span><span class="opt">]</span>
+              collectors<span class="opt">[</span>collector_num<span class="opt">] =</span> <span class="kwa">nil</span>
+            <span class="kwa">else</span>
+              collector_found <span class="opt">=</span> collector
+              collector<span class="opt">[</span><span class="num">1</span><span class="opt">] +=</span> region<span class="opt">[</span><span class="num">1</span><span class="opt">]</span>
+              collector<span class="opt">[</span><span class="num">2</span><span class="opt">] |=</span> region_mask
+            <span class="kwa">end</span>
+          <span class="kwa">end</span>
+        <span class="kwa">end</span>
+      <span class="kwa">end</span>
+      <span class="kwa">if</span> <span class="opt">(</span>collector_found <span class="opt">==</span> <span class="kwa">nil</span><span class="opt">)</span> <span class="kwa">then</span>
+        collectors<span class="opt">.</span><span class="kwd">push</span><span class="opt">(</span>Array<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span>region<span class="opt">))</span>
+      <span class="kwa">end</span>
+    <span class="kwa">end</span>
+    collectors<span class="opt">.</span>length<span class="opt">.</span>times <span class="kwa">do</span> <span class="opt">|</span> collector_num <span class="opt">|</span>
+      collector <span class="opt">=</span> collectors<span class="opt">[</span>collector_num<span class="opt">]</span>
+      <span class="kwa">if</span> <span class="opt">(</span>collector<span class="opt">)</span> <span class="kwa">then</span>
+        <span class="kwa">if</span> <span class="opt">(</span>collector<span class="opt">[</span><span class="num">2</span><span class="opt">] ==</span> <span class="num">0</span><span class="opt">)</span> <span class="kwa">then</span>
+          <span class="kwa">return true if</span> <span class="opt">(</span>collector<span class="opt">[</span><span class="num">1</span><span class="opt">] %</span> <span class="num">5</span> <span class="opt">!=</span> <span class="num">0</span><span class="opt">)</span>
+          collectors<span class="opt">[</span>collector_num<span class="opt">] =</span> <span class="kwa">nil</span>
+        <span class="kwa">else</span>
+          <span class="kwa">return false if</span> <span class="opt">(</span>collector<span class="opt">[</span><span class="num">2</span><span class="opt">] ==</span> <span class="num">0b11111</span> <span class="opt">&amp;&amp; !</span>slotting<span class="opt">)</span>
+          collector<span class="opt">[</span><span class="num">0</span><span class="opt">] =</span> converter<span class="opt">[</span>collector<span class="opt">[</span><span class="num">2</span><span class="opt">]]</span>
+          collector<span class="opt">[</span><span class="num">2</span><span class="opt">] =</span> <span class="num">0</span>
+        <span class="kwa">end</span>
+      <span class="kwa">end</span>
+    <span class="kwa">end</span>
+    collectors<span class="opt">.</span>compact<span class="opt">!</span>
+  <span class="kwa">end</span>
+  <span class="kwa">return false if</span> <span class="opt">(</span>collectors<span class="opt">.</span>length <span class="opt">&lt;=</span> <span class="num">1</span><span class="opt">)</span> 
+  collectors<span class="opt">.</span>any<span class="opt">?</span> { | collector | (collector[1] % 5) != 0 }
+<span class="kwa">end</span>
   
-def as_binary( value)
-  rtn = &quot;&quot;
-  5.times do | i |
-    rtn += &quot;#{value[i]}&quot;
-  end
+<span class="kwa">def</span> <span class="kwd">as_binary</span><span class="opt">(</span> value<span class="opt">)</span>
+  rtn <span class="opt">=</span> <span class="str">&quot;&quot;</span>
+  <span class="num">5</span><span class="opt">.</span>times <span class="kwa">do</span> <span class="opt">|</span> i <span class="opt">|</span>
+    rtn <span class="opt">+=</span> <span class="str">&quot;</span><span class="ipl">#{value[i]}</span><span class="str">&quot;</span>
+  <span class="kwa">end</span>
   rtn
-end
+<span class="kwa">end</span>
   
-def create_regions( value )
-  regions = []
-  cur_region = 0
-  5.times do | bit |
-    if (value[bit] == 1) then
-      cur_region |= 1 &lt;&lt; bit
-    else
-      if (cur_region !=0 ) then
-        regions.push( cur_region)
-        cur_region = 0;
-      end
-    end
-  end
-  regions.push(cur_region) if (cur_region != 0)
+<span class="kwa">def</span> <span class="kwd">create_regions</span><span class="opt">(</span> value <span class="opt">)</span>
+  regions <span class="opt">= []</span>
+  cur_region <span class="opt">=</span> <span class="num">0</span>
+  <span class="num">5</span><span class="opt">.</span>times <span class="kwa">do</span> <span class="opt">|</span> bit <span class="opt">|</span>
+    <span class="kwa">if</span> <span class="opt">(</span>value<span class="opt">[</span>bit<span class="opt">] ==</span> <span class="num">1</span><span class="opt">)</span> <span class="kwa">then</span>
+      cur_region <span class="opt">|=</span> <span class="num">1</span> <span class="opt">&lt;&lt;</span> bit
+    <span class="kwa">else</span>
+      <span class="kwa">if</span> <span class="opt">(</span>cur_region <span class="opt">!=</span><span class="num">0</span> <span class="opt">)</span> <span class="kwa">then</span>
+        regions<span class="opt">.</span><span class="kwd">push</span><span class="opt">(</span> cur_region<span class="opt">)</span>
+        cur_region <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+      <span class="kwa">end</span>
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
+  regions<span class="opt">.</span><span class="kwd">push</span><span class="opt">(</span>cur_region<span class="opt">)</span> <span class="kwa">if</span> <span class="opt">(</span>cur_region <span class="opt">!=</span> <span class="num">0</span><span class="opt">)</span>
   regions
-end
+<span class="kwa">end</span>
 
-def print_board( board, padding = &quot;&quot;, rows = 10, row_offset = 0)
-  rows.times do | row |
-    rtn = padding
-    rtn = &quot;#{rtn} &quot; if ((row + row_offset) % 2) == 1 
-    6.times do | col | 
-      rtn = &quot;#{rtn}#{board[row*6+col]} &quot; 
-    end
-    print &quot;#{rtn}\n&quot;
-  end
-end  
+<span class="kwa">def</span> <span class="kwd">print_board</span><span class="opt">(</span> board<span class="opt">,</span> padding <span class="opt">=</span> <span class="str">&quot;&quot;</span><span class="opt">,</span> rows <span class="opt">=</span> <span class="num">10</span><span class="opt">,</span> row_offset <span class="opt">=</span> <span class="num">0</span><span class="opt">)</span>
+  rows<span class="opt">.</span>times <span class="kwa">do</span> <span class="opt">|</span> row <span class="opt">|</span>
+    rtn <span class="opt">=</span> padding
+    rtn <span class="opt">=</span> <span class="str">&quot;</span><span class="ipl">#{rtn}</span> <span class="str">&quot;</span> <span class="kwa">if</span> <span class="opt">((</span>row <span class="opt">+</span> row_offset<span class="opt">) %</span> <span class="num">2</span><span class="opt">) ==</span> <span class="num">1</span> 
+    <span class="num">6</span><span class="opt">.</span>times <span class="kwa">do</span> <span class="opt">|</span> col <span class="opt">|</span> 
+      rtn <span class="opt">=</span> <span class="str">&quot;</span><span class="ipl">#{rtn}</span><span class="str"></span><span class="ipl">#{board[row*6+col]}</span> <span class="str">&quot;</span> 
+    <span class="kwa">end</span>
+    print <span class="str">&quot;</span><span class="ipl">#{rtn}</span><span class="str"></span><span class="esc">\n</span><span class="str">&quot;</span>
+  <span class="kwa">end</span>
+<span class="kwa">end</span>  
 
-class Rotation
-  attr_reader :start_masks
+<span class="kwa">class</span> Rotation
+  attr_reader <span class="kwc">:start_masks</span>
   
-  &#64;&#64;rotation_even_adder = { :west =&gt; -1, :east =&gt; 1, :nw =&gt; -7, :ne =&gt; -6, :sw =&gt; 5, :se =&gt; 6 }
-  &#64;&#64;rotation_odd_adder = { :west =&gt; -1, :east =&gt; 1, :nw =&gt; -6, :ne =&gt; -5, :sw =&gt; 6, :se =&gt; 7 }
+  &#64;<span class="kwb">&#64;rotation_even_adder</span> <span class="opt">=</span> { :west =&gt; -1, :east =&gt; 1, :nw =&gt; -7, :ne =&gt; -6, :sw =&gt; 5, :se =&gt; 6 }
+  &#64;<span class="kwb">&#64;rotation_odd_adder</span> <span class="opt">=</span> { :west =&gt; -1, :east =&gt; 1, :nw =&gt; -6, :ne =&gt; -5, :sw =&gt; 6, :se =&gt; 7 }
   
-  def initialize( directions )
-    values, min = get_values( directions )
-    &#64;even_offsets, &#64;odd_offsets = normalize_offsets( values, min)
+  <span class="kwa">def</span> <span class="kwd">initialize</span><span class="opt">(</span> directions <span class="opt">)</span>
+    values<span class="opt">,</span> min <span class="opt">=</span> <span class="kwd">get_values</span><span class="opt">(</span> directions <span class="opt">)</span>
+    <span class="kwb">&#64;even_offsets</span><span class="opt">,</span> <span class="kwb">&#64;odd_offsets</span> <span class="opt">=</span> <span class="kwd">normalize_offsets</span><span class="opt">(</span> values<span class="opt">,</span> min<span class="opt">)</span>
       
-    &#64;even_mask = mask_for_offsets( &#64;even_offsets)
-    &#64;odd_mask = mask_for_offsets( &#64;odd_offsets)
+    <span class="kwb">&#64;even_mask</span> <span class="opt">=</span> <span class="kwd">mask_for_offsets</span><span class="opt">(</span> <span class="kwb">&#64;even_offsets</span><span class="opt">)</span>
+    <span class="kwb">&#64;odd_mask</span> <span class="opt">=</span> <span class="kwd">mask_for_offsets</span><span class="opt">(</span> <span class="kwb">&#64;odd_offsets</span><span class="opt">)</span>
 
-    &#64;start_masks = Array.new(60)
+    <span class="kwb">&#64;start_masks</span> <span class="opt">=</span> Array<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span><span class="num">60</span><span class="opt">)</span>
     
-    0.upto(59) do | offset |
-      mask = is_even(offset) ? (&#64;even_mask &lt;&lt; offset) : (&#64;odd_mask &lt;&lt; offset)
-      if (blank_board &amp; mask == 0 &amp;&amp; !prunable(blank_board | mask, 0, true)) then
-        &#64;start_masks[offset] = mask
-      else
-        &#64;start_masks[offset] = false 
-      end
-    end
-  end
+    <span class="num">0</span><span class="opt">.</span><span class="kwd">upto</span><span class="opt">(</span><span class="num">59</span><span class="opt">)</span> <span class="kwa">do</span> <span class="opt">|</span> offset <span class="opt">|</span>
+      mask <span class="opt">=</span> <span class="kwd">is_even</span><span class="opt">(</span>offset<span class="opt">) ? (</span><span class="kwb">&#64;even_mask</span> <span class="opt">&lt;&lt;</span> offset<span class="opt">) : (</span><span class="kwb">&#64;odd_mask</span> <span class="opt">&lt;&lt;</span> offset<span class="opt">)</span>
+      <span class="kwa">if</span> <span class="opt">(</span>blank_board <span class="opt">&amp;</span> mask <span class="opt">==</span> <span class="num">0</span> <span class="opt">&amp;&amp; !</span><span class="kwd">prunable</span><span class="opt">(</span>blank_board <span class="opt">|</span> mask<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> <span class="kwa">true</span><span class="opt">))</span> <span class="kwa">then</span>
+        <span class="kwb">&#64;start_masks</span><span class="opt">[</span>offset<span class="opt">] =</span> mask
+      <span class="kwa">else</span>
+        <span class="kwb">&#64;start_masks</span><span class="opt">[</span>offset<span class="opt">] =</span> <span class="kwa">false</span> 
+      <span class="kwa">end</span>
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
   
-  def offsets( location)
-    if is_even( location) then
-      &#64;even_offsets.collect { | value | value + location }
-    else
-      &#64;odd_offsets.collect { | value | value + location }
-    end
-  end
+  <span class="kwa">def</span> <span class="kwd">offsets</span><span class="opt">(</span> location<span class="opt">)</span>
+    <span class="kwa">if</span> <span class="kwd">is_even</span><span class="opt">(</span> location<span class="opt">)</span> <span class="kwa">then</span>
+      <span class="kwb">&#64;even_offsets</span><span class="opt">.</span>collect { | value | value + location }
+    <span class="kwa">else</span>
+      <span class="kwb">&#64;odd_offsets</span><span class="opt">.</span>collect { | value | value + location }
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
   
-  def normalize_offsets( values, min)
-    even_min = is_even(min)
-    other_min = even_min ? min + 6 : min + 7
-    other_values = values.collect do | value | 
-      if is_even(value) then 
-        value + 6 - other_min 
-      else 
-        value + 7 - other_min 
-      end
-    end
-    values.collect! { | value | value - min }
+  <span class="kwa">def</span> <span class="kwd">normalize_offsets</span><span class="opt">(</span> values<span class="opt">,</span> min<span class="opt">)</span>
+    even_min <span class="opt">=</span> <span class="kwd">is_even</span><span class="opt">(</span>min<span class="opt">)</span>
+    other_min <span class="opt">=</span> even_min <span class="opt">?</span> min <span class="opt">+</span> <span class="num">6</span> <span class="opt">:</span> min <span class="opt">+</span> <span class="num">7</span>
+    other_values <span class="opt">=</span> values<span class="opt">.</span>collect <span class="kwa">do</span> <span class="opt">|</span> value <span class="opt">|</span> 
+      <span class="kwa">if</span> <span class="kwd">is_even</span><span class="opt">(</span>value<span class="opt">)</span> <span class="kwa">then</span> 
+        value <span class="opt">+</span> <span class="num">6</span> <span class="opt">-</span> other_min 
+      <span class="kwa">else</span> 
+        value <span class="opt">+</span> <span class="num">7</span> <span class="opt">-</span> other_min 
+      <span class="kwa">end</span>
+    <span class="kwa">end</span>
+    values<span class="opt">.</span>collect<span class="opt">!</span> { | value | value - min }
     
-    if even_min then
-      [values, other_values]
-    else
-      [other_values, values]
-    end
-  end
+    <span class="kwa">if</span> even_min <span class="kwa">then</span>
+      <span class="opt">[</span>values<span class="opt">,</span> other_values<span class="opt">]</span>
+    <span class="kwa">else</span>
+      <span class="opt">[</span>other_values<span class="opt">,</span> values<span class="opt">]</span>
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
   
-  def mask_for_offsets( offsets )
-    mask = 0
-    offsets.each { | value | mask = mask + ( 1 &lt;&lt; value ) }
+  <span class="kwa">def</span> <span class="kwd">mask_for_offsets</span><span class="opt">(</span> offsets <span class="opt">)</span>
+    mask <span class="opt">=</span> <span class="num">0</span>
+    offsets<span class="opt">.</span>each { | value | mask = mask + ( 1 &lt;&lt; value ) }
     mask
-  end
+  <span class="kwa">end</span>
 
-  def start_adjust( directions )
-    south = east = 0;
-    directions.each do | direction |
-      east += 1 if ( direction == :sw || direction == :nw || direction == :west )
-      south += 1 if ( direction == :nw || direction == :ne )   
-    end
-    [south, east]
-  end
+  <span class="kwa">def</span> <span class="kwd">start_adjust</span><span class="opt">(</span> directions <span class="opt">)</span>
+    south <span class="opt">=</span> east <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+    directions<span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span> direction <span class="opt">|</span>
+      east <span class="opt">+=</span> <span class="num">1</span> <span class="kwa">if</span> <span class="opt">(</span> direction <span class="opt">==</span> <span class="kwc">:sw</span> <span class="opt">||</span> direction <span class="opt">==</span> <span class="kwc">:nw</span> <span class="opt">||</span> direction <span class="opt">==</span> <span class="kwc">:west</span> <span class="opt">)</span>
+      south <span class="opt">+=</span> <span class="num">1</span> <span class="kwa">if</span> <span class="opt">(</span> direction <span class="opt">==</span> <span class="kwc">:nw</span> <span class="opt">||</span> direction <span class="opt">==</span> <span class="kwc">:ne</span> <span class="opt">)</span>   
+    <span class="kwa">end</span>
+    <span class="opt">[</span>south<span class="opt">,</span> east<span class="opt">]</span>
+  <span class="kwa">end</span>
 
-  def get_values ( directions )
-    south, east = start_adjust(directions)
-    min = start = south * 6 + east
-    values = [ start ]
-    directions.each do | direction |
-      if (start % 12 &gt;= 6) then 
-        start += &#64;&#64;rotation_odd_adder[direction]
-      else 
-        start += &#64;&#64;rotation_even_adder[direction]
-      end
-      min = start if (start &lt; min)
-      values += [ start ]
-    end
+  <span class="kwa">def</span> <span class="kwd">get_values</span> <span class="opt">(</span> directions <span class="opt">)</span>
+    south<span class="opt">,</span> east <span class="opt">=</span> <span class="kwd">start_adjust</span><span class="opt">(</span>directions<span class="opt">)</span>
+    min <span class="opt">=</span> start <span class="opt">=</span> south <span class="opt">*</span> <span class="num">6</span> <span class="opt">+</span> east
+    values <span class="opt">= [</span> start <span class="opt">]</span>
+    directions<span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span> direction <span class="opt">|</span>
+      <span class="kwa">if</span> <span class="opt">(</span>start <span class="opt">%</span> <span class="num">12</span> <span class="opt">&gt;=</span> <span class="num">6</span><span class="opt">)</span> <span class="kwa">then</span> 
+        start <span class="opt">+=</span> &#64;<span class="kwb">&#64;rotation_odd_adder</span><span class="opt">[</span>direction<span class="opt">]</span>
+      <span class="kwa">else</span> 
+        start <span class="opt">+=</span> &#64;<span class="kwb">&#64;rotation_even_adder</span><span class="opt">[</span>direction<span class="opt">]</span>
+      <span class="kwa">end</span>
+      min <span class="opt">=</span> start <span class="kwa">if</span> <span class="opt">(</span>start <span class="opt">&lt;</span> min<span class="opt">)</span>
+      values <span class="opt">+= [</span> start <span class="opt">]</span>
+    <span class="kwa">end</span>
     
-    if (values.length != 5)
-      values.uniq!
-    end
+    <span class="kwa">if</span> <span class="opt">(</span>values<span class="opt">.</span>length <span class="opt">!=</span> <span class="num">5</span><span class="opt">)</span>
+      values<span class="opt">.</span>uniq<span class="opt">!</span>
+    <span class="kwa">end</span>
     
-    [ values, min ]
-  end
-end
+    <span class="opt">[</span> values<span class="opt">,</span> min <span class="opt">]</span>
+  <span class="kwa">end</span>
+<span class="kwa">end</span>
 
-class Piece
-  attr_reader :rotations, :type, :masks
-  attr_accessor :placed
+<span class="kwa">class</span> Piece
+  attr_reader <span class="kwc">:rotations</span><span class="opt">,</span> <span class="kwc">:type</span><span class="opt">,</span> <span class="kwc">:masks</span>
+  attr_accessor <span class="kwc">:placed</span>
   
-  &#64;&#64;flip_converter = { :west =&gt; :west, :east =&gt; :east, :nw =&gt; :sw, :ne =&gt; :se, :sw =&gt; :nw, :se =&gt; :ne }
-  &#64;&#64;rotate_converter = { :west =&gt; :nw, :east =&gt; :se, :nw =&gt; :ne, :ne =&gt; :east, :sw =&gt; :west, :se =&gt; :sw }
+  &#64;<span class="kwb">&#64;flip_converter</span> <span class="opt">=</span> { :west =&gt; :west, :east =&gt; :east, :nw =&gt; :sw, :ne =&gt; :se, :sw =&gt; :nw, :se =&gt; :ne }
+  &#64;<span class="kwb">&#64;rotate_converter</span> <span class="opt">=</span> { :west =&gt; :nw, :east =&gt; :se, :nw =&gt; :ne, :ne =&gt; :east, :sw =&gt; :west, :se =&gt; :sw }
   
-  def initialize( directions, type )
-    &#64;type = type
-    &#64;rotations = Array.new();
-    &#64;map = {}
-    generate_rotations( directions )
-    directions.collect! { | value | &#64;&#64;flip_converter[value] }
-    generate_rotations( directions )
+  <span class="kwa">def</span> <span class="kwd">initialize</span><span class="opt">(</span> directions<span class="opt">,</span> type <span class="opt">)</span>
+    <span class="kwb">&#64;type</span> <span class="opt">=</span> type
+    <span class="kwb">&#64;rotations</span> <span class="opt">=</span> Array<span class="opt">.</span><span class="kwd">new</span><span class="opt">();</span>
+    <span class="kwb">&#64;map</span> <span class="opt">=</span> {}
+    <span class="kwd">generate_rotations</span><span class="opt">(</span> directions <span class="opt">)</span>
+    directions<span class="opt">.</span>collect<span class="opt">!</span> { | value | &#64;&#64;flip_converter[value] }
+    <span class="kwd">generate_rotations</span><span class="opt">(</span> directions <span class="opt">)</span>
     
-    &#64;masks = Array.new();
-    0.upto(59) do | i |
-      &#64;masks[i] = &#64;rotations.collect do | rotation | 
-        mask = rotation.start_masks[i]
-        &#64;map[mask] = [ i, rotation ] if (mask) 
-        mask || nil
-      end
-      &#64;masks[i].compact!
-    end
-  end
+    <span class="kwb">&#64;masks</span> <span class="opt">=</span> Array<span class="opt">.</span><span class="kwd">new</span><span class="opt">();</span>
+    <span class="num">0</span><span class="opt">.</span><span class="kwd">upto</span><span class="opt">(</span><span class="num">59</span><span class="opt">)</span> <span class="kwa">do</span> <span class="opt">|</span> i <span class="opt">|</span>
+      <span class="kwb">&#64;masks</span><span class="opt">[</span>i<span class="opt">] =</span> <span class="kwb">&#64;rotations</span><span class="opt">.</span>collect <span class="kwa">do</span> <span class="opt">|</span> rotation <span class="opt">|</span> 
+        mask <span class="opt">=</span> rotation<span class="opt">.</span>start_masks<span class="opt">[</span>i<span class="opt">]</span>
+        <span class="kwb">&#64;map</span><span class="opt">[</span>mask<span class="opt">] = [</span> i<span class="opt">,</span> rotation <span class="opt">]</span> <span class="kwa">if</span> <span class="opt">(</span>mask<span class="opt">)</span> 
+        mask <span class="opt">||</span> <span class="kwa">nil</span>
+      <span class="kwa">end</span>
+      <span class="kwb">&#64;masks</span><span class="opt">[</span>i<span class="opt">].</span>compact<span class="opt">!</span>
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
   
-  def generate_rotations( directions ) 
-    6.times do
-      rotations.push( Rotation.new(directions))
-      directions.collect! { | value | &#64;&#64;rotate_converter[value] }
-    end
-  end
+  <span class="kwa">def</span> <span class="kwd">generate_rotations</span><span class="opt">(</span> directions <span class="opt">)</span> 
+    <span class="num">6</span><span class="opt">.</span>times <span class="kwa">do</span>
+      rotations<span class="opt">.</span><span class="kwd">push</span><span class="opt">(</span> Rotation<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span>directions<span class="opt">))</span>
+      directions<span class="opt">.</span>collect<span class="opt">!</span> { | value | &#64;&#64;rotate_converter[value] }
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
   
-  def fill_array( board_array)
-    location, rotation = &#64;map[&#64;placed]
-    rotation.offsets(location).each do | offset |
-      row, col = offset.divmod(6)
-      board_array[ row*5 + col ] = &#64;type.to_s
-    end
-  end
-end
+  <span class="kwa">def</span> <span class="kwd">fill_array</span><span class="opt">(</span> board_array<span class="opt">)</span>
+    location<span class="opt">,</span> rotation <span class="opt">=</span> <span class="kwb">&#64;map</span><span class="opt">[</span><span class="kwb">&#64;placed</span><span class="opt">]</span>
+    rotation<span class="opt">.</span><span class="kwd">offsets</span><span class="opt">(</span>location<span class="opt">).</span>each <span class="kwa">do</span> <span class="opt">|</span> offset <span class="opt">|</span>
+      row<span class="opt">,</span> col <span class="opt">=</span> offset<span class="opt">.</span><span class="kwd">divmod</span><span class="opt">(</span><span class="num">6</span><span class="opt">)</span>
+      board_array<span class="opt">[</span> row<span class="opt">*</span><span class="num">5</span> <span class="opt">+</span> col <span class="opt">] =</span> <span class="kwb">&#64;type</span><span class="opt">.</span>to_s
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
+<span class="kwa">end</span>
 
-class Processor 
-  attr :pieces, :board
+<span class="kwa">class</span> Processor 
+  attr <span class="kwc">:pieces</span><span class="opt">,</span> <span class="kwc">:board</span>
   
-  def initialize() 
+  <span class="kwa">def</span> <span class="kwd">initialize</span><span class="opt">()</span> 
     create_collector_support
-    &#64;pieces = [ 
-      Piece.new( [ :east, :east, :east, :se ], 0),
-      Piece.new( [ :ne, :east, :ne, :nw ], 1),
-      Piece.new( [ :nw, :ne, :east, :east ], 2),
-      Piece.new( [ :east, :east, :sw, :se ], 3),
-      Piece.new( [ :ne, :nw, :se, :east, :se ], 4),
-      Piece.new( [ :east, :ne, :se, :ne ], 5),
-      Piece.new( [ :east, :sw, :sw, :se ], 6),
-      Piece.new( [ :ne, :se, :east, :ne ], 7),
-      Piece.new( [ :se, :se, :east, :se ], 8),
-      Piece.new( [ :se, :se, :se, :west ], 9) ];
+    <span class="kwb">&#64;pieces</span> <span class="opt">= [</span> 
+      Piece<span class="opt">.</span><span class="kwd">new</span><span class="opt">( [</span> <span class="kwc">:east</span><span class="opt">,</span> <span class="kwc">:east</span><span class="opt">,</span> <span class="kwc">:east</span><span class="opt">,</span> <span class="kwc">:se</span> <span class="opt">],</span> <span class="num">0</span><span class="opt">),</span>
+      Piece<span class="opt">.</span><span class="kwd">new</span><span class="opt">( [</span> <span class="kwc">:ne</span><span class="opt">,</span> <span class="kwc">:east</span><span class="opt">,</span> <span class="kwc">:ne</span><span class="opt">,</span> <span class="kwc">:nw</span> <span class="opt">],</span> <span class="num">1</span><span class="opt">),</span>
+      Piece<span class="opt">.</span><span class="kwd">new</span><span class="opt">( [</span> <span class="kwc">:nw</span><span class="opt">,</span> <span class="kwc">:ne</span><span class="opt">,</span> <span class="kwc">:east</span><span class="opt">,</span> <span class="kwc">:east</span> <span class="opt">],</span> <span class="num">2</span><span class="opt">),</span>
+      Piece<span class="opt">.</span><span class="kwd">new</span><span class="opt">( [</span> <span class="kwc">:east</span><span class="opt">,</span> <span class="kwc">:east</span><span class="opt">,</span> <span class="kwc">:sw</span><span class="opt">,</span> <span class="kwc">:se</span> <span class="opt">],</span> <span class="num">3</span><span class="opt">),</span>
+      Piece<span class="opt">.</span><span class="kwd">new</span><span class="opt">( [</span> <span class="kwc">:ne</span><span class="opt">,</span> <span class="kwc">:nw</span><span class="opt">,</span> <span class="kwc">:se</span><span class="opt">,</span> <span class="kwc">:east</span><span class="opt">,</span> <span class="kwc">:se</span> <span class="opt">],</span> <span class="num">4</span><span class="opt">),</span>
+      Piece<span class="opt">.</span><span class="kwd">new</span><span class="opt">( [</span> <span class="kwc">:east</span><span class="opt">,</span> <span class="kwc">:ne</span><span class="opt">,</span> <span class="kwc">:se</span><span class="opt">,</span> <span class="kwc">:ne</span> <span class="opt">],</span> <span class="num">5</span><span class="opt">),</span>
+      Piece<span class="opt">.</span><span class="kwd">new</span><span class="opt">( [</span> <span class="kwc">:east</span><span class="opt">,</span> <span class="kwc">:sw</span><span class="opt">,</span> <span class="kwc">:sw</span><span class="opt">,</span> <span class="kwc">:se</span> <span class="opt">],</span> <span class="num">6</span><span class="opt">),</span>
+      Piece<span class="opt">.</span><span class="kwd">new</span><span class="opt">( [</span> <span class="kwc">:ne</span><span class="opt">,</span> <span class="kwc">:se</span><span class="opt">,</span> <span class="kwc">:east</span><span class="opt">,</span> <span class="kwc">:ne</span> <span class="opt">],</span> <span class="num">7</span><span class="opt">),</span>
+      Piece<span class="opt">.</span><span class="kwd">new</span><span class="opt">( [</span> <span class="kwc">:se</span><span class="opt">,</span> <span class="kwc">:se</span><span class="opt">,</span> <span class="kwc">:east</span><span class="opt">,</span> <span class="kwc">:se</span> <span class="opt">],</span> <span class="num">8</span><span class="opt">),</span>
+      Piece<span class="opt">.</span><span class="kwd">new</span><span class="opt">( [</span> <span class="kwc">:se</span><span class="opt">,</span> <span class="kwc">:se</span><span class="opt">,</span> <span class="kwc">:se</span><span class="opt">,</span> <span class="kwc">:west</span> <span class="opt">],</span> <span class="num">9</span><span class="opt">) ];</span>
       
-    &#64;all_pieces = Array.new( &#64;pieces)
+    <span class="kwb">&#64;all_pieces</span> <span class="opt">=</span> Array<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span> <span class="kwb">&#64;pieces</span><span class="opt">)</span>
 
-    &#64;min_board = &quot;99999999999999999999999999999999999999999999999999&quot;
-    &#64;max_board = &quot;00000000000000000000000000000000000000000000000000&quot;
-    &#64;stop_count = ARGV[0].to_i || 2089
-    &#64;all_boards = {}
-    &#64;boards_found = 0
-  end
+    <span class="kwb">&#64;min_board</span> <span class="opt">=</span> <span class="str">&quot;99999999999999999999999999999999999999999999999999&quot;</span>
+    <span class="kwb">&#64;max_board</span> <span class="opt">=</span> <span class="str">&quot;00000000000000000000000000000000000000000000000000&quot;</span>
+    <span class="kwb">&#64;stop_count</span> <span class="opt">=</span> <span class="kwc">ARGV</span><span class="opt">[</span><span class="num">0</span><span class="opt">].</span>to_i <span class="opt">||</span> <span class="num">2089</span>
+    <span class="kwb">&#64;all_boards</span> <span class="opt">=</span> {}
+    <span class="kwb">&#64;boards_found</span> <span class="opt">=</span> <span class="num">0</span>
+  <span class="kwa">end</span>
   
-  def find_all
-    find_top( 0)
-    find_top( 1)
+  <span class="kwa">def</span> find_all
+    <span class="kwd">find_top</span><span class="opt">(</span> <span class="num">0</span><span class="opt">)</span>
+    <span class="kwd">find_top</span><span class="opt">(</span> <span class="num">1</span><span class="opt">)</span>
     print_results
-  end
+  <span class="kwa">end</span>
 
-  def print_results
-    print &quot;#{&#64;boards_found} solutions found\n\n&quot;
-    print_full_board( &#64;min_board)
-    print &quot;\n&quot;
-    print_full_board( &#64;max_board)
-    print &quot;\n&quot;
-  end
+  <span class="kwa">def</span> print_results
+    print <span class="str">&quot;</span><span class="ipl">#{&#64;boards_found}</span> <span class="str">solutions found</span><span class="esc">\n\n</span><span class="str">&quot;</span>
+    <span class="kwd">print_full_board</span><span class="opt">(</span> <span class="kwb">&#64;min_board</span><span class="opt">)</span>
+    print <span class="str">&quot;</span><span class="esc">\n</span><span class="str">&quot;</span>
+    <span class="kwd">print_full_board</span><span class="opt">(</span> <span class="kwb">&#64;max_board</span><span class="opt">)</span>
+    print <span class="str">&quot;</span><span class="esc">\n</span><span class="str">&quot;</span>
+  <span class="kwa">end</span>
 
-  def find_top( rotation_skip) 
-    board = blank_board
-    &#64;pieces.length.times do
-      piece = &#64;pieces.shift
-      piece.masks[0].each do | mask |
-        if ((rotation_skip += 1) % 2 == 0) then
-          piece.placed = mask
-          find( 1, 1, board | mask) 
-        end
-      end
-      &#64;pieces.push(piece)
-    end
-  end
+  <span class="kwa">def</span> <span class="kwd">find_top</span><span class="opt">(</span> rotation_skip<span class="opt">)</span> 
+    board <span class="opt">=</span> blank_board
+    <span class="kwb">&#64;pieces</span><span class="opt">.</span>length<span class="opt">.</span>times <span class="kwa">do</span>
+      piece <span class="opt">=</span> <span class="kwb">&#64;pieces</span><span class="opt">.</span>shift
+      piece<span class="opt">.</span>masks<span class="opt">[</span><span class="num">0</span><span class="opt">].</span>each <span class="kwa">do</span> <span class="opt">|</span> mask <span class="opt">|</span>
+        <span class="kwa">if</span> <span class="opt">((</span>rotation_skip <span class="opt">+=</span> <span class="num">1</span><span class="opt">) %</span> <span class="num">2</span> <span class="opt">==</span> <span class="num">0</span><span class="opt">)</span> <span class="kwa">then</span>
+          piece<span class="opt">.</span>placed <span class="opt">=</span> mask
+          <span class="kwd">find</span><span class="opt">(</span> <span class="num">1</span><span class="opt">,</span> <span class="num">1</span><span class="opt">,</span> board <span class="opt">|</span> mask<span class="opt">)</span> 
+        <span class="kwa">end</span>
+      <span class="kwa">end</span>
+      <span class="kwb">&#64;pieces</span><span class="opt">.</span><span class="kwd">push</span><span class="opt">(</span>piece<span class="opt">)</span>
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
 
-  def find( start_location, placed, board) 
-    while board[start_location] == 1
-      start_location += 1 
-    end
+  <span class="kwa">def</span> <span class="kwd">find</span><span class="opt">(</span> start_location<span class="opt">,</span> placed<span class="opt">,</span> board<span class="opt">)</span> 
+    <span class="kwa">while</span> board<span class="opt">[</span>start_location<span class="opt">] ==</span> <span class="num">1</span>
+      start_location <span class="opt">+=</span> <span class="num">1</span> 
+    <span class="kwa">end</span>
 
-    return if (start_location &lt; 28 &amp;&amp; prunable( board, start_location))
+    <span class="kwa">return if</span> <span class="opt">(</span>start_location <span class="opt">&lt;</span> <span class="num">28</span> <span class="opt">&amp;&amp;</span> <span class="kwd">prunable</span><span class="opt">(</span> board<span class="opt">,</span> start_location<span class="opt">))</span>
     
-    &#64;pieces.length.times do
-      piece = &#64;pieces.shift
-      piece.masks[start_location].each do | mask |
-        if (mask &amp; board == 0) then
-          piece.placed = mask
-          if (placed == 9) then
+    <span class="kwb">&#64;pieces</span><span class="opt">.</span>length<span class="opt">.</span>times <span class="kwa">do</span>
+      piece <span class="opt">=</span> <span class="kwb">&#64;pieces</span><span class="opt">.</span>shift
+      piece<span class="opt">.</span>masks<span class="opt">[</span>start_location<span class="opt">].</span>each <span class="kwa">do</span> <span class="opt">|</span> mask <span class="opt">|</span>
+        <span class="kwa">if</span> <span class="opt">(</span>mask <span class="opt">&amp;</span> board <span class="opt">==</span> <span class="num">0</span><span class="opt">)</span> <span class="kwa">then</span>
+          piece<span class="opt">.</span>placed <span class="opt">=</span> mask
+          <span class="kwa">if</span> <span class="opt">(</span>placed <span class="opt">==</span> <span class="num">9</span><span class="opt">)</span> <span class="kwa">then</span>
             add_board
-          else
-            find( start_location + 1, placed + 1, board | mask) 
-          end
-        end
-      end
-      &#64;pieces.push(piece)
-    end
-  end
+          <span class="kwa">else</span>
+            <span class="kwd">find</span><span class="opt">(</span> start_location <span class="opt">+</span> <span class="num">1</span><span class="opt">,</span> placed <span class="opt">+</span> <span class="num">1</span><span class="opt">,</span> board <span class="opt">|</span> mask<span class="opt">)</span> 
+          <span class="kwa">end</span>
+        <span class="kwa">end</span>
+      <span class="kwa">end</span>
+      <span class="kwb">&#64;pieces</span><span class="opt">.</span><span class="kwd">push</span><span class="opt">(</span>piece<span class="opt">)</span>
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
   
-  def print_full_board( board_string)
-    10.times do | row |
-      print &quot; &quot; if (row % 2 == 1) 
-      5.times do | col |
-        print &quot;#{board_string[row*5 + col,1]} &quot;
-      end
-      print &quot;\n&quot;
-    end
-  end
+  <span class="kwa">def</span> <span class="kwd">print_full_board</span><span class="opt">(</span> board_string<span class="opt">)</span>
+    <span class="num">10</span><span class="opt">.</span>times <span class="kwa">do</span> <span class="opt">|</span> row <span class="opt">|</span>
+      print <span class="str">&quot; &quot;</span> <span class="kwa">if</span> <span class="opt">(</span>row <span class="opt">%</span> <span class="num">2</span> <span class="opt">==</span> <span class="num">1</span><span class="opt">)</span> 
+      <span class="num">5</span><span class="opt">.</span>times <span class="kwa">do</span> <span class="opt">|</span> col <span class="opt">|</span>
+        print <span class="str">&quot;</span><span class="ipl">#{board_string[row*5 + col,1]}</span> <span class="str">&quot;</span>
+      <span class="kwa">end</span>
+      print <span class="str">&quot;</span><span class="esc">\n</span><span class="str">&quot;</span>
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
   
-  def add_board
-    board_array = Array.new(50)
-    &#64;all_pieces.each do | piece |
-      piece.fill_array( board_array )
-    end
-    start_board = board_string = board_array.join(&quot;&quot;)
-    save( board_string)
-    board_string = flip( board_string)
-    save( board_string)
-  end
+  <span class="kwa">def</span> add_board
+    board_array <span class="opt">=</span> Array<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span><span class="num">50</span><span class="opt">)</span>
+    <span class="kwb">&#64;all_pieces</span><span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span> piece <span class="opt">|</span>
+      piece<span class="opt">.</span><span class="kwd">fill_array</span><span class="opt">(</span> board_array <span class="opt">)</span>
+    <span class="kwa">end</span>
+    start_board <span class="opt">=</span> board_string <span class="opt">=</span> board_array<span class="opt">.</span><span class="kwd">join</span><span class="opt">(</span><span class="str">&quot;&quot;</span><span class="opt">)</span>
+    <span class="kwd">save</span><span class="opt">(</span> board_string<span class="opt">)</span>
+    board_string <span class="opt">=</span> <span class="kwd">flip</span><span class="opt">(</span> board_string<span class="opt">)</span>
+    <span class="kwd">save</span><span class="opt">(</span> board_string<span class="opt">)</span>
+  <span class="kwa">end</span>
 
-  def flip( board_string)
-    new_string = &quot;&quot;
-    50.times do | i |
-      row, col = i.divmod(5)
-      new_string += board_string[((9 - row) * 5) + (4 - col), 1]
-    end
+  <span class="kwa">def</span> <span class="kwd">flip</span><span class="opt">(</span> board_string<span class="opt">)</span>
+    new_string <span class="opt">=</span> <span class="str">&quot;&quot;</span>
+    <span class="num">50</span><span class="opt">.</span>times <span class="kwa">do</span> <span class="opt">|</span> i <span class="opt">|</span>
+      row<span class="opt">,</span> col <span class="opt">=</span> i<span class="opt">.</span><span class="kwd">divmod</span><span class="opt">(</span><span class="num">5</span><span class="opt">)</span>
+      new_string <span class="opt">+=</span> board_string<span class="opt">[((</span><span class="num">9</span> <span class="opt">-</span> row<span class="opt">) *</span> <span class="num">5</span><span class="opt">) + (</span><span class="num">4</span> <span class="opt">-</span> col<span class="opt">),</span> <span class="num">1</span><span class="opt">]</span>
+    <span class="kwa">end</span>
     new_string
-  end
+  <span class="kwa">end</span>
       
-  def save( board_string)
-    if (&#64;all_boards[board_string] == nil) then
-      &#64;min_board = board_string if (board_string &lt; &#64;min_board)
-      &#64;max_board = board_string if (board_string &gt; &#64;max_board)
-      &#64;all_boards.store(board_string,true)
-      &#64;boards_found += 1
+  <span class="kwa">def</span> <span class="kwd">save</span><span class="opt">(</span> board_string<span class="opt">)</span>
+    <span class="kwa">if</span> <span class="opt">(</span><span class="kwb">&#64;all_boards</span><span class="opt">[</span>board_string<span class="opt">] ==</span> <span class="kwa">nil</span><span class="opt">)</span> <span class="kwa">then</span>
+      <span class="kwb">&#64;min_board</span> <span class="opt">=</span> board_string <span class="kwa">if</span> <span class="opt">(</span>board_string <span class="opt">&lt;</span> <span class="kwb">&#64;min_board</span><span class="opt">)</span>
+      <span class="kwb">&#64;max_board</span> <span class="opt">=</span> board_string <span class="kwa">if</span> <span class="opt">(</span>board_string <span class="opt">&gt;</span> <span class="kwb">&#64;max_board</span><span class="opt">)</span>
+      <span class="kwb">&#64;all_boards</span><span class="opt">.</span><span class="kwd">store</span><span class="opt">(</span>board_string<span class="opt">,</span><span class="kwa">true</span><span class="opt">)</span>
+      <span class="kwb">&#64;boards_found</span> <span class="opt">+=</span> <span class="num">1</span>
 
-      if (&#64;boards_found == &#64;stop_count) then
+      <span class="kwa">if</span> <span class="opt">(</span><span class="kwb">&#64;boards_found</span> <span class="opt">==</span> <span class="kwb">&#64;stop_count</span><span class="opt">)</span> <span class="kwa">then</span>
         print_results
-        exit(0)
-      end
-    end
-  end
+        <span class="kwd">exit</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span>
+      <span class="kwa">end</span>
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
   
-end
+<span class="kwa">end</span>
 
-proc = Processor.new.find_all
+proc <span class="opt">=</span> Processor<span class="opt">.</span>new<span class="opt">.</span>find_all
 
     </pre>
   </section>

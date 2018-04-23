@@ -178,7 +178,7 @@ puts <span class="str">&quot;P4</span><span class="esc">\n</span><span class="st
 <span class="kwa">end</span>
 
 <span class="kwa">if</span> MiniParallel<span class="opt">.</span>core_count <span class="opt">&gt;</span> <span class="num">1</span>
-    <span class="kwa">if</span> <span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&apos;java&apos;</span>
+    <span class="kwa">if</span> <span class="opt">(</span><span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&apos;java&apos;</span><span class="opt">) || (</span>RUBY_ENGINE <span class="opt">==</span> <span class="str">&apos;truffleruby&apos;</span><span class="opt">)</span>
         threads <span class="opt">= []</span>
         out <span class="opt">= []</span>
         <span class="opt">(</span><span class="num">0</span><span class="opt">...</span>Size<span class="opt">).</span>each <span class="kwa">do</span> <span class="opt">|</span>w<span class="opt">|</span>
@@ -204,24 +204,16 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Sat, 21 Apr 2018 17:29:05 GMT
+Mon, 23 Apr 2018 22:36:17 GMT
 
 COMMAND LINE:
-/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 mandelbrot.truffle-5.truffle 1000
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 mandelbrot.truffle-5.truffle 4000
 
-PROGRAM FAILED 
+UNEXPECTED OUTPUT 
 
+_out 4000_out differ: byte 441242, line 57
 
 (BINARY) PROGRAM OUTPUT NOT SHOWN
-
-mandelbrot.truffle-5.truffle:77:in `fork': fork is not available (NotImplementedError)
-	from mandelbrot.truffle-5.truffle:77:in `create_worker'
-	from mandelbrot.truffle-5.truffle:68:in `block in create_workers'
-	from mandelbrot.truffle-5.truffle:67:in `times'
-	from mandelbrot.truffle-5.truffle:67:in `create_workers'
-	from mandelbrot.truffle-5.truffle:46:in `work_in_processes'
-	from mandelbrot.truffle-5.truffle:29:in `map'
-	from mandelbrot.truffle-5.truffle:168:in `&lt;main&gt;'
     </pre>
   </section>
 </article>

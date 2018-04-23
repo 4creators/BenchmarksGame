@@ -103,18 +103,18 @@ NOTES:
 ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-linux]
 
 
-Mon, 26 Mar 2018 23:10:55 GMT
+Mon, 23 Apr 2018 22:38:34 GMT
 
 COMMAND LINE:
-/opt/src/ruby-2.5.0/bin/ruby -W0 revcomp.yarv 0 &lt; revcomp-input100000000.txt
+/opt/src/ruby-2.5.1/bin/ruby -W0 revcomp.yarv 0 &lt; revcomp-input100000000.txt
 
 PROGRAM FAILED 
 
 
 PROGRAM OUTPUT:
 
-revcomp.yarv:35:in `fork': failed to allocate memory (NoMemoryError)
-#&lt;Thread:0x0000556b721dffa0@revcomp.yarv:58 run&gt; terminated with exception (report_on_exception is true):
+revcomp.yarv:35:in `fork': #&lt;Thread:0x00005617fff0bf50@revcomp.yarv:58 run&gt; terminated with exception (report_on_exception is true):
+failed to allocate memory (NoMemoryError)
 revcomp.yarv:47:in `load': end of file reached (EOFError)
 	from revcomp.yarv:47:in `forking_worker'
 	from revcomp.yarv:62:in `block (2 levels) in &lt;main&gt;'

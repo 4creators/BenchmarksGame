@@ -67,7 +67,7 @@ line <span class="opt">=</span> <span class="kwc">STDIN</span><span class="opt">
 
 <span class="kwa">class</span> Worker
   <span class="kwa">def</span> <span class="kwd">initialize</span><span class="opt">(&amp;</span>block<span class="opt">)</span>
-    <span class="kwa">if</span> <span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&quot;java&quot;</span>
+    <span class="kwa">if</span> <span class="opt">(</span><span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&apos;java&apos;</span><span class="opt">) || (</span>RUBY_ENGINE <span class="opt">==</span> <span class="str">&apos;truffleruby&apos;</span><span class="opt">)</span>
       <span class="kwb">&#64;t</span> <span class="opt">=</span> Thread<span class="opt">.</span>new <span class="kwa">do</span>
         Thread<span class="opt">.</span>current<span class="opt">[</span><span class="kwc">:result</span><span class="opt">] =</span> <span class="kwa">yield</span>
       <span class="kwa">end</span>
@@ -84,7 +84,7 @@ line <span class="opt">=</span> <span class="kwc">STDIN</span><span class="opt">
   <span class="kwa">end</span>
   
   <span class="kwa">def</span> result
-    <span class="kwa">if</span> <span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&quot;java&quot;</span>
+    <span class="kwa">if</span> <span class="opt">(</span><span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&apos;java&apos;</span><span class="opt">) || (</span>RUBY_ENGINE <span class="opt">==</span> <span class="str">&apos;truffleruby&apos;</span><span class="opt">)</span>
       <span class="kwb">&#64;t</span><span class="opt">.</span>join
       <span class="kwb">&#64;t</span><span class="opt">[</span><span class="kwc">:result</span><span class="opt">]</span>
     <span class="kwa">else</span>
@@ -114,22 +114,39 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Sat, 21 Apr 2018 17:28:38 GMT
+Mon, 23 Apr 2018 22:29:31 GMT
 
 COMMAND LINE:
-/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 knucleotide.truffle 0 &lt; knucleotide-input250000.txt
-
-PROGRAM FAILED 
-
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 knucleotide.truffle 0 &lt; knucleotide-input25000000.txt
 
 PROGRAM OUTPUT:
+A 30.295
+T 30.151
+C 19.800
+G 19.754
 
-knucleotide.truffle:52:in `fork': fork is not available (NotImplementedError)
-	from knucleotide.truffle:52:in `initialize'
-	from knucleotide.truffle:78:in `new'
-	from knucleotide.truffle:78:in `block in &lt;main&gt;'
-	from knucleotide.truffle:78:in `map'
-	from knucleotide.truffle:78:in `&lt;main&gt;'
+AA 9.177
+TA 9.132
+AT 9.131
+TT 9.091
+CA 6.002
+AC 6.001
+AG 5.987
+GA 5.984
+CT 5.971
+TC 5.971
+GT 5.957
+TG 5.956
+CC 3.917
+GC 3.911
+CG 3.909
+GG 3.902
+
+1471758	GGT
+446535	GGTA
+47336	GGTATT
+893	GGTATTTTAATT
+893	GGTATTTTAATTTATAGT
     </pre>
   </section>
 </article>

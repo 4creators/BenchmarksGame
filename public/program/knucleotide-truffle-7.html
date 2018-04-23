@@ -105,7 +105,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
   <span class="kwb">&#64;seq</span>
 <span class="kwa">end</span>
 
-<span class="kwa">if</span> <span class="kwc">RUBY_PLATFORM</span> <span class="opt">!=</span> <span class="str">&apos;java&apos;</span>
+<span class="kwa">if</span> <span class="opt">(</span><span class="kwc">RUBY_PLATFORM</span> <span class="opt">!=</span> <span class="str">&apos;java&apos;</span><span class="opt">)</span> <span class="kwa">and</span> <span class="opt">(</span>RUBY_ENGINE <span class="opt">!=</span> <span class="str">&apos;truffleruby&apos;</span><span class="opt">)</span>
   <span class="kwa">class</span> <span class="opt">&lt;&lt;</span> <span class="kwa">self</span>
     alias_method <span class="kwc">:original_key_frequency</span><span class="opt">,</span> <span class="kwc">:key_frequency</span>
     alias_method <span class="kwc">:key_frequency</span><span class="opt">,</span> <span class="kwc">:forking_key_frequency</span>
@@ -132,19 +132,46 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Sat, 21 Apr 2018 17:28:33 GMT
+Mon, 23 Apr 2018 20:26:55 GMT
 
 COMMAND LINE:
 /opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 knucleotide.truffle-7.truffle 0 &lt; knucleotide-input250000.txt
 
-PROGRAM FAILED 
+UNEXPECTED OUTPUT 
 
+25c25
+&lt; 	GGTATT
+---
+&gt; 472	GGTATT
 
 PROGRAM OUTPUT:
+A 30.298
+T 30.157
+C 19.793
+G 19.752
 
-knucleotide.truffle-7.truffle:24:in `fork': fork is not available (NotImplementedError)
-	from knucleotide.truffle-7.truffle:24:in `forking_key_frequency'
-	from knucleotide.truffle-7.truffle:13:in `block (2 levels) in find_frequencies'
+AA 9.177
+TA 9.137
+AT 9.136
+TT 9.094
+AC 6.000
+CA 5.999
+GA 5.986
+AG 5.985
+TC 5.970
+CT 5.970
+GT 5.957
+TG 5.956
+CC 3.915
+CG 3.910
+GC 3.908
+GG 3.902
+
+14717	GGT
+4463	GGTA
+	GGTATT
+9	GGTATTTTAATT
+9	GGTATTTTAATTTATAGT
     </pre>
   </section>
 </article>

@@ -31,7 +31,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
 <span class="slc"># Marshal to read IOs in a blocking manner, which will cause this</span>
 <span class="slc"># script to hang.</span>
 
-IS_THREADED <span class="opt">=</span> <span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&quot;java&quot;</span>
+IS_THREADED <span class="opt">= (</span><span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&apos;java&apos;</span><span class="opt">) || (</span>RUBY_ENGINE <span class="opt">==</span> <span class="str">&apos;truffleruby&apos;</span><span class="opt">)</span>
 
 <span class="kwa">if</span> IS_THREADED
   <span class="kwa">require</span> <span class="str">&quot;fcntl&quot;</span>
@@ -174,30 +174,15 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Sat, 21 Apr 2018 18:02:01 GMT
+Mon, 23 Apr 2018 21:31:58 GMT
 
 COMMAND LINE:
 /opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 spectralnorm.truffle-5.truffle 500
 
-PROGRAM FAILED 
+TIMED OUT after 300s
 
 
 PROGRAM OUTPUT:
-
-spectralnorm.truffle-5.truffle:32:in `fork': fork is not available (NotImplementedError)
-	from spectralnorm.truffle-5.truffle:32:in `initialize'
-	from spectralnorm.truffle-5.truffle:86:in `new'
-	from spectralnorm.truffle-5.truffle:86:in `block in map'
-	from spectralnorm.truffle-5.truffle:85:in `collect'
-	from spectralnorm.truffle-5.truffle:85:in `each'
-	from spectralnorm.truffle-5.truffle:85:in `collect'
-	from spectralnorm.truffle-5.truffle:85:in `map'
-	from spectralnorm.truffle-5.truffle:85:in `map'
-	from spectralnorm.truffle-5.truffle:102:in `eval_A_times_u'
-	from spectralnorm.truffle-5.truffle:122:in `eval_AtA_times_u'
-	from spectralnorm.truffle-5.truffle:130:in `block in &lt;main&gt;'
-	from spectralnorm.truffle-5.truffle:129:in `times'
-	from spectralnorm.truffle-5.truffle:129:in `&lt;main&gt;'
     </pre>
   </section>
 </article>

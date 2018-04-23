@@ -42,7 +42,7 @@ PAD <span class="opt">=</span> <span class="str">&quot;</span><span class="esc">
     <span class="kwb">&#64;total</span>            <span class="opt">=</span> total
     <span class="kwb">&#64;reader</span><span class="opt">,</span> <span class="kwb">&#64;writer</span>  <span class="opt">=</span> IO<span class="opt">.</span>pipe
     
-    <span class="kwa">if</span> <span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&quot;java&quot;</span>
+    <span class="kwa">if</span> <span class="opt">(</span><span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&apos;java&apos;</span><span class="opt">)</span> <span class="kwa">or</span> <span class="opt">(</span>RUBY_ENGINE <span class="opt">==</span> <span class="str">&apos;truffleruby&apos;</span><span class="opt">)</span>
       <span class="kwb">&#64;t</span> <span class="opt">=</span> Thread<span class="opt">.</span>new <span class="kwa">do</span>
         <span class="kwa">self</span><span class="opt">.</span><span class="kwd">execute</span><span class="opt">(&amp;</span>block<span class="opt">)</span>
       <span class="kwa">end</span>
@@ -176,28 +176,12 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Sat, 21 Apr 2018 17:28:50 GMT
+Mon, 23 Apr 2018 20:37:00 GMT
 
 COMMAND LINE:
-/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 mandelbrot.truffle-2.truffle 1000
-
-PROGRAM FAILED 
-
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 mandelbrot.truffle-2.truffle 16000
 
 (BINARY) PROGRAM OUTPUT NOT SHOWN
-
-mandelbrot.truffle-2.truffle:26:in `fork': fork is not available (NotImplementedError)
-	from mandelbrot.truffle-2.truffle:26:in `initialize'
-	from mandelbrot.truffle-2.truffle:54:in `new'
-	from mandelbrot.truffle-2.truffle:54:in `block (2 levels) in parallel_map'
-	from mandelbrot.truffle-2.truffle:53:in `collect'
-	from mandelbrot.truffle-2.truffle:53:in `each'
-	from mandelbrot.truffle-2.truffle:53:in `collect'
-	from mandelbrot.truffle-2.truffle:53:in `map'
-	from mandelbrot.truffle-2.truffle:53:in `block in parallel_map'
-	from mandelbrot.truffle-2.truffle:52:in `tap'
-	from mandelbrot.truffle-2.truffle:52:in `parallel_map'
-	from mandelbrot.truffle-2.truffle:98:in `&lt;main&gt;'
     </pre>
   </section>
 </article>

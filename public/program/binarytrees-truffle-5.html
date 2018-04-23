@@ -153,7 +153,7 @@ stretch_tree <span class="opt">=</span> <span class="kwa">nil</span>
 long_lived_tree <span class="opt">=</span> <span class="kwd">bottom_up_tree</span><span class="opt">(</span>max_depth<span class="opt">)</span>
 
 <span class="kwa">if</span> MiniParallel<span class="opt">.</span>core_count <span class="opt">&gt;</span> <span class="num">1</span>
-    <span class="kwa">if</span> <span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&apos;java&apos;</span>
+    <span class="kwa">if</span> <span class="opt">(</span><span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&apos;java&apos;</span><span class="opt">)</span> <span class="kwa">or</span> <span class="opt">(</span>RUBY_ENGINE <span class="opt">==</span> <span class="str">&apos;truffleruby&apos;</span><span class="opt">)</span>
         output <span class="opt">= []</span>
         threads <span class="opt">= []</span>
         min_depth<span class="opt">.</span><span class="kwd">step</span><span class="opt">(</span>max_depth<span class="opt">,</span> <span class="num">2</span><span class="opt">).</span>to_a<span class="opt">.</span>each<span class="opt">.</span>with_index <span class="kwa">do</span> <span class="opt">|</span>depth<span class="opt">,</span>j<span class="opt">|</span>
@@ -209,25 +209,29 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Sat, 21 Apr 2018 16:39:59 GMT
+Mon, 23 Apr 2018 20:11:29 GMT
 
 COMMAND LINE:
-/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 binarytrees.truffle-5.truffle 7
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 binarytrees.truffle-5.truffle 14
 
-PROGRAM FAILED 
+UNEXPECTED OUTPUT 
 
+4,5c4,5
+&lt; 
+&lt; 
+---
+&gt; 1024	 trees of depth 8	 check: 523264
+&gt; 256	 trees of depth 10	 check: 524032
 
 PROGRAM OUTPUT:
-stretch tree of depth 8	 check: 511
+stretch tree of depth 15	 check: 65535
+16384	 trees of depth 4	 check: 507904
+4096	 trees of depth 6	 check: 520192
 
-binarytrees.truffle-5.truffle:75:in `fork': fork is not available (NotImplementedError)
-	from binarytrees.truffle-5.truffle:75:in `create_worker'
-	from binarytrees.truffle-5.truffle:66:in `block in create_workers'
-	from binarytrees.truffle-5.truffle:65:in `times'
-	from binarytrees.truffle-5.truffle:65:in `create_workers'
-	from binarytrees.truffle-5.truffle:44:in `work_in_processes'
-	from binarytrees.truffle-5.truffle:27:in `map'
-	from binarytrees.truffle-5.truffle:151:in `&lt;main&gt;'
+
+64	 trees of depth 12	 check: 524224
+16	 trees of depth 14	 check: 524272
+long lived tree of depth 14	 check: 32767
     </pre>
   </section>
 </article>

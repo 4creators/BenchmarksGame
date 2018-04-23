@@ -86,7 +86,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     results
   <span class="kwa">end</span>
 
-  <span class="kwa">if</span> <span class="kwc">RUBY_PLATFORM</span> <span class="opt">!=</span> <span class="str">&apos;java&apos;</span>
+<span class="kwa">if</span> <span class="opt">(</span><span class="kwc">RUBY_PLATFORM</span> <span class="opt">!=</span> <span class="str">&apos;java&apos;</span><span class="opt">)</span> <span class="kwa">and</span> <span class="opt">(</span>RUBY_ENGINE <span class="opt">!=</span> <span class="str">&apos;truffleruby&apos;</span><span class="opt">)</span>
     alias_method <span class="kwc">:original_pattern_count</span><span class="opt">,</span> <span class="kwc">:pattern_count</span>
     alias_method <span class="kwc">:pattern_count</span><span class="opt">,</span> <span class="kwc">:forked_pattern_count</span>
   <span class="kwa">end</span>
@@ -127,7 +127,7 @@ NOTES:
 ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-linux]
 
 
-Wed, 04 Apr 2018 16:59:07 GMT
+Mon, 23 Apr 2018 20:37:59 GMT
 
 COMMAND LINE:
 /opt/src/ruby-2.5.1/bin/ruby -W0 regexredux.yarv-3.yarv 0 &lt; regexredux-input5000000.txt

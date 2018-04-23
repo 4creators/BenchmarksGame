@@ -78,7 +78,7 @@ threads <span class="opt">= []</span>
   <span class="kwa">next if</span> segment<span class="opt">.</span>length <span class="opt">&lt;</span> <span class="num">2</span>
 
   threads <span class="opt">&lt;&lt;</span> Thread<span class="opt">.</span>new <span class="kwa">do</span>
-    <span class="kwa">if</span> <span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&apos;java&apos;</span>
+    <span class="kwa">if</span> <span class="opt">(</span><span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&apos;java&apos;</span><span class="opt">)</span> <span class="kwa">or</span> <span class="opt">(</span>RUBY_ENGINE <span class="opt">==</span> <span class="str">&apos;truffleruby&apos;</span><span class="opt">)</span>
       Thread<span class="opt">.</span>current<span class="opt">[</span><span class="kwc">:output</span><span class="opt">] =</span> <span class="kwd">process_segment</span><span class="opt">(</span>segment<span class="opt">)</span>
     <span class="kwa">else</span>
       Thread<span class="opt">.</span>current<span class="opt">[</span><span class="kwc">:output</span><span class="opt">] =</span> <span class="kwd">forking_worker</span><span class="opt">(</span>segment<span class="opt">)</span>
@@ -100,19 +100,24 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Sat, 21 Apr 2018 17:50:17 GMT
+Mon, 23 Apr 2018 18:51:41 GMT
 
 COMMAND LINE:
-/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 revcomp.truffle-3.truffle 0 &lt; revcomp-input250000.txt
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 revcomp.truffle-3.truffle 0 &lt; revcomp-input100000000.txt
 
 PROGRAM FAILED 
 
 
 PROGRAM OUTPUT:
 
-revcomp.truffle-3.truffle:31:in `fork': fork is not available (NotImplementedError)
-	from revcomp.truffle-3.truffle:31:in `forking_worker'
-	from revcomp.truffle-3.truffle:60:in `block (2 levels) in &lt;main&gt;'
+[ruby] WARNING OutOfMemoryError
+[ruby] WARNING OutOfMemoryError
+[ruby] WARNING OutOfMemoryError
+revcomp.truffle-3.truffle:53:in `&lt;&lt;': failed to allocate memory (NoMemoryError)
+	from revcomp.truffle-3.truffle:53:in `read_to_separator'
+	from revcomp.truffle-3.truffle:53:in `each'
+	from revcomp.truffle-3.truffle:53:in `each_line'
+	from revcomp.truffle-3.truffle:53:in `&lt;main&gt;'
     </pre>
   </section>
 </article>

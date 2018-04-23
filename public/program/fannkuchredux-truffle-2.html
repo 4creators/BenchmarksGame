@@ -215,7 +215,7 @@ sum<span class="opt">,</span> flips <span class="opt">=</span>
         <span class="kwa">end</span>
 
         chunk_results <span class="opt">=</span>
-            <span class="kwa">if</span> <span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&apos;java&apos;</span>
+            <span class="kwa">if</span> <span class="opt">(</span><span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&apos;java&apos;</span><span class="opt">)</span> <span class="kwa">or</span> <span class="opt">(</span>RUBY_ENGINE <span class="opt">==</span> <span class="str">&apos;truffleruby&apos;</span><span class="opt">)</span>
                 chunk_collector <span class="opt">= []</span>
                 threads <span class="opt">= []</span>
                 chunks<span class="opt">.</span>each<span class="opt">.</span>with_index <span class="kwa">do</span> <span class="opt">|(</span>start<span class="opt">,</span>weighted_size<span class="opt">),</span>i<span class="opt">|</span>
@@ -249,24 +249,14 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Sat, 21 Apr 2018 16:41:19 GMT
+Mon, 23 Apr 2018 20:24:17 GMT
 
 COMMAND LINE:
-/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 fannkuchredux.truffle-2.truffle 10
-
-PROGRAM FAILED 
-
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 fannkuchredux.truffle-2.truffle 12
 
 PROGRAM OUTPUT:
-
-fannkuchredux.truffle-2.truffle:73:in `fork': fork is not available (NotImplementedError)
-	from fannkuchredux.truffle-2.truffle:73:in `create_worker'
-	from fannkuchredux.truffle-2.truffle:64:in `block in create_workers'
-	from fannkuchredux.truffle-2.truffle:63:in `times'
-	from fannkuchredux.truffle-2.truffle:63:in `create_workers'
-	from fannkuchredux.truffle-2.truffle:42:in `work_in_processes'
-	from fannkuchredux.truffle-2.truffle:25:in `map'
-	from fannkuchredux.truffle-2.truffle:205:in `&lt;main&gt;'
+3968050
+Pfannkuchen(12) = 65
     </pre>
   </section>
 </article>

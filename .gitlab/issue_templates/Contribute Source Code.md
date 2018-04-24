@@ -5,7 +5,7 @@
 
 ### Attach your source code file 
 
-(Attach a file with complete, tested, source-code. Your implementation of one benchmarks-game-task for publication with our revised BSD license).
+(Attach a file with complete, tested, source-code. Your implementation of one benchmarks-game-task for publication with [our revised BSD license](https://benchmarksgame-team.pages.debian.net/benchmarksgame/license.html)).
 
 
 ### Label the benchmarks game task 

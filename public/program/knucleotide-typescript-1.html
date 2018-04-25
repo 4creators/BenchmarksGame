@@ -107,24 +107,24 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Version 2.6.2
-node.js v9.4.0
+Version 2.8.3
+node.js v10.0.0
 
 
-Wed, 10 Jan 2018 20:29:35 GMT
+Tue, 24 Apr 2018 23:51:41 GMT
 
 MAKE:
 mv knucleotide.typescript knucleotide.ts
-/opt/src/node-v9.4.0-linux-x64/bin/tsc --alwaysStrict -t ESNEXT  knucleotide.ts
+/opt/src/node-v10.0.0-linux-x64/bin/tsc --alwaysStrict -t ESNEXT  knucleotide.ts
 /opt/src/node-v8.8.1-linux-x64/lib/node_modules/babel-cli/bin/babel.js --plugins transform-es2015-modules-commonjs knucleotide.js -o knucleotide.js
 make: /opt/src/node-v8.8.1-linux-x64/lib/node_modules/babel-cli/bin/babel.js: Command not found
-/home/dunham/benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:649: recipe for target 'knucleotide.typescript_run' failed
+/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:649: recipe for target 'knucleotide.typescript_run' failed
 make: [knucleotide.typescript_run] Error 127 (ignored)
 
-2.93s to complete and log all make actions
+2.98s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/node-v9.4.0-linux-x64/bin/node --use_strict knucleotide.js 0 &lt; knucleotide-input250000.txt
+/opt/src/node-v10.0.0-linux-x64/bin/node --use_strict knucleotide.js 0 &lt; knucleotide-input250000.txt
 
 PROGRAM FAILED 
 
@@ -133,19 +133,19 @@ PROGRAM OUTPUT:
 
 /home/dunham/benchmarksgame_quadcore/knucleotide/tmp/knucleotide.js:7
 import { createInterface } from &quot;readline&quot;;
-^^^^^^
+       ^
 
-SyntaxError: Unexpected token import
-    at new Script (vm.js:51:7)
-    at createScript (vm.js:138:10)
-    at Object.runInThisContext (vm.js:199:10)
-    at Module._compile (module.js:624:28)
-    at Object.Module._extensions..js (module.js:671:10)
-    at Module.load (module.js:573:32)
-    at tryModuleLoad (module.js:513:12)
-    at Function.Module._load (module.js:505:3)
-    at Function.Module.runMain (module.js:701:10)
-    at startup (bootstrap_node.js:193:16)
+SyntaxError: Unexpected token {
+    at new Script (vm.js:74:7)
+    at createScript (vm.js:246:10)
+    at Object.runInThisContext (vm.js:298:10)
+    at Module._compile (internal/modules/cjs/loader.js:646:28)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:689:10)
+    at Module.load (internal/modules/cjs/loader.js:589:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:528:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:520:3)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:719:10)
+    at startup (internal/bootstrap/node.js:228:19)
     </pre>
   </section>
 </article>

@@ -4,7 +4,6 @@
 
 
 
-### Links / references
 
 /label ~"QUESTION"
 

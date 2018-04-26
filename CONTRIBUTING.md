@@ -40,4 +40,6 @@ Language implementation labels identify which of the available language implemen
 Contribute
 ----------
 
-Please open a new issue, use the Contribute Source Code template and attach your complete tested source-code file.
+Please open a new [Contribute Source Code](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Contribute Source Code) issue, and remember to attach your complete tested source-code file.
+
+

@@ -13,12 +13,13 @@ https://benchmarksgame-team.pages.debian.net/benchmarksgame/
 Questions?
 ----------
 
-Please open a new issue and use the [Question template](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Question).
+Please open a new [Question](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Question) issue.
 
 Suggestions?
 ------------
 
-Please open a new issue and use the [Change template](/issues/new?issuable_template=Change).
+Please open a new [Change](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Change) issue.
+
 
 Contributing
 ------------

@@ -25,3 +25,9 @@ Contributing
 ------------
 
 We are very happy to accept community contributions. Please refer to [CONTRIBUTING.md](/CONTRIBUTING.md) for details.
+
+
+Archive
+-------
+
+Previously contributed (Alioth benchmarks game project and Alioth "shootout" project) source-code files are available from the [archive-alioth-benchmarksgame](https://salsa.debian.org/benchmarksgame-team/archive-alioth-benchmarksgame) project.

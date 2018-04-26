@@ -13,12 +13,12 @@ https://benchmarksgame-team.pages.debian.net/benchmarksgame/
 Questions?
 ----------
 
-Please open a new issue and use the Question template.
+Please open a new issue and use the [Question template](/issues/new?issuable_template=Question).
 
 Suggestions?
 ------------
 
-Please open a new issue and use the Change template.
+Please open a new issue and use the [Change template](/issues/new?issuable_template=Change).
 
 Contributing
 ------------

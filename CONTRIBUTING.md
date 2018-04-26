@@ -34,7 +34,7 @@ Task labels identify which of the available benchmarks game tasks your program i
 Language labels
 ---------------
 
-Language implementation labels identify which of the available language implementations your program is for ~"Ada GNAT", ~C, ~C#, ~C++, ~Chapel, ~Dart, ~"Erlang HiPE", ~F#, ~Fortran, ~Go, ~Hack, ~Haskell, ~Java, ~JavaScript, ~Lisp, ~Lua, ~OCaml, ~PHP, ~Pascal, ~Perl, ~"Python 3", ~Racket, ~Ruby, ~Rust, ~Smalltalk, ~Swift, ~TypeScript
+Language implementation labels identify which of the available language implementations your program is for ~"Ada GNAT", ~C, ~"C#", ~"C++", ~Chapel, ~Dart, ~"Erlang HiPE", ~"F#", ~Fortran, ~Go, ~Hack, ~Haskell, ~Java, ~JavaScript, ~Lisp, ~Lua, ~OCaml, ~PHP, ~Pascal, ~Perl, ~"Python 3", ~Racket, ~Ruby, ~Rust, ~Smalltalk, ~Swift, ~TypeScript
 
 
 Contribute

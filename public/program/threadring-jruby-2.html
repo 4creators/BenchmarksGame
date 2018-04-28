@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,follow,noarchive">
 
-<title>thread-ring JRuby&nbsp;#2 program | Computer Language Benchmarks Game </title>
+<title>n-body JRuby&nbsp;#2 program | Computer Language Benchmarks Game </title>
 <style><!--
 a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans,Ubuntu,Verdana,sans-serif;margin:0;-webkit-text-size-adjust:100%}h1,h2,h3,li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h1{font-size:1.4em;font-weight:bold;margin:0;padding:.4em}h1,h1 a{color:white}h1 small{font-size:0.64em}h2,h3{margin:1.5em 0 0}h2{font-size:1.4em;font-weight:normal}h3{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin:.5em .5em 0;padding:.5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin:.3em 0 0}p a,a span{border-bottom:.1em solid #333;padding-bottom:.1em}#u64,#u64q{background-color:#dd4814}#u32{background-color:#ffb515}#u32q{background-color:#ff6309}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width:60em){article,footer,header{font-size:1.25em}}
 --></style>
@@ -12,9 +12,9 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
 </header>
 <article>
   <div>
-    <h2>thread-ring JRuby&nbsp;#2 program</h2>
+    <h2>n-body JRuby&nbsp;#2 program</h2>
     <aside>
-      <p><a href="../description/threadring.html#threadring">description</a>
+      <p><a href="../description/nbody.html#nbody">description</a>
     </aside>
   </div>
   <section>
@@ -25,36 +25,148 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
 <span class="slc"># The Computer Language Benchmarks Game</span>
 <span class="slc"># https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
 <span class="slc">#</span>
-<span class="slc"># contributed by Serhiy Boiko</span>
+<span class="slc"># Optimized for Ruby by Jesse Millikan</span>
+<span class="slc"># From version ported by Michael Neumann from the C gcc version, </span>
+<span class="slc"># which was written by Christoph Bauer. </span>
 
+SOLAR_MASS <span class="opt">=</span> <span class="num">4</span> <span class="opt">*</span> Math<span class="opt">:</span><span class="kwc">:PI</span><span class="opt">**</span><span class="num">2</span>
+DAYS_PER_YEAR <span class="opt">=</span> <span class="num">365.24</span>
 
-<span class="kwa">require</span> <span class="str">&apos;thread&apos;</span>
-THREAD_NUM <span class="opt">=</span> <span class="num">503</span>
-number <span class="opt">=</span> <span class="kwc">ARGV</span><span class="opt">.</span>first<span class="opt">.</span>to_i
+<span class="kwa">class</span> Planet
+ attr_accessor <span class="kwc">:x</span><span class="opt">,</span> <span class="kwc">:y</span><span class="opt">,</span> <span class="kwc">:z</span><span class="opt">,</span> <span class="kwc">:vx</span><span class="opt">,</span> <span class="kwc">:vy</span><span class="opt">,</span> <span class="kwc">:vz</span><span class="opt">,</span> <span class="kwc">:mass</span>
 
-threads <span class="opt">= []</span>
-<span class="kwa">for</span> i <span class="kwa">in</span> <span class="num">1</span><span class="opt">..</span>THREAD_NUM
-   threads <span class="opt">&lt;&lt;</span> Thread<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span>i<span class="opt">)</span> <span class="kwa">do</span> <span class="opt">|</span>thr_num<span class="opt">|</span>
-      <span class="kwa">while true</span>
-         Thread<span class="opt">.</span>stop
-         <span class="kwa">if</span> number <span class="opt">&gt;</span> <span class="num">0</span>
-            number <span class="opt">-=</span> <span class="num">1</span>
-         <span class="kwa">else</span>
-            puts thr_num
-            exit <span class="num">0</span>
-         <span class="kwa">end</span>
-      <span class="kwa">end</span>
-   <span class="kwa">end</span>
+ <span class="kwa">def</span> <span class="kwd">initialize</span><span class="opt">(</span>x<span class="opt">,</span> y<span class="opt">,</span> z<span class="opt">,</span> vx<span class="opt">,</span> vy<span class="opt">,</span> vz<span class="opt">,</span> mass<span class="opt">)</span>
+  <span class="kwb">&#64;x</span><span class="opt">,</span> <span class="kwb">&#64;y</span><span class="opt">,</span> <span class="kwb">&#64;z</span> <span class="opt">=</span> x<span class="opt">,</span> y<span class="opt">,</span> z
+  <span class="kwb">&#64;vx</span><span class="opt">,</span> <span class="kwb">&#64;vy</span><span class="opt">,</span> <span class="kwb">&#64;vz</span> <span class="opt">=</span> vx <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span> vy <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span> vz <span class="opt">*</span> DAYS_PER_YEAR 
+  <span class="kwb">&#64;mass</span> <span class="opt">=</span> mass <span class="opt">*</span> SOLAR_MASS
+ <span class="kwa">end</span>
+
+ <span class="kwa">def</span> <span class="kwd">move_from_i</span><span class="opt">(</span>bodies<span class="opt">,</span> nbodies<span class="opt">,</span> dt<span class="opt">,</span> i<span class="opt">)</span>
+  <span class="kwa">while</span> i <span class="opt">&lt;</span> nbodies
+   b2 <span class="opt">=</span> bodies<span class="opt">[</span>i<span class="opt">]</span>
+   dx <span class="opt">=</span> <span class="kwb">&#64;x</span> <span class="opt">-</span> b2<span class="opt">.</span>x
+   dy <span class="opt">=</span> <span class="kwb">&#64;y</span> <span class="opt">-</span> b2<span class="opt">.</span>y
+   dz <span class="opt">=</span> <span class="kwb">&#64;z</span> <span class="opt">-</span> b2<span class="opt">.</span>z
+
+   distance <span class="opt">=</span> Math<span class="opt">.</span><span class="kwd">sqrt</span><span class="opt">(</span>dx <span class="opt">*</span> dx <span class="opt">+</span> dy <span class="opt">*</span> dy <span class="opt">+</span> dz <span class="opt">*</span> dz<span class="opt">)</span>
+   mag <span class="opt">=</span> dt <span class="opt">/ (</span>distance <span class="opt">*</span> distance <span class="opt">*</span> distance<span class="opt">)</span>
+   b_mass_mag<span class="opt">,</span> b2_mass_mag <span class="opt">=</span> <span class="kwb">&#64;mass</span> <span class="opt">*</span> mag<span class="opt">,</span> b2<span class="opt">.</span>mass <span class="opt">*</span> mag
+
+   <span class="kwb">&#64;vx</span> <span class="opt">-=</span> dx <span class="opt">*</span> b2_mass_mag
+   <span class="kwb">&#64;vy</span> <span class="opt">-=</span> dy <span class="opt">*</span> b2_mass_mag
+   <span class="kwb">&#64;vz</span> <span class="opt">-=</span> dz <span class="opt">*</span> b2_mass_mag
+   b2<span class="opt">.</span>vx <span class="opt">+=</span> dx <span class="opt">*</span> b_mass_mag
+   b2<span class="opt">.</span>vy <span class="opt">+=</span> dy <span class="opt">*</span> b_mass_mag
+   b2<span class="opt">.</span>vz <span class="opt">+=</span> dz <span class="opt">*</span> b_mass_mag
+   i <span class="opt">+=</span> <span class="num">1</span> 
+  <span class="kwa">end</span>
+
+  <span class="kwb">&#64;x</span> <span class="opt">+=</span> dt <span class="opt">*</span> <span class="kwb">&#64;vx</span>
+  <span class="kwb">&#64;y</span> <span class="opt">+=</span> dt <span class="opt">*</span> <span class="kwb">&#64;vy</span>
+  <span class="kwb">&#64;z</span> <span class="opt">+=</span> dt <span class="opt">*</span> <span class="kwb">&#64;vz</span>
+ <span class="kwa">end</span>
 <span class="kwa">end</span>
 
-prev_thread <span class="opt">=</span> threads<span class="opt">.</span>last
-<span class="kwa">while true</span>
-   <span class="kwa">for</span> thread <span class="kwa">in</span> threads
-      Thread<span class="opt">.</span>pass <span class="kwa">until</span> prev_thread<span class="opt">.</span>stop<span class="opt">?</span>
-      thread<span class="opt">.</span>run
-      prev_thread <span class="opt">=</span> thread
-   <span class="kwa">end</span>
+<span class="kwa">def</span> <span class="kwd">energy</span><span class="opt">(</span>bodies<span class="opt">)</span>
+  e <span class="opt">=</span> <span class="num">0.0</span>
+  nbodies <span class="opt">=</span> bodies<span class="opt">.</span>size
+ 
+  <span class="kwa">for</span> i <span class="kwa">in</span> <span class="num">0</span> <span class="opt">...</span> nbodies 
+    b <span class="opt">=</span> bodies<span class="opt">[</span>i<span class="opt">]</span>
+    e <span class="opt">+=</span> <span class="num">0.5</span> <span class="opt">*</span> b<span class="opt">.</span>mass <span class="opt">* (</span>b<span class="opt">.</span>vx <span class="opt">*</span> b<span class="opt">.</span>vx <span class="opt">+</span> b<span class="opt">.</span>vy <span class="opt">*</span> b<span class="opt">.</span>vy <span class="opt">+</span> b<span class="opt">.</span>vz <span class="opt">*</span> b<span class="opt">.</span>vz<span class="opt">)</span>
+    <span class="kwa">for</span> j <span class="kwa">in</span> <span class="opt">(</span>i <span class="opt">+</span> <span class="num">1</span><span class="opt">) ...</span> nbodies
+      b2 <span class="opt">=</span> bodies<span class="opt">[</span>j<span class="opt">]</span>
+      dx <span class="opt">=</span> b<span class="opt">.</span>x <span class="opt">-</span> b2<span class="opt">.</span>x
+      dy <span class="opt">=</span> b<span class="opt">.</span>y <span class="opt">-</span> b2<span class="opt">.</span>y
+      dz <span class="opt">=</span> b<span class="opt">.</span>z <span class="opt">-</span> b2<span class="opt">.</span>z
+      distance <span class="opt">=</span> Math<span class="opt">.</span><span class="kwd">sqrt</span><span class="opt">(</span>dx <span class="opt">*</span> dx <span class="opt">+</span> dy <span class="opt">*</span> dy <span class="opt">+</span> dz <span class="opt">*</span> dz<span class="opt">)</span>
+      e <span class="opt">-= (</span>b<span class="opt">.</span>mass <span class="opt">*</span> b2<span class="opt">.</span>mass<span class="opt">) /</span> distance
+    <span class="kwa">end</span>
+  <span class="kwa">end</span>
+  e
 <span class="kwa">end</span>
+
+<span class="kwa">def</span> <span class="kwd">offset_momentum</span><span class="opt">(</span>bodies<span class="opt">)</span>
+  px<span class="opt">,</span> py<span class="opt">,</span> pz <span class="opt">=</span> <span class="num">0.0</span><span class="opt">,</span> <span class="num">0.0</span><span class="opt">,</span> <span class="num">0.0</span>
+
+  <span class="kwa">for</span> b <span class="kwa">in</span> bodies
+    m <span class="opt">=</span> b<span class="opt">.</span>mass
+    px <span class="opt">+=</span> b<span class="opt">.</span>vx <span class="opt">*</span> m
+    py <span class="opt">+=</span> b<span class="opt">.</span>vy <span class="opt">*</span> m
+    pz <span class="opt">+=</span> b<span class="opt">.</span>vz <span class="opt">*</span> m
+  <span class="kwa">end</span>
+
+  b <span class="opt">=</span> bodies<span class="opt">[</span><span class="num">0</span><span class="opt">]</span>
+  b<span class="opt">.</span>vx <span class="opt">= -</span> px <span class="opt">/</span> SOLAR_MASS
+  b<span class="opt">.</span>vy <span class="opt">= -</span> py <span class="opt">/</span> SOLAR_MASS
+  b<span class="opt">.</span>vz <span class="opt">= -</span> pz <span class="opt">/</span> SOLAR_MASS
+<span class="kwa">end</span>
+
+BODIES <span class="opt">= [</span>
+  <span class="slc"># sun</span>
+  Planet<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span><span class="num">0.0</span><span class="opt">,</span> <span class="num">0.0</span><span class="opt">,</span> <span class="num">0.0</span><span class="opt">,</span> <span class="num">0.0</span><span class="opt">,</span> <span class="num">0.0</span><span class="opt">,</span> <span class="num">0.0</span><span class="opt">,</span> <span class="num">1.0</span><span class="opt">),</span>
+
+  <span class="slc"># jupiter</span>
+  Planet<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span>
+    <span class="num">4.84143144246472090e+00</span><span class="opt">,</span>
+    <span class="opt">-</span><span class="num">1.16032004402742839e+00</span><span class="opt">,</span>
+    <span class="opt">-</span><span class="num">1.03622044471123109e-01</span><span class="opt">,</span>
+    <span class="num">1.66007664274403694e-03</span><span class="opt">,</span>
+    <span class="num">7.69901118419740425e-03</span><span class="opt">,</span>
+    <span class="opt">-</span><span class="num">6.90460016972063023e-05</span><span class="opt">,</span>
+    <span class="num">9.54791938424326609e-04</span><span class="opt">),</span>
+
+  <span class="slc"># saturn</span>
+  Planet<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span>
+    <span class="num">8.34336671824457987e+00</span><span class="opt">,</span>
+    <span class="num">4.12479856412430479e+00</span><span class="opt">,</span>
+    <span class="opt">-</span><span class="num">4.03523417114321381e-01</span><span class="opt">,</span>
+    <span class="opt">-</span><span class="num">2.76742510726862411e-03</span><span class="opt">,</span>
+    <span class="num">4.99852801234917238e-03</span><span class="opt">,</span>
+    <span class="num">2.30417297573763929e-05</span><span class="opt">,</span>
+    <span class="num">2.85885980666130812e-04</span><span class="opt">),</span>
+
+  <span class="slc"># uranus</span>
+  Planet<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span>
+    <span class="num">1.28943695621391310e+01</span><span class="opt">,</span>
+    <span class="opt">-</span><span class="num">1.51111514016986312e+01</span><span class="opt">,</span>
+    <span class="opt">-</span><span class="num">2.23307578892655734e-01</span><span class="opt">,</span>
+    <span class="num">2.96460137564761618e-03</span><span class="opt">,</span>
+    <span class="num">2.37847173959480950e-03</span><span class="opt">,</span>
+    <span class="opt">-</span><span class="num">2.96589568540237556e-05</span><span class="opt">,</span>
+    <span class="num">4.36624404335156298e-05</span><span class="opt">),</span>
+
+  <span class="slc"># neptune</span>
+  Planet<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span>
+    <span class="num">1.53796971148509165e+01</span><span class="opt">,</span>
+    <span class="opt">-</span><span class="num">2.59193146099879641e+01</span><span class="opt">,</span>
+    <span class="num">1.79258772950371181e-01</span><span class="opt">,</span>
+    <span class="num">2.68067772490389322e-03</span><span class="opt">,</span>
+    <span class="num">1.62824170038242295e-03</span><span class="opt">,</span>
+    <span class="opt">-</span><span class="num">9.51592254519715870e-05</span><span class="opt">,</span>
+    <span class="num">5.15138902046611451e-05</span><span class="opt">)</span>
+<span class="opt">]</span>
+
+
+n <span class="opt">=</span> <span class="kwd">Integer</span><span class="opt">(</span><span class="kwc">ARGV</span><span class="opt">[</span><span class="num">0</span><span class="opt">])</span>
+
+<span class="kwd">offset_momentum</span><span class="opt">(</span>BODIES<span class="opt">)</span>
+
+puts <span class="str">&quot;%.9f&quot;</span> <span class="opt">%</span> <span class="kwd">energy</span><span class="opt">(</span>BODIES<span class="opt">)</span>
+
+nbodies <span class="opt">=</span> BODIES<span class="opt">.</span>size
+dt <span class="opt">=</span> <span class="num">0.01</span>
+
+n<span class="opt">.</span>times <span class="kwa">do</span>
+  i <span class="opt">=</span> <span class="num">0</span>
+  <span class="kwa">while</span> i <span class="opt">&lt;</span> nbodies
+    b <span class="opt">=</span> BODIES<span class="opt">[</span>i<span class="opt">]</span>
+    b<span class="opt">.</span><span class="kwd">move_from_i</span><span class="opt">(</span>BODIES<span class="opt">,</span> nbodies<span class="opt">,</span> dt<span class="opt">,</span> i <span class="opt">+</span> <span class="num">1</span><span class="opt">)</span>
+    i <span class="opt">+=</span> <span class="num">1</span>
+  <span class="kwa">end</span>
+<span class="kwa">end</span>
+
+puts <span class="str">&quot;%.9f&quot;</span> <span class="opt">%</span> <span class="kwd">energy</span><span class="opt">(</span>BODIES<span class="opt">)</span>
     </pre>
   </section>
   <section>
@@ -65,535 +177,19 @@ NOTES:
 jruby 9.1.16.0 (2.3.3) 2018-02-21 8f3f95a Java HotSpot(TM) 64-Bit Server VM 10+46 on 10+46 +jit [linux-x86_64]
 
 
-Thu, 22 Mar 2018 04:00:40 GMT
+Thu, 22 Mar 2018 03:11:49 GMT
 
 MAKE:
-mv threadring.jruby-2.jruby threadring.rb
+mv nbody.jruby-2.jruby nbody.rb
 
-0.02s to complete and log all make actions
+0.01s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/jruby-9.1.16.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms2048m -J-Xmx2048m threadring.rb 500000
-
-PROGRAM FAILED 
-
+/opt/src/jruby-9.1.16.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms2048m -J-Xmx2048m nbody.rb 50000000
 
 PROGRAM OUTPUT:
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-6364
-
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194195
-196
-197
-198
-199
-200
-
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240241
-
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-259
-260
-261
-258
-257
-262256
-263
-
-264
-265
-266
-267
-268
-269
-270
-271
-272
-273
-274275
-
-276
-277
-278
-279
-280
-281
-282
-283
-284
-285
-286
-287
-288
-289
-290
-291
-292
-293
-294
-295
-296
-297
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315
-316
-317
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344
-345
-346
-347
-348349
-
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368
-369
-370
-371
-372
-373
-374
-375
-376
-377
-378
-379
-380
-381
-382
-383
-384
-385
-386
-387
-388
-389
-390
-391
-392
-393
-394
-395
-396
-397
-398
-399
-400
-401
-402
-403
-404
-405
-406
-407
-408
-409
-410
-411
-412
-413
-414
-415
-416
-417
-418
-419
-420
-421
-422
-423
-424
-425
-426
-427
-428
-429
-430
-431
-432
-433
-434
-435
-436
-437
-438
-439
-440
-441
-442
-443
-444
-445
-446
-448
-449
-450
-452
-447453
-
-455
-456
-457
-458
-459
-460
-461
-454
-462
-451
-463
-464
-465
-466
-467
-468
-469
-470
-471
-472
-473
-474
-475
-476
-477
-478
-479
-480
-481
-482
-483
-484
-485
-486
-487
-488
-489
-490
-491
-492
-493
-494
-495
-496
-497
-498
-499
-500
-501
-502
-503
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-
-WARNING: An illegal reflective access operation has occurred
-WARNING: Illegal reflective access by jnr.posix.JavaLibCHelper$ReflectiveAccess to method sun.nio.ch.SelChImpl.getFD()
-WARNING: Please consider reporting this to the maintainers of jnr.posix.JavaLibCHelper$ReflectiveAccess
-WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
-WARNING: All illegal access operations will be denied in a future release
-ThreadError: killed thread
-                  wakeup at org/jruby/RubyThread.java:1194
-                     run at org/jruby/RubyThread.java:1340
-  block in threadring.rb at threadring.rb:30
-                    each at org/jruby/RubyArray.java:1735
-                  &lt;main&gt; at threadring.rb:28
+-0.169075164
+-0.169059907
     </pre>
   </section>
 </article>

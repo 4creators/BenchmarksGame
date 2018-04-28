@@ -28,13 +28,17 @@ Testing
 Task labels
 -----------
 
-Task labels identify which of the available benchmarks game tasks your program is for ~n-body, ~fannkuch-redux, ~spectral-norm, ~mandelbrot, ~pidigits, ~regex-redux, ~fasta, ~k-nucleotide, ~reverse-complement, ~binary-trees, 
+Task labels identify which of the available benchmarks game tasks your program is for ~n-body, ~fannkuch-redux, ~spectral-norm, ~mandelbrot, ~pidigits, ~regex-redux, ~fasta, ~k-nucleotide, ~reverse-complement, ~binary-trees.
+
+Unfortunately, as a Guest in GitLab, you have permission to create a new Issue but not to add a label to your new Issue.
 
 
 Language labels
 ---------------
 
-Language implementation labels identify which of the available language implementations your program is for ~"Ada GNAT", ~C, ~"C#", ~"C++", ~Chapel, ~Dart, ~"Erlang HiPE", ~"F#", ~Fortran, ~Go, ~Hack, ~Haskell, ~Java, ~JavaScript, ~Lisp, ~Lua, ~OCaml, ~PHP, ~Pascal, ~Perl, ~"Python 3", ~Racket, ~Ruby, ~Rust, ~Smalltalk, ~Swift, ~TypeScript
+Language implementation labels identify which of the available language implementations your program is for ~"Ada GNAT", ~C, ~"C#", ~"C++", ~Chapel, ~Dart, ~"Erlang HiPE", ~"F#", ~Fortran, ~Go, ~Hack, ~Haskell, ~Java, ~JavaScript, ~Lisp, ~Lua, ~OCaml, ~PHP, ~Pascal, ~Perl, ~"Python 3", ~Racket, ~Ruby, ~Rust, ~Smalltalk, ~Swift, ~TypeScript.
+
+Unfortunately, as a Guest in GitLab, you have permission to create a new Issue but not to add a label to your new Issue.
 
 
 Contribute

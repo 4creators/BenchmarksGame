@@ -17,6 +17,10 @@ a{color:black;text-decoration:none}article,footer,header{margin:auto;max-width:3
     <p>Measured on a quad-core 2.4Ghz Intel<sup>&#174;</sup> Q6600<sup>&#174;</sup> with 4GB of RAM and 250GB SATA II disk drive; using Ubuntu&#8482; 17.10 Linux x64 4.13.0-16-generic.
   </aside>
   <section>
+    <h3 id="play">Who wrote the programs</h3>
+    <p>The programs have been crowd sourced, contributed to the project by an ever-changing self-selected group. <a href="./play.html">You can play too</a>.
+  </section>
+  <section>
     <h3 id="measured">How programs are measured</h3>
     <ol>
       <li><p>Each program is run and measured at the smallest input value, program output redirected to a file and compared to expected output. As long as the output matches expected output, the program is then run and measured at the next larger input value until measurements have been made at every input value.
@@ -59,10 +63,6 @@ a{color:black;text-decoration:none}article,footer,header{margin:auto;max-width:3
     <h3 id="cpu-load">How CPU load is measured</h3>
     <p>The GTop cpu idle and GTop cpu total are taken before forking the child-process and after the child-process exits. The percentages represent the proportion of cpu not-idle to cpu total for each core.
     <p>On win32: <code>GetSystemTimes</code> <a href="http://msdn.microsoft.com/en-us/library/ms724400(VS.85).aspx"><code>UserTime</code> <code>IdleTime</code></a> are taken before forking the child-process and after the child-process exits. The percentage represents the proportion of <code>TotalUserTime</code> to <code>UserTime + IdleTime</code> (because that's like the percentage you'll see in Task Manager).
-  </section>
-  <section>
-    <h3 id="data-files">Data files</h3>
-    <p>The <a href="./summarydata/summarydata.html">summary data shown</a> only includes measurements for programs that successfully completed every workload; only includes measurements for the fastest programs and only includes the fastest measurement for those programs. Additional measurements (not just the fastest programs, not just the fastest measurements) are included in a separate compressed data file.
   </section>
 </article>
 <footer>

@@ -35,6 +35,6 @@ All measurements, including repeated measurements.
 How programs are measured
 -------------------------
 
-Please refer to the benchmarks game website for [more details of the measurement process](https://benchmarksgame-team.pages.debian.net/benchmarksgame/how-programs-are-measured.html), [task descriptions](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/summary.html), and comparisons of [program measurements](https://benchmarksgame-team.pages.debian.net/benchmarksgame/which-programs-are-fastest.html).
+Please refer to the benchmarks game website for [more details](https://benchmarksgame-team.pages.debian.net/benchmarksgame/how-programs-are-measured.html) of the measurement process, [task descriptions](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/summary.html), and comparisons of [program measurements](https://benchmarksgame-team.pages.debian.net/benchmarksgame/which-programs-are-fastest.html).
 
 

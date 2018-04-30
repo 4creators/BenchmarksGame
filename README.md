@@ -29,7 +29,7 @@ We are very happy to accept community contributions. Please refer to [CONTRIBUTI
 Available data
 --------------
 
-We are happy for you to do your own analysis of [the program measurements](/public/data/README.md). 
+We are happy for you to do your own analysis of [the program measurements](/public/data/). 
 
 Archive
 -------

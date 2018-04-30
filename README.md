@@ -26,6 +26,10 @@ Contributing
 
 We are very happy to accept community contributions. Please refer to [CONTRIBUTING.md](/CONTRIBUTING.md) for details.
 
+Available data
+--------------
+
+We are happy for you to do your own analysis of [the program measurements](/public/data/README.md). 
 
 Archive
 -------

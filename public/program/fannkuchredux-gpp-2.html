@@ -200,20 +200,19 @@ NOTES:
 g++ (Ubuntu 7.3.0-16ubuntu3) 7.3.0
 
 
-Tue, 01 May 2018 05:08:38 GMT
+Tue, 01 May 2018 16:55:40 GMT
 
 MAKE:
 /usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native  -pthread fannkuchredux.gpp-2.c++ -o fannkuchredux.gpp-2.c++.o &amp;&amp;  \
         /usr/bin/g++ fannkuchredux.gpp-2.c++.o -o fannkuchredux.gpp-2.gpp_run -lpthread -lboost_thread -lboost_system 
-fannkuchredux.gpp-2.c++:19:10: fatal error: boost/thread.hpp: No such file or directory
- #include &lt;boost/thread.hpp&gt;
-          ^~~~~~~~~~~~~~~~~~
-compilation terminated.
+/usr/bin/x86_64-linux-gnu-ld: cannot find -lboost_thread
+/usr/bin/x86_64-linux-gnu-ld: cannot find -lboost_system
+collect2: error: ld returned 1 exit status
 /home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:66: recipe for target 'fannkuchredux.gpp-2.gpp_run' failed
 make: [fannkuchredux.gpp-2.gpp_run] Error 1 (ignored)
 rm fannkuchredux.gpp-2.c++
 
-0.07s to complete and log all make actions
+6.26s to complete and log all make actions
 
 COMMAND LINE:
 ./fannkuchredux.gpp-2.gpp_run 10

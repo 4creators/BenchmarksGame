@@ -130,26 +130,22 @@ NOTES:
 g++ (Ubuntu 7.3.0-16ubuntu3) 7.3.0
 
 
-Tue, 01 May 2018 03:34:16 GMT
+Tue, 01 May 2018 16:58:08 GMT
 
 MAKE:
-/usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native  -std=c++14 -g pidigits.gpp-3.c++ -o pidigits.gpp-3.c++.o &amp;&amp;  \
+/usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native  --std=c++11 pidigits.gpp-3.c++ -o pidigits.gpp-3.c++.o &amp;&amp;  \
         /usr/bin/g++ pidigits.gpp-3.c++.o -o pidigits.gpp-3.gpp_run -lgmp -lgmpxx 
-pidigits.gpp-3.c++:10:10: fatal error: boost/lexical_cast.hpp: No such file or directory
- #include &lt;boost/lexical_cast.hpp&gt;
-          ^~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:66: recipe for target 'pidigits.gpp-3.gpp_run' failed
-make: [pidigits.gpp-3.gpp_run] Error 1 (ignored)
 rm pidigits.gpp-3.c++
 
-0.18s to complete and log all make actions
+2.51s to complete and log all make actions
 
 COMMAND LINE:
 ./pidigits.gpp-3.gpp_run 2000
 
-MAKE ERROR 
+TIMED OUT after 300s
 
+
+PROGRAM OUTPUT:
     </pre>
   </section>
 </article>

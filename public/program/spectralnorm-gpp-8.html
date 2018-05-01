@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     </div>
     <pre>
 <span class="slc">// The Computer Language Benchmarks Game</span>
-<span class="slc">// https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">// http://benchmarksgame.alioth.debian.org/</span>
 <span class="slc">//</span>
 <span class="slc">// Original C contributed by Sebastien Loisel</span>
 <span class="slc">// Conversion to C++ by Jon Harrop</span>
@@ -305,13 +305,13 @@ v2dt
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-g++ (Ubuntu 7.2.0-8ubuntu3) 7.2.0
+g++ (Ubuntu 7.3.0-16ubuntu3) 7.3.0
 
 
-Mon, 30 Oct 2017 23:12:09 GMT
+Tue, 01 May 2018 06:58:09 GMT
 
 MAKE:
-/usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native -mfpmath=sse -msse2 -fopenmp -O0 spectralnorm.gpp-8.c++ -o spectralnorm.gpp-8.c++.o &amp;&amp;  \
+/usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native -mfpmath=sse -msse3 -fopenmp -O0 spectralnorm.gpp-8.c++ -o spectralnorm.gpp-8.c++.o &amp;&amp;  \
         /usr/bin/g++ spectralnorm.gpp-8.c++.o -o spectralnorm.gpp-8.gpp_run -fopenmp 
 spectralnorm.gpp-8.c++: In instantiation of ‘v2dt eval_A_xmm(int, int) [with bool inc_i = false; v2dt = __vector(2) double]’:
 spectralnorm.gpp-8.c++:108:39:   required from here
@@ -325,7 +325,7 @@ spectralnorm.gpp-8.c++:85:9: warning: narrowing conversion of ‘d1’ from ‘i
 spectralnorm.gpp-8.c++:85:9: warning: narrowing conversion of ‘d2’ from ‘int’ to ‘double’ inside { } [-Wnarrowing]
 rm spectralnorm.gpp-8.c++
 
-0.20s to complete and log all make actions
+0.22s to complete and log all make actions
 
 COMMAND LINE:
 ./spectralnorm.gpp-8.gpp_run 5500

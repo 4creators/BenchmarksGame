@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     </div>
     <pre>
 ﻿<span class="slc">// The Computer Language Benchmarks Game</span>
-<span class="slc">// https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">// http://benchmarksgame.alioth.debian.org/</span>
 <span class="slc">//</span>
 <span class="slc">// Contributed by Kevin Miller ( as C code )</span>
 <span class="slc">//</span>
@@ -206,17 +206,17 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-g++ (Ubuntu 7.2.0-8ubuntu3) 7.2.0
+g++ (Ubuntu 7.3.0-16ubuntu3) 7.3.0
 
 
-Mon, 30 Oct 2017 21:54:30 GMT
+Tue, 01 May 2018 05:46:24 GMT
 
 MAKE:
-/usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native -mfpmath=sse -msse2 -fopenmp -mno-fma --std=c++14 mandelbrot.gpp-6.c++ -o mandelbrot.gpp-6.c++.o &amp;&amp;  \
+/usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native -mfpmath=sse -msse3 -fopenmp -mno-fma --std=c++14 mandelbrot.gpp-6.c++ -o mandelbrot.gpp-6.c++.o &amp;&amp;  \
         /usr/bin/g++ mandelbrot.gpp-6.c++.o -o mandelbrot.gpp-6.gpp_run -fopenmp 
 rm mandelbrot.gpp-6.c++
 
-1.45s to complete and log all make actions
+1.56s to complete and log all make actions
 
 COMMAND LINE:
 ./mandelbrot.gpp-6.gpp_run 16000

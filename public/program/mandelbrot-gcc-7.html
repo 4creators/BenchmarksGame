@@ -24,7 +24,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 <span class="com">/*   </span>
 <span class="com">   The Computer Language Benchmarks Game</span>
-<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com">   http://benchmarksgame.alioth.debian.org/</span>
 <span class="com"></span>
 <span class="com">   contributed by Paolo Bonzini</span>
 <span class="com">   further optimized by Jason Garrett-Glaser</span>
@@ -156,16 +156,16 @@ v2d inv_2n<span class="opt">;</span>   <span class="slc">// {2.0/N, 2.0/N}</span
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-gcc (Ubuntu 7.2.0-8ubuntu3) 7.2.0
+gcc (Ubuntu 7.3.0-16ubuntu3) 7.3.0
 
 
-Tue, 31 Oct 2017 18:34:30 GMT
+Tue, 01 May 2018 00:44:15 GMT
 
 MAKE:
 /usr/bin/gcc -pipe -Wall -O3 -fomit-frame-pointer -march=native -D_GNU_SOURCE -fopenmp mandelbrot.gcc-7.c -o mandelbrot.gcc-7.gcc_run 
 rm mandelbrot.gcc-7.c
 
-0.13s to complete and log all make actions
+0.21s to complete and log all make actions
 
 COMMAND LINE:
 ./mandelbrot.gcc-7.gcc_run 16000

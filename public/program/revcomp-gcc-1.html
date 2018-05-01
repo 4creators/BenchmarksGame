@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     </div>
     <pre>
 <span class="com">/* The Computer Language Benchmarks Game</span>
-<span class="com"> * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"> * http://benchmarksgame.alioth.debian.org/</span>
 <span class="com"></span>
 <span class="com">   contributed by Petr Prokhorenkov</span>
 <span class="com">*/</span>
@@ -323,16 +323,16 @@ job_t <span class="opt">*</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-gcc (Ubuntu 7.2.0-8ubuntu3) 7.2.0
+gcc (Ubuntu 7.3.0-16ubuntu3) 7.3.0
 
 
-Mon, 26 Mar 2018 19:05:57 GMT
+Tue, 01 May 2018 00:47:23 GMT
 
 MAKE:
-/usr/bin/gcc -pipe -Wall -O3 -fomit-frame-pointer -march=native -fopenmp revcomp.c -o revcomp.gcc_run 
+/usr/bin/gcc -pipe -Wall -O3 -fomit-frame-pointer -march=native -pthread revcomp.c -o revcomp.gcc_run 
 rm revcomp.c
 
-2.87s to complete and log all make actions
+0.38s to complete and log all make actions
 
 COMMAND LINE:
 ./revcomp.gcc_run 0 &lt; revcomp-input100000000.txt

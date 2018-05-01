@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     </div>
     <pre>
 <span class="com">/* The Computer Language Benchmarks Game</span>
-<span class="com"> * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"> * http://benchmarksgame.alioth.debian.org/</span>
 <span class="com"></span>
 <span class="com">   contributed by Mr Ledrug</span>
 <span class="com">   modified by Attila Balazs</span>
@@ -104,20 +104,20 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-gcc (Ubuntu 7.2.0-8ubuntu3) 7.2.0
+gcc (Ubuntu 7.3.0-16ubuntu3) 7.3.0
 
 
-Mon, 26 Mar 2018 22:20:54 GMT
+Tue, 01 May 2018 01:04:06 GMT
 
 MAKE:
-/usr/bin/gcc -pipe -Wall -O3 -fomit-frame-pointer -march=native -fopenmp revcomp.gcc-5.c -o revcomp.gcc-5.gcc_run 
+/usr/bin/gcc -pipe -Wall -O3 -fomit-frame-pointer -march=native  revcomp.gcc-5.c -o revcomp.gcc-5.gcc_run 
 revcomp.gcc-5.c: In function ‘main’:
 revcomp.gcc-5.c:71:4: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result [-Wunused-result]
     write(fileno(stdout), buf, end);
     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 rm revcomp.gcc-5.c
 
-4.27s to complete and log all make actions
+0.15s to complete and log all make actions
 
 COMMAND LINE:
 ./revcomp.gcc-5.gcc_run 0 &lt; revcomp-input100000000.txt

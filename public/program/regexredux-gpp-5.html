@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     </div>
     <pre>
 <span class="com">/* The Computer Language Benchmarks Game</span>
-<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com">   http://benchmarksgame.alioth.debian.org/</span>
 <span class="com"></span>
 <span class="com">   contributed by idzeta</span>
 <span class="com">*/</span>
@@ -116,35 +116,29 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-g++ (Ubuntu 7.2.0-8ubuntu3) 7.2.0
+g++ (Ubuntu 7.3.0-16ubuntu3) 7.3.0
 
 
-Fri, 03 Nov 2017 16:14:56 GMT
+Tue, 01 May 2018 03:34:30 GMT
 
 MAKE:
 /usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native  -std=c++14 -I/usr/include/re2 regexredux.gpp-5.c++ -o regexredux.gpp-5.c++.o &amp;&amp;  \
         /usr/bin/g++ regexredux.gpp-5.c++.o -o regexredux.gpp-5.gpp_run /usr/lib/x86_64-linux-gnu/libre2.a -lpthread 
+regexredux.gpp-5.c++:11:10: fatal error: boost/xpressive/xpressive.hpp: No such file or directory
+ #include &lt;boost/xpressive/xpressive.hpp&gt;
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:66: recipe for target 'regexredux.gpp-5.gpp_run' failed
+make: [regexredux.gpp-5.gpp_run] Error 1 (ignored)
 rm regexredux.gpp-5.c++
 
-16.10s to complete and log all make actions
+0.15s to complete and log all make actions
 
 COMMAND LINE:
-./regexredux.gpp-5.gpp_run 0 &lt; regexredux-input5000000.txt
+./regexredux.gpp-5.gpp_run 0 &lt; regexredux-input50000.txt
 
-PROGRAM OUTPUT:
-agggtaaa|tttaccct 356
-[cgt]gggtaaa|tttaccc[acg] 1250
-a[act]ggtaaa|tttacc[agt]t 4252
-ag[act]gtaaa|tttac[agt]ct 2894
-agg[act]taaa|ttta[agt]cct 5435
-aggg[acg]aaa|ttt[cgt]ccct 1537
-agggt[cgt]aa|tt[acg]accct 1431
-agggta[cgt]a|t[acg]taccct 1608
-agggtaa[cgt]|[acg]ttaccct 2178
+MAKE ERROR 
 
-50833411
-50000000
-27388361
     </pre>
   </section>
 </article>

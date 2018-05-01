@@ -23,12 +23,12 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     </div>
     <pre>
 <span class="com">/* The Computer Language Benchmarks Game</span>
-<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com">   http://benchmarksgame.alioth.debian.org/</span>
 <span class="com"></span>
 <span class="com">contributed by Miroslav Rubanets</span>
 <span class="com">based on Java 6 source code by Oleg Mazurov.</span>
 <span class="com"></span>
-<span class="com">License full text is here: https://salsa.debian.org/benchmarksgame-team/benchmarksgame/license.php</span>
+<span class="com">License full text is here: http://shootout.alioth.debian.org/license.php</span>
 <span class="com"></span>
 <span class="com">Building checked in Ubuntu 10.4 with g++ 4.4 (both x86 and amd64).</span>
 <span class="com">   one needs to install libboost-thread-dev package to get this working </span>
@@ -199,24 +199,29 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-g++ (Ubuntu 7.2.0-8ubuntu3) 7.2.0
+g++ (Ubuntu 7.3.0-16ubuntu3) 7.3.0
 
 
-Mon, 30 Oct 2017 18:59:40 GMT
+Tue, 01 May 2018 05:08:38 GMT
 
 MAKE:
 /usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native  -pthread fannkuchredux.gpp-4.c++ -o fannkuchredux.gpp-4.c++.o &amp;&amp;  \
         /usr/bin/g++ fannkuchredux.gpp-4.c++.o -o fannkuchredux.gpp-4.gpp_run -lpthread -lboost_thread -lboost_system 
+fannkuchredux.gpp-4.c++:21:10: fatal error: boost/thread.hpp: No such file or directory
+ #include &lt;boost/thread.hpp&gt;
+          ^~~~~~~~~~~~~~~~~~
+compilation terminated.
+/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:66: recipe for target 'fannkuchredux.gpp-4.gpp_run' failed
+make: [fannkuchredux.gpp-4.gpp_run] Error 1 (ignored)
 rm fannkuchredux.gpp-4.c++
 
-6.03s to complete and log all make actions
+0.21s to complete and log all make actions
 
 COMMAND LINE:
-./fannkuchredux.gpp-4.gpp_run 12
+./fannkuchredux.gpp-4.gpp_run 10
 
-PROGRAM OUTPUT:
-3968050
-Pfannkuchen(12) = 65
+MAKE ERROR 
+
     </pre>
   </section>
 </article>

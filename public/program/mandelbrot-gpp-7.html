@@ -24,7 +24,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 <span class="com">/*   </span>
 <span class="com">   The Computer Language Benchmarks Game</span>
-<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com">   http://benchmarksgame.alioth.debian.org/</span>
 <span class="com"></span>
 <span class="com">   contributed by Paolo Bonzini</span>
 <span class="com">   further optimized by Jason Garrett-Glaser</span>
@@ -157,13 +157,13 @@ v2d inv_2n<span class="opt">;</span>   <span class="slc">// {2.0/N, 2.0/N}</span
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-g++ (Ubuntu 7.2.0-8ubuntu3) 7.2.0
+g++ (Ubuntu 7.3.0-16ubuntu3) 7.3.0
 
 
-Mon, 30 Oct 2017 21:51:22 GMT
+Tue, 01 May 2018 05:12:02 GMT
 
 MAKE:
-/usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native -mfpmath=sse -msse2 -fopenmp mandelbrot.gpp-7.c++ -o mandelbrot.gpp-7.c++.o &amp;&amp;  \
+/usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native -mfpmath=sse -msse3 -fopenmp mandelbrot.gpp-7.c++ -o mandelbrot.gpp-7.c++.o &amp;&amp;  \
         /usr/bin/g++ mandelbrot.gpp-7.c++.o -o mandelbrot.gpp-7.gpp_run -fopenmp 
 mandelbrot.gpp-7.c++: In function ‘void mandelbrot(int, byte*)’:
 mandelbrot.gpp-7.c++:64:25: warning: narrowing conversion of ‘y’ from ‘int’ to ‘double’ inside { } [-Wnarrowing]
@@ -178,7 +178,7 @@ mandelbrot.gpp-7.c++:69:32: warning: narrowing conversion of ‘x’ from ‘int
                                 ^
 rm mandelbrot.gpp-7.c++
 
-0.48s to complete and log all make actions
+0.65s to complete and log all make actions
 
 COMMAND LINE:
 ./mandelbrot.gpp-7.gpp_run 16000

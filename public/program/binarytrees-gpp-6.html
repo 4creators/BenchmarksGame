@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     </div>
     <pre>
 <span class="com">/* The Computer Language Benchmarks Game</span>
-<span class="com"> * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"> * http://benchmarksgame.alioth.debian.org/</span>
 <span class="com"> *</span>
 <span class="com"> * contributed by Jon Harrop</span>
 <span class="com"> * modified by Alex Mizrahi</span>
@@ -142,33 +142,29 @@ Node <span class="opt">*</span><span class="kwd">make</span><span class="opt">(<
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-g++ (Ubuntu 7.2.0-8ubuntu3) 7.2.0
+g++ (Ubuntu 7.3.0-16ubuntu3) 7.3.0
 
 
-Mon, 30 Oct 2017 20:36:58 GMT
+Tue, 01 May 2018 05:43:45 GMT
 
 MAKE:
 /usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native  -fopenmp binarytrees.gpp-6.c++ -o binarytrees.gpp-6.c++.o &amp;&amp;  \
         /usr/bin/g++ binarytrees.gpp-6.c++.o -o binarytrees.gpp-6.gpp_run -fopenmp 
+binarytrees.gpp-6.c++:16:10: fatal error: boost/pool/object_pool.hpp: No such file or directory
+ #include &lt;boost/pool/object_pool.hpp&gt;
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:66: recipe for target 'binarytrees.gpp-6.gpp_run' failed
+make: [binarytrees.gpp-6.gpp_run] Error 1 (ignored)
 rm binarytrees.gpp-6.c++
 
-1.86s to complete and log all make actions
+0.87s to complete and log all make actions
 
 COMMAND LINE:
-./binarytrees.gpp-6.gpp_run 21
+./binarytrees.gpp-6.gpp_run 7
 
-PROGRAM OUTPUT:
-stretch tree of depth 22	 check: 8388607
-2097152	 trees of depth 4	 check: 65011712
-524288	 trees of depth 6	 check: 66584576
-131072	 trees of depth 8	 check: 66977792
-32768	 trees of depth 10	 check: 67076096
-8192	 trees of depth 12	 check: 67100672
-2048	 trees of depth 14	 check: 67106816
-512	 trees of depth 16	 check: 67108352
-128	 trees of depth 18	 check: 67108736
-32	 trees of depth 20	 check: 67108832
-long lived tree of depth 21	 check: 4194303
+MAKE ERROR 
+
     </pre>
   </section>
 </article>

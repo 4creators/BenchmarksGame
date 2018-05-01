@@ -24,7 +24,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 <span class="slc">--</span>
 <span class="slc">--  The Computer Language Benchmarks Game</span>
-<span class="slc">--  https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">--  http://benchmarksgame.alioth.debian.org/</span>
 <span class="slc">--</span>
 <span class="slc">--  Contributed by Pascal Obry on 2005/03/19</span>
 <span class="slc">--  Modified by Bill Findlay  on 2005/04/04</span>
@@ -557,12 +557,12 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-GNATMAKE 7.2.0
-gcc (Ubuntu 7.2.0-8ubuntu3) 7.2.0
+GNATMAKE 7.3.0
+gcc (Ubuntu 7.3.0-16ubuntu3) 7.3.0
 
 
 
-Mon, 26 Mar 2018 22:23:44 GMT
+Tue, 01 May 2018 00:01:26 GMT
 
 MAKE:
 gnatchop -r -w revcomp.gnat-2.gnat
@@ -580,7 +580,7 @@ gcc-7 -c -O3 -fomit-frame-pointer -march=native -msse3 -mfpmath=sse -gnatNp text
 gnatbind-7 -x revcomp.ali
 gnatlink-7 revcomp.ali -O3 -fomit-frame-pointer -march=native -msse3 -mfpmath=sse -o revcomp.gnat-2.gnat_run
 
-4.54s to complete and log all make actions
+4.69s to complete and log all make actions
 
 COMMAND LINE:
 ./revcomp.gnat-2.gnat_run 0 &lt; revcomp-input100000000.txt

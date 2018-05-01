@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     </div>
     <pre>
 <span class="com">/* The Computer Language Benchmarks Game</span>
-<span class="com"> * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"> * http://benchmarksgame.alioth.debian.org/</span>
 <span class="com"> *</span>
 <span class="com"> * contributed by Marcin Zalewski &amp; Jeremiah Willcock</span>
 <span class="com"> */</span>
@@ -127,25 +127,29 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-g++ (Ubuntu 7.2.0-8ubuntu3) 7.2.0
+g++ (Ubuntu 7.3.0-16ubuntu3) 7.3.0
 
 
-Mon, 30 Oct 2017 18:38:33 GMT
+Tue, 01 May 2018 03:34:16 GMT
 
 MAKE:
-/usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native  --std=c++11 pidigits.gpp-3.c++ -o pidigits.gpp-3.c++.o &amp;&amp;  \
+/usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native  -std=c++14 -g pidigits.gpp-3.c++ -o pidigits.gpp-3.c++.o &amp;&amp;  \
         /usr/bin/g++ pidigits.gpp-3.c++.o -o pidigits.gpp-3.gpp_run -lgmp -lgmpxx 
+pidigits.gpp-3.c++:10:10: fatal error: boost/lexical_cast.hpp: No such file or directory
+ #include &lt;boost/lexical_cast.hpp&gt;
+          ^~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:66: recipe for target 'pidigits.gpp-3.gpp_run' failed
+make: [pidigits.gpp-3.gpp_run] Error 1 (ignored)
 rm pidigits.gpp-3.c++
 
-3.02s to complete and log all make actions
+0.18s to complete and log all make actions
 
 COMMAND LINE:
 ./pidigits.gpp-3.gpp_run 2000
 
-TIMED OUT after 300s
+MAKE ERROR 
 
-
-PROGRAM OUTPUT:
     </pre>
   </section>
 </article>

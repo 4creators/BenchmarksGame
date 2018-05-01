@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding: 0 0 2.9em}article,div,footer
     </div>
     <pre>
 <span class="com">/* The Computer Language Benchmarks Game</span>
-<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com">   http://benchmarksgame.alioth.debian.org/</span>
 <span class="com"></span>
 <span class="com">   contributed by Branimir Maksimovic</span>
 <span class="com">   first permutation algo taken from Miroslav Rubanets program</span>
@@ -166,17 +166,17 @@ Result <span class="kwd">fannkuch</span><span class="opt">(</span><span class="k
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-g++ (Ubuntu 7.2.0-8ubuntu3) 7.2.0
+g++ (Ubuntu 7.3.0-16ubuntu3) 7.3.0
 
 
-Mon, 30 Oct 2017 18:51:37 GMT
+Tue, 01 May 2018 03:16:48 GMT
 
 MAKE:
-/usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native  --std=c++11 -pthread fannkuchredux.c++ -o fannkuchredux.c++.o &amp;&amp;  \
+/usr/bin/g++ -c -pipe -O3 -fomit-frame-pointer -march=native  -std=c++11 -pthread fannkuchredux.c++ -o fannkuchredux.c++.o &amp;&amp;  \
         /usr/bin/g++ fannkuchredux.c++.o -o fannkuchredux.gpp_run -lpthread 
 rm fannkuchredux.c++
 
-1.90s to complete and log all make actions
+1.99s to complete and log all make actions
 
 COMMAND LINE:
 ./fannkuchredux.gpp_run 12

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="index,follow,archive">
-<meta name="description" content="How programs are measured for the Computer Language Benchmarks Game.">
-<title>details | Computer Language Benchmarks Game</title>
+<meta name="description" content="How programs are measured: elapsed secs, memory use, source code size, CPU load, CPU secs.">
+<title>How programs are measured | Computer Language Benchmarks Game</title>
 <link rel="shortcut icon" href="./favicon.ico">
 <style><!-- 
-a{color:black;text-decoration:none}article,footer,header{margin:auto;max-width:31em;width:92%}body{font:100% Droid Sans,Ubuntu,Verdana,sans-serif;margin:0;-webkit-text-size-adjust:100%}code,h1,h2,h3{font-family:Ubuntu Mono,Consolas,Menlo,monospace}footer{padding:2.6em 0 0}h1{font-size:1.4em;font-weight:bold;margin:0;padding:.4em}h1,h1 a{color:white;background-color:#dd4814}h1 small{font-size:0.64em}h2,h3{margin:1.5em 0 0}h2{font-size:1.4em;font-weight:normal}h3{font-size:1.2em}p{color:#333;line-height:1.4;margin:.3em 0 0}p a{border-bottom:.1em solid #333;padding-bottom:.1em}code{font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width:60em){article,footer,header{font-size:1.25em}}
+a{color:black;text-decoration:none}article,footer,header{margin:auto;max-width:31em;width:92%}body{font:100% Droid Sans,Ubuntu,Verdana,sans-serif;margin:0;-webkit-text-size-adjust:100%}code,h3,h2{font-family:Ubuntu Mono,Consolas,Menlo,monospace}footer{padding:2.6em 0 0}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h2{margin:1.5em 0 0}h2{font-size:1.2em}p{color:#333;line-height:1.4;margin: .3em 0 0}p a{border-bottom: .1em solid #333;padding-bottom: .1em}code{font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
 --></style>
 <header>
-  <h1><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h1>
+  <h3><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h3>
 </header>
 <article>
   <h2></h2>
@@ -16,11 +16,11 @@ a{color:black;text-decoration:none}article,footer,header{margin:auto;max-width:3
     <p>Measured on a quad-core 2.4Ghz Intel<sup>&#174;</sup> Q6600<sup>&#174;</sup> with 4GB of RAM and 250GB SATA II disk drive; using Ubuntu&#8482; 18.04 Linux x64 4.15.0-20-generic.
   </aside>
   <section>
-    <h3 id="play">Who wrote the programs</h3>
+    <h2 id="play">Who wrote the programs</h2>
     <p>The programs have been crowd sourced, contributed to the project by an ever-changing self-selected group. <a href="https://salsa.debian.org/benchmarksgame-team/benchmarksgame/">You can play too</a>.
   </section>
   <section>
-    <h3 id="measured">How programs are measured</h3>
+    <h2 id="measured">How programs are measured</h2>
     <ol>
       <li><p>Each program is run and measured at the smallest input value, program output redirected to a file and compared to expected output. As long as the output matches expected output, the program is then run and measured at the next larger input value until measurements have been made at every input value.
       <li><p>If the program gives the expected output within an arbitrary cutoff time (120 seconds) the program is measured again (5 more times) with output redirected to <code>/dev/null</code>.
@@ -34,7 +34,7 @@ a{color:black;text-decoration:none}article,footer,header{margin:auto;max-width:3
     </ol>
   </section>
   <section>
-    <h3 id="time">How programs are timed</h3>
+    <h2 id="time">How programs are timed</h2>
     <p>Each program is run as a child-process of <a href="./download/benchmarksgame-script.zip">a Python script</a> using <a href="http://docs.python.org/library/subprocess.html#popen-objects"><code>Popen</code></a>:
     <ul>
       <li><p>secs - The time is taken before forking the child-process and after the child-process exits, using <a href="http://docs.python.org/library/time.html?highlight=time.time#time.time"><code>time.time()</code></a>
@@ -48,18 +48,18 @@ a{color:black;text-decoration:none}article,footer,header{margin:auto;max-width:3
     <p>(Note: <a href="./sometimes-people-just-make-up-stuff.html#jvm-startup-time">Those measurements include startup time</a>).
   </section>
   <section>
-    <h3 id="memory">How program memory use is measured</h3>
+    <h2 id="memory">How program memory use is measured</h2>
     <p>By sampling <code>GLIBTOP_PROC_MEM_RESIDENT</code> for the program and it's child processes every 0.2 seconds. Obviously those measurements are unlikely to be reliable for programs that run for less than 0.2 seconds.
     <p>On win32: <code>QueryInformationJobObject(hJob,JobObjectExtendedLimitInformation)</code> <a href="http://msdn.microsoft.com/en-us/library/ms684156(VS.85).aspx"><code>PeakJobMemoryUsed</code></a>
   </section>
   <section>
-    <h3 id="source-code">How source code size is measured</h3>
+    <h2 id="source-code">How source code size is measured</h2>
     <p>We start with the source-code markup you can see, remove comments, remove duplicate whitespace characters, and then apply minimum GZip compression. The measurement is the size in bytes of that GZip compressed source-code file.
     <p>Thanks to Brian Hurt for the idea of using <b>size of compressed source code</b> instead of lines of code.
     <p>(Note: There is some evidence that <a href="http://my.safaribooksonline.com/book/software-engineering-and-development/9780596808310/general-principles-of-searching-for-and-using-evidence/herraiz_hassan_metrics">complexity metrics don't provide any more information than SLoC or LoC</a>.)
   </section>
   <section>
-    <h3 id="cpu-load">How CPU load is measured</h3>
+    <h2 id="cpu-load">How CPU load is measured</h2>
     <p>The GTop cpu idle and GTop cpu total are taken before forking the child-process and after the child-process exits. The percentages represent the proportion of cpu not-idle to cpu total for each core.
     <p>On win32: <code>GetSystemTimes</code> <a href="http://msdn.microsoft.com/en-us/library/ms724400(VS.85).aspx"><code>UserTime</code> <code>IdleTime</code></a> are taken before forking the child-process and after the child-process exits. The percentage represents the proportion of <code>TotalUserTime</code> to <code>UserTime + IdleTime</code> (because that's like the percentage you'll see in Task Manager).
   </section>

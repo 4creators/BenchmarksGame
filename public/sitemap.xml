@@ -1,24 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
    <url>
-      <loc>https://benchmarksgame-team.pages.debian.net/benchmarksgame/</loc>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/ada.html</loc>
    </url>
    <url>
-      <loc>https://benchmarksgame-team.pages.debian.net/benchmarksgame/which-programs-are-fastest.html</loc>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/c.html</loc>
    </url>
    <url>
-      <loc>https://benchmarksgame-team.pages.debian.net/benchmarksgame/dont-jump-to-conclusions.html</loc>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/cpp.html</loc>
    </url>
-   <url>
-      <loc>https://benchmarksgame-team.pages.debian.net/benchmarksgame/why-measure-toy-benchmark-programs.html</loc>
+    <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/chapel.html</loc>
    </url>
-   <url>
-      <loc>https://benchmarksgame-team.pages.debian.net/benchmarksgame/how-programs-are-measured.html</loc>
+    <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/csharp.html</loc>
    </url>
-   <url>
-      <loc>https://benchmarksgame-team.pages.debian.net/benchmarksgame/play.html</loc>
+    <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/dart.html</loc>
    </url>
-   <url>
-      <loc>https://benchmarksgame-team.pages.debian.net/benchmarksgame/for-programming-language-researchers.html</loc>
+    <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/erlang.html</loc>
    </url>
-</urlset>
+    <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/fortran.html</loc>
+   </url>
+    <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/fsharp.html</loc>
+   </url>
+    <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/go.html</loc>
+   </url>
+    <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/hack.html</loc>
+   </url>
+    <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/haskell.html</loc>
+   </url>
+    <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/java.html</loc>
+   </url>
+    <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/javascript.html</loc>
+   </url>
+    <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/lisp.html</loc>
+   </url>
+    <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/lua.html</loc>
+   </url>
+     <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/ocaml.html</loc>
+   </url>
+     <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/pascal.html</loc>
+   </url>
+     <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/perl.html</loc>
+   </url>
+     <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/php.html</loc>
+   </url>
+     <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/python.html</loc>
+   </url>
+     <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/racket.html</loc>
+   </url>
+     <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/ruby.html</loc>
+   </url>
+      <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/rust.html</loc>
+   </url>
+      <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/smalltalk.html</loc>
+   </url>
+      <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/swift.html</loc>
+   </url>
+      <url>
+      <loc>https://benchmarksgame-team.pages.debian.net/faster/typescript.html</loc>
+   </url>
+ </urlset>

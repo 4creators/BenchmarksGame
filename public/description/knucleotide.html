@@ -29,17 +29,17 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,header{
     <p><a href="../performance/knucleotide.html">program measurements</a>
   </aside>
   <section>
-    <h3>Variance</h3>
+    <h2>Variance</h2>
     <p>Some language implementations have hash tables built-in; some provide a hash table as part of a collections library; some use a third-party hash table library. (For example, use either <a href="http://attractivechaos.github.io/klib/">khash</a> or <a href="http://concurrencykit.org/doc/ck_ht_init.html">CK_HT</a> for C language k-nucleotide programs.) The hash table algorithm implemented is likely to be different in different libraries.
     <p>Please don't implement your own custom "hash table" - it will not be accepted. 
   </section>
   <section>
-    <h3>The work</h3>
+    <h2>The work</h2>
     <p>The work is to use the built-in or library hash table implementation to accumulate count values - lookup the count for a key and update the count in the hash table. Don't optimize away the work. 
     <p>Mapping the DNA letters to the bytes 0, 1, 2, 3, and using a hash function that concatenates those two-byte codes is an acceptable (but not a required) optimization.
   </section>
   <section>
-    <h3>How to implement</h3>
+    <h2>How to implement</h2>
     <p>We ask that contributed programs not only give the correct result, but also <b>use the same algorithm</b> to calculate that result.
     <p>Each program should:
       <ul>

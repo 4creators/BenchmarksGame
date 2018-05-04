@@ -23,11 +23,11 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,header{
     <p><a href="../performance/fannkuchredux.html">program measurements</a>
   </aside>
   <section>
-    <h3>Background</h3>
+    <h2>Background</h2>
     <p>The fannkuch benchmark is defined by programs in <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.35.5124">Performing Lisp Analysis of the FANNKUCH Benchmark</a>, Kenneth R. Anderson and Duane Rettig. FANNKUCH is an abbreviation for the German word Pfannkuchen, or pancakes, in analogy to flipping pancakes. The conjecture is that the maximum count is approximated by n*log(n) when n goes to infinity.
   </section>
   <section>
-    <h3>How to implement</h3>
+    <h2>How to implement</h2>
     <p>We ask that contributed programs not only give the correct result, but also <b>use the same algorithm</b> to calculate that result.
     <p>Each program should:
     <ul>
@@ -46,7 +46,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,header{
     <p>Use a larger command line argument (12) to check program performance.
   </section>
   <section>
-    <h3>Example</h3>
+    <h2>Example</h2>
     <p>Thanks to Oleg Mazurov for insisting on a checksum and providing this helpful description of <a href="../program/fannkuchredux-java-1.html">the approach he took</a> -
     <ul>
       <li><p> common idea for parallel implementation is to divide all work (n! permutations) into chunks small enough to avoid load imbalance but large enough to keep overhead low. I set the number of chunks as a parameter (NCHUNKS = 150) from which I derive the size of a chunk (CHUNKSZ) and the actual number of chunks/tasks to be processed (NTASKS), which may be different from NCHUNKS because of rounding.

@@ -31,23 +31,23 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,header{
     <p><a href="../performance/binarytrees.html">program measurements</a>
   </aside>
   <section>
-    <h3>Background</h3>
+    <h2>Background</h2>
     <p>A simplistic adaptation of <a href="http://hboehm.info/gc/gc_bench/">Hans Boehm's GCBench</a>, which in turn was adapted from a benchmark by John Ellis and Pete Kovac.
     <p>Thanks to Christophe Troestler and Einar Karttunen for help with this benchmark.
   </section>
   <section>
-    <h3>Variance</h3>
+    <h2>Variance</h2>
     <p>Use default GC, use per node allocation or use a library memory pool.
     <p>As a practical matter, the myriad ways to tune GC will not be accepted.
     <p>As a practical matter, the myriad ways to custom allocate memory will not be accepted.
     <p>Please don't implement your own custom <a href="http://www.stroustrup.com/bs_faq2.html#placement-delete">"arena"</a> or "memory pool" or "free list" - they will not be accepted.
   </section>
   <section>
-    <h3>The work</h3>
+    <h2>The work</h2>
     <p>The work is to fully create perfect binary trees - before any tree nodes are GC'd - using at-minimum the number of allocations of <a href="../program/binarytrees-gcc-3.html">Jeremy Zerfas's C program</a>. Don't optimize away the work.
   </section>
   <section>
-    <h3>How to implement</h3>
+    <h2>How to implement</h2>
     <p>We ask that contributed programs not only give the correct result, but also <b>use the same algorithm</b> to calculate that result.
     <p>Each program should:
     <ul>

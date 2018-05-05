@@ -34,7 +34,7 @@ seq<span class="opt">=</span><span class="str">&quot;&quot;</span>
 <span class="kwa">def</span> <span class="kwd">revcomp</span><span class="opt">(</span>seq<span class="opt">)</span>
   seq<span class="opt">.</span>reverse<span class="opt">!.</span>tr<span class="opt">!(</span><span class="str">&apos;wsatugcyrkmbdhvnATUGCYRKMBDHVN&apos;</span><span class="opt">,</span><span class="str">&apos;WSTAACGRYMKVHDBNTAACGRYMKVHDBN&apos;</span><span class="opt">)</span>
   stringlen<span class="opt">=</span>seq<span class="opt">.</span>length-1
-  <span class="num">0</span><span class="opt">.</span><span class="kwd">step</span><span class="opt">(</span>stringlen<span class="opt">,</span><span class="num">60</span><span class="opt">)</span> {|x| print seq[x,60] , &quot;\n&quot;}
+  <span class="num">0</span><span class="opt">.</span><span class="kwd">step</span><span class="opt">(</span>stringlen<span class="opt">,</span><span class="num">60</span><span class="opt">) {|</span>x<span class="opt">|</span> print seq<span class="opt">[</span>x<span class="opt">,</span><span class="num">60</span><span class="opt">] ,</span> <span class="str">&quot;</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">}</span>
 <span class="kwa">end</span>
 
 <span class="kwc">STDIN</span><span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span>line<span class="opt">|</span>
@@ -60,13 +60,10 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Sat, 21 Apr 2018 17:50:33 GMT
+Sat, 05 May 2018 00:14:07 GMT
 
 COMMAND LINE:
-/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 revcomp.truffle-2.truffle 0 &lt; revcomp-input100000000.txt
-
-PROGRAM FAILED 
-
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby -J-Xmn512m -J-Xms3072m -J-Xmx3072m --jvm -W0 revcomp.truffle-2.truffle 0 &lt; revcomp-input100000000.txt
 
 (TRUNCATED) PROGRAM OUTPUT:
 &gt;ONE Homo sapiens alu
@@ -237,15 +234,7 @@ GCGCCCGGCCTTTTTGAGACGGAGTCTCGCTCTGTCGCCCAGGCTGGAGTGCAGTGGCGC
 GATCTCGGCTCACTGCAACCTCCGCCTCCCGGGTTCAAGCGATTCTCCTGCCTCAGCCTC
 CCGAGTAGCTGGGATTACAGGCGCGCGCCACCACGCCCGGCTAATTTTTGTATTTTTAGT
 AGAGACGGGGTTTCACCATGTTGGCCAGGCTGGTCTCGAACTCCTGACCTCAGGTGATCC
-GCCCGCCTCGGCCTCCCAAAGTGCTGGGATT
-[ruby] WARNING OutOfMemoryError
-revcomp.truffle-2.truffle:25:in `&lt;&lt;': failed to allocate memory (NoMemoryError)
-	from revcomp.truffle-2.truffle:25:in `block in &lt;main&gt;'
-	from revcomp.truffle-2.truffle:16:in `read_to_separator'
-	from revcomp.truffle-2.truffle:16:in `each'
-	from revcomp.truffle-2.truffle:16:in `each'
-	from revcomp.truffle-2.truffle:16:in `&lt;main&gt;'
-    </pre>
+GCCCGCCTCGGCCTCCCAAAGTGCTGGGATT    </pre>
   </section>
 </article>
 <footer>

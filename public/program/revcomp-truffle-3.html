@@ -37,7 +37,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <span class="str">&apos;WSTAACGRYMKVHDBNTAACGRYMKVHDBN&apos;</span>
   <span class="opt">)</span>
 
-  results <span class="opt">= [</span><span class="str">&quot;&gt;</span><span class="ipl">#{header}</span><span class="str">&quot;</span><span class="opt">]</span>
+  results <span class="opt">= [</span><span class="str">&quot;&gt;#{header}&quot;</span><span class="opt">]</span>
 
   idx <span class="opt">=</span> <span class="num">0</span>
   length <span class="opt">=</span> sequence<span class="opt">.</span>length
@@ -100,24 +100,73 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Mon, 23 Apr 2018 18:51:41 GMT
+Sat, 05 May 2018 00:25:18 GMT
 
 COMMAND LINE:
-/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 revcomp.truffle-3.truffle 0 &lt; revcomp-input100000000.txt
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby -J-Xmn512m -J-Xms3072m -J-Xmx3072m --jvm -W0 revcomp.truffle-3.truffle 0 &lt; revcomp-input100000000.txt
 
 PROGRAM FAILED 
 
 
 PROGRAM OUTPUT:
+Dumping debug output in /home/dunham/benchmarksgame_quadcore/revcomp/tmp/dumps/1525480845139
+[truffle] opt fail         #read (block in attach_function_eagerly) resource:/truffleruby/core/posix.rb:110|Reason org.graalvm.compiler.graph.GraalGraphError: org.graalvm.compiler.debug.GraalError: should not reach here: node is not LIRLowerable: 36|NewFrame
+	at node: 36|NewFrame 
+Thread[TruffleCompilerThread-15,10,main]: Compilation of Array#each (builtin) &lt;split-53fce885&gt; failed: java.lang.OutOfMemoryError: GC overhead limit exceeded
+To disable compilation failure notifications, set CompilationFailureAction to Silent (e.g., -Dgraal.CompilationFailureAction=Silent).
+To print a message for a compilation failure without retrying the compilation, set CompilationFailureAction to Print (e.g., -Dgraal.CompilationFailureAction=Print).
+Retrying compilation of Array#each (builtin) &lt;split-53fce885&gt;
+
+java.lang.OutOfMemoryError: GC overhead limit exceeded
+
+Thread[TruffleCompilerThread-16,10,main]: Compilation of #read (block in attach_function_eagerly) resource:/truffleruby/core/posix.rb:110 failed: org.graalvm.compiler.graph.GraalGraphError: org.graalvm.compiler.debug.GraalError: should not reach here: node is not LIRLowerable: 36|NewFrame
+	at node: 36|NewFrame
+	at org.graalvm.compiler.graph.GraalGraphError.transformAndAddContext(GraalGraphError.java:134)
+	at org.graalvm.compiler.core.gen.NodeLIRBuilder.doBlock(NodeLIRBuilder.java:371)
+	at org.graalvm.compiler.core.LIRGenerationPhase.emitBlock(LIRGenerationPhase.java:79)
+	at org.graalvm.compiler.core.LIRGenerationPhase.run(LIRGenerationPhase.java:69)
+	at org.graalvm.compiler.core.LIRGenerationPhase.run(LIRGenerationPhase.java:44)
+	at org.graalvm.compiler.lir.phases.LIRPhase.apply(LIRPhase.java:115)
+	at org.graalvm.compiler.lir.phases.LIRPhase.apply(LIRPhase.java:107)
+	at org.graalvm.compiler.core.GraalCompiler.emitLIR0(GraalCompiler.java:331)
+	at org.graalvm.compiler.core.GraalCompiler.emitLIR(GraalCompiler.java:295)
+	at org.graalvm.compiler.core.GraalCompiler.emitBackEnd(GraalCompiler.java:275)
+	at org.graalvm.compiler.core.GraalCompiler.compile(GraalCompiler.java:175)
+	at org.graalvm.compiler.core.GraalCompiler.compileGraph(GraalCompiler.java:160)
+	at org.graalvm.compiler.truffle.compiler.TruffleCompilerImpl.compilePEGraph(TruffleCompilerImpl.java:445)
+	at org.graalvm.compiler.truffle.compiler.TruffleCompilerImpl.compileAST(TruffleCompilerImpl.java:391)
+	at org.graalvm.compiler.truffle.compiler.TruffleCompilerImpl$TruffleCompilationWrapper.performCompilation(TruffleCompilerImpl.java:544)
+	at org.graalvm.compiler.truffle.compiler.TruffleCompilerImpl$TruffleCompilationWrapper.performCompilation(TruffleCompilerImpl.java:493)
+	at org.graalvm.compiler.core.CompilationWrapper.run(CompilationWrapper.java:167)
+	at org.graalvm.compiler.truffle.compiler.TruffleCompilerImpl.doCompile(TruffleCompilerImpl.java:222)
+	at org.graalvm.compiler.truffle.runtime.GraalTruffleRuntime.doCompile(GraalTruffleRuntime.java:679)
+	at org.graalvm.compiler.truffle.runtime.GraalTruffleRuntime$1.run(GraalTruffleRuntime.java:745)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+	at org.graalvm.compiler.core.CompilerThread.run(CompilerThread.java:40)
+Caused by: org.graalvm.compiler.debug.GraalError: should not reach here: node is not LIRLowerable: 36|NewFrame
+	at org.graalvm.compiler.debug.GraalError.shouldNotReachHere(GraalError.java:49)
+	at org.graalvm.compiler.core.gen.NodeLIRBuilder.emitNode(NodeLIRBuilder.java:464)
+	at org.graalvm.compiler.core.gen.NodeLIRBuilder.doRoot(NodeLIRBuilder.java:452)
+	at org.graalvm.compiler.core.gen.NodeLIRBuilder.doBlock(NodeLIRBuilder.java:369)
+	... 24 more
+To disable compilation failure notifications, set CompilationFailureAction to Silent (e.g., -Dgraal.CompilationFailureAction=Silent).
+To print a message for a compilation failure without retrying the compilation, set CompilationFailureAction to Print (e.g., -Dgraal.CompilationFailureAction=Print).
+Retrying compilation of #read (block in attach_function_eagerly) resource:/truffleruby/core/posix.rb:110
+
+Graal diagnostic output saved in /home/dunham/benchmarksgame_quadcore/revcomp/tmp/dumps/1525480845139/graal_diagnostics_15245.zip
 
 [ruby] WARNING OutOfMemoryError
 [ruby] WARNING OutOfMemoryError
 [ruby] WARNING OutOfMemoryError
-revcomp.truffle-3.truffle:53:in `&lt;&lt;': failed to allocate memory (NoMemoryError)
-	from revcomp.truffle-3.truffle:53:in `read_to_separator'
-	from revcomp.truffle-3.truffle:53:in `each'
-	from revcomp.truffle-3.truffle:53:in `each_line'
-	from revcomp.truffle-3.truffle:53:in `&lt;main&gt;'
+[ruby] WARNING OutOfMemoryError
+revcomp.truffle-3.truffle:25:in `detect_recursion': failed to allocate memory (NoMemoryError)
+	from revcomp.truffle-3.truffle:25:in `join'
+	from revcomp.truffle-3.truffle:25:in `process_segment'
+	from revcomp.truffle-3.truffle:58:in `block (2 levels) in &lt;main&gt;'
     </pre>
   </section>
 </article>

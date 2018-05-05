@@ -41,7 +41,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <span class="str">&apos;WSTAACGRYMKVHDBNTAACGRYMKVHDBN&apos;</span>
   <span class="opt">)</span>
 
-  results <span class="opt">= [</span><span class="str">&quot;&gt;</span><span class="ipl">#{header}</span><span class="str">&quot;</span><span class="opt">]</span>
+  results <span class="opt">= [</span><span class="str">&quot;&gt;#{header}&quot;</span><span class="opt">]</span>
 
   idx <span class="opt">=</span> <span class="num">0</span>
   length <span class="opt">=</span> sequence<span class="opt">.</span>length
@@ -103,51 +103,19 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Mon, 23 Apr 2018 22:41:13 GMT
+Sat, 05 May 2018 00:22:39 GMT
 
 COMMAND LINE:
-/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 revcomp.truffle 0 &lt; revcomp-input100000000.txt
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby -J-Xmn512m -J-Xms3072m -J-Xmx3072m --jvm -W0 revcomp.truffle 0 &lt; revcomp-input100000000.txt
 
 PROGRAM FAILED 
 
 
 PROGRAM OUTPUT:
-java.lang.NoClassDefFoundError: Could not initialize class org.graalvm.compiler.options.OptionKey$Lazy
-	at org.graalvm.compiler.options.OptionKey.getName(OptionKey.java:108)
-	at org.graalvm.compiler.options.OptionKey.toString(OptionKey.java:115)
-	at java.util.Formatter$FormatSpecifier.printString(Formatter.java:2886)
-	at java.util.Formatter$FormatSpecifier.print(Formatter.java:2763)
-	at java.util.Formatter.format(Formatter.java:2520)
-	at java.util.Formatter.format(Formatter.java:2455)
-	at java.lang.String.format(String.java:2940)
-	at org.graalvm.compiler.debug.LogStream.printf(LogStream.java:462)
-	at org.graalvm.compiler.debug.TTY.printf(TTY.java:254)
-	at org.graalvm.compiler.core.CompilationWrapper.adjustAction(CompilationWrapper.java:307)
-	at org.graalvm.compiler.core.CompilationWrapper.run(CompilationWrapper.java:182)
-	at org.graalvm.compiler.hotspot.CompilationTask.runCompilation(CompilationTask.java:328)
-	at org.graalvm.compiler.hotspot.HotSpotGraalCompiler.compileMethod(HotSpotGraalCompiler.java:142)
-	at org.graalvm.compiler.hotspot.HotSpotGraalCompiler.compileMethod(HotSpotGraalCompiler.java:108)
-	at jdk.vm.ci.hotspot.HotSpotJVMCIRuntime.compileMethod(HotSpotJVMCIRuntime.java:442)
-java.lang.OutOfMemoryError: GC overhead limit exceeded
-	&lt;&lt;no stack trace available&gt;&gt;
-[truffle] opt fail         block in shift resource:/truffleruby/core/io.rb:284 &lt;split-3ac99f99&gt;|Reason java.lang.OutOfMemoryError: GC overhead limit exceeded 
-[truffle] opt fail         String#from_bytearray (builtin) &lt;split-3149344f&gt;            |Reason org.graalvm.compiler.java.BytecodeParser$BytecodeParserError: java.lang.OutOfMemoryError: GC overhead limit exceeded
-[truffle] opt fail         #size resource:/truffleruby/core/io.rb:125 &lt;split-1a7db02b&gt; |Reason java.lang.OutOfMemoryError: GC overhead limit exceeded 
-java.lang.OutOfMemoryError: GC overhead limit exceeded
-
-Dumping debug output in /home/dunham/benchmarksgame_quadcore/revcomp/tmp/dumps/1524523599575
-java.lang.NoClassDefFoundError: Could not initialize class org.graalvm.compiler.options.OptionKey$Lazy
-	at org.graalvm.compiler.options.OptionKey.getName(OptionKey.java:108)
-	at org.graalvm.compiler.core.CompilationWrapper.run(CompilationWrapper.java:239)
-	at org.graalvm.compiler.hotspot.CompilationTask.runCompilation(CompilationTask.java:328)
-	at org.graalvm.compiler.hotspot.HotSpotGraalCompiler.compileMethod(HotSpotGraalCompiler.java:142)
-	at org.graalvm.compiler.hotspot.HotSpotGraalCompiler.compileMethod(HotSpotGraalCompiler.java:108)
-	at jdk.vm.ci.hotspot.HotSpotJVMCIRuntime.compileMethod(HotSpotJVMCIRuntime.java:442)
-Graal diagnostic output saved in /home/dunham/benchmarksgame_quadcore/revcomp/tmp/dumps/1524523599575/graal_diagnostics_25965.zip
 
 [ruby] WARNING OutOfMemoryError
-[ruby] WARNING OutOfMemoryError
-revcomp.truffle:57:in `read_to_separator': failed to allocate memory (NoMemoryError)
+revcomp.truffle:57:in `&lt;&lt;': failed to allocate memory (NoMemoryError)
+	from revcomp.truffle:57:in `read_to_separator'
 	from revcomp.truffle:57:in `each'
 	from revcomp.truffle:57:in `each_line'
 	from revcomp.truffle:57:in `&lt;main&gt;'

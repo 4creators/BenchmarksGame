@@ -32,14 +32,14 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 
 <span class="kwa">def</span> <span class="kwd">count_pattern_matches</span><span class="opt">(</span>seq<span class="opt">,</span> matchers<span class="opt">)</span>
   threads <span class="opt">= []</span>
-  results <span class="opt">=</span> {}
+  results <span class="opt">= {}</span>
   matchers<span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span>matcher<span class="opt">|</span>
     threads <span class="opt">&lt;&lt;</span> Thread<span class="opt">.</span>new <span class="kwa">do</span>
       read<span class="opt">,</span> write <span class="opt">=</span> IO<span class="opt">.</span>pipe
       Process<span class="opt">.</span>fork <span class="kwa">do</span>
         read<span class="opt">.</span>close
         count <span class="opt">=</span> <span class="num">0</span>
-        seq<span class="opt">.</span><span class="kwd">scan</span><span class="opt">(</span> Regexp<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span>matcher<span class="opt">) )</span> { count += 1 }
+        seq<span class="opt">.</span><span class="kwd">scan</span><span class="opt">(</span> Regexp<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span>matcher<span class="opt">) ) {</span> count <span class="opt">+=</span> <span class="num">1</span> <span class="opt">}</span>
         write<span class="opt">.</span><span class="kwd">print</span><span class="opt">(</span>count<span class="opt">)</span>
       <span class="kwa">end</span>
       Process<span class="opt">.</span>wait
@@ -47,7 +47,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       results<span class="opt">[</span>matcher<span class="opt">] =</span> read<span class="opt">.</span>read<span class="opt">.</span>to_i
     <span class="kwa">end</span>
   <span class="kwa">end</span>
-  threads<span class="opt">.</span>each { |t| t.join }
+  threads<span class="opt">.</span>each <span class="opt">{ |</span>t<span class="opt">|</span> t<span class="opt">.</span>join <span class="opt">}</span>
   results
 <span class="kwa">end</span>
 
@@ -82,9 +82,9 @@ replacements <span class="opt">= {</span>
 seq<span class="opt">.</span>gsub<span class="opt">!(</span><span class="kwc">/[BDHKMNRSVWY]/</span><span class="opt">,</span> replacements<span class="opt">)</span>
 
 matchers<span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span>matcher<span class="opt">|</span>
-  print <span class="str">&quot;</span><span class="ipl">#{matcher}</span> <span class="str"></span><span class="ipl">#{match_counts[matcher]}</span><span class="str"></span><span class="esc">\n</span><span class="str">&quot;</span>
+  print <span class="str">&quot;#{matcher} #{match_counts[matcher]}</span><span class="esc">\n</span><span class="str">&quot;</span>
 <span class="kwa">end</span>
-print <span class="str">&quot;</span><span class="esc">\n</span><span class="str"></span><span class="ipl">#{origin_len}</span><span class="str"></span><span class="esc">\n</span><span class="str"></span><span class="ipl">#{clean_len}</span><span class="str"></span><span class="esc">\n</span><span class="str"></span><span class="ipl">#{seq.size}</span><span class="str"></span><span class="esc">\n</span><span class="str">&quot;</span>
+print <span class="str">&quot;</span><span class="esc">\n</span><span class="str">#{origin_len}</span><span class="esc">\n</span><span class="str">#{clean_len}</span><span class="esc">\n</span><span class="str">#{seq.size}</span><span class="esc">\n</span><span class="str">&quot;</span>
     </pre>
   </section>
   <section>
@@ -95,10 +95,10 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Sat, 21 Apr 2018 17:47:06 GMT
+Sat, 05 May 2018 01:55:55 GMT
 
 COMMAND LINE:
-/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 regexredux.truffle-8.truffle 0 &lt; regexredux-input50000.txt
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby -J-Xmn512m -J-Xms2048m -J-Xmx2048m --jvm -W0 regexredux.truffle-8.truffle 0 &lt; regexredux-input50000.txt
 
 PROGRAM FAILED 
 

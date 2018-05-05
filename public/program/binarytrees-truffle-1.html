@@ -49,7 +49,7 @@ max_depth <span class="opt">=</span> min_depth <span class="opt">+</span> <span 
 stretch_depth <span class="opt">=</span> max_depth <span class="opt">+</span> <span class="num">1</span>
 stretch_tree <span class="opt">=</span> <span class="kwd">bottom_up_tree</span><span class="opt">(</span>stretch_depth<span class="opt">)</span>
 
-puts <span class="str">&quot;stretch tree of depth</span> <span class="ipl">#{stretch_depth}</span><span class="str"></span><span class="esc">\t</span> <span class="str">check:</span> <span class="ipl">#{item_check(*stretch_tree)}</span><span class="str">&quot;</span>
+puts <span class="str">&quot;stretch tree of depth #{stretch_depth}</span><span class="esc">\t</span> <span class="str">check: #{item_check(*stretch_tree)}&quot;</span>
 stretch_tree <span class="opt">=</span> <span class="kwa">nil</span>
 
 long_lived_tree <span class="opt">=</span> <span class="kwd">bottom_up_tree</span><span class="opt">(</span>max_depth<span class="opt">)</span>
@@ -64,10 +64,10 @@ min_depth<span class="opt">.</span><span class="kwd">step</span><span class="opt
     check <span class="opt">+=</span> <span class="kwd">item_check</span><span class="opt">(*</span>temp_tree<span class="opt">)</span>
   <span class="kwa">end</span>
 
-  puts <span class="str">&quot;</span><span class="ipl">#{iterations}</span><span class="str"></span><span class="esc">\t</span> <span class="str">trees of depth</span> <span class="ipl">#{depth}</span><span class="str"></span><span class="esc">\t</span> <span class="str">check:</span> <span class="ipl">#{check}</span><span class="str">&quot;</span>
+  puts <span class="str">&quot;#{iterations}</span><span class="esc">\t</span> <span class="str">trees of depth #{depth}</span><span class="esc">\t</span> <span class="str">check: #{check}&quot;</span>
 <span class="kwa">end</span>
 
-puts <span class="str">&quot;long lived tree of depth</span> <span class="ipl">#{max_depth}</span><span class="str"></span><span class="esc">\t</span> <span class="str">check:</span> <span class="ipl">#{item_check(*long_lived_tree)}</span><span class="str">&quot;</span>
+puts <span class="str">&quot;long lived tree of depth #{max_depth}</span><span class="esc">\t</span> <span class="str">check: #{item_check(*long_lived_tree)}&quot;</span>
 
     </pre>
   </section>
@@ -79,10 +79,10 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Mon, 23 Apr 2018 22:22:16 GMT
+Sat, 05 May 2018 01:11:10 GMT
 
 COMMAND LINE:
-/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 binarytrees.truffle 21
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby -J-Xmn512m -J-Xms2048m -J-Xmx2048m --jvm -W0 binarytrees.truffle 21
 
 PROGRAM OUTPUT:
 stretch tree of depth 22	 check: 8388607

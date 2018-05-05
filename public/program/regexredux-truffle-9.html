@@ -45,12 +45,12 @@ clen <span class="opt">=</span> seq<span class="opt">.</span>length
   <span class="kwc">/agggt[cgt]aa|tt[acg]accct/</span>i<span class="opt">,</span>
   <span class="kwc">/agggta[cgt]a|t[acg]taccct/</span>i<span class="opt">,</span>
   <span class="kwc">/agggtaa[cgt]|[acg]ttaccct/</span>i
-<span class="opt">].</span>each {|f| puts &quot;#{f.source} <span class="slc">#{seq.scan(f).size}&quot; }</span>
+<span class="opt">].</span>each <span class="opt">{|</span>f<span class="opt">|</span> puts <span class="str">&quot;#{f.source} #{seq.scan(f).size}&quot;</span> <span class="opt">}</span>
 
 <span class="opt">{</span>
 <span class="kwc">/tHa[Nt]/</span> <span class="opt">=&gt;</span> <span class="str">&apos;&lt;4&gt;&apos;</span><span class="opt">,</span> <span class="kwc">/aND|caN|Ha[DS]|WaS/</span> <span class="opt">=&gt;</span> <span class="str">&apos;&lt;3&gt;&apos;</span><span class="opt">,</span> <span class="kwc">/a[NSt]|BY/</span> <span class="opt">=&gt;</span> <span class="str">&apos;&lt;2&gt;&apos;</span><span class="opt">,</span> 
 <span class="kwc">/&lt;[^&gt;]*&gt;/</span> <span class="opt">=&gt;</span> <span class="str">&apos;|&apos;</span><span class="opt">,</span> <span class="kwc">/\|[^|][^|]*\|/</span> <span class="opt">=&gt;</span> <span class="str">&apos;-&apos;</span>
-<span class="opt">}.</span>each { |f,r| seq.gsub!(f,r) }
+<span class="opt">}.</span>each <span class="opt">{ |</span>f<span class="opt">,</span>r<span class="opt">|</span> seq<span class="opt">.</span>gsub<span class="opt">!(</span>f<span class="opt">,</span>r<span class="opt">) }</span>
 
 puts
 puts ilen
@@ -66,10 +66,10 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Sat, 21 Apr 2018 17:44:21 GMT
+Sat, 05 May 2018 01:53:15 GMT
 
 COMMAND LINE:
-/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 regexredux.truffle-9.truffle 0 &lt; regexredux-input5000000.txt
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby -J-Xmn512m -J-Xms2048m -J-Xmx2048m --jvm -W0 regexredux.truffle-9.truffle 0 &lt; regexredux-input5000000.txt
 
 PROGRAM OUTPUT:
 agggtaaa|tttaccct 356

@@ -50,7 +50,7 @@ MATCHERS <span class="opt">= [</span>
 
 threads <span class="opt">=</span> MATCHERS<span class="opt">.</span>map <span class="kwa">do</span> <span class="opt">|</span>f<span class="opt">|</span>
   Thread<span class="opt">.</span>new <span class="kwa">do</span>
-    Thread<span class="opt">.</span>current<span class="opt">[</span><span class="kwc">:result</span><span class="opt">] =</span> <span class="str">&quot;</span><span class="ipl">#{f.source}</span> <span class="str"></span><span class="ipl">#{seq.scan(f).size}</span><span class="str">&quot;</span>
+    Thread<span class="opt">.</span>current<span class="opt">[</span><span class="kwc">:result</span><span class="opt">] =</span> <span class="str">&quot;#{f.source} #{seq.scan(f).size}&quot;</span>
   <span class="kwa">end</span>
 <span class="kwa">end</span>
 
@@ -68,9 +68,9 @@ match_results <span class="opt">=</span> threads<span class="opt">.</span>map <s
   <span class="kwc">/a[NSt]|BY/</span> <span class="opt">=&gt;</span> <span class="str">&apos;&lt;2&gt;&apos;</span><span class="opt">,</span> 
   <span class="kwc">/&lt;[^&gt;]*&gt;/</span> <span class="opt">=&gt;</span> <span class="str">&apos;|&apos;</span><span class="opt">,</span>
   <span class="kwc">/\|[^|][^|]*\|/</span> <span class="opt">=&gt;</span> <span class="str">&apos;-&apos;</span>
-<span class="opt">}.</span>each { |f,r| seq.gsub!(f,r) }
+<span class="opt">}.</span>each <span class="opt">{ |</span>f<span class="opt">,</span>r<span class="opt">|</span> seq<span class="opt">.</span>gsub<span class="opt">!(</span>f<span class="opt">,</span>r<span class="opt">) }</span>
 
-puts <span class="str">&quot;</span><span class="ipl">#{match_results.join(&quot;\n&quot;)}</span><span class="str"></span><span class="esc">\n\n</span><span class="str"></span><span class="ipl">#{ilen}</span><span class="str"></span><span class="esc">\n</span><span class="str"></span><span class="ipl">#{clen}</span><span class="str"></span><span class="esc">\n</span><span class="str"></span><span class="ipl">#{seq.length}</span><span class="str">&quot;</span>
+puts <span class="str">&quot;#{match_results.join(&quot;</span><span class="esc">\n</span><span class="str">&quot;)}</span><span class="esc">\n\n</span><span class="str">#{ilen}</span><span class="esc">\n</span><span class="str">#{clen}</span><span class="esc">\n</span><span class="str">#{seq.length}&quot;</span>
     </pre>
   </section>
   <section>
@@ -81,10 +81,10 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Sat, 21 Apr 2018 17:47:42 GMT
+Sat, 05 May 2018 01:56:31 GMT
 
 COMMAND LINE:
-/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 regexredux.truffle-2.truffle 0 &lt; regexredux-input5000000.txt
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby -J-Xmn512m -J-Xms2048m -J-Xmx2048m --jvm -W0 regexredux.truffle-2.truffle 0 &lt; regexredux-input5000000.txt
 
 PROGRAM OUTPUT:
 agggtaaa|tttaccct 356

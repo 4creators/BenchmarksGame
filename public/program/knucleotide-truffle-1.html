@@ -46,7 +46,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
   ret       <span class="opt">=</span> <span class="str">&quot;&quot;</span>
   n<span class="opt">,</span> table  <span class="opt">=</span> <span class="kwd">frequency</span><span class="opt">(</span>seq<span class="opt">,</span> length<span class="opt">)</span>
 
-  table<span class="opt">.</span>sort{|a,b| b[1] &lt;=&gt; a[1]}<span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span>v<span class="opt">|</span>
+  table<span class="opt">.</span>sort<span class="opt">{|</span>a<span class="opt">,</span>b<span class="opt">|</span> b<span class="opt">[</span><span class="num">1</span><span class="opt">] &lt;=&gt;</span> a<span class="opt">[</span><span class="num">1</span><span class="opt">]}.</span>each <span class="kwa">do</span> <span class="opt">|</span>v<span class="opt">|</span>
       ret <span class="opt">+=</span> <span class="str">&quot;%s %.3f</span><span class="esc">\n</span><span class="str">&quot;</span> <span class="opt">% [</span>v<span class="opt">[</span><span class="num">0</span><span class="opt">].</span>upcase<span class="opt">,((</span>v<span class="opt">[</span><span class="num">1</span><span class="opt">]*</span><span class="num">100</span><span class="opt">).</span>to_f<span class="opt">/</span>n<span class="opt">)]</span>
   <span class="kwa">end</span>
   
@@ -55,7 +55,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 
 <span class="kwa">def</span> <span class="kwd">find_seq</span><span class="opt">(</span>seq<span class="opt">,</span> s<span class="opt">)</span>
   n<span class="opt">,</span> table <span class="opt">=</span> <span class="kwd">frequency</span><span class="opt">(</span>seq<span class="opt">,</span> s<span class="opt">.</span>length<span class="opt">)</span>
-  <span class="str">&quot;</span><span class="ipl">#{table[s].to_s}</span><span class="str"></span><span class="esc">\t</span><span class="str"></span><span class="ipl">#{s.upcase}</span><span class="str"></span><span class="esc">\n</span><span class="str">&quot;</span>
+  <span class="str">&quot;#{table[s].to_s}</span><span class="esc">\t</span><span class="str">#{s.upcase}</span><span class="esc">\n</span><span class="str">&quot;</span>
 <span class="kwa">end</span>
 
 line <span class="opt">=</span> <span class="kwc">STDIN</span><span class="opt">.</span>gets <span class="kwa">while</span> line <span class="opt">!</span>~ <span class="kwc">/^&gt;THREE/</span>
@@ -99,10 +99,10 @@ line <span class="opt">=</span> <span class="kwc">STDIN</span><span class="opt">
 FREQS   <span class="opt">= [</span><span class="num">1</span><span class="opt">,</span> <span class="num">2</span><span class="opt">]</span>
 NUCLEOS <span class="opt">= %</span><span class="kwd">w</span><span class="opt">(</span>ggt ggta ggtatt ggtattttaatt ggtattttaatttatagt<span class="opt">)</span>
 
-workers <span class="opt">=</span>   FREQS<span class="opt">.</span>map   { |i| Worker.new { sort_by_freq($seq, i) } <span class="opt">}</span>
-workers <span class="opt">+=</span>  NUCLEOS<span class="opt">.</span>map { |s| Worker.new { find_seq($seq, s) } <span class="opt">}</span>
+workers <span class="opt">=</span>   FREQS<span class="opt">.</span>map   <span class="opt">{ |</span>i<span class="opt">|</span> Worker<span class="opt">.</span>new <span class="opt">{</span> <span class="kwd">sort_by_freq</span><span class="opt">(</span><span class="kwb">$seq</span><span class="opt">,</span> i<span class="opt">) } }</span>
+workers <span class="opt">+=</span>  NUCLEOS<span class="opt">.</span>map <span class="opt">{ |</span>s<span class="opt">|</span> Worker<span class="opt">.</span>new <span class="opt">{</span> <span class="kwd">find_seq</span><span class="opt">(</span><span class="kwb">$seq</span><span class="opt">,</span> s<span class="opt">) } }</span>
   
-results <span class="opt">=</span> workers<span class="opt">.</span>map { |w| w.result }
+results <span class="opt">=</span> workers<span class="opt">.</span>map <span class="opt">{ |</span>w<span class="opt">|</span> w<span class="opt">.</span>result <span class="opt">}</span>
 print results<span class="opt">.</span>join
     </pre>
   </section>
@@ -114,10 +114,10 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Mon, 23 Apr 2018 22:29:31 GMT
+Sat, 05 May 2018 01:47:09 GMT
 
 COMMAND LINE:
-/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 knucleotide.truffle 0 &lt; knucleotide-input25000000.txt
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby -J-Xmn512m -J-Xms2048m -J-Xmx2048m --jvm -W0 knucleotide.truffle 0 &lt; knucleotide-input25000000.txt
 
 PROGRAM OUTPUT:
 A 30.295

@@ -28,7 +28,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 <span class="slc"># contributed by Aaron Tavistock</span>
 
 <span class="kwa">def</span> <span class="kwd">find_frequencies</span><span class="opt">(</span>keys<span class="opt">)</span>
-  <span class="kwb">&#64;frequencies</span> <span class="opt">=</span> {}
+  <span class="kwb">&#64;frequencies</span> <span class="opt">= {}</span>
   threads <span class="opt">= []</span>
 
   key_lengths <span class="opt">=</span> keys<span class="opt">.</span><span class="kwd">map</span><span class="opt">(&amp;</span><span class="kwc">:size</span><span class="opt">).</span>uniq
@@ -85,14 +85,14 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 <span class="kwa">end</span>
 
 <span class="kwa">def</span> <span class="kwd">percentage</span><span class="opt">(</span>keys<span class="opt">)</span>
-  <span class="kwd">frequency</span><span class="opt">(</span>keys<span class="opt">).</span>sort { |a,b| b[1] &lt;=&gt; a[1] }<span class="opt">.</span>map <span class="kwa">do</span> <span class="opt">|</span>key<span class="opt">,</span> value<span class="opt">|</span>
+  <span class="kwd">frequency</span><span class="opt">(</span>keys<span class="opt">).</span>sort <span class="opt">{ |</span>a<span class="opt">,</span>b<span class="opt">|</span> b<span class="opt">[</span><span class="num">1</span><span class="opt">] &lt;=&gt;</span> a<span class="opt">[</span><span class="num">1</span><span class="opt">] }.</span>map <span class="kwa">do</span> <span class="opt">|</span>key<span class="opt">,</span> value<span class="opt">|</span>
     <span class="str">&quot;%s %.3f&quot;</span> <span class="opt">% [</span> key<span class="opt">.</span>upcase<span class="opt">, ( (</span>value<span class="opt">*</span><span class="num">100</span><span class="opt">).</span>to_f <span class="opt">/</span> <span class="kwb">&#64;seq</span><span class="opt">.</span>size<span class="opt">) ]</span>
   <span class="kwa">end</span>
 <span class="kwa">end</span>
 
 <span class="kwa">def</span> <span class="kwd">count</span><span class="opt">(</span>keys<span class="opt">)</span>
-  <span class="kwd">frequency</span><span class="opt">(</span>keys<span class="opt">).</span>sort_by { |a| a[0].size }<span class="opt">.</span>map <span class="kwa">do</span> <span class="opt">|</span>key<span class="opt">,</span> value<span class="opt">|</span>
-    <span class="str">&quot;</span><span class="ipl">#{value.to_s}</span><span class="str"></span><span class="esc">\t</span><span class="str"></span><span class="ipl">#{key.upcase}</span><span class="str">&quot;</span>
+  <span class="kwd">frequency</span><span class="opt">(</span>keys<span class="opt">).</span>sort_by <span class="opt">{ |</span>a<span class="opt">|</span> a<span class="opt">[</span><span class="num">0</span><span class="opt">].</span>size <span class="opt">}.</span>map <span class="kwa">do</span> <span class="opt">|</span>key<span class="opt">,</span> value<span class="opt">|</span>
+    <span class="str">&quot;#{value.to_s}</span><span class="esc">\t</span><span class="str">#{key.upcase}&quot;</span>
   <span class="kwa">end</span>
 <span class="kwa">end</span>
 
@@ -119,9 +119,9 @@ chains  <span class="opt">= %</span><span class="kwd">w</span><span class="opt">
 <span class="kwd">load_sequence</span><span class="opt">(</span><span class="str">&apos;&gt;THREE Homo sapiens frequency&apos;</span><span class="opt">)</span>
 <span class="kwd">find_frequencies</span><span class="opt">(</span>singles <span class="opt">+</span> doubles <span class="opt">+</span> chains<span class="opt">)</span>
 
-print <span class="str">&quot;</span><span class="ipl">#{percentage(singles).join(&quot;\n&quot;)}</span><span class="str"></span><span class="esc">\n\n</span><span class="str">&quot;</span>
-print <span class="str">&quot;</span><span class="ipl">#{percentage(doubles).join(&quot;\n&quot;)}</span><span class="str"></span><span class="esc">\n\n</span><span class="str">&quot;</span>
-print <span class="str">&quot;</span><span class="ipl">#{count(chains).join(&quot;\n&quot;)}</span><span class="str"></span><span class="esc">\n</span><span class="str">&quot;</span>
+print <span class="str">&quot;#{percentage(singles).join(&quot;</span><span class="esc">\n</span><span class="str">&quot;)}</span><span class="esc">\n\n</span><span class="str">&quot;</span>
+print <span class="str">&quot;#{percentage(doubles).join(&quot;</span><span class="esc">\n</span><span class="str">&quot;)}</span><span class="esc">\n\n</span><span class="str">&quot;</span>
+print <span class="str">&quot;#{count(chains).join(&quot;</span><span class="esc">\n</span><span class="str">&quot;)}</span><span class="esc">\n</span><span class="str">&quot;</span>
     </pre>
   </section>
   <section>
@@ -132,46 +132,39 @@ NOTES:
 truffleruby 1.0.0-rc1, like ruby 2.3.7  [x86_64-linux]
 
 
-Mon, 23 Apr 2018 20:26:55 GMT
+Sat, 05 May 2018 01:22:23 GMT
 
 COMMAND LINE:
-/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby --jvm -W0 knucleotide.truffle-7.truffle 0 &lt; knucleotide-input250000.txt
-
-UNEXPECTED OUTPUT 
-
-25c25
-&lt; 	GGTATT
----
-&gt; 472	GGTATT
+/opt/src/graalvm-ce-1.0.0-rc1-linux-amd64/graalvm-1.0.0-rc1/bin/truffleruby -J-Xmn512m -J-Xms2048m -J-Xmx2048m --jvm -W0 knucleotide.truffle-7.truffle 0 &lt; knucleotide-input25000000.txt
 
 PROGRAM OUTPUT:
-A 30.298
-T 30.157
-C 19.793
-G 19.752
+A 30.295
+T 30.151
+C 19.800
+G 19.754
 
 AA 9.177
-TA 9.137
-AT 9.136
-TT 9.094
-AC 6.000
-CA 5.999
-GA 5.986
-AG 5.985
-TC 5.970
-CT 5.970
+TA 9.132
+AT 9.131
+TT 9.091
+CA 6.002
+AC 6.001
+AG 5.987
+GA 5.984
+CT 5.971
+TC 5.971
 GT 5.957
 TG 5.956
-CC 3.915
-CG 3.910
-GC 3.908
+CC 3.917
+GC 3.911
+CG 3.909
 GG 3.902
 
-14717	GGT
-4463	GGTA
-	GGTATT
-9	GGTATTTTAATT
-9	GGTATTTTAATTTATAGT
+1471758	GGT
+446535	GGTA
+47336	GGTATT
+893	GGTATTTTAATT
+893	GGTATTTTAATTTATAGT
     </pre>
   </section>
 </article>

@@ -69,13 +69,13 @@
 <g style="fill: black; stroke: black;">
 <rect x="72" y="256.21" width="1" height="7.79" />
 <rect x="98" y="250.72" width="1" height="13.28" />
-<rect x="124" y="222.65" width="1" height="38.52" />
+<rect x="124" y="237.03" width="1" height="26.97" />
 <rect x="150" y="209.71" width="1" height="54.29" />
 <rect x="176" y="205.5" width="1" height="57.74" />
 <rect x="202" y="708.61" width="1" height="0" />
-<rect x="228" y="199.19" width="1" height="43.76" />
+<rect x="228" y="199.31" width="1" height="43.64" />
 <rect x="254" y="198.58" width="1" height="65.42" />
-<rect x="280" y="197.45" width="1" height="48.73" />
+<rect x="280" y="198.87" width="1" height="47.31" />
 <rect x="306" y="210.73" width="1" height="50.22" />
 <rect x="332" y="191.39" width="1" height="64" />
 <rect x="358" y="184.94" width="1" height="75.09" />
@@ -83,18 +83,18 @@
 <rect x="410" y="708.61" width="1" height="0" />
 <rect x="436" y="182.92" width="1" height="71.97" />
 <rect x="462" y="171.46" width="1" height="70.57" />
-<rect x="488" y="169.72" width="1" height="70.56" />
+<rect x="488" y="170.35" width="1" height="69.93" />
 </g>
 <g style="fill: white; stroke: black;">
 <rect x="62" y="260.69" width="20" height="3.31" />
 <rect x="88" y="258.1" width="20" height="5.84" />
-<rect x="114" y="236.85" width="20" height="17.95" />
+<rect x="114" y="245.5" width="20" height="14.79" />
 <rect x="140" y="231.83" width="20" height="32.17" />
 <rect x="166" y="217.85" width="20" height="43.12" />
 <rect x="192" y="708.61" width="20" height="0" />
-<rect x="218" y="217.87" width="20" height="20.68" />
+<rect x="218" y="217.87" width="20" height="20.46" />
 <rect x="244" y="203.09" width="20" height="47.87" />
-<rect x="270" y="218.46" width="20" height="25.41" />
+<rect x="270" y="218.46" width="20" height="22.43" />
 <rect x="296" y="226.07" width="20" height="15.2" />
 <rect x="322" y="214.17" width="20" height="29.62" />
 <rect x="348" y="200.24" width="20" height="31.61" />
@@ -102,7 +102,7 @@
 <rect x="400" y="708.61" width="20" height="0" />
 <rect x="426" y="206.69" width="20" height="32.35" />
 <rect x="452" y="179.98" width="20" height="50.91" />
-<rect x="478" y="195.43" width="20" height="38.45" />
+<rect x="478" y="195.43" width="20" height="36.33" />
 </g>
 <g style="fill: black; stroke: black;">
 <line x1="67.5" y1="264" x2="77" y2="264" />
@@ -111,23 +111,23 @@
 <rect x="72" y="251.48" width="1" height="5" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="63" y="262.9" width="18" height="1" />
+<rect x="63" y="261.41" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
 <line x1="93.5" y1="264" x2="103" y2="264" />
 <line x1="93.5" y1="250.72" x2="103" y2="250.72" />
-<line x1="93.5" y1="243.77" x2="103" y2="243.77" />
-<rect x="98" y="243.77" width="1" height="5" />
+<line x1="93.5" y1="240.79" x2="103" y2="240.79" />
+<rect x="98" y="240.79" width="1" height="5" />
 </g>
 <g style="fill: black; stroke: black;">
 <rect x="89" y="262.18" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="119.5" y1="261.17" x2="129" y2="261.17" />
-<line x1="119.5" y1="222.65" x2="129" y2="222.65" />
+<line x1="119.5" y1="264" x2="129" y2="264" />
+<line x1="119.5" y1="237.03" x2="129" y2="237.03" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="115" y="245.81" width="18" height="1" />
+<rect x="115" y="257.24" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
 <line x1="145.5" y1="264" x2="155" y2="264" />
@@ -141,7 +141,7 @@
 <line x1="171.5" y1="205.5" x2="181" y2="205.5" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="167" y="224.81" width="18" height="1" />
+<rect x="167" y="223.54" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
 <line x1="197.5" y1="708.61" x2="207" y2="708.61" />
@@ -152,7 +152,7 @@
 </g>
 <g style="fill: black; stroke: black;">
 <line x1="223.5" y1="242.95" x2="233" y2="242.95" />
-<line x1="223.5" y1="199.19" x2="233" y2="199.19" />
+<line x1="223.5" y1="199.31" x2="233" y2="199.31" />
 <line x1="223.5" y1="188.69" x2="233" y2="188.69" />
 <rect x="228" y="188.69" width="1" height="5" />
 </g>
@@ -168,7 +168,7 @@
 </g>
 <g style="fill: black; stroke: black;">
 <line x1="275.5" y1="246.18" x2="285" y2="246.18" />
-<line x1="275.5" y1="197.45" x2="285" y2="197.45" />
+<line x1="275.5" y1="198.87" x2="285" y2="198.87" />
 <line x1="275.5" y1="147.24" x2="285" y2="147.24" />
 <rect x="280" y="147.24" width="1" height="5" />
 </g>
@@ -191,7 +191,7 @@
 <rect x="332" y="150.55" width="1" height="5" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="323" y="228.47" width="18" height="1" />
+<rect x="323" y="227.05" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
 <line x1="353.5" y1="260.03" x2="363" y2="260.03" />
@@ -217,8 +217,8 @@
 <g style="fill: black; stroke: black;">
 <line x1="431.5" y1="254.89" x2="441" y2="254.89" />
 <line x1="431.5" y1="182.92" x2="441" y2="182.92" />
-<line x1="431.5" y1="69.51" x2="441" y2="69.51" />
-<rect x="436" y="69.51" width="1" height="5" />
+<line x1="431.5" y1="66.52" x2="441" y2="66.52" />
+<rect x="436" y="66.52" width="1" height="5" />
 </g>
 <g style="fill: black; stroke: black;">
 <rect x="427" y="223.03" width="18" height="1" />
@@ -228,11 +228,11 @@
 <line x1="457.5" y1="171.46" x2="467" y2="171.46" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="453" y="198.56" width="18" height="1" />
+<rect x="453" y="197.59" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
 <line x1="483.5" y1="240.28" x2="493" y2="240.28" />
-<line x1="483.5" y1="169.72" x2="493" y2="169.72" />
+<line x1="483.5" y1="170.35" x2="493" y2="170.35" />
 <line x1="483.5" y1="125" x2="493" y2="125" />
 <rect x="488" y="125" width="1" height="5" />
 </g>
@@ -240,7 +240,7 @@
 <rect x="479" y="209.98" width="18" height="1" />
 </g>
 <g style="text-anchor: end; font-family: Ubuntu,Verdana,sans-serif; font-size: 0.9em;" >
-<text x="512" y="282" >01 May 2018 u64q</text>
+<text x="512" y="282" >10 May 2018 u64q</text>
 <text x="58" y="282" style="text-anchor: start;" >benchmarks game</text>
 </g>
 <text x="16" y="144" transform="rotate(270,16,144)" style="text-anchor: middle; font-family: Ubuntu,Verdana,sans-serif; font-size: 0.9em;" >program time / fastest program time</text>

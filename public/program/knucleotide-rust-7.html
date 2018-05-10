@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="slc">// The Computer Language Benchmarks Game</span>
-<span class="slc">// https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">// http://benchmarksgame.alioth.debian.org/</span>
 <span class="slc">//</span>
 <span class="slc">// contributed by the Rust Project Developers</span>
 <span class="slc">// contributed by Cristi Cobzarenco (&#64;cristicbz)</span>
@@ -214,37 +214,47 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-rustc 1.25.0 (84203cac6 2018-03-25)
+rustc 1.26.0 (a77568041 2018-05-07)
 
 
-Thu, 29 Mar 2018 16:56:04 GMT
+Thu, 10 May 2018 21:26:38 GMT
 
 MAKE:
-/opt/src/rust-1.25.0/bin/rustc -C opt-level=3 -C target-cpu=core2 -C lto -C codegen-units=1 -L /opt/src/rust-libs knucleotide.rs -o knucleotide.rust-7.rust_run
-error[E0460]: found possibly newer version of crate `lazy_static` which `rayon` depends on
-  --&gt; knucleotide.rs:12:1
-   |
-12 | extern crate rayon;
-   | ^^^^^^^^^^^^^^^^^^^
-   |
-   = note: perhaps that crate needs to be recompiled?
-   = note: the following crate versions were found:
-           crate `lazy_static`: /opt/src/rust-1.25.0/lib/rustlib/x86_64-unknown-linux-gnu/lib/liblazy_static-c2718c97cbc91f7c.rlib
-           crate `lazy_static`: /opt/src/rust-libs/liblazy_static-cc3614442e8d4ac5.rlib
-           crate `rayon`: /opt/src/rust-libs/librayon-3db3bc39e5457432.rlib
+/opt/src/rust-1.26.0/bin/rustc -C opt-level=3 -C target-cpu=core2 -C lto -C codegen-units=1 -L /opt/src/rust-libs knucleotide.rs -o knucleotide.rust-7.rust_run
 
-error: aborting due to previous error
-
-/home/dunham/benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:632: recipe for target 'knucleotide.rust-7.rust_run' failed
-make: [knucleotide.rust-7.rust_run] Error 101 (ignored)
-
-0.20s to complete and log all make actions
+12.17s to complete and log all make actions
 
 COMMAND LINE:
-./knucleotide.rust-7.rust_run 0 &lt; knucleotide-input250000.txt
+./knucleotide.rust-7.rust_run 0 &lt; knucleotide-input25000000.txt
 
-MAKE ERROR 
+PROGRAM OUTPUT:
+A 30.295
+T 30.151
+C 19.800
+G 19.754
 
+AA 9.177
+TA 9.132
+AT 9.131
+TT 9.091
+CA 6.002
+AC 6.001
+AG 5.987
+GA 5.984
+CT 5.971
+TC 5.971
+GT 5.957
+TG 5.956
+CC 3.917
+GC 3.911
+CG 3.909
+GG 3.902
+
+1471758	GGT
+446535	GGTA
+47336	GGTATT
+893	GGTATTTTAATT
+893	GGTATTTTAATTTATAGT
     </pre>
   </section>
 </article>

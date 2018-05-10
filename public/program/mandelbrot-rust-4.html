@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="slc">// The Computer Language Benchmarks Game</span>
-<span class="slc">// https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">// http://benchmarksgame.alioth.debian.org/</span>
 <span class="slc">//</span>
 <span class="slc">// contributed by Matt Watson</span>
 <span class="slc">// contributed by TeXitoi</span>
@@ -172,31 +172,26 @@ macro_rules<span class="opt">!</span> for_vec <span class="opt">{</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-rustc 1.25.0 (84203cac6 2018-03-25)
+rustc 1.26.0 (a77568041 2018-05-07)
 
 
-Thu, 29 Mar 2018 16:59:37 GMT
+Thu, 10 May 2018 19:42:26 GMT
 
 MAKE:
-/opt/src/rust-1.25.0/bin/rustc -C opt-level=3 -C target-cpu=core2 -C lto -C codegen-units=1 -L /opt/src/rust-libs mandelbrot.rs -o mandelbrot.rust-4.rust_run
-error[E0460]: found possibly newer version of crate `lazy_static` which `rayon` depends on
- --&gt; mandelbrot.rs:8:1
-  |
-8 | extern crate rayon;
-  | ^^^^^^^^^^^^^^^^^^^
-  |
-  = note: perhaps that crate needs to be recompiled?
-  = note: the following crate versions were found:
-          crate `lazy_static`: /opt/src/rust-1.25.0/lib/rustlib/x86_64-unknown-linux-gnu/lib/liblazy_static-c2718c97cbc91f7c.rlib
-          crate `lazy_static`: /opt/src/rust-libs/liblazy_static-cc3614442e8d4ac5.rlib
-          crate `rayon`: /opt/src/rust-libs/librayon-3db3bc39e5457432.rlib
+/opt/src/rust-1.26.0/bin/rustc -C opt-level=3 -C target-cpu=core2 -C lto -C codegen-units=1 -L /opt/src/rust-libs mandelbrot.rs -o mandelbrot.rust-4.rust_run
+error[E0599]: no method named `weight_max` found for type `rayon::slice::ChunksMut&lt;'_, u8&gt;` in the current scope
+   --&gt; mandelbrot.rs:130:10
+    |
+130 |         .weight_max()
+    |          ^^^^^^^^^^
 
 error: aborting due to previous error
 
-/home/dunham/benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:632: recipe for target 'mandelbrot.rust-4.rust_run' failed
+For more information about this error, try `rustc --explain E0599`.
+/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:632: recipe for target 'mandelbrot.rust-4.rust_run' failed
 make: [mandelbrot.rust-4.rust_run] Error 101 (ignored)
 
-0.18s to complete and log all make actions
+0.46s to complete and log all make actions
 
 COMMAND LINE:
 ./mandelbrot.rust-4.rust_run 1000

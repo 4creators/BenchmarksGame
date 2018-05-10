@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="slc">// The Computer Language Benchmarks Game</span>
-<span class="slc">// https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">// http://benchmarksgame.alioth.debian.org/</span>
 <span class="slc">//</span>
 <span class="slc">// Contributed by TeXitoi</span>
 <span class="slc">// Inspired by Mr Ledrug&apos;s C version and thestinger&apos;s rust-gmp</span>
@@ -212,16 +212,16 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-rustc 1.25.0 (84203cac6 2018-03-25)
+rustc 1.26.0 (a77568041 2018-05-07)
 
 
-Thu, 29 Mar 2018 17:08:26 GMT
+Thu, 10 May 2018 19:51:23 GMT
 
 MAKE:
-/opt/src/rust-1.25.0/bin/rustc -C opt-level=3 -C target-cpu=core2 -C lto -C codegen-units=1  pidigits.rs -o pidigits.rust_run
+/opt/src/rust-1.26.0/bin/rustc -C opt-level=3 -C target-cpu=core2 -C lto -C codegen-units=1  pidigits.rs -o pidigits.rust_run
 rm pidigits.rs
 
-4.38s to complete and log all make actions
+4.87s to complete and log all make actions
 
 COMMAND LINE:
 ./pidigits.rust_run 10000

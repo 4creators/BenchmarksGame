@@ -33,6 +33,8 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 <span class="com"> *   Christophe TROESTLER</span>
 <span class="com"> *  and enhanced by</span>
 <span class="com"> *   Christian Szegedy and Yaron Minsky)</span>
+<span class="com"> *</span>
+<span class="com"> * fix compile errors by using Bytes instead of String, by Tony Tavener</span>
 <span class="com"> *)</span>
 
 <span class="kwa">let</span> <span class="kwd">niter</span> <span class="opt">=</span> <span class="num">50</span>
@@ -41,7 +43,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 
 <span class="kwa">let</span> <span class="kwd">worker</span> w h_lo h_hi <span class="opt">=</span>
   <span class="kwa">let</span> <span class="kwd">buf</span> <span class="opt">=</span>
-    <span class="kwc">String</span><span class="opt">.</span>create <span class="opt">((</span>w <span class="opt">/</span> <span class="num">8</span> <span class="opt">+ (</span><span class="kwa">if</span> w <span class="kwa">mod</span> <span class="num">8</span> <span class="opt">&gt;</span> <span class="num">0</span> <span class="kwa">then</span> <span class="num">1</span> <span class="kwa">else</span> <span class="num">0</span><span class="opt">)) * (</span>h_hi <span class="opt">-</span> h_lo<span class="opt">))</span>
+    <span class="kwc">Bytes</span><span class="opt">.</span>create <span class="opt">((</span>w <span class="opt">/</span> <span class="num">8</span> <span class="opt">+ (</span><span class="kwa">if</span> w <span class="kwa">mod</span> <span class="num">8</span> <span class="opt">&gt;</span> <span class="num">0</span> <span class="kwa">then</span> <span class="num">1</span> <span class="kwa">else</span> <span class="num">0</span><span class="opt">)) * (</span>h_hi <span class="opt">-</span> h_lo<span class="opt">))</span>
   <span class="kwa">and</span> ptr <span class="opt">=</span> <span class="kwb">ref</span> <span class="num">0</span> <span class="kwa">in</span>
   <span class="kwa">let</span> <span class="kwd">fw</span> <span class="opt">=</span> <span class="kwb">float</span> w <span class="opt">/.</span> <span class="num">2</span><span class="opt">.</span> <span class="kwa">in</span>
   <span class="kwa">let</span> <span class="kwd">fh</span> <span class="opt">=</span> <span class="kwd">fw</span> <span class="kwa">in</span>
@@ -68,14 +70,14 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <span class="kwa">with</span> Exit <span class="opt">-&gt; ()</span>
       <span class="kwa">end</span><span class="opt">;</span>
       <span class="kwa">if</span> x <span class="kwa">mod</span> <span class="num">8</span> <span class="opt">=</span> <span class="num">7</span> <span class="kwa">then begin</span>
-	<span class="kwd">buf</span><span class="opt">.[!</span>ptr<span class="opt">] &lt;- (</span><span class="kwc">Char</span><span class="opt">.</span>chr <span class="opt">!</span>byte<span class="opt">);</span>
+	<span class="kwc">Bytes</span><span class="opt">.</span>set <span class="kwd">buf</span> <span class="opt">!</span>ptr <span class="opt">(</span><span class="kwc">Char</span><span class="opt">.</span>chr <span class="opt">!</span>byte<span class="opt">);</span>
 	incr ptr<span class="opt">;</span>
 	byte <span class="opt">:=</span> <span class="num">0</span>
       <span class="kwa">end</span>
     <span class="kwa">done</span><span class="opt">;</span>
     <span class="kwa">let</span> <span class="kwd">rem</span> <span class="opt">=</span> w <span class="kwa">mod</span> <span class="num">8</span> <span class="kwa">in</span>
     <span class="kwa">if</span> <span class="kwd">rem</span> <span class="opt">!=</span> <span class="num">0</span> <span class="kwa">then begin</span>
-      <span class="kwd">buf</span><span class="opt">.[!</span>ptr<span class="opt">] &lt;- (</span><span class="kwc">Char</span><span class="opt">.</span>chr <span class="opt">(!</span>byte <span class="kwa">lsl</span> <span class="opt">(</span><span class="num">8</span> <span class="opt">-</span> <span class="kwd">rem</span><span class="opt">)));</span>
+      <span class="kwc">Bytes</span><span class="opt">.</span>set <span class="kwd">buf</span> <span class="opt">!</span>ptr <span class="opt">(</span><span class="kwc">Char</span><span class="opt">.</span>chr <span class="opt">(!</span>byte <span class="kwa">lsl</span> <span class="opt">(</span><span class="num">8</span> <span class="opt">-</span> <span class="kwd">rem</span><span class="opt">)));</span>
       incr ptr<span class="opt">;</span>
       byte <span class="opt">:=</span> <span class="num">0</span>
     <span class="kwa">end</span>
@@ -96,12 +98,13 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 	    <span class="kwd">worker w</span> <span class="opt">(</span><span class="kwd">red_i</span> <span class="opt">*</span> <span class="kwd">rows</span> <span class="opt">+</span> min <span class="kwd">red_i rem</span><span class="opt">) (</span>i <span class="opt">*</span> <span class="kwd">rows</span> <span class="opt">+</span> min i <span class="kwd">rem</span><span class="opt">)</span> <span class="kwa">in</span>
 	  <span class="kwa">match</span> <span class="kwc">Unix</span><span class="opt">.</span>waitpid <span class="opt">[]</span> pid <span class="kwa">with</span>
 	  <span class="opt">|</span> <span class="kwd">_</span><span class="opt">,</span> <span class="kwc">Unix</span><span class="opt">.</span>WEXITED <span class="num">0</span> <span class="opt">-&gt;</span>
-	      <span class="kwc">Printf</span><span class="opt">.</span>printf <span class="str">&quot;</span><span class="ipl">%s</span><span class="str">%!&quot;</span> <span class="kwd">buf</span><span class="opt">;</span>
+	      <span class="kwc">Printf</span><span class="opt">.</span>printf <span class="str">&quot;</span><span class="ipl">%a</span><span class="str">%!&quot;</span> output_bytes <span class="kwd">buf</span><span class="opt">;</span>
 	      exit <span class="num">0</span>
 	  <span class="opt">|</span> <span class="kwd">_</span> <span class="opt">-&gt;</span> <span class="kwa">assert false</span>
     <span class="kwa">else</span>
       exit <span class="num">0</span> <span class="kwa">in</span>
   <span class="kwd">spawn workers</span>
+
     </pre>
   </section>
   <section>
@@ -112,32 +115,19 @@ NOTES:
 The OCaml native-code compiler, version 4.06.0
 
 
-Sun, 05 Nov 2017 22:19:25 GMT
+Tue, 22 May 2018 16:21:33 GMT
 
 MAKE:
 mv mandelbrot.ocaml mandelbrot.ml
 /opt/src/ocaml-4.06.0/bin/ocamlopt -noassert -unsafe -fPIC -nodynlink -inline 100 -O3 unix.cmxa mandelbrot.ml -o mandelbrot.ocaml_run
-File &quot;mandelbrot.ml&quot;, line 20, characters 4-17:
-Warning 3: deprecated: String.create
-Use Bytes.create instead.
-File &quot;mandelbrot.ml&quot;, line 47, characters 1-31:
-Warning 3: deprecated: String.unsafe_set
-File &quot;mandelbrot.ml&quot;, line 54, characters 6-52:
-Warning 3: deprecated: String.unsafe_set
-File &quot;mandelbrot.ml&quot;, line 75, characters 28-31:
-Error: This expression has type bytes but an expression was expected of type
-         string
-/home/dunham/benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:417: recipe for target 'mandelbrot.ocaml_run' failed
-make: [mandelbrot.ocaml_run] Error 2 (ignored)
 rm mandelbrot.ml
 
-0.05s to complete and log all make actions
+1.06s to complete and log all make actions
 
 COMMAND LINE:
-./mandelbrot.ocaml_run 1000
+./mandelbrot.ocaml_run 16000
 
-MAKE ERROR 
-
+(BINARY) PROGRAM OUTPUT NOT SHOWN
     </pre>
   </section>
 </article>

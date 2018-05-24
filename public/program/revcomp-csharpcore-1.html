@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="com">/* The Computer Language Benchmarks Game</span>
-<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com">   http://benchmarksgame.alioth.debian.org/</span>
 <span class="com"></span>
 <span class="com">   contributed by Robert F. Tobler to process large blocks of byte arrays</span>
 <span class="com">*/</span>
@@ -129,11 +129,11 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-2.0.2 a04b4bf512
+2.1.200
 "System.GC.Server": true
 
 
-Mon, 26 Mar 2018 20:46:45 GMT
+Thu, 24 May 2018 20:42:27 GMT
 
 MAKE:
 cp revcomp.csharpcore Program.cs
@@ -143,18 +143,21 @@ mkdir obj
 cp Include/csharpcore/tmp.csproj.nuget.g.props ./obj
 cp Include/csharpcore/tmp.csproj.nuget.g.targets ./obj
 /usr/bin/dotnet build -c Release
-Microsoft (R) Build Engine version 15.4.8.50001 for .NET Core
+Microsoft (R) Build Engine version 15.7.177.53362 for .NET Core
 Copyright (C) Microsoft Corporation. All rights reserved.
 
+  Restoring packages for /home/dunham/benchmarksgame_quadcore/revcomp/tmp/tmp.csproj...
+  Generating MSBuild file /home/dunham/benchmarksgame_quadcore/revcomp/tmp/obj/tmp.csproj.nuget.g.props.
+  Restore completed in 511.92 ms for /home/dunham/benchmarksgame_quadcore/revcomp/tmp/tmp.csproj.
   tmp -&gt; /home/dunham/benchmarksgame_quadcore/revcomp/tmp/bin/Release/netcoreapp2.0/tmp.dll
 
 Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:05.41
+Time Elapsed 00:00:06.23
 
-12.78s to complete and log all make actions
+8.99s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/dotnet ./bin/Release/netcoreapp2.0/tmp.dll 0 &lt; revcomp-input100000000.txt

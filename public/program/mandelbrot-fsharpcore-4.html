@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="slc">// The Computer Language Benchmarks Game</span>
-<span class="slc">// https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">// http://benchmarksgame.alioth.debian.org/</span>
 <span class="slc">//</span>
 <span class="slc">// ported from C# version by Anthony Lloyd</span>
 
@@ -91,11 +91,11 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-2.0.2 a04b4bf512
+2.1.200
 "System.GC.Server": true
 
 
-Fri, 10 Nov 2017 20:35:26 GMT
+Fri, 25 May 2018 00:11:24 GMT
 
 MAKE:
 cp mandelbrot.fsharpcore-4.fsharpcore Program.fs
@@ -106,23 +106,34 @@ cp Include/fsharpcore/project.assets.json ./obj
 cp Include/fsharpcore/tmp.fsproj.nuget.g.props ./obj
 cp Include/fsharpcore/tmp.fsproj.nuget.g.targets ./obj
 /usr/bin/dotnet build -c Release --no-restore
-Microsoft (R) Build Engine version 15.4.8.50001 for .NET Core
+Microsoft (R) Build Engine version 15.7.177.53362 for .NET Core
 Copyright (C) Microsoft Corporation. All rights reserved.
 
-  tmp -&gt; /home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/bin/Release/netcoreapp2.0/tmp.dll
+/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/Program.fs(15,5): error FS0039: The value, namespace, type or module 'Unsafe' is not defined. Maybe you want one of the following:   UnsafeValueTypeAttribute [/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/tmp.fsproj]
+/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/Program.fs(17,5): error FS0039: The value, namespace, type or module 'Unsafe' is not defined. Maybe you want one of the following:   UnsafeValueTypeAttribute [/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/tmp.fsproj]
 
-Build succeeded.
+Build FAILED.
+
+/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/Program.fs(15,5): error FS0039: The value, namespace, type or module 'Unsafe' is not defined. Maybe you want one of the following:   UnsafeValueTypeAttribute [/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/tmp.fsproj]
+/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/Program.fs(17,5): error FS0039: The value, namespace, type or module 'Unsafe' is not defined. Maybe you want one of the following:   UnsafeValueTypeAttribute [/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/tmp.fsproj]
     0 Warning(s)
-    0 Error(s)
+    2 Error(s)
 
-Time Elapsed 00:00:09.31
+Time Elapsed 00:00:05.07
+/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:200: recipe for target 'mandelbrot.fsharpcore-4.fsharpcore_run' failed
+make: [mandelbrot.fsharpcore-4.fsharpcore_run] Error 1 (ignored)
 
-9.87s to complete and log all make actions
+5.71s to complete and log all make actions
 
 COMMAND LINE:
-/usr/bin/dotnet ./bin/Release/netcoreapp2.0/tmp.dll 16000
+/usr/bin/dotnet ./bin/Release/netcoreapp2.0/tmp.dll 1000
+
+PROGRAM FAILED 
+
 
 (BINARY) PROGRAM OUTPUT NOT SHOWN
+
+No executable found matching command &quot;dotnet-./bin/Release/netcoreapp2.0/tmp.dll&quot;
     </pre>
   </section>
 </article>

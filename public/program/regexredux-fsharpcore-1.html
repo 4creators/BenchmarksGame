@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 ﻿<span class="slc">// The Computer Language Benchmarks Game</span>
-<span class="slc">// https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">// http://benchmarksgame.alioth.debian.org/</span>
 <span class="slc">//</span>
 <span class="slc">// regex-dna program modified version of Valentin Kraevskiy</span>
 <span class="slc">// contributed by Vassil Keremidchiev</span>
@@ -82,11 +82,11 @@ printf <span class="str">&quot;</span><span class="esc">\n</span><span class="st
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-2.0.2 a04b4bf512
+2.1.200
 "System.GC.Server": true
 
 
-Thu, 09 Nov 2017 00:45:28 GMT
+Fri, 25 May 2018 00:46:37 GMT
 
 MAKE:
 cp regexredux.fsharpcore Program.fs
@@ -97,7 +97,7 @@ cp Include/fsharpcore/project.assets.json ./obj
 cp Include/fsharpcore/tmp.fsproj.nuget.g.props ./obj
 cp Include/fsharpcore/tmp.fsproj.nuget.g.targets ./obj
 /usr/bin/dotnet build -c Release --no-restore
-Microsoft (R) Build Engine version 15.4.8.50001 for .NET Core
+Microsoft (R) Build Engine version 15.7.177.53362 for .NET Core
 Copyright (C) Microsoft Corporation. All rights reserved.
 
   tmp -&gt; /home/dunham/benchmarksgame_quadcore/regexredux/tmp/bin/Release/netcoreapp2.0/tmp.dll
@@ -106,9 +106,9 @@ Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:09.12
+Time Elapsed 00:00:06.23
 
-9.67s to complete and log all make actions
+6.81s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/dotnet ./bin/Release/netcoreapp2.0/tmp.dll 0 &lt; regexredux-input500000.txt

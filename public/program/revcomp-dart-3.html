@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="com">/* The Computer Language Benchmarks Game</span>
-<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com">   http://benchmarksgame.alioth.debian.org/</span>
 <span class="com"></span>
 <span class="com">   Contributed by James Wendel</span>
 <span class="com">   Modified by Anders Johnsen</span>
@@ -118,15 +118,15 @@ import <span class="str">&apos;dart:io&apos;</span><span class="opt">;</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Dart VM version: 1.24.2 (Thu Jun 22 08:43:26 2017) on "linux_x64"
+Dart VM version: 2.0.0-dev.58.0 (Wed May 23 20:44:51 2018 +0200) on "linux_x64"
 
 
-Wed, 28 Mar 2018 00:41:34 GMT
+Sat, 26 May 2018 23:06:17 GMT
 
 MAKE:
 make: 'revcomp.dart-3.dart_run' is up to date.
 
-0.05s to complete and log all make actions
+0.01s to complete and log all make actions
 
 COMMAND LINE:
 /opt/src/dartsdk-linux-x64-release/dart-sdk/bin/dart --old_gen_heap_size=3072 revcomp.dart-3.dart 0 &lt; revcomp-input100000000.txt
@@ -137,21 +137,23 @@ PROGRAM FAILED
 PROGRAM OUTPUT:
 &gt;ONE Homo sapiens alu
 
-Exhausted heap space, trying to allocate 2147483680 bytes.
+Exhausted heap space, trying to allocate 2147483664 bytes.
 Unhandled exception:
 Out of Memory
-#0      main.&lt;anonymous closure&gt; (file:///home/dunham/benchmarksgame_quadcore/revcomp/tmp/revcomp.dart-3.dart:13:13)
-#1      _RootZone.runUnaryGuarded (dart:async/zone.dart:1307)
-#2      _FileStream._readBlock.&lt;anonymous closure&gt; (dart:io/file_impl.dart:238)
-#3      _FutureListener.handleValue (dart:async/future_impl.dart)
-#4      _Future._propagateToListeners.handleValueCallback (dart:async/future_impl.dart:636)
-#5      _Future._propagateToListeners (dart:async/future_impl.dart)
-#6      _Future._completeWithValue (dart:async/future_impl.dart:478)
-#7      _Future._asyncComplete.&lt;anonymous closure&gt; (dart:async/future_impl.dart:510)
-#8      _microtaskLoop (dart:async/schedule_microtask.dart:41)
-#9      _startMicrotaskLoop (dart:async/schedule_microtask.dart:50)
-#10     _runPendingImmediateCallback (dart:isolate-patch/isolate_patch.dart:99)
-#11     _RawReceivePortImpl._handleMessage (dart:isolate-patch/isolate_patch.dart:152)
+#0      List._allocateData (dart:core-patch/dart:core/growable_array.dart:8)
+#1      main.&lt;anonymous closure&gt; (file:///home/dunham/benchmarksgame_quadcore/revcomp/tmp/revcomp.dart-3.dart:90:1)
+#2      _RootZone.runUnaryGuarded (dart:async/zone.dart:1316)
+#3      _BufferingStreamSubscription._sendData (dart:async/stream_impl.dart:330)
+#4      _FileStream._readBlock.&lt;anonymous closure&gt; (dart:io/file_impl.dart:190)
+#5      _FutureListener.handleValue (dart:async/future_impl.dart)
+#6      Future._propagateToListeners.handleValueCallback (dart:async/future_impl.dart:633)
+#7      Future._propagateToListeners (dart:async/future_impl.dart)
+#8      Future._completeWithValue (dart:async/future_impl.dart:477)
+#9      Future._asyncComplete.&lt;anonymous closure&gt; (dart:async/future_impl.dart:507)
+#10     _microtaskLoop (dart:async/schedule_microtask.dart:41)
+#11     _startMicrotaskLoop (dart:async/schedule_microtask.dart:50)
+#12     _runPendingImmediateCallback (dart:isolate-patch/dart:isolate/isolate_patch.dart:113)
+#13     _RawReceivePortImpl._handleMessage (dart:isolate-patch/dart:isolate/isolate_patch.dart:166)
     </pre>
   </section>
 </article>

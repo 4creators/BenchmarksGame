@@ -4,7 +4,7 @@
 <meta name="description" content="Performance measurements for all the Dart toy benchmark programs." />
 <title>Dart measurements | Computer Language Benchmarks Game </title>
 <style><!--
-a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans, Ubuntu, Verdana, sans-serif;margin:0;-webkit-text-size-adjust:100%}code, h3, h1, h2, li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h1,h2{margin:1.5em 0 0}h1{font-size:1.4em;font-weight:normal}h2{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin: .5em .5em 0;padding: .5em .5em .3em}nav p{margin:0 .5em}ul{clear:left;margin:-0.3em 0 1.5em;text-align:center}p{color:#333;line-height:1.4;margin: .3em 0 0}p a,span{border-bottom: .1em solid #333;padding-bottom: .1em}.best{font-weight:bold}.message{font-size: .8em}table{color:#333;margin:1.3em auto 0;text-align:right}tbody:after{content:"-";display:block;line-height:2.6em;visibility:hidden}td{border-bottom: .15em dotted #eee;padding: .7em 0 0 1em}td a, th a{display:block}td:first-child,th:first-child{text-align:left;padding-left:0}th{font-weight:normal;padding:0 0 0 1em}@media only screen{th:nth-child(3),td:nth-child(3),th:nth-child(4),td:nth-child(4),th:nth-child(5),td:nth-child(5),th:nth-child(6),td:nth-child(6),th:nth-child(7),td:nth-child(7){display:none}}@media only screen and (min-width: 27em){th:nth-child(3),td:nth-child(3){display:table-cell}}@media only screen and (min-width: 38em){th:nth-child(4),td:nth-child(4),th:nth-child(5),td:nth-child(5),th:nth-child(6),td:nth-child(6){display:table-cell}}@media only screen and (min-width: 47em){th:nth-child(7),td:nth-child(7){display:table-cell}}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
+a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans, Ubuntu, Verdana, sans-serif;margin:0;-webkit-text-size-adjust:100%}code, h3, h1, h2, li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h1,h2{margin:1.5em 0 0}h1{font-size:1.4em;font-weight:normal}h2{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin: .5em .5em 0;padding: .5em .5em .3em}nav p{margin:0 .5em}ul{clear:left;margin:-0.3em 0 1.5em;text-align:center}p{color:#333;line-height:1.4;margin: .3em 0 0}p a,span{border-bottom: .1em solid #333;padding-bottom: .1em}.best{font-weight:bold}.message{font-size: .8em}table{color:#333;margin:1.3em auto 0;text-align:right}tbody::after{content:"-";display:block;line-height:2.6em;visibility:hidden}td{border-bottom: .15em dotted #eee;padding: .7em 0 0 1em}td a, th a{display:block}td:first-child,th:first-child{text-align:left;padding-left:0}th{font-weight:normal;padding:0 0 0 1em}@media only screen{th:nth-child(3),td:nth-child(3),th:nth-child(4),td:nth-child(4),th:nth-child(5),td:nth-child(5),th:nth-child(6),td:nth-child(6),th:nth-child(7),td:nth-child(7){display:none}}@media only screen and (min-width: 27em){th:nth-child(3),td:nth-child(3){display:table-cell}}@media only screen and (min-width: 38em){th:nth-child(4),td:nth-child(4),th:nth-child(5),td:nth-child(5),th:nth-child(6),td:nth-child(6){display:table-cell}}@media only screen and (min-width: 47em){th:nth-child(7),td:nth-child(7){display:table-cell}}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
 --></style>
 <link rel="shortcut icon" href="./favicon.ico">
 <header>
@@ -22,7 +22,7 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
     <table>
       <tbody>
       <tr>
-        <td colspan="7" class="message"><p>Dart VM version: 1.24.2 (Thu Jun 22 08:43:26 2017) on "linux_x64"
+        <td colspan="7" class="message"><p>Dart VM version: 2.0.0-dev.58.0 (Wed May 23 20:44:51 2018 +0200) on "linux_x64"
 
       <tbody>
         <tr>
@@ -35,28 +35,28 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
           <th>cpu load
         <tr>
           <td><a href="../program/binarytrees-dart-1.html"><span>binary-trees&nbsp;</span></a>
-          <td>0.17
+          <td>0.19
           <td>&nbsp;7
           <td>?
           <td>457
           <td>0.20
-          <td class="message">24%&nbsp;41%&nbsp;6%&nbsp;56%
+          <td class="message">5%&nbsp;26%&nbsp;30%&nbsp;44%
         <tr>
           <td><a href="../program/binarytrees-dart-1.html"><span>binary-trees&nbsp;</span></a>
-          <td>0.32
+          <td>0.34
           <td>&nbsp;14
-          <td>936
+          <td>940
           <td>457
-          <td>0.35
-          <td class="message">27%&nbsp;6%&nbsp;15%&nbsp;75%
+          <td>0.37
+          <td class="message">9%&nbsp;79%&nbsp;6%&nbsp;21%
         <tr>
           <td><a href="../program/binarytrees-dart-1.html"><span>binary-trees&nbsp;</span></a>
-          <td>38.02
+          <td>37.63
           <td>&nbsp;21
-          <td>550,668
+          <td>469,280
           <td>457
-          <td>48.65
-          <td class="message">27%&nbsp;63%&nbsp;31%&nbsp;8%
+          <td>48.14
+          <td class="message">24%&nbsp;29%&nbsp;65%&nbsp;12%
       <tbody>
         <tr>
           <th>source
@@ -68,28 +68,28 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
           <th>cpu load
         <tr>
           <td><a href="../program/fannkuchredux-dart-2.html"><span>fannkuch-redux&nbsp;&nbsp;#2</span></a>
-          <td>0.64
+          <td>0.62
           <td>&nbsp;10
-          <td>44,040
+          <td>28,892
           <td>495
-          <td>0.66
-          <td class="message">13%&nbsp;10%&nbsp;83%&nbsp;3%
+          <td>0.64
+          <td class="message">2%&nbsp;8%&nbsp;8%&nbsp;89%
         <tr>
           <td><a href="../program/fannkuchredux-dart-2.html"><span>fannkuch-redux&nbsp;&nbsp;#2</span></a>
-          <td>6.35
+          <td>6.07
           <td>&nbsp;11
-          <td>43,928
+          <td>28,792
           <td>495
-          <td>6.40
-          <td class="message">1%&nbsp;2%&nbsp;99%&nbsp;3%
+          <td>6.12
+          <td class="message">99%&nbsp;2%&nbsp;1%&nbsp;2%
         <tr>
           <td><a href="../program/fannkuchredux-dart-2.html"><span>fannkuch-redux&nbsp;&nbsp;#2</span></a>
-          <td>91.29
+          <td>86.89
           <td>&nbsp;12
-          <td>44,168
+          <td>28,864
           <td>495
-          <td>91.77
-          <td class="message">45%&nbsp;48%&nbsp;8%&nbsp;0%
+          <td>86.92
+          <td class="message">1%&nbsp;9%&nbsp;91%&nbsp;1%
       <tbody>
         <tr>
           <th>source
@@ -103,26 +103,26 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
           <td><a href="../program/fasta-dart-1.html"><span>fasta&nbsp;</span></a>
           <td>0.31
           <td>&nbsp;250,000
-          <td>940
+          <td>956
           <td>1403
           <td>0.35
-          <td class="message">17%&nbsp;74%&nbsp;3%&nbsp;20%
+          <td class="message">27%&nbsp;22%&nbsp;17%&nbsp;52%
         <tr>
           <td><a href="../program/fasta-dart-1.html"><span>fasta&nbsp;</span></a>
           <td>1.07
           <td>&nbsp;2,500,000
-          <td>50,204
+          <td>35,584
           <td>1403
           <td>1.11
-          <td class="message">3%&nbsp;7%&nbsp;8%&nbsp;93%
+          <td class="message">93%&nbsp;1%&nbsp;7%&nbsp;6%
         <tr>
           <td><a href="../program/fasta-dart-1.html"><span>fasta&nbsp;</span></a>
-          <td>8.10
+          <td>8.23
           <td>&nbsp;25,000,000
-          <td>50,560
+          <td>35,744
           <td>1403
-          <td>8.19
-          <td class="message">1%&nbsp;1%&nbsp;99%&nbsp;1%
+          <td>8.31
+          <td class="message">1%&nbsp;0%&nbsp;99%&nbsp;2%
       <tbody>
         <tr>
           <th>source
@@ -134,28 +134,28 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
           <th>cpu load
         <tr>
           <td><a href="../program/knucleotide-dart-1.html"><span>k-nucleotide&nbsp;</span></a>
-          <td>3.57
+          <td>10.31
           <td>&nbsp;250,000
-          <td>140,028
+          <td>112,612
           <td>610
-          <td>3.68
-          <td class="message">3%&nbsp;1%&nbsp;97%&nbsp;3%
+          <td>10.42
+          <td class="message">99%&nbsp;1%&nbsp;1%&nbsp;1%
         <tr>
           <td><a href="../program/knucleotide-dart-1.html"><span>k-nucleotide&nbsp;</span></a>
-          <td>31.99
+          <td>98.46
           <td>&nbsp;2,500,000
-          <td>183,004
+          <td>126,908
           <td>610
-          <td>32.23
-          <td class="message">0%&nbsp;85%&nbsp;1%&nbsp;16%
+          <td>98.54
+          <td class="message">100%&nbsp;0%&nbsp;1%&nbsp;0%
         <tr>
           <td><a href="../program/knucleotide-dart-1.html"><span>k-nucleotide&nbsp;</span></a>
-          <td>310.99
+          <td>985.43
           <td>&nbsp;25,000,000
-          <td>411,572
+          <td>396,192
           <td>610
-          <td>313.23
-          <td class="message">10%&nbsp;45%&nbsp;47%&nbsp;1%
+          <td>985.63
+          <td class="message">95%&nbsp;1%&nbsp;1%&nbsp;5%
       <tbody>
         <tr>
           <th>source
@@ -167,28 +167,28 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
           <th>cpu load
         <tr>
           <td><a href="../program/knucleotide-dart-2.html"><span>k-nucleotide&nbsp;&nbsp;#2</span></a>
-          <td>0.72
+          <td>0.74
           <td>&nbsp;250,000
-          <td>85,736
+          <td>79,852
           <td>2467
-          <td>1.68
-          <td class="message">56%&nbsp;58%&nbsp;63%&nbsp;62%
+          <td>1.69
+          <td class="message">46%&nbsp;68%&nbsp;60%&nbsp;57%
         <tr>
           <td><a href="../program/knucleotide-dart-2.html"><span>k-nucleotide&nbsp;&nbsp;#2</span></a>
-          <td>3.66
+          <td>3.52
           <td>&nbsp;2,500,000
-          <td>284,996
+          <td>305,336
           <td>2467
-          <td>9.67
-          <td class="message">58%&nbsp;57%&nbsp;75%&nbsp;77%
+          <td>9.20
+          <td class="message">53%&nbsp;56%&nbsp;88%&nbsp;68%
         <tr>
           <td><a href="../program/knucleotide-dart-2.html"><span>k-nucleotide&nbsp;&nbsp;#2</span></a>
-          <td>33.48
+          <td>31.22
           <td>&nbsp;25,000,000
-          <td>2,043,956
+          <td>2,193,848
           <td>2467
-          <td>91.87
-          <td class="message">58%&nbsp;71%&nbsp;80%&nbsp;67%
+          <td>84.67
+          <td class="message">61%&nbsp;75%&nbsp;84%&nbsp;52%
       <tbody>
         <tr>
           <th>source
@@ -200,28 +200,28 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
           <th>cpu load
         <tr>
           <td><a href="../program/mandelbrot-dart-1.html"><span>mandelbrot&nbsp;</span></a>
-          <td>0.42
+          <td>0.43
           <td>&nbsp;1,000
-          <td>53,552
+          <td>44,424
           <td>920
-          <td>0.80
-          <td class="message">54%&nbsp;46%&nbsp;54%&nbsp;44%
+          <td>0.84
+          <td class="message">62%&nbsp;60%&nbsp;44%&nbsp;38%
         <tr>
           <td><a href="../program/mandelbrot-dart-1.html"><span>mandelbrot&nbsp;</span></a>
-          <td>1.65
+          <td>1.64
           <td>&nbsp;4,000
-          <td>72,072
+          <td>60,588
           <td>920
-          <td>4.16
-          <td class="message">87%&nbsp;41%&nbsp;87%&nbsp;38%
+          <td>4.15
+          <td class="message">86%&nbsp;37%&nbsp;90%&nbsp;44%
         <tr>
           <td><a href="../program/mandelbrot-dart-1.html"><span>mandelbrot&nbsp;</span></a>
-          <td>20.50
+          <td>20.44
           <td>&nbsp;16,000
-          <td>97,796
+          <td>110,508
           <td>920
-          <td>55.98
-          <td class="message">46%&nbsp;38%&nbsp;99%&nbsp;91%
+          <td>55.64
+          <td class="message">99%&nbsp;37%&nbsp;99%&nbsp;37%
       <tbody>
         <tr>
           <th>source
@@ -233,28 +233,28 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
           <th>cpu load
         <tr>
           <td><a href="../program/nbody-dart-2.html"><span>n-body&nbsp;&nbsp;#2</span></a>
-          <td>0.51
+          <td>0.52
           <td>&nbsp;500,000
-          <td>46,344
+          <td>30,568
           <td>1278
           <td>0.54
-          <td class="message">84%&nbsp;10%&nbsp;12%&nbsp;0%
+          <td class="message">8%&nbsp;85%&nbsp;2%&nbsp;10%
         <tr>
           <td><a href="../program/nbody-dart-2.html"><span>n-body&nbsp;&nbsp;#2</span></a>
-          <td>3.47
+          <td>3.50
           <td>&nbsp;5,000,000
-          <td>46,176
+          <td>30,480
           <td>1278
-          <td>3.51
-          <td class="message">97%&nbsp;2%&nbsp;3%&nbsp;1%
+          <td>3.55
+          <td class="message">98%&nbsp;1%&nbsp;2%&nbsp;1%
         <tr>
           <td><a href="../program/nbody-dart-2.html"><span>n-body&nbsp;&nbsp;#2</span></a>
-          <td>33.09
+          <td>33.32
           <td>&nbsp;50,000,000
-          <td>46,572
+          <td>30,844
           <td>1278
-          <td>33.27
-          <td class="message">0%&nbsp;0%&nbsp;1%&nbsp;100%
+          <td>33.36
+          <td class="message">1%&nbsp;80%&nbsp;20%&nbsp;0%
       <tbody>
         <tr>
           <th>source
@@ -266,61 +266,37 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
           <th>cpu load
         <tr>
           <td><a href="../program/nbody-dart-3.html"><span>n-body&nbsp;&nbsp;#3</span></a>
-          <td>0.46
+          <td>0.47
           <td>&nbsp;500,000
-          <td>46,908
+          <td>31,776
           <td>1426
-          <td>0.49
-          <td class="message">0%&nbsp;16%&nbsp;19%&nbsp;79%
+          <td>0.50
+          <td class="message">13%&nbsp;2%&nbsp;85%&nbsp;13%
         <tr>
           <td><a href="../program/nbody-dart-3.html"><span>n-body&nbsp;&nbsp;#3</span></a>
-          <td>2.92
+          <td>2.97
           <td>&nbsp;5,000,000
-          <td>46,960
+          <td>32,444
           <td>1426
-          <td>2.96
-          <td class="message">97%&nbsp;3%&nbsp;3%&nbsp;1%
+          <td>3.03
+          <td class="message">97%&nbsp;2%&nbsp;2%&nbsp;1%
         <tr>
           <td><a href="../program/nbody-dart-3.html"><span>n-body&nbsp;&nbsp;#3</span></a>
-          <td>27.50
+          <td>27.99
           <td>&nbsp;50,000,000
-          <td>47,520
+          <td>32,400
           <td>1426
-          <td>27.64
-          <td class="message">0%&nbsp;11%&nbsp;89%&nbsp;0%
+          <td>28.04
+          <td class="message">1%&nbsp;1%&nbsp;0%&nbsp;100%
       <tbody>
-        <tr>
-          <th>source
-          <th>secs
-          <th>N
-          <th>mem
-          <th>gz
-          <th>cpu
-          <th>cpu load
         <tr>
           <td><a href="../program/pidigits-dart-1.html"><span>pidigits&nbsp;</span></a>
-          <td>0.66
+          <td class="message">Bad&nbsp;Output
           <td>&nbsp;2,000
-          <td>52,560
-          <td>603
-          <td>0.72
-          <td class="message">10%&nbsp;13%&nbsp;60%&nbsp;32%
-        <tr>
-          <td><a href="../program/pidigits-dart-1.html"><span>pidigits&nbsp;</span></a>
-          <td>3.98
-          <td>&nbsp;6,000
-          <td>64,980
-          <td>603
-          <td>4.09
-          <td class="message">25%&nbsp;4%&nbsp;77%&nbsp;3%
-        <tr>
-          <td><a href="../program/pidigits-dart-1.html"><span>pidigits&nbsp;</span></a>
-          <td>11.42
-          <td>&nbsp;10,000
-          <td>65,064
-          <td>603
-          <td>11.61
-          <td class="message">99%&nbsp;3%&nbsp;2%&nbsp;1%
+          <td>
+          <td>
+          <td>
+          <td class="message">
       <tbody>
         <tr>
           <th>source
@@ -332,28 +308,28 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
           <th>cpu load
         <tr>
           <td><a href="../program/regexredux-dart-3.html"><span>regex-redux&nbsp;&nbsp;#3</span></a>
-          <td>0.56
+          <td>0.50
           <td>&nbsp;50,000
-          <td>52,820
+          <td>41,780
           <td>1050
-          <td>1.03
-          <td class="message">43%&nbsp;56%&nbsp;37%&nbsp;56%
+          <td>0.93
+          <td class="message">42%&nbsp;59%&nbsp;52%&nbsp;39%
         <tr>
           <td><a href="../program/regexredux-dart-3.html"><span>regex-redux&nbsp;&nbsp;#3</span></a>
-          <td>1.86
+          <td>1.21
           <td>&nbsp;500,000
-          <td>194,336
+          <td>125,000
           <td>1050
-          <td>3.74
-          <td class="message">52%&nbsp;70%&nbsp;41%&nbsp;44%
+          <td>1.97
+          <td class="message">31%&nbsp;76%&nbsp;30%&nbsp;27%
         <tr>
           <td><a href="../program/regexredux-dart-3.html"><span>regex-redux&nbsp;&nbsp;#3</span></a>
-          <td>14.78
+          <td>8.10
           <td>&nbsp;5,000,000
-          <td>673,392
+          <td>791,508
           <td>1050
-          <td>31.04
-          <td class="message">45%&nbsp;58%&nbsp;59%&nbsp;51%
+          <td>12.57
+          <td class="message">18%&nbsp;88%&nbsp;27%&nbsp;24%
       <tbody>
         <tr>
           <th>source
@@ -365,28 +341,28 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
           <th>cpu load
         <tr>
           <td><a href="../program/regexredux-dart-2.html"><span>regex-redux&nbsp;&nbsp;#2</span></a>
-          <td>0.65
+          <td>0.54
           <td>&nbsp;50,000
-          <td>52,324
+          <td>30,524
           <td>685
-          <td>0.75
-          <td class="message">18%&nbsp;9%&nbsp;11%&nbsp;85%
+          <td>0.69
+          <td class="message">38%&nbsp;6%&nbsp;87%&nbsp;0%
         <tr>
           <td><a href="../program/regexredux-dart-2.html"><span>regex-redux&nbsp;&nbsp;#2</span></a>
-          <td>3.32
+          <td>1.52
           <td>&nbsp;500,000
-          <td>124,084
+          <td>98,004
           <td>685
-          <td>3.52
-          <td class="message">3%&nbsp;5%&nbsp;89%&nbsp;10%
+          <td>1.72
+          <td class="message">88%&nbsp;9%&nbsp;15%&nbsp;8%
         <tr>
           <td><a href="../program/regexredux-dart-2.html"><span>regex-redux&nbsp;&nbsp;#2</span></a>
-          <td>30.08
+          <td>12.08
           <td>&nbsp;5,000,000
-          <td>454,592
+          <td>446,080
           <td>685
-          <td>32.24
-          <td class="message">10%&nbsp;5%&nbsp;81%&nbsp;13%
+          <td>13.90
+          <td class="message">14%&nbsp;57%&nbsp;34%&nbsp;11%
       <tbody>
         <tr>
           <th>source
@@ -398,12 +374,12 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
           <th>cpu load
         <tr>
           <td><a href="../program/revcomp-dart-3.html"><span>reverse-complement&nbsp;&nbsp;#3</span></a>
-          <td>0.49
+          <td>0.45
           <td>&nbsp;250,000
-          <td>55,292
+          <td>40,356
           <td>555
-          <td>0.57
-          <td class="message">82%&nbsp;10%&nbsp;8%&nbsp;22%
+          <td>0.54
+          <td class="message">2%&nbsp;20%&nbsp;17%&nbsp;82%
         <tr>
           <td><a href="../program/revcomp-dart-3.html"><span>reverse-complement&nbsp;&nbsp;#3</span></a>
           <td class="message">Failed
@@ -423,12 +399,12 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
           <th>cpu load
         <tr>
           <td><a href="../program/revcomp-dart-2.html"><span>reverse-complement&nbsp;&nbsp;#2</span></a>
-          <td>0.60
+          <td>0.53
           <td>&nbsp;250,000
-          <td>78,420
+          <td>40,296
           <td>561
-          <td>0.70
-          <td class="message">82%&nbsp;16%&nbsp;15%&nbsp;11%
+          <td>0.62
+          <td class="message">6%&nbsp;15%&nbsp;18%&nbsp;83%
         <tr>
           <td><a href="../program/revcomp-dart-2.html"><span>reverse-complement&nbsp;&nbsp;#2</span></a>
           <td class="message">Failed
@@ -448,28 +424,28 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
           <th>cpu load
         <tr>
           <td><a href="../program/spectralnorm-dart-1.html"><span>spectral-norm&nbsp;</span></a>
-          <td>0.30
+          <td>0.31
           <td>&nbsp;500
-          <td>928
+          <td>956
           <td>462
-          <td>0.33
-          <td class="message">21%&nbsp;3%&nbsp;77%&nbsp;17%
+          <td>0.34
+          <td class="message">9%&nbsp;79%&nbsp;19%&nbsp;3%
         <tr>
           <td><a href="../program/spectralnorm-dart-1.html"><span>spectral-norm&nbsp;</span></a>
-          <td>4.86
+          <td>4.87
           <td>&nbsp;3,000
-          <td>47,276
+          <td>32,724
           <td>462
-          <td>4.92
-          <td class="message">1%&nbsp;1%&nbsp;99%&nbsp;2%
+          <td>4.91
+          <td class="message">2%&nbsp;0%&nbsp;98%&nbsp;1%
         <tr>
           <td><a href="../program/spectralnorm-dart-1.html"><span>spectral-norm&nbsp;</span></a>
-          <td>15.92
+          <td>15.89
           <td>&nbsp;5,500
-          <td>47,892
+          <td>32,288
           <td>462
-          <td>16.05
-          <td class="message">99%&nbsp;1%&nbsp;1%&nbsp;1%
+          <td>15.94
+          <td class="message">1%&nbsp;1%&nbsp;100%&nbsp;0%
       <tbody>
         <tr>
           <th>source
@@ -481,28 +457,28 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
           <th>cpu load
         <tr>
           <td><a href="../program/spectralnorm-dart-5.html"><span>spectral-norm&nbsp;&nbsp;#5</span></a>
-          <td>0.32
+          <td>0.31
           <td>&nbsp;500
-          <td>944
+          <td>952
           <td>489
-          <td>0.34
-          <td class="message">3%&nbsp;22%&nbsp;22%&nbsp;77%
+          <td>0.33
+          <td class="message">6%&nbsp;17%&nbsp;77%&nbsp;16%
         <tr>
           <td><a href="../program/spectralnorm-dart-5.html"><span>spectral-norm&nbsp;&nbsp;#5</span></a>
-          <td>5.03
+          <td>4.89
           <td>&nbsp;3,000
-          <td>47,724
+          <td>32,520
           <td>489
-          <td>5.08
-          <td class="message">3%&nbsp;0%&nbsp;98%&nbsp;1%
+          <td>4.94
+          <td class="message">1%&nbsp;99%&nbsp;1%&nbsp;1%
         <tr>
           <td><a href="../program/spectralnorm-dart-5.html"><span>spectral-norm&nbsp;&nbsp;#5</span></a>
-          <td>15.92
+          <td>15.94
           <td>&nbsp;5,500
-          <td>47,608
+          <td>32,108
           <td>489
-          <td>16.06
-          <td class="message">61%&nbsp;1%&nbsp;1%&nbsp;40%
+          <td>15.98
+          <td class="message">0%&nbsp;1%&nbsp;1%&nbsp;100%
     </table>
   </section>
 </article>

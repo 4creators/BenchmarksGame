@@ -121,11 +121,12 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-2.1.200
+sdk/2.1.300
+.NETCore.App 2.1.0
 "System.GC.Server": true
 
 
-Thu, 24 May 2018 20:18:06 GMT
+Wed, 30 May 2018 21:34:46 GMT
 
 MAKE:
 cp regexredux.csharpcore-4.csharpcore Program.cs
@@ -135,24 +136,24 @@ mkdir obj
 cp Include/csharpcore/tmp.csproj.nuget.g.props ./obj
 cp Include/csharpcore/tmp.csproj.nuget.g.targets ./obj
 /usr/bin/dotnet build -c Release
-Microsoft (R) Build Engine version 15.7.177.53362 for .NET Core
+Microsoft (R) Build Engine version 15.7.179.6572 for .NET Core
 Copyright (C) Microsoft Corporation. All rights reserved.
 
   Restoring packages for /home/dunham/benchmarksgame_quadcore/regexredux/tmp/tmp.csproj...
   Generating MSBuild file /home/dunham/benchmarksgame_quadcore/regexredux/tmp/obj/tmp.csproj.nuget.g.props.
-  Restore completed in 273.45 ms for /home/dunham/benchmarksgame_quadcore/regexredux/tmp/tmp.csproj.
-  tmp -&gt; /home/dunham/benchmarksgame_quadcore/regexredux/tmp/bin/Release/netcoreapp2.0/tmp.dll
+  Restore completed in 268.2 ms for /home/dunham/benchmarksgame_quadcore/regexredux/tmp/tmp.csproj.
+  tmp -&gt; /home/dunham/benchmarksgame_quadcore/regexredux/tmp/bin/Release/netcoreapp2.1/tmp.dll
 
 Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:02.88
+Time Elapsed 00:00:02.34
 
-3.50s to complete and log all make actions
+2.94s to complete and log all make actions
 
 COMMAND LINE:
-/usr/bin/dotnet ./bin/Release/netcoreapp2.0/tmp.dll 0 &lt; regexredux-input5000000.txt
+/usr/bin/dotnet ./bin/Release/netcoreapp2.1/tmp.dll 0 &lt; regexredux-input5000000.txt
 
 PROGRAM OUTPUT:
 agggtaaa|tttaccct 356

@@ -63,11 +63,12 @@ printf <span class="str">&quot;</span><span class="esc">\n</span><span class="st
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-2.1.200
+sdk/2.1.300
+.NETCore.App 2.1.0
 "System.GC.Server": true
 
 
-Fri, 25 May 2018 00:32:33 GMT
+Wed, 30 May 2018 23:32:31 GMT
 
 MAKE:
 cp regexredux.fsharpcore-2.fsharpcore Program.fs
@@ -78,21 +79,21 @@ cp Include/fsharpcore/project.assets.json ./obj
 cp Include/fsharpcore/tmp.fsproj.nuget.g.props ./obj
 cp Include/fsharpcore/tmp.fsproj.nuget.g.targets ./obj
 /usr/bin/dotnet build -c Release --no-restore
-Microsoft (R) Build Engine version 15.7.177.53362 for .NET Core
+Microsoft (R) Build Engine version 15.7.179.6572 for .NET Core
 Copyright (C) Microsoft Corporation. All rights reserved.
 
-  tmp -&gt; /home/dunham/benchmarksgame_quadcore/regexredux/tmp/bin/Release/netcoreapp2.0/tmp.dll
+  tmp -&gt; /home/dunham/benchmarksgame_quadcore/regexredux/tmp/bin/Release/netcoreapp2.1/tmp.dll
 
 Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:05.81
+Time Elapsed 00:00:05.28
 
-6.41s to complete and log all make actions
+5.90s to complete and log all make actions
 
 COMMAND LINE:
-/usr/bin/dotnet ./bin/Release/netcoreapp2.0/tmp.dll 0 &lt; regexredux-input5000000.txt
+/usr/bin/dotnet ./bin/Release/netcoreapp2.1/tmp.dll 0 &lt; regexredux-input5000000.txt
 
 PROGRAM OUTPUT:
 agggtaaa|tttaccct 356

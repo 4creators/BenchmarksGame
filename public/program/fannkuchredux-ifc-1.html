@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="slc">! The Computer Language Benchmarks Game</span>
-<span class="slc">! https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">! http://benchmarksgame.alioth.debian.org/</span>
 <span class="slc">!</span>
 <span class="slc">! converted to fortran by Gilbert Brietzke on 31. Januar 2011</span>
 <span class="slc">! from C-code by Joseph Piché as a conversion</span>
@@ -97,21 +97,23 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Intel(R) Fortran Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 18.0.0.128 Build 20170811
-Copyright (C) 1985-2017 Intel Corporation.  All rights reserved.
+Intel(R) Fortran Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 18.0.3.222 Build 20180410
+Copyright (C) 1985-2018 Intel Corporation.  All rights reserved.
 FOR NON-COMMERCIAL USE ONLY
 
 
-Thu, 26 Oct 2017 20:28:01 GMT
+Fri, 01 Jun 2018 17:23:29 GMT
 
 MAKE:
 /opt/src/intel/bin/ifort -O3 -fast -qopenmp fannkuchredux.f90 -o fannkuchredux.ifc_run
 ipo: warning #11021: unresolved __pthread_create
         Referenced in libpthread.a(pthread_cancel.o)
         Referenced in libpthread.a(pthread_exit.o)
+/opt/src/intel/compilers_and_libraries_2018.3.222/linux/compiler/lib/intel64_lin/libiomp5.a(ompt-general.o): In function `ompt_pre_init':
+(.text+0x1eb0): warning: Using 'dlopen' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
 rm fannkuchredux.f90
 
-0.43s to complete and log all make actions
+1.20s to complete and log all make actions
 
 COMMAND LINE:
 ./fannkuchredux.ifc_run 12

@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="slc">! The Computer Language Benchmarks Game</span>
-<span class="slc">! https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">! http://benchmarksgame.alioth.debian.org/</span>
 <span class="slc">!</span>
 <span class="slc">! contributed by Steve Decker</span>
 <span class="slc">! using the hash function posted by Rich Townsend to comp.lang.fortran</span>
@@ -382,43 +382,55 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Intel(R) Fortran Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 18.0.0.128 Build 20170811
-Copyright (C) 1985-2017 Intel Corporation.  All rights reserved.
+Intel(R) Fortran Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 18.0.3.222 Build 20180410
+Copyright (C) 1985-2018 Intel Corporation.  All rights reserved.
 FOR NON-COMMERCIAL USE ONLY
 
 
-Thu, 26 Oct 2017 20:38:31 GMT
+Fri, 01 Jun 2018 17:35:06 GMT
 
 MAKE:
 /opt/src/intel/bin/ifort -O3 -fast -qopenmp knucleotide.f90 -o knucleotide.ifc_run
 ipo: warning #11021: unresolved __pthread_create
         Referenced in libpthread.a(pthread_cancel.o)
         Referenced in libpthread.a(pthread_exit.o)
+/opt/src/intel/compilers_and_libraries_2018.3.222/linux/compiler/lib/intel64_lin/libiomp5.a(ompt-general.o): In function `ompt_pre_init':
+(.text+0x1eb0): warning: Using 'dlopen' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
 rm knucleotide.f90
 
-0.78s to complete and log all make actions
+0.88s to complete and log all make actions
 
 COMMAND LINE:
-./knucleotide.ifc_run 0 &lt; knucleotide-input250000.txt
-
-PROGRAM FAILED 
-
+./knucleotide.ifc_run 0 &lt; knucleotide-input25000000.txt
 
 PROGRAM OUTPUT:
+A 30.295
+T 30.151
+C 19.800
+G 19.754
 
-forrtl: severe (174): SIGSEGV, segmentation fault occurred
-Image              PC                Routine            Line        Source             
-knucleotide.ifc_r  000000000040FA3D  Unknown               Unknown  Unknown
-knucleotide.ifc_r  000000000058C6E0  Unknown               Unknown  Unknown
-knucleotide.ifc_r  0000000000579705  Unknown               Unknown  Unknown
-knucleotide.ifc_r  000000000040E30A  Unknown               Unknown  Unknown
-knucleotide.ifc_r  0000000000404F80  Unknown               Unknown  Unknown
-knucleotide.ifc_r  000000000040600C  Unknown               Unknown  Unknown
-knucleotide.ifc_r  0000000000403BB8  Unknown               Unknown  Unknown
-knucleotide.ifc_r  00000000004018D7  Unknown               Unknown  Unknown
-knucleotide.ifc_r  0000000000400C8E  Unknown               Unknown  Unknown
-knucleotide.ifc_r  000000000058E54A  Unknown               Unknown  Unknown
-knucleotide.ifc_r  0000000000400B7A  Unknown               Unknown  Unknown
+AA 9.177
+TA 9.132
+AT 9.131
+TT 9.091
+CA 6.002
+AC 6.001
+AG 5.987
+GA 5.984
+CT 5.971
+TC 5.971
+GT 5.957
+TG 5.956
+CC 3.917
+GC 3.911
+CG 3.909
+GG 3.902
+
+1471758	GGT
+446535	GGTA
+47336	GGTATT
+893	GGTATTTTAATT
+893	GGTATTTTAATTTATAGT
     </pre>
   </section>
 </article>

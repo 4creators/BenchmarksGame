@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="slc">! The Computer Language Benchmarks Game</span>
-<span class="slc">! https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">! http://benchmarksgame.alioth.debian.org/</span>
 <span class="slc">!</span>
 <span class="slc">! contributed by Steve Decker</span>
 <span class="slc">! compilation:</span>
@@ -307,18 +307,18 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Intel(R) Fortran Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 18.0.0.128 Build 20170811
-Copyright (C) 1985-2017 Intel Corporation.  All rights reserved.
+Intel(R) Fortran Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 18.0.3.222 Build 20180410
+Copyright (C) 1985-2018 Intel Corporation.  All rights reserved.
 FOR NON-COMMERCIAL USE ONLY
 
 
-Thu, 26 Oct 2017 19:44:45 GMT
+Fri, 01 Jun 2018 18:05:00 GMT
 
 MAKE:
 /opt/src/intel/bin/ifort -O3 -xHost -ipo -lgmp pidigits.f90 -o pidigits.ifc_run
 rm pidigits.f90
 
-0.73s to complete and log all make actions
+0.92s to complete and log all make actions
 
 COMMAND LINE:
 ./pidigits.ifc_run 2000
@@ -429,17 +429,19 @@ PROGRAM OUTPUT:
 9216420198	:1000
 9380952572	:1010
 0106548586	:1020
+327800*0*0	:1030
+*00000*0*0	:1040
+0000000*00	:1050
+**0*000*00	:1060
 
 forrtl: severe (174): SIGSEGV, segmentation fault occurred
 Image              PC                Routine            Line        Source             
-pidigits.ifc_run   0000000000406FED  Unknown               Unknown  Unknown
-libpthread-2.26.s  00007F0D076B1150  Unknown               Unknown  Unknown
-pidigits.ifc_run   0000000000492A3D  Unknown               Unknown  Unknown
-pidigits.ifc_run   0000000000405AD5  Unknown               Unknown  Unknown
-pidigits.ifc_run   0000000000403A42  Unknown               Unknown  Unknown
-pidigits.ifc_run   0000000000402AFE  Unknown               Unknown  Unknown
-libc-2.26.so       00007F0D072DF1C1  __libc_start_main     Unknown  Unknown
-pidigits.ifc_run   00000000004029EA  Unknown               Unknown  Unknown
+pidigits.ifc_run   0000000000406F83  Unknown               Unknown  Unknown
+libpthread-2.27.s  00007FAF44FFD890  Unknown               Unknown  Unknown
+pidigits.ifc_run   0000000000406B67  Unknown               Unknown  Unknown
+libpthread-2.27.s  00007FAF44FFD890  Unknown               Unknown  Unknown
+
+Stack trace terminated abnormally.
     </pre>
   </section>
 </article>

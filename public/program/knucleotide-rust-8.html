@@ -22,6 +22,245 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
+<span class="slc">//</span>
+<span class="slc">//  Url: https://github.com/inv2004/knucleotide-rs</span>
+<span class="slc">//  Author: &#64;inv2004</span>
+<span class="slc">//  Description:</span>
+<span class="slc">//    this update from Rust#6 uses primitive-type generics for HashMap key.</span>
+<span class="slc">//</span>
+
+<span class="slc">// #![feature(test)]</span>
+
+<span class="slc">// extern crate test;</span>
+
+<span class="kwa">extern crate</span> futures<span class="opt">;</span>
+<span class="kwa">extern crate</span> futures_cpupool<span class="opt">;</span>
+<span class="kwa">extern crate</span> indexmap<span class="opt">;</span>
+<span class="kwa">extern crate</span> itertools<span class="opt">;</span>
+<span class="kwa">extern crate</span> num<span class="opt">;</span>
+
+<span class="kwa">use</span> futures<span class="opt">::</span>Future<span class="opt">;</span>
+<span class="kwa">use</span> futures_cpupool<span class="opt">::</span>CpuPool<span class="opt">;</span>
+<span class="kwa">use</span> indexmap<span class="opt">::</span>IndexMap<span class="opt">;</span>
+<span class="kwa">use</span> itertools<span class="opt">::</span>Itertools<span class="opt">;</span>
+<span class="kwa">use</span> num<span class="opt">::{</span>FromPrimitive<span class="opt">,</span> ToPrimitive<span class="opt">};</span>
+<span class="kwa">use</span> std<span class="opt">::</span>cmp<span class="opt">::</span>Ordering<span class="opt">;</span>
+<span class="kwa">use</span> std<span class="opt">::</span>fs<span class="opt">::</span>File<span class="opt">;</span>
+<span class="kwa">use</span> std<span class="opt">::</span>hash<span class="opt">::{</span>BuildHasherDefault<span class="opt">,</span> Hasher<span class="opt">};</span>
+<span class="kwa">use</span> std<span class="opt">::</span>io<span class="opt">::</span>BufReader<span class="opt">;</span>
+<span class="kwa">use</span> std<span class="opt">::</span>sync<span class="opt">::</span>Arc<span class="opt">;</span>
+<span class="kwa">use</span> std<span class="opt">::</span>time<span class="opt">::</span>Instant<span class="opt">;</span>
+
+<span class="kwa">struct</span> NaiveHasher<span class="opt">&lt;</span>T<span class="opt">&gt;(</span>T<span class="opt">);</span>
+<span class="kwa">impl</span><span class="opt">&lt;</span>T<span class="opt">:</span> Default<span class="opt">&gt;</span> Default <span class="kwa">for</span> NaiveHasher<span class="opt">&lt;</span>T<span class="opt">&gt; {</span>
+    <span class="kwa">fn</span> <span class="kwd">default</span><span class="opt">() -&gt;</span> <span class="kwa">Self</span> <span class="opt">{</span>
+        <span class="kwd">NaiveHasher</span><span class="opt">(</span>T<span class="opt">::</span><span class="kwd">default</span><span class="opt">())</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
+<span class="kwa">impl</span><span class="opt">&lt;</span>T<span class="opt">:</span> ToPrimitive <span class="opt">+</span> FromPrimitive<span class="opt">&gt;</span> Hasher <span class="kwa">for</span> NaiveHasher<span class="opt">&lt;</span>T<span class="opt">&gt; {</span>
+    <span class="kwa">fn</span> <span class="kwd">finish</span><span class="opt">(&amp;</span><span class="kwa">self</span><span class="opt">) -&gt;</span> <span class="kwb">u64</span> <span class="opt">{</span>
+        <span class="kwa">self</span><span class="num">.0</span><span class="opt">.</span><span class="kwd">to_u64</span><span class="opt">()</span><span class="num">.u</span>nwrap<span class="opt">()</span>
+    <span class="opt">}</span>
+    <span class="kwa">fn</span> <span class="kwd">write</span><span class="opt">(&amp;</span><span class="kwa">mut self</span><span class="opt">,</span> _<span class="opt">: &amp;[</span><span class="kwb">u8</span><span class="opt">]) {</span>
+        unimplemented<span class="opt">!()</span>
+    <span class="opt">}</span>
+    <span class="kwa">fn</span> <span class="kwd">write_u8</span><span class="opt">(&amp;</span><span class="kwa">mut self</span><span class="opt">,</span> i<span class="opt">:</span> <span class="kwb">u8</span><span class="opt">) {</span>
+        <span class="kwa">self</span><span class="num">.0</span> <span class="opt">=</span> T<span class="opt">::</span><span class="kwd">from_u8</span><span class="opt">(</span>i<span class="opt">)</span><span class="num">.u</span>nwrap<span class="opt">();</span>
+    <span class="opt">}</span>
+    <span class="kwa">fn</span> <span class="kwd">write_u16</span><span class="opt">(&amp;</span><span class="kwa">mut self</span><span class="opt">,</span> i<span class="opt">:</span> <span class="kwb">u16</span><span class="opt">) {</span>
+        <span class="kwa">self</span><span class="num">.0</span> <span class="opt">=</span> T<span class="opt">::</span><span class="kwd">from_u16</span><span class="opt">(</span>i<span class="opt">)</span><span class="num">.u</span>nwrap<span class="opt">();</span>
+    <span class="opt">}</span>
+    <span class="kwa">fn</span> <span class="kwd">write_u32</span><span class="opt">(&amp;</span><span class="kwa">mut self</span><span class="opt">,</span> i<span class="opt">:</span> <span class="kwb">u32</span><span class="opt">) {</span>
+        <span class="kwa">self</span><span class="num">.0</span> <span class="opt">=</span> T<span class="opt">::</span><span class="kwd">from_u32</span><span class="opt">(</span>i ^ i <span class="opt">&gt;&gt;</span> <span class="num">6</span><span class="opt">)</span><span class="num">.u</span>nwrap<span class="opt">();</span>
+    <span class="opt">}</span>
+    <span class="kwa">fn</span> <span class="kwd">write_u64</span><span class="opt">(&amp;</span><span class="kwa">mut self</span><span class="opt">,</span> i<span class="opt">:</span> <span class="kwb">u64</span><span class="opt">) {</span>
+        <span class="kwa">self</span><span class="num">.0</span> <span class="opt">=</span> T<span class="opt">::</span><span class="kwd">from_u64</span><span class="opt">(</span>i ^ i <span class="opt">&gt;&gt;</span> <span class="num">7</span><span class="opt">)</span><span class="num">.u</span>nwrap<span class="opt">();</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
+
+<span class="kwa">type</span> NaiveBuildHasher<span class="opt">&lt;</span>T<span class="opt">&gt; =</span> BuildHasherDefault<span class="opt">&lt;</span>NaiveHasher<span class="opt">&lt;</span>T<span class="opt">&gt;&gt;;</span>
+<span class="kwa">type</span> NaiveHashMap<span class="opt">&lt;</span>K<span class="opt">,</span> V<span class="opt">,</span> T<span class="opt">&gt; =</span> IndexMap<span class="opt">&lt;</span>K<span class="opt">,</span> V<span class="opt">,</span> NaiveBuildHasher<span class="opt">&lt;</span>T<span class="opt">&gt;&gt;;</span>
+<span class="kwa">type</span> Map<span class="opt">&lt;</span>T<span class="opt">&gt; =</span> NaiveHashMap<span class="opt">&lt;</span>T<span class="opt">,</span> <span class="kwb">u32</span><span class="opt">,</span> T<span class="opt">&gt;;</span>
+
+<span class="kwa">trait</span> ShlXorMsk<span class="opt">&lt;</span>T<span class="opt">&gt; {</span>
+    <span class="kwa">fn</span> <span class="kwd">sh</span><span class="opt">(</span>a<span class="opt">:</span> T<span class="opt">,</span> x<span class="opt">:</span> <span class="kwb">u8</span><span class="opt">,</span> m<span class="opt">:</span> T<span class="opt">) -&gt;</span> T<span class="opt">;</span>
+    <span class="kwa">fn</span> <span class="kwd">mask</span><span class="opt">(</span>len<span class="opt">:</span> <span class="kwb">usize</span><span class="opt">) -&gt;</span> T<span class="opt">;</span>
+<span class="opt">}</span>
+
+<span class="kwa">impl</span> ShlXorMsk<span class="opt">&lt;</span><span class="kwb">u8</span><span class="opt">&gt;</span> <span class="kwa">for</span> <span class="kwb">u8</span> <span class="opt">{</span>
+    <span class="kwa">fn</span> <span class="kwd">sh</span><span class="opt">(</span>a<span class="opt">:</span> <span class="kwb">u8</span><span class="opt">,</span> x<span class="opt">:</span> <span class="kwb">u8</span><span class="opt">,</span> m<span class="opt">:</span> <span class="kwb">u8</span><span class="opt">) -&gt;</span> <span class="kwb">u8</span> <span class="opt">{</span>
+        m <span class="opt">&amp; (</span>a <span class="opt">&lt;&lt;</span> <span class="num">2</span><span class="opt">) |</span> x
+    <span class="opt">}</span>
+    <span class="kwa">fn</span> <span class="kwd">mask</span><span class="opt">(</span>len<span class="opt">:</span> <span class="kwb">usize</span><span class="opt">) -&gt;</span> <span class="kwb">u8</span> <span class="opt">{</span>
+        <span class="opt">((</span><span class="num">1u16</span> <span class="opt">&lt;&lt;</span> <span class="num">2</span> <span class="opt">*</span> len<span class="opt">) -</span> <span class="num">1</span><span class="opt">)</span> <span class="kwa">as</span> <span class="kwb">u8</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
+
+<span class="kwa">impl</span> ShlXorMsk<span class="opt">&lt;</span><span class="kwb">u16</span><span class="opt">&gt;</span> <span class="kwa">for</span> <span class="kwb">u16</span> <span class="opt">{</span>
+    <span class="kwa">fn</span> <span class="kwd">sh</span><span class="opt">(</span>a<span class="opt">:</span> <span class="kwb">u16</span><span class="opt">,</span> x<span class="opt">:</span> <span class="kwb">u8</span><span class="opt">,</span> m<span class="opt">:</span> <span class="kwb">u16</span><span class="opt">) -&gt;</span> <span class="kwb">u16</span> <span class="opt">{</span>
+        m <span class="opt">&amp; (</span>a <span class="opt">&lt;&lt;</span> <span class="num">2</span><span class="opt">) | (</span>x <span class="kwa">as</span> <span class="kwb">u16</span><span class="opt">)</span>
+    <span class="opt">}</span>
+    <span class="kwa">fn</span> <span class="kwd">mask</span><span class="opt">(</span>len<span class="opt">:</span> <span class="kwb">usize</span><span class="opt">) -&gt;</span> <span class="kwb">u16</span> <span class="opt">{</span>
+        <span class="opt">((</span><span class="num">1u32</span> <span class="opt">&lt;&lt;</span> <span class="num">2</span> <span class="opt">*</span> len<span class="opt">) -</span> <span class="num">1</span><span class="opt">)</span> <span class="kwa">as</span> <span class="kwb">u16</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
+
+<span class="kwa">impl</span> ShlXorMsk<span class="opt">&lt;</span><span class="kwb">u32</span><span class="opt">&gt;</span> <span class="kwa">for</span> <span class="kwb">u32</span> <span class="opt">{</span>
+    <span class="kwa">fn</span> <span class="kwd">sh</span><span class="opt">(</span>a<span class="opt">:</span> <span class="kwb">u32</span><span class="opt">,</span> x<span class="opt">:</span> <span class="kwb">u8</span><span class="opt">,</span> m<span class="opt">:</span> <span class="kwb">u32</span><span class="opt">) -&gt;</span> <span class="kwb">u32</span> <span class="opt">{</span>
+        m <span class="opt">&amp; (</span>a <span class="opt">&lt;&lt;</span> <span class="num">2</span><span class="opt">) | (</span>x <span class="kwa">as</span> <span class="kwb">u32</span><span class="opt">)</span>
+    <span class="opt">}</span>
+    <span class="kwa">fn</span> <span class="kwd">mask</span><span class="opt">(</span>len<span class="opt">:</span> <span class="kwb">usize</span><span class="opt">) -&gt;</span> <span class="kwb">u32</span> <span class="opt">{</span>
+        <span class="opt">((</span><span class="num">1u64</span> <span class="opt">&lt;&lt;</span> <span class="num">2</span> <span class="opt">*</span> len<span class="opt">) -</span> <span class="num">1</span><span class="opt">)</span> <span class="kwa">as</span> <span class="kwb">u32</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
+
+<span class="kwa">impl</span> ShlXorMsk<span class="opt">&lt;</span><span class="kwb">u64</span><span class="opt">&gt;</span> <span class="kwa">for</span> <span class="kwb">u64</span> <span class="opt">{</span>
+    <span class="kwa">fn</span> <span class="kwd">sh</span><span class="opt">(</span>a<span class="opt">:</span> <span class="kwb">u64</span><span class="opt">,</span> x<span class="opt">:</span> <span class="kwb">u8</span><span class="opt">,</span> m<span class="opt">:</span> <span class="kwb">u64</span><span class="opt">) -&gt;</span> <span class="kwb">u64</span> <span class="opt">{</span>
+        m <span class="opt">&amp; (</span>a <span class="opt">&lt;&lt;</span> <span class="num">2</span><span class="opt">) | (</span>x <span class="kwa">as</span> <span class="kwb">u64</span><span class="opt">)</span>
+    <span class="opt">}</span>
+    <span class="kwa">fn</span> <span class="kwd">mask</span><span class="opt">(</span>len<span class="opt">:</span> <span class="kwb">usize</span><span class="opt">) -&gt;</span> <span class="kwb">u64</span> <span class="opt">{</span>
+        <span class="opt">(</span><span class="num">1u64</span> <span class="opt">&lt;&lt;</span> <span class="num">2</span> <span class="opt">*</span> len<span class="opt">) -</span> <span class="num">1</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
+
+<span class="kwa">fn</span> <span class="kwd">match_key</span><span class="opt">(</span>k<span class="opt">:</span> <span class="kwb">u8</span><span class="opt">) -&gt;</span> <span class="kwb">char</span> <span class="opt">{</span>
+    <span class="kwa">match</span> k <span class="opt">{</span>
+        <span class="num">0b00</span> <span class="opt">=&gt;</span> &apos;A&apos;<span class="opt">,</span>
+        <span class="num">0b01</span> <span class="opt">=&gt;</span> &apos;C&apos;<span class="opt">,</span>
+        <span class="num">0b10</span> <span class="opt">=&gt;</span> &apos;T&apos;<span class="opt">,</span>
+        <span class="num">0b11</span> <span class="opt">=&gt;</span> &apos;G&apos;<span class="opt">,</span>
+        _ <span class="opt">=&gt;</span> &apos;_&apos;<span class="opt">,</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
+
+<span class="kwa">fn</span> <span class="kwd">print_stat</span><span class="opt">(</span>h<span class="opt">:</span> Map<span class="opt">&lt;</span><span class="kwb">u8</span><span class="opt">&gt;,</span> seq_len<span class="opt">:</span> <span class="kwb">usize</span><span class="opt">) {</span>
+    <span class="kwa">let</span> total <span class="opt">=</span> h<span class="opt">.</span><span class="kwd">values</span><span class="opt">().</span>sum<span class="opt">::&lt;</span><span class="kwb">u32</span><span class="opt">&gt;();</span>
+
+    h<span class="num">.i</span>nto<span class="num">_i</span>ter<span class="opt">()</span>
+        <span class="opt">.</span><span class="kwd">sorted_by</span><span class="opt">(|&amp;(</span><span class="kwa">ref</span> a<span class="opt">,</span> x<span class="opt">), &amp;(</span><span class="kwa">ref</span> b<span class="opt">,</span> y<span class="opt">)| {</span>
+            <span class="kwa">let</span> ord1 <span class="opt">=</span> Ord<span class="opt">::</span><span class="kwd">cmp</span><span class="opt">(&amp;</span>y<span class="opt">, &amp;</span>x<span class="opt">);</span>
+            <span class="kwa">if</span> ord1 <span class="opt">==</span> Ordering<span class="opt">::</span>Equal <span class="opt">{</span>
+                Ord<span class="opt">::</span><span class="kwd">cmp</span><span class="opt">(&amp;</span>b<span class="opt">, &amp;</span>a<span class="opt">)</span>
+            <span class="opt">}</span> <span class="kwa">else</span> <span class="opt">{</span>
+                ord1
+            <span class="opt">}</span>
+        <span class="opt">})</span>
+        <span class="num">.i</span>ter<span class="opt">()</span>
+        <span class="num">.f</span>or<span class="num">_</span>each<span class="opt">(|(</span>k<span class="opt">,</span> v<span class="opt">)| {</span>
+            <span class="kwa">if</span> seq_len <span class="opt">==</span> <span class="num">1</span> <span class="opt">{</span>
+                println<span class="opt">!(</span><span class="str">&quot;{} {:.3}&quot;</span><span class="opt">,</span> <span class="kwd">match_key</span><span class="opt">(*</span>k<span class="opt">), (</span><span class="num">100</span> <span class="opt">*</span> v<span class="opt">)</span> <span class="kwa">as</span> <span class="kwb">f32</span> <span class="opt">/</span> total <span class="kwa">as</span> <span class="kwb">f32</span><span class="opt">);</span>
+            <span class="opt">}</span> <span class="kwa">else</span> <span class="opt">{</span>
+                println<span class="opt">!(</span>
+                    <span class="str">&quot;{}{} {:.3}&quot;</span><span class="opt">,</span>
+                    <span class="kwd">match_key</span><span class="opt">(*</span>k <span class="opt">&gt;&gt;</span> <span class="num">2</span><span class="opt">),</span>
+                    <span class="kwd">match_key</span><span class="opt">(</span><span class="num">0b11</span> <span class="opt">&amp; *</span>k<span class="opt">),</span>
+                    <span class="opt">(</span><span class="num">100</span> <span class="opt">*</span> v<span class="opt">)</span> <span class="kwa">as</span> <span class="kwb">f32</span> <span class="opt">/</span> total <span class="kwa">as</span> <span class="kwb">f32</span>
+                <span class="opt">);</span>
+            <span class="opt">};</span>
+        <span class="opt">});</span>
+    println<span class="opt">!();</span>
+<span class="opt">}</span>
+
+<span class="kwa">fn</span> print<span class="opt">&lt;</span>
+    T<span class="opt">:</span> FromPrimitive <span class="opt">+</span> ToPrimitive <span class="opt">+</span> Default <span class="opt">+</span> std<span class="opt">::</span>hash<span class="opt">::</span>Hash <span class="opt">+</span> std<span class="opt">::</span>cmp<span class="opt">::</span>Eq <span class="opt">+</span> ShlXorMsk<span class="opt">&lt;</span>T<span class="opt">&gt; +</span> Copy<span class="opt">,</span>
+<span class="opt">&gt;(</span>
+    h<span class="opt">:</span> Map<span class="opt">&lt;</span>T<span class="opt">&gt;,</span>
+    seq<span class="opt">: &amp;</span><span class="kwb">str</span><span class="opt">,</span>
+<span class="opt">) {</span>
+    <span class="kwa">let</span> mask <span class="opt">=</span> T<span class="opt">::</span><span class="kwd">from_u64</span><span class="opt">((</span><span class="num">1u64</span> <span class="opt">&lt;&lt; (</span><span class="num">2</span> <span class="opt">*</span> seq<span class="opt">.</span><span class="kwd">len</span><span class="opt">()</span> <span class="kwa">as</span> <span class="kwb">u32</span><span class="opt">)) -</span> <span class="num">1</span><span class="opt">)</span><span class="num">.u</span>nwrap<span class="opt">();</span>
+    <span class="kwa">let</span> k <span class="opt">=</span> seq<span class="opt">.</span><span class="kwd">to_ascii_lowercase</span><span class="opt">()</span>
+        <span class="opt">.</span><span class="kwd">as_bytes</span><span class="opt">()</span>
+        <span class="num">.i</span>ter<span class="opt">()</span>
+        <span class="opt">.</span><span class="kwd">map</span><span class="opt">(|</span>x<span class="opt">|</span> <span class="num">0b11u8</span> <span class="opt">&amp;</span> x <span class="opt">&gt;&gt;</span> <span class="num">1</span><span class="opt">)</span>
+        <span class="num">.f</span>old<span class="opt">(</span>T<span class="opt">::</span><span class="kwd">default</span><span class="opt">(), |</span>acc<span class="opt">,</span> x<span class="opt">|</span> T<span class="opt">::</span><span class="kwd">sh</span><span class="opt">(</span>acc<span class="opt">,</span> x<span class="opt">,</span> mask<span class="opt">));</span>
+    println<span class="opt">!(</span><span class="str">&quot;{}</span><span class="esc">\</span><span class="str">t{}&quot;</span><span class="opt">,</span> h<span class="opt">.</span><span class="kwd">get</span><span class="opt">(&amp;</span>k<span class="opt">)</span><span class="num">.u</span>nwrap<span class="num">_</span>or<span class="opt">(&amp;</span><span class="num">0</span><span class="opt">),</span> seq<span class="opt">);</span>
+<span class="opt">}</span>
+
+<span class="kwa">fn</span> freq<span class="opt">&lt;</span>
+    T<span class="opt">:</span> FromPrimitive <span class="opt">+</span> ToPrimitive <span class="opt">+</span> Default <span class="opt">+</span> std<span class="opt">::</span>hash<span class="opt">::</span>Hash <span class="opt">+</span> std<span class="opt">::</span>cmp<span class="opt">::</span>Eq <span class="opt">+</span> ShlXorMsk<span class="opt">&lt;</span>T<span class="opt">&gt; +</span> Copy<span class="opt">,</span>
+<span class="opt">&gt;(</span>
+    s_vec<span class="opt">: &amp;[</span><span class="kwb">u8</span><span class="opt">],</span>
+    len<span class="opt">:</span> <span class="kwb">usize</span><span class="opt">,</span>
+<span class="opt">) -&gt;</span> Map<span class="opt">&lt;</span>T<span class="opt">&gt; {</span>
+    <span class="kwa">let mut</span> h <span class="opt">=</span> Map<span class="opt">::</span><span class="kwd">default</span><span class="opt">();</span>
+    <span class="kwa">let</span> mask <span class="opt">=</span> T<span class="opt">::</span><span class="kwd">mask</span><span class="opt">(</span>len<span class="opt">);</span>
+    <span class="kwa">let mut</span> it <span class="opt">=</span> s_vec<span class="num">.i</span>ter<span class="opt">();</span>
+    <span class="kwa">let mut</span> a <span class="opt">=</span> it<span class="opt">.</span><span class="kwd">by_ref</span><span class="opt">()</span>
+        <span class="opt">.</span><span class="kwd">take</span><span class="opt">(</span>len <span class="opt">-</span> <span class="num">1</span><span class="opt">)</span>
+        <span class="num">.f</span>old<span class="opt">(</span>T<span class="opt">::</span><span class="kwd">default</span><span class="opt">(), |</span>acc<span class="opt">, &amp;</span>x<span class="opt">|</span> T<span class="opt">::</span><span class="kwd">sh</span><span class="opt">(</span>acc<span class="opt">,</span> x<span class="opt">,</span> mask<span class="opt">));</span>
+    <span class="kwa">for</span> <span class="opt">&amp;</span>x <span class="kwa">in</span> it <span class="opt">{</span>
+        a <span class="opt">=</span> T<span class="opt">::</span><span class="kwd">sh</span><span class="opt">(</span>a<span class="opt">,</span> x<span class="opt">,</span> mask<span class="opt">);</span>
+        <span class="opt">*</span>h<span class="opt">.</span><span class="kwd">entry</span><span class="opt">(</span>a<span class="opt">).</span><span class="kwd">or_insert</span><span class="opt">(</span><span class="num">0</span><span class="opt">) +=</span> <span class="num">1</span><span class="opt">;</span>
+    <span class="opt">}</span>
+    h
+<span class="opt">}</span>
+
+<span class="kwa">fn</span> get_seq<span class="opt">&lt;</span>R<span class="opt">:</span> std<span class="opt">::</span>io<span class="opt">::</span>BufRead<span class="opt">&gt;(</span>r<span class="opt">:</span> R<span class="opt">,</span> key<span class="opt">: &amp;</span><span class="kwb">str</span><span class="opt">) -&gt;</span> Vec<span class="opt">&lt;</span><span class="kwb">u8</span><span class="opt">&gt; {</span>
+    <span class="kwa">let mut</span> res <span class="opt">=</span> Vec<span class="opt">::</span><span class="kwd">new</span><span class="opt">();</span>
+    <span class="kwa">for</span> l <span class="kwa">in</span> r<span class="opt">.</span><span class="kwd">lines</span><span class="opt">()</span>
+        <span class="opt">.</span><span class="kwd">map</span><span class="opt">(|</span>l<span class="opt">|</span> l<span class="num">.u</span>nwrap<span class="opt">())</span>
+        <span class="opt">.</span><span class="kwd">skip_while</span><span class="opt">(|</span>l<span class="opt">| !</span>l<span class="opt">.</span><span class="kwd">starts_with</span><span class="opt">(</span>key<span class="opt">))</span>
+        <span class="opt">.</span><span class="kwd">skip</span><span class="opt">(</span><span class="num">1</span><span class="opt">)</span>
+    <span class="opt">{</span>
+        res<span class="opt">.</span><span class="kwd">extend</span><span class="opt">(</span>l<span class="opt">.</span><span class="kwd">trim</span><span class="opt">().</span><span class="kwd">as_bytes</span><span class="opt">()</span><span class="num">.i</span>ter<span class="opt">().</span><span class="kwd">cloned</span><span class="opt">().</span><span class="kwd">map</span><span class="opt">(|</span>x<span class="opt">|</span> <span class="num">0b11</span> <span class="opt">&amp;</span> x <span class="opt">&gt;&gt;</span> <span class="num">1</span><span class="opt">));</span>
+    <span class="opt">}</span>
+    res
+<span class="opt">}</span>
+
+<span class="kwa">fn</span> calc<span class="opt">&lt;</span>R<span class="opt">:</span> std<span class="opt">::</span>io<span class="opt">::</span>BufRead<span class="opt">&gt;(</span>r<span class="opt">:</span> R<span class="opt">) {</span>
+    <span class="kwa">let</span> s_vec <span class="opt">=</span> <span class="kwd">get_seq</span><span class="opt">(</span>r<span class="opt">,</span> <span class="str">&quot;&gt;THREE&quot;</span><span class="opt">);</span>
+
+    <span class="kwa">let</span> pool <span class="opt">=</span> CpuPool<span class="opt">::</span><span class="kwd">new_num_cpus</span><span class="opt">();</span>
+
+    <span class="kwa">let</span> arc_vec <span class="opt">=</span> Arc<span class="opt">::</span><span class="kwd">new</span><span class="opt">(</span>s_vec<span class="opt">);</span>
+    <span class="kwa">let</span> s1 <span class="opt">=</span> arc_vec<span class="opt">.</span><span class="kwd">clone</span><span class="opt">();</span>
+    <span class="kwa">let</span> s2 <span class="opt">=</span> arc_vec<span class="opt">.</span><span class="kwd">clone</span><span class="opt">();</span>
+    <span class="kwa">let</span> s3 <span class="opt">=</span> arc_vec<span class="opt">.</span><span class="kwd">clone</span><span class="opt">();</span>
+    <span class="kwa">let</span> s4 <span class="opt">=</span> arc_vec<span class="opt">.</span><span class="kwd">clone</span><span class="opt">();</span>
+    <span class="kwa">let</span> s5 <span class="opt">=</span> arc_vec<span class="opt">.</span><span class="kwd">clone</span><span class="opt">();</span>
+    <span class="kwa">let</span> s6 <span class="opt">=</span> arc_vec<span class="opt">.</span><span class="kwd">clone</span><span class="opt">();</span>
+    <span class="kwa">let</span> s7 <span class="opt">=</span> arc_vec<span class="opt">.</span><span class="kwd">clone</span><span class="opt">();</span>
+    <span class="kwa">let</span> f7 <span class="opt">=</span> pool<span class="opt">.</span><span class="kwd">spawn_fn</span><span class="opt">(</span><span class="kwa">move</span> <span class="opt">||</span> Ok<span class="opt">::&lt;</span>_<span class="opt">, ()&gt;(</span><span class="kwd">freq</span><span class="opt">(&amp;</span>s1<span class="opt">,</span> <span class="num">18</span><span class="opt">)));</span>
+    <span class="kwa">let</span> f6 <span class="opt">=</span> pool<span class="opt">.</span><span class="kwd">spawn_fn</span><span class="opt">(</span><span class="kwa">move</span> <span class="opt">||</span> Ok<span class="opt">::&lt;</span>_<span class="opt">, ()&gt;(</span><span class="kwd">freq</span><span class="opt">(&amp;</span>s2<span class="opt">,</span> <span class="num">12</span><span class="opt">)));</span>
+    <span class="kwa">let</span> f5 <span class="opt">=</span> pool<span class="opt">.</span><span class="kwd">spawn_fn</span><span class="opt">(</span><span class="kwa">move</span> <span class="opt">||</span> Ok<span class="opt">::&lt;</span>_<span class="opt">, ()&gt;(</span><span class="kwd">freq</span><span class="opt">(&amp;</span>s3<span class="opt">,</span> <span class="num">6</span><span class="opt">)));</span>
+    <span class="kwa">let</span> f4 <span class="opt">=</span> pool<span class="opt">.</span><span class="kwd">spawn_fn</span><span class="opt">(</span><span class="kwa">move</span> <span class="opt">||</span> Ok<span class="opt">::&lt;</span>_<span class="opt">, ()&gt;(</span><span class="kwd">freq</span><span class="opt">(&amp;</span>s4<span class="opt">,</span> <span class="num">4</span><span class="opt">)));</span>
+    <span class="kwa">let</span> f3 <span class="opt">=</span> pool<span class="opt">.</span><span class="kwd">spawn_fn</span><span class="opt">(</span><span class="kwa">move</span> <span class="opt">||</span> Ok<span class="opt">::&lt;</span>_<span class="opt">, ()&gt;(</span><span class="kwd">freq</span><span class="opt">(&amp;</span>s5<span class="opt">,</span> <span class="num">3</span><span class="opt">)));</span>
+    <span class="kwa">let</span> f2 <span class="opt">=</span> pool<span class="opt">.</span><span class="kwd">spawn_fn</span><span class="opt">(</span><span class="kwa">move</span> <span class="opt">||</span> Ok<span class="opt">::&lt;</span>_<span class="opt">, ()&gt;(</span><span class="kwd">freq</span><span class="opt">(&amp;</span>s6<span class="opt">,</span> <span class="num">2</span><span class="opt">)));</span>
+    <span class="kwa">let</span> f1 <span class="opt">=</span> pool<span class="opt">.</span><span class="kwd">spawn_fn</span><span class="opt">(</span><span class="kwa">move</span> <span class="opt">||</span> Ok<span class="opt">::&lt;</span>_<span class="opt">, ()&gt;(</span><span class="kwd">freq</span><span class="opt">(&amp;</span>s7<span class="opt">,</span> <span class="num">1</span><span class="opt">)));</span>
+    <span class="kwd">print_stat</span><span class="opt">(</span>f1<span class="opt">.</span><span class="kwd">wait</span><span class="opt">()</span><span class="num">.u</span>nwrap<span class="opt">(),</span> <span class="num">1</span><span class="opt">);</span>
+    <span class="kwd">print_stat</span><span class="opt">(</span>f2<span class="opt">.</span><span class="kwd">wait</span><span class="opt">()</span><span class="num">.u</span>nwrap<span class="opt">(),</span> <span class="num">2</span><span class="opt">);</span>
+    print<span class="opt">::&lt;</span><span class="kwb">u8</span><span class="opt">&gt;(</span>f3<span class="opt">.</span><span class="kwd">wait</span><span class="opt">()</span><span class="num">.u</span>nwrap<span class="opt">(),</span> <span class="str">&quot;GGT&quot;</span><span class="opt">);</span>
+    print<span class="opt">::&lt;</span><span class="kwb">u8</span><span class="opt">&gt;(</span>f4<span class="opt">.</span><span class="kwd">wait</span><span class="opt">()</span><span class="num">.u</span>nwrap<span class="opt">(),</span> <span class="str">&quot;GGTA&quot;</span><span class="opt">);</span>
+    print<span class="opt">::&lt;</span><span class="kwb">u16</span><span class="opt">&gt;(</span>f5<span class="opt">.</span><span class="kwd">wait</span><span class="opt">()</span><span class="num">.u</span>nwrap<span class="opt">(),</span> <span class="str">&quot;GGTATT&quot;</span><span class="opt">);</span>
+    print<span class="opt">::&lt;</span><span class="kwb">u32</span><span class="opt">&gt;(</span>f6<span class="opt">.</span><span class="kwd">wait</span><span class="opt">()</span><span class="num">.u</span>nwrap<span class="opt">(),</span> <span class="str">&quot;GGTATTTTAATT&quot;</span><span class="opt">);</span>
+    print<span class="opt">::&lt;</span><span class="kwb">u64</span><span class="opt">&gt;(</span>f7<span class="opt">.</span><span class="kwd">wait</span><span class="opt">()</span><span class="num">.u</span>nwrap<span class="opt">(),</span> <span class="str">&quot;GGTATTTTAATTTATAGT&quot;</span><span class="opt">);</span>
+<span class="opt">}</span>
+
+<span class="kwa">fn</span> <span class="kwd">main</span><span class="opt">() {</span>
+    <span class="slc">// let now = Instant::now();</span>
+
+    <span class="kwa">let</span> stdin <span class="opt">=</span> std<span class="opt">::</span>io<span class="opt">::</span><span class="kwd">stdin</span><span class="opt">();</span>
+    <span class="kwd">calc</span><span class="opt">(</span>stdin<span class="opt">.</span><span class="kwd">lock</span><span class="opt">());</span>
+
+    <span class="slc">// let elapsed = now.elapsed();</span>
+    <span class="slc">// let sec = (elapsed.as_secs() as f64) + (elapsed.subsec_nanos() as f64 / 1000_000_000.0);</span>
+    <span class="slc">// println!(&quot;Seconds: {}&quot;, sec);</span>
+<span class="opt">}</span>
+
+<span class="ppc">#[cfg(test)]</span>
+<span class="kwa">mod</span> tests <span class="opt">{</span>
+    <span class="kwa">use super</span><span class="opt">::*;</span>
+    <span class="kwa">use</span> test<span class="opt">::</span>Bencher<span class="opt">;</span>
+
+    <span class="ppc">#[bench]</span>
+    <span class="kwa">fn</span> <span class="kwd">bench_knuc_main</span><span class="opt">(</span>b<span class="opt">: &amp;</span><span class="kwa">mut</span> Bencher<span class="opt">) {</span>
+        b<span class="num">.i</span>ter<span class="opt">(|| {</span>
+            <span class="kwa">let</span> file <span class="opt">=</span> File<span class="opt">::</span><span class="kwd">open</span><span class="opt">(</span><span class="str">&quot;in250k.txt&quot;</span><span class="opt">)</span><span class="num">.u</span>nwrap<span class="opt">();</span>
+            <span class="kwa">let</span> buf <span class="opt">=</span> BufReader<span class="opt">::</span><span class="kwd">new</span><span class="opt">(</span>file<span class="opt">);</span>
+            <span class="kwd">calc</span><span class="opt">(</span>buf<span class="opt">)</span>
+        <span class="opt">});</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
     </pre>
   </section>
   <section>
@@ -31,6 +270,65 @@ NOTES:
 64-bit Ubuntu quad core
 rustc 1.26.0 (a77568041 2018-05-07)
 
+
+Mon, 04 Jun 2018 19:13:31 GMT
+
+MAKE:
+/opt/src/rust-1.26.0/bin/rustc -C opt-level=3 -C target-cpu=core2 -C lto -C codegen-units=1 -L /opt/src/rust-libs knucleotide.rs -o knucleotide.rust-8.rust_run
+warning: unused import: `std::fs::File`
+  --&gt; knucleotide.rs:24:5
+   |
+24 | use std::fs::File;
+   |     ^^^^^^^^^^^^^
+   |
+   = note: #[warn(unused_imports)] on by default
+
+warning: unused import: `std::io::BufReader`
+  --&gt; knucleotide.rs:26:5
+   |
+26 | use std::io::BufReader;
+   |     ^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `std::time::Instant`
+  --&gt; knucleotide.rs:28:5
+   |
+28 | use std::time::Instant;
+   |     ^^^^^^^^^^^^^^^^^^
+
+
+29.64s to complete and log all make actions
+
+COMMAND LINE:
+./knucleotide.rust-8.rust_run 0 &lt; knucleotide-input25000000.txt
+
+PROGRAM OUTPUT:
+A 30.295
+T 30.151
+C 19.800
+G 19.754
+
+AA 9.177
+TA 9.132
+AT 9.131
+TT 9.091
+CA 6.002
+AC 6.001
+AG 5.987
+GA 5.984
+CT 5.971
+TC 5.971
+GT 5.957
+TG 5.956
+CC 3.917
+GC 3.911
+CG 3.909
+GG 3.902
+
+1471758	GGT
+446535	GGTA
+47336	GGTATT
+893	GGTATTTTAATT
+893	GGTATTTTAATTTATAGT
     </pre>
   </section>
 </article>

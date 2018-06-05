@@ -24,7 +24,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 <span class="opt">&lt;</span>?hh 
 <span class="com">/* The Computer Language Benchmarks Game</span>
-<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com">   http://benchmarksgame.alioth.debian.org/</span>
 <span class="com">   </span>
 <span class="com">   contributed by Isaac Gouy </span>
 <span class="com">   PHP as HHVM/Hack by Isaac Gouy</span>
@@ -148,39 +148,47 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-HipHop VM 3.21.0 (rel)
-Compiler: 3.21.0+dfsg-2
-Repo schema: 1c159cf2047dca5f4a3363b2138a33e14a1e99fa
+HipHop VM 3.26.3 (rel)
+Compiler: 1527193607_720265267
+Repo schema: ac3cdc27d1cbfe6b4dc78fec3c3e88dd2ee9b239
 
 
-Thu, 16 Nov 2017 00:39:08 GMT
+Tue, 05 Jun 2018 21:16:49 GMT
 
 MAKE:
 /usr/bin/hh_client
 No errors!
 
-0.03s to complete and log all make actions
+0.11s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/hhvm  -d hhvm.hack.lang.look_for_typechecker=0 pidigits.hack 2000
 
 UNEXPECTED OUTPUT 
 
-1,6d0
+1,10d0
 &lt; 
-&lt; Strict Warning: Non-static method Transformation::Unity() should not be called statically in /home/dunham/benchmarksgame/bench/pidigits/pidigits.hack on line 63
+&lt; Deprecated: Methods with the same name as their class will not be constructors in a future version of PHP; Transformation has a deprecated constructor in /home/dunham/benchmarksgame/bench/pidigits/pidigits.hack on line 12
 &lt; 
-&lt; Strict Warning: Non-static method Transformation::Zero() should not be called statically in /home/dunham/benchmarksgame/bench/pidigits/pidigits.hack on line 64
+&lt; Deprecated: Methods with the same name as their class will not be constructors in a future version of PHP; PiDigitStream has a deprecated constructor in /home/dunham/benchmarksgame/bench/pidigits/pidigits.hack on line 59
 &lt; 
-&lt; Strict Warning: Non-static method Transformation::Zero() should not be called statically in /home/dunham/benchmarksgame/bench/pidigits/pidigits.hack on line 65
+&lt; Deprecated: Non-static method Transformation::Unity() should not be called statically in /home/dunham/benchmarksgame/bench/pidigits/pidigits.hack on line 63
+&lt; 
+&lt; Deprecated: Non-static method Transformation::Zero() should not be called statically in /home/dunham/benchmarksgame/bench/pidigits/pidigits.hack on line 64
+&lt; 
+&lt; Deprecated: Non-static method Transformation::Zero() should not be called statically in /home/dunham/benchmarksgame/bench/pidigits/pidigits.hack on line 65
 
 PROGRAM OUTPUT:
 
-Strict Warning: Non-static method Transformation::Unity() should not be called statically in /home/dunham/benchmarksgame/bench/pidigits/pidigits.hack on line 63
+Deprecated: Methods with the same name as their class will not be constructors in a future version of PHP; Transformation has a deprecated constructor in /home/dunham/benchmarksgame/bench/pidigits/pidigits.hack on line 12
 
-Strict Warning: Non-static method Transformation::Zero() should not be called statically in /home/dunham/benchmarksgame/bench/pidigits/pidigits.hack on line 64
+Deprecated: Methods with the same name as their class will not be constructors in a future version of PHP; PiDigitStream has a deprecated constructor in /home/dunham/benchmarksgame/bench/pidigits/pidigits.hack on line 59
 
-Strict Warning: Non-static method Transformation::Zero() should not be called statically in /home/dunham/benchmarksgame/bench/pidigits/pidigits.hack on line 65
+Deprecated: Non-static method Transformation::Unity() should not be called statically in /home/dunham/benchmarksgame/bench/pidigits/pidigits.hack on line 63
+
+Deprecated: Non-static method Transformation::Zero() should not be called statically in /home/dunham/benchmarksgame/bench/pidigits/pidigits.hack on line 64
+
+Deprecated: Non-static method Transformation::Zero() should not be called statically in /home/dunham/benchmarksgame/bench/pidigits/pidigits.hack on line 65
 3141592653	:10
 5897932384	:20
 6264338327	:30

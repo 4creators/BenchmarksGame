@@ -23,246 +23,246 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="com">&quot;* The Computer Language Benchmarks Game</span>
-<span class="com">    https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com">    http://benchmarksgame.alioth.debian.org/</span>
 <span class="com">    contributed by Isaac Gouy</span>
-<span class="com">    modified by Eliot Miranda *&quot;</span>!
+<span class="com">    modified by Eliot Miranda *&quot;</span><span class="opt">!</span>
 
-<span class="kwc">Smalltalk</span>.<span class="kwc">Core</span> <span class="kwb">defineClass:</span> <span class="kwd">#BenchmarksGame</span>
-	<span class="kwb">superclass:</span> #{<span class="kwc">Core</span>.<span class="kwc">Object</span>}
+<span class="kwc">Smalltalk</span><span class="opt">.</span><span class="kwc">Core</span> <span class="kwb">defineClass:</span> <span class="kwd">#BenchmarksGame</span>
+	<span class="kwb">superclass:</span> <span class="opt">#{</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">Object</span><span class="opt">}</span>
 	<span class="kwb">indexedType:</span> <span class="kwd">#none</span>
 	<span class="kwb">private:</span> <span class="kwa">false</span>
-	<span class="kwb">instanceVariableNames:</span> <span class="str">''</span>
-	<span class="kwb">classInstanceVariableNames:</span> <span class="str">''</span>
-	<span class="kwb">imports:</span> <span class="str">''</span>
-	<span class="kwb">category:</span> <span class="str">''</span>!
+	<span class="kwb">instanceVariableNames:</span> <span class="str">&apos;&apos;</span>
+	<span class="kwb">classInstanceVariableNames:</span> <span class="str">&apos;&apos;</span>
+	<span class="kwb">imports:</span> <span class="str">&apos;&apos;</span>
+	<span class="kwb">category:</span> <span class="str">&apos;&apos;</span><span class="opt">!</span>
 
 <span class="kwc">Smalltalk</span> <span class="kwb">defineClass:</span> <span class="kwd">#RandomNumber</span>
-	<span class="kwb">superclass:</span> #{<span class="kwc">Core</span>.<span class="kwc">Object</span>}
+	<span class="kwb">superclass:</span> <span class="opt">#{</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">Object</span><span class="opt">}</span>
 	<span class="kwb">indexedType:</span> <span class="kwd">#none</span>
 	<span class="kwb">private:</span> <span class="kwa">false</span>
-	<span class="kwb">instanceVariableNames:</span> <span class="str">'seed scale '</span>
-	<span class="kwb">classInstanceVariableNames:</span> <span class="str">''</span>
-	<span class="kwb">imports:</span> <span class="str">''</span>
-	<span class="kwb">category:</span> <span class="str">'benchmarks game'</span>!
+	<span class="kwb">instanceVariableNames:</span> <span class="str">&apos;seed scale &apos;</span>
+	<span class="kwb">classInstanceVariableNames:</span> <span class="str">&apos;&apos;</span>
+	<span class="kwb">imports:</span> <span class="str">&apos;&apos;</span>
+	<span class="kwb">category:</span> <span class="str">&apos;benchmarks game&apos;</span><span class="opt">!</span>
 
 <span class="kwc">Smalltalk</span> <span class="kwb">defineClass:</span> <span class="kwd">#RepeatStream</span>
-	<span class="kwb">superclass:</span> #{<span class="kwc">Core</span>.<span class="kwc">ReadStream</span>}
+	<span class="kwb">superclass:</span> <span class="opt">#{</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">ReadStream</span><span class="opt">}</span>
 	<span class="kwb">indexedType:</span> <span class="kwd">#none</span>
 	<span class="kwb">private:</span> <span class="kwa">false</span>
-	<span class="kwb">instanceVariableNames:</span> <span class="str">'repeatPtr repeatLimit '</span>
-	<span class="kwb">classInstanceVariableNames:</span> <span class="str">''</span>
-	<span class="kwb">imports:</span> <span class="str">''</span>
-	<span class="kwb">category:</span> <span class="str">'benchmarks game'</span>!
+	<span class="kwb">instanceVariableNames:</span> <span class="str">&apos;repeatPtr repeatLimit &apos;</span>
+	<span class="kwb">classInstanceVariableNames:</span> <span class="str">&apos;&apos;</span>
+	<span class="kwb">imports:</span> <span class="str">&apos;&apos;</span>
+	<span class="kwb">category:</span> <span class="str">&apos;benchmarks game&apos;</span><span class="opt">!</span>
 
 <span class="kwc">Smalltalk</span> <span class="kwb">defineClass:</span> <span class="kwd">#RandomStream</span>
-	<span class="kwb">superclass:</span> #{<span class="kwc">Smalltalk</span>.<span class="kwc">RepeatStream</span>}
+	<span class="kwb">superclass:</span> <span class="opt">#{</span><span class="kwc">Smalltalk</span><span class="opt">.</span><span class="kwc">RepeatStream</span><span class="opt">}</span>
 	<span class="kwb">indexedType:</span> <span class="kwd">#none</span>
 	<span class="kwb">private:</span> <span class="kwa">false</span>
-	<span class="kwb">instanceVariableNames:</span> <span class="str">'random percentages '</span>
-	<span class="kwb">classInstanceVariableNames:</span> <span class="str">''</span>
-	<span class="kwb">imports:</span> <span class="str">''</span>
-	<span class="kwb">category:</span> <span class="str">'benchmarks game'</span>!
+	<span class="kwb">instanceVariableNames:</span> <span class="str">&apos;random percentages &apos;</span>
+	<span class="kwb">classInstanceVariableNames:</span> <span class="str">&apos;&apos;</span>
+	<span class="kwb">imports:</span> <span class="str">&apos;&apos;</span>
+	<span class="kwb">category:</span> <span class="str">&apos;benchmarks game&apos;</span><span class="opt">!</span>
 
-<span class="kwc">Smalltalk</span>.<span class="kwc">RandomNumber</span> <span class="kwb">defineSharedVariable:</span> <span class="kwd">#FModulus</span>
+<span class="kwc">Smalltalk</span><span class="opt">.</span><span class="kwc">RandomNumber</span> <span class="kwb">defineSharedVariable:</span> <span class="kwd">#FModulus</span>
 	<span class="kwb">private:</span> <span class="kwa">false</span>
 	<span class="kwb">constant:</span> <span class="kwa">false</span>
-	<span class="kwb">category:</span> <span class="str">'As yet unclassified'</span>
-	<span class="kwb">initializer:</span> <span class="kwa">nil</span>!
+	<span class="kwb">category:</span> <span class="str">&apos;As yet unclassified&apos;</span>
+	<span class="kwb">initializer:</span> <span class="kwa">nil</span><span class="opt">!</span>
 
 
-<span class="kwc">Smalltalk</span>.<span class="kwc">RandomNumber</span> <span class="kwb">defineSharedVariable:</span> <span class="kwd">#Increment</span>
+<span class="kwc">Smalltalk</span><span class="opt">.</span><span class="kwc">RandomNumber</span> <span class="kwb">defineSharedVariable:</span> <span class="kwd">#Increment</span>
 	<span class="kwb">private:</span> <span class="kwa">false</span>
 	<span class="kwb">constant:</span> <span class="kwa">false</span>
-	<span class="kwb">category:</span> <span class="str">'As yet unclassified'</span>
-	<span class="kwb">initializer:</span> <span class="kwa">nil</span>!
+	<span class="kwb">category:</span> <span class="str">&apos;As yet unclassified&apos;</span>
+	<span class="kwb">initializer:</span> <span class="kwa">nil</span><span class="opt">!</span>
 
 
-<span class="kwc">Smalltalk</span>.<span class="kwc">RandomNumber</span> <span class="kwb">defineSharedVariable:</span> <span class="kwd">#Modulus</span>
+<span class="kwc">Smalltalk</span><span class="opt">.</span><span class="kwc">RandomNumber</span> <span class="kwb">defineSharedVariable:</span> <span class="kwd">#Modulus</span>
 	<span class="kwb">private:</span> <span class="kwa">false</span>
 	<span class="kwb">constant:</span> <span class="kwa">false</span>
-	<span class="kwb">category:</span> <span class="str">'As yet unclassified'</span>
-	<span class="kwb">initializer:</span> <span class="kwa">nil</span>!
+	<span class="kwb">category:</span> <span class="str">&apos;As yet unclassified&apos;</span>
+	<span class="kwb">initializer:</span> <span class="kwa">nil</span><span class="opt">!</span>
 
 
-<span class="kwc">Smalltalk</span>.<span class="kwc">RandomNumber</span> <span class="kwb">defineSharedVariable:</span> <span class="kwd">#Multiplier</span>
+<span class="kwc">Smalltalk</span><span class="opt">.</span><span class="kwc">RandomNumber</span> <span class="kwb">defineSharedVariable:</span> <span class="kwd">#Multiplier</span>
 	<span class="kwb">private:</span> <span class="kwa">false</span>
 	<span class="kwb">constant:</span> <span class="kwa">false</span>
-	<span class="kwb">category:</span> <span class="str">'As yet unclassified'</span>
-	<span class="kwb">initializer:</span> <span class="kwa">nil</span>!
+	<span class="kwb">category:</span> <span class="str">&apos;As yet unclassified&apos;</span>
+	<span class="kwb">initializer:</span> <span class="kwa">nil</span><span class="opt">!</span>
 
-!<span class="kwc">Core</span>.<span class="kwc">BenchmarksGame</span> class <span class="kwb">methodsFor:</span> <span class="str">'private'</span>!
+<span class="opt">!</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">BenchmarksGame</span> class <span class="kwb">methodsFor:</span> <span class="str">&apos;private&apos;</span><span class="opt">!</span>
 
 <span class="kwb">fasta:</span> n <span class="kwb">to:</span> out
    <span class="kwd">| r lineLength |</span>
-   lineLength :<span class="kwb">=</span> <span class="num">60</span>.
+   lineLength <span class="opt">:</span><span class="kwb">=</span> <span class="num">60</span><span class="opt">.</span>
    <span class="kwa">self</span>
-      <span class="kwb">writeFasta:</span> <span class="str">'ONE Homo sapiens alu'</span>
+      <span class="kwb">writeFasta:</span> <span class="str">&apos;ONE Homo sapiens alu&apos;</span>
       <span class="kwb">from:</span>
-         ( <span class="kwc">RepeatStream</span>
+         <span class="opt">(</span> <span class="kwc">RepeatStream</span>
             <span class="kwb">to:</span> n<span class="kwb">*</span><span class="num">2</span>
-            <span class="kwb">on:</span><span class="str">'GGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGG'</span>,
-               <span class="str">'GAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGA'</span>,
-               <span class="str">'CCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAAT'</span>,
-               <span class="str">'ACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCA'</span>,
-               <span class="str">'GCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGG'</span>,
-               <span class="str">'AGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCC'</span>,
-               <span class="str">'AGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAA'</span> )
+            <span class="kwb">on:</span><span class="str">&apos;GGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGG&apos;</span>,
+               <span class="str">&apos;GAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGA&apos;</span>,
+               <span class="str">&apos;CCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAAT&apos;</span>,
+               <span class="str">&apos;ACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCA&apos;</span>,
+               <span class="str">&apos;GCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGG&apos;</span>,
+               <span class="str">&apos;AGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCC&apos;</span>,
+               <span class="str">&apos;AGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAA&apos;</span> <span class="opt">)</span>
       <span class="kwb">to:</span> out
-      <span class="kwb">lineLength:</span> lineLength.
+      <span class="kwb">lineLength:</span> lineLength<span class="opt">.</span>
 
-   r :<span class="kwb">=</span> <span class="kwc">RandomNumber</span> <span class="kwb">to:</span> <span class="num">1</span>. <span class="com">&quot;Shared random sequence&quot;</span>
+   r <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">RandomNumber</span> <span class="kwb">to:</span> <span class="num">1</span><span class="opt">.</span> <span class="com">&quot;Shared random sequence&quot;</span>
 
    <span class="kwa">self</span>
-      <span class="kwb">writeFasta:</span> <span class="str">'TWO IUB ambiguity codes'</span>
+      <span class="kwb">writeFasta:</span> <span class="str">&apos;TWO IUB ambiguity codes&apos;</span>
       <span class="kwb">from:</span>
-         (( <span class="kwc">RandomStream</span>
+         <span class="opt">((</span> <span class="kwc">RandomStream</span>
             <span class="kwb">to:</span> n<span class="kwb">*</span><span class="num">3</span>
-            <span class="kwb">on:</span> #(   #(<span class="num">$a 0.27</span>d0)
-                  #(<span class="num">$c 0.12</span>d0)
-                  #(<span class="num">$g 0.12</span>d0)
-                  #(<span class="num">$t 0.27</span>d0)
+            <span class="kwb">on:</span> <span class="opt">#(   #(</span><span class="num">$a 0.27</span>d0<span class="opt">)</span>
+                  <span class="opt">#(</span><span class="num">$c 0.12</span>d0<span class="opt">)</span>
+                  <span class="opt">#(</span><span class="num">$g 0.12</span>d0<span class="opt">)</span>
+                  <span class="opt">#(</span><span class="num">$t 0.27</span>d0<span class="opt">)</span>
 
-                  #(<span class="num">$B 0.02</span>d0)
-                  #(<span class="num">$D 0.02</span>d0)
-                  #(<span class="num">$H 0.02</span>d0)
-                  #(<span class="num">$K 0.02</span>d0)
-                  #(<span class="num">$M 0.02</span>d0)
-                  #(<span class="num">$N 0.02</span>d0)
-                  #(<span class="num">$R 0.02</span>d0)
-                  #(<span class="num">$S 0.02</span>d0)
-                  #(<span class="num">$V 0.02</span>d0)
-                  #(<span class="num">$W 0.02</span>d0)
-                  #(<span class="num">$Y 0.02</span>d0)))
-         <span class="kwb">random:</span> r;
-         yourself)
+                  <span class="opt">#(</span><span class="num">$B 0.02</span>d0<span class="opt">)</span>
+                  <span class="opt">#(</span><span class="num">$D 0.02</span>d0<span class="opt">)</span>
+                  <span class="opt">#(</span><span class="num">$H 0.02</span>d0<span class="opt">)</span>
+                  <span class="opt">#(</span><span class="num">$K 0.02</span>d0<span class="opt">)</span>
+                  <span class="opt">#(</span><span class="num">$M 0.02</span>d0<span class="opt">)</span>
+                  <span class="opt">#(</span><span class="num">$N 0.02</span>d0<span class="opt">)</span>
+                  <span class="opt">#(</span><span class="num">$R 0.02</span>d0<span class="opt">)</span>
+                  <span class="opt">#(</span><span class="num">$S 0.02</span>d0<span class="opt">)</span>
+                  <span class="opt">#(</span><span class="num">$V 0.02</span>d0<span class="opt">)</span>
+                  <span class="opt">#(</span><span class="num">$W 0.02</span>d0<span class="opt">)</span>
+                  <span class="opt">#(</span><span class="num">$Y 0.02</span>d0<span class="opt">)))</span>
+         <span class="kwb">random:</span> r<span class="opt">;</span>
+         yourself<span class="opt">)</span>
       <span class="kwb">to:</span> out
-      <span class="kwb">lineLength:</span> lineLength.
+      <span class="kwb">lineLength:</span> lineLength<span class="opt">.</span>
 
    <span class="kwa">self</span>
-      <span class="kwb">writeFasta:</span> <span class="str">'THREE Homo sapiens frequency'</span>
+      <span class="kwb">writeFasta:</span> <span class="str">&apos;THREE Homo sapiens frequency&apos;</span>
       <span class="kwb">from:</span>
-         (( <span class="kwc">RandomStream</span>
+         <span class="opt">((</span> <span class="kwc">RandomStream</span>
             <span class="kwb">to:</span> n<span class="kwb">*</span><span class="num">5</span>
-            <span class="kwb">on:</span> #(   #(<span class="num">$a 0.3029549426680</span>d0)
-                  #(<span class="num">$c 0.1979883004921</span>d0)
-                  #(<span class="num">$g 0.1975473066391</span>d0)
-                  #(<span class="num">$t 0.3015094502008</span>d0)))
-            <span class="kwb">random:</span> r;
-            yourself)
+            <span class="kwb">on:</span> <span class="opt">#(   #(</span><span class="num">$a 0.3029549426680</span>d0<span class="opt">)</span>
+                  <span class="opt">#(</span><span class="num">$c 0.1979883004921</span>d0<span class="opt">)</span>
+                  <span class="opt">#(</span><span class="num">$g 0.1975473066391</span>d0<span class="opt">)</span>
+                  <span class="opt">#(</span><span class="num">$t 0.3015094502008</span>d0<span class="opt">)))</span>
+            <span class="kwb">random:</span> r<span class="opt">;</span>
+            yourself<span class="opt">)</span>
       <span class="kwb">to:</span> out
-      <span class="kwb">lineLength:</span> lineLength.
+      <span class="kwb">lineLength:</span> lineLength<span class="opt">.</span>
 
-   out flush.!
+   out flush<span class="opt">.!</span>
 
 <span class="kwb">writeFasta:</span> aString <span class="kwb">from:</span> inStream <span class="kwb">to:</span> outStream <span class="kwb">lineLength:</span> lineLength
    <span class="kwd">| i |</span>
-   outStream <span class="kwb">nextPut:</span> $&gt;; <span class="kwb">nextPutAll:</span> aString; nl.
-   i :<span class="kwb">=</span> <span class="num">0</span>.
-   [inStream atEnd] <span class="kwb">whileFalse:</span>
-      [i <span class="kwb">==</span> lineLength <span class="kwb">ifTrue:</span> [outStream nl. i :<span class="kwb">=</span> <span class="num">0</span>].
-      outStream <span class="kwb">nextPut:</span> inStream next.
-      i :<span class="kwb">=</span> i <span class="kwb">+</span> <span class="num">1</span>].
-   outStream nl! !
+   outStream <span class="kwb">nextPut:</span> <span class="opt">$</span>&gt;<span class="opt">;</span> <span class="kwb">nextPutAll:</span> aString<span class="opt">;</span> nl<span class="opt">.</span>
+   i <span class="opt">:</span><span class="kwb">=</span> <span class="num">0</span><span class="opt">.</span>
+   <span class="opt">[</span>inStream atEnd<span class="opt">]</span> <span class="kwb">whileFalse:</span>
+      <span class="opt">[</span>i <span class="kwb">==</span> lineLength <span class="kwb">ifTrue:</span> <span class="opt">[</span>outStream nl<span class="opt">.</span> i <span class="opt">:</span><span class="kwb">=</span> <span class="num">0</span><span class="opt">].</span>
+      outStream <span class="kwb">nextPut:</span> inStream next<span class="opt">.</span>
+      i <span class="opt">:</span><span class="kwb">=</span> i <span class="kwb">+</span> <span class="num">1</span><span class="opt">].</span>
+   outStream nl<span class="opt">! !</span>
 
-!<span class="kwc">Core</span>.<span class="kwc">BenchmarksGame</span> class <span class="kwb">methodsFor:</span> <span class="str">'initialize-release'</span>!
+<span class="opt">!</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">BenchmarksGame</span> class <span class="kwb">methodsFor:</span> <span class="str">&apos;initialize-release&apos;</span><span class="opt">!</span>
 
 <span class="kwb">program</span>
    <span class="kwd">| n output |</span>
-   n :<span class="kwb">=</span> <span class="kwc">CEnvironment</span> commandLine last asNumber.
-   output :<span class="kwb">=</span> <span class="kwc">ExternalWriteStream</span> <span class="kwb">on:</span>
-      (<span class="kwc">ExternalConnection</span> <span class="kwb">ioAccessor:</span> (<span class="kwc">UnixDiskFileAccessor</span> new <span class="kwb">handle:</span> <span class="num">1</span>)).
-   <span class="kwa">self</span> <span class="kwb">fasta:</span> n <span class="kwb">to:</span> output.
-   ^<span class="str">''</span>! !
+   n <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">CEnvironment</span> commandLine last asNumber<span class="opt">.</span>
+   output <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">ExternalWriteStream</span> <span class="kwb">on:</span>
+      <span class="opt">(</span><span class="kwc">ExternalConnection</span> <span class="kwb">ioAccessor:</span> <span class="opt">(</span><span class="kwc">UnixDiskFileAccessor</span> new <span class="kwb">handle:</span> <span class="num">1</span><span class="opt">)).</span>
+   <span class="kwa">self</span> <span class="kwb">fasta:</span> n <span class="kwb">to:</span> output<span class="opt">.</span>
+   <span class="opt">^</span><span class="str">&apos;&apos;</span><span class="opt">! !</span>
 
 
-!<span class="kwc">RandomNumber</span> class <span class="kwb">methodsFor:</span> <span class="str">'class initialization'</span>!
+<span class="opt">!</span><span class="kwc">RandomNumber</span> class <span class="kwb">methodsFor:</span> <span class="str">&apos;class initialization&apos;</span><span class="opt">!</span>
 
 <span class="kwb">initialize</span>
-   <span class="kwc">FModulus</span> :<span class="kwb">=</span> <span class="num">139968.0</span>d0.
-   <span class="kwc">Increment</span> :<span class="kwb">=</span> <span class="num">29573</span>.
-   <span class="kwc">Modulus</span> :<span class="kwb">=</span> <span class="num">139968</span>.
-   <span class="kwc">Multiplier</span> :<span class="kwb">=</span> <span class="num">3877</span>.! !
+   <span class="kwc">FModulus</span> <span class="opt">:</span><span class="kwb">=</span> <span class="num">139968.0</span>d0<span class="opt">.</span>
+   <span class="kwc">Increment</span> <span class="opt">:</span><span class="kwb">=</span> <span class="num">29573</span><span class="opt">.</span>
+   <span class="kwc">Modulus</span> <span class="opt">:</span><span class="kwb">=</span> <span class="num">139968</span><span class="opt">.</span>
+   <span class="kwc">Multiplier</span> <span class="opt">:</span><span class="kwb">=</span> <span class="num">3877</span><span class="opt">.! !</span>
 
-!<span class="kwc">RandomNumber</span> class <span class="kwb">methodsFor:</span> <span class="str">'initialize-release'</span>!
-
-<span class="kwb">to:</span> anInteger
-   ^<span class="kwa">self</span> basicNew <span class="kwb">to:</span> anInteger! !
-
-
-!<span class="kwc">RandomNumber</span> <span class="kwb">methodsFor:</span> <span class="str">'private'</span>!
+<span class="opt">!</span><span class="kwc">RandomNumber</span> class <span class="kwb">methodsFor:</span> <span class="str">&apos;initialize-release&apos;</span><span class="opt">!</span>
 
 <span class="kwb">to:</span> anInteger
-   seed :<span class="kwb">=</span> <span class="num">42</span>.
-   scale :<span class="kwb">=</span> anInteger! !
+   <span class="opt">^</span><span class="kwa">self</span> basicNew <span class="kwb">to:</span> anInteger<span class="opt">! !</span>
 
-!<span class="kwc">RandomNumber</span> <span class="kwb">methodsFor:</span> <span class="str">'accessing'</span>!
+
+<span class="opt">!</span><span class="kwc">RandomNumber</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;private&apos;</span><span class="opt">!</span>
+
+<span class="kwb">to:</span> anInteger
+   seed <span class="opt">:</span><span class="kwb">=</span> <span class="num">42</span><span class="opt">.</span>
+   scale <span class="opt">:</span><span class="kwb">=</span> anInteger<span class="opt">! !</span>
+
+<span class="opt">!</span><span class="kwc">RandomNumber</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;accessing&apos;</span><span class="opt">!</span>
 
 <span class="kwb">next</span>
-   seed :<span class="kwb">=</span> (seed <span class="kwb">*</span> <span class="kwc">Multiplier</span> <span class="kwb">+</span> <span class="kwc">Increment</span>) <span class="esc">\\</span> <span class="kwc">Modulus</span>.
-   ^(seed <span class="kwb">*</span> scale) <span class="kwb">/</span> <span class="kwc">FModulus</span>! !
+   seed <span class="opt">:</span><span class="kwb">=</span> <span class="opt">(</span>seed <span class="kwb">*</span> <span class="kwc">Multiplier</span> <span class="kwb">+</span> <span class="kwc">Increment</span><span class="opt">)</span> <span class="esc">\\</span> <span class="kwc">Modulus</span><span class="opt">.</span>
+   <span class="opt">^(</span>seed <span class="kwb">*</span> scale<span class="opt">)</span> <span class="kwb">/</span> <span class="kwc">FModulus</span><span class="opt">! !</span>
 
 
-!<span class="kwc">RepeatStream</span> class <span class="kwb">methodsFor:</span> <span class="str">'instance creation'</span>!
+<span class="opt">!</span><span class="kwc">RepeatStream</span> class <span class="kwb">methodsFor:</span> <span class="str">&apos;instance creation&apos;</span><span class="opt">!</span>
 
 <span class="kwb">to:</span> anInteger <span class="kwb">on:</span> aCollection
-   ^(<span class="kwa">super</span> <span class="kwb">on:</span> aCollection) <span class="kwb">to:</span> anInteger! !
+   <span class="opt">^(</span><span class="kwa">super</span> <span class="kwb">on:</span> aCollection<span class="opt">)</span> <span class="kwb">to:</span> anInteger<span class="opt">! !</span>
 
 
-!<span class="kwc">RepeatStream</span> <span class="kwb">methodsFor:</span> <span class="str">'accessing'</span>!
+<span class="opt">!</span><span class="kwc">RepeatStream</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;accessing&apos;</span><span class="opt">!</span>
 
 <span class="kwb">next</span>
-   position <span class="kwb">&gt;=</span> readLimit <span class="kwb">ifTrue:</span> [ <span class="kwa">self</span> <span class="kwb">position:</span> <span class="num">0</span> ].
-   repeatPtr :<span class="kwb">=</span> repeatPtr <span class="kwb">+</span> <span class="num">1</span>.
-   ^collection <span class="kwb">at:</span> (position :<span class="kwb">=</span> position <span class="kwb">+</span> <span class="num">1</span>)! !
+   position <span class="kwb">&gt;=</span> readLimit <span class="kwb">ifTrue:</span> <span class="opt">[</span> <span class="kwa">self</span> <span class="kwb">position:</span> <span class="num">0</span> <span class="opt">].</span>
+   repeatPtr <span class="opt">:</span><span class="kwb">=</span> repeatPtr <span class="kwb">+</span> <span class="num">1</span><span class="opt">.</span>
+   <span class="opt">^</span>collection <span class="kwb">at:</span> <span class="opt">(</span>position <span class="opt">:</span><span class="kwb">=</span> position <span class="kwb">+</span> <span class="num">1</span><span class="opt">)! !</span>
 
-!<span class="kwc">RepeatStream</span> <span class="kwb">methodsFor:</span> <span class="str">'testing'</span>!
+<span class="opt">!</span><span class="kwc">RepeatStream</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;testing&apos;</span><span class="opt">!</span>
 
 <span class="kwb">atEnd</span>
-   ^repeatPtr <span class="kwb">&gt;=</span> repeatLimit! !
+   <span class="opt">^</span>repeatPtr <span class="kwb">&gt;=</span> repeatLimit<span class="opt">! !</span>
 
-!<span class="kwc">RepeatStream</span> <span class="kwb">methodsFor:</span> <span class="str">'initialize-release'</span>!
+<span class="opt">!</span><span class="kwc">RepeatStream</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;initialize-release&apos;</span><span class="opt">!</span>
 
 <span class="kwb">to:</span> anInteger
-   repeatPtr :<span class="kwb">=</span> <span class="num">0</span>.
-   repeatLimit :<span class="kwb">=</span> anInteger! !
+   repeatPtr <span class="opt">:</span><span class="kwb">=</span> <span class="num">0</span><span class="opt">.</span>
+   repeatLimit <span class="opt">:</span><span class="kwb">=</span> anInteger<span class="opt">! !</span>
 
 
-!<span class="kwc">RandomStream</span> <span class="kwb">methodsFor:</span> <span class="str">'accessing'</span>!
+<span class="opt">!</span><span class="kwc">RandomStream</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;accessing&apos;</span><span class="opt">!</span>
 
 <span class="kwb">random:</span> aRandomNumber
 <span class="com">&quot;* Share the random number generator so we can get the expected results. *&quot;</span>
-   random :<span class="kwb">=</span> aRandomNumber!
+   random <span class="opt">:</span><span class="kwb">=</span> aRandomNumber<span class="opt">!</span>
 
 <span class="kwb">next</span>
    <span class="kwd">| r |</span>
-   r :<span class="kwb">=</span> random next.
-   repeatPtr :<span class="kwb">=</span> repeatPtr <span class="kwb">+</span> <span class="num">1</span>.
-   <span class="num">1</span> <span class="kwb">to:</span> percentages size <span class="kwb">do:</span> [<span class="kwd">:i</span>|
-      (r &lt; (percentages <span class="kwb">at:</span> i)) <span class="kwb">ifTrue:</span> [^collection <span class="kwb">at:</span> i]]! !
+   r <span class="opt">:</span><span class="kwb">=</span> random next<span class="opt">.</span>
+   repeatPtr <span class="opt">:</span><span class="kwb">=</span> repeatPtr <span class="kwb">+</span> <span class="num">1</span><span class="opt">.</span>
+   <span class="num">1</span> <span class="kwb">to:</span> percentages size <span class="kwb">do:</span> <span class="opt">[</span><span class="kwd">:i</span>|
+      <span class="opt">(</span>r &lt; <span class="opt">(</span>percentages <span class="kwb">at:</span> i<span class="opt">))</span> <span class="kwb">ifTrue:</span> <span class="opt">[^</span>collection <span class="kwb">at:</span> i<span class="opt">]]! !</span>
 
-!<span class="kwc">RandomStream</span> <span class="kwb">methodsFor:</span> <span class="str">'initialize-release'</span>!
+<span class="opt">!</span><span class="kwc">RandomStream</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;initialize-release&apos;</span><span class="opt">!</span>
 
 <span class="kwb">on:</span> aCollection
    <span class="kwd">| size cp |</span>
-   repeatPtr :<span class="kwb">=</span> <span class="num">0</span>.
-   random :<span class="kwb">=</span> <span class="kwc">RandomNumber</span> <span class="kwb">to:</span> <span class="num">1.0</span>d0.
-   size :<span class="kwb">=</span> aCollection size.
-   percentages :<span class="kwb">=</span> <span class="kwc">Array</span> <span class="kwb">new:</span> size.
-   collection :<span class="kwb">=</span> <span class="kwc">Array</span> <span class="kwb">new:</span> size.
-   cp :<span class="kwb">=</span> <span class="num">0.0</span>d0.
-   <span class="num">1</span> <span class="kwb">to:</span> size <span class="kwb">do:</span> [<span class="kwd">:i</span>|
-      collection <span class="kwb">at:</span> i <span class="kwb">put:</span> (aCollection <span class="kwb">at:</span> i) first.
-      percentages <span class="kwb">at:</span> i <span class="kwb">put:</span> (cp :<span class="kwb">=</span> cp <span class="kwb">+</span> (aCollection <span class="kwb">at:</span> i) last).
-   ]! !
+   repeatPtr <span class="opt">:</span><span class="kwb">=</span> <span class="num">0</span><span class="opt">.</span>
+   random <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">RandomNumber</span> <span class="kwb">to:</span> <span class="num">1.0</span>d0<span class="opt">.</span>
+   size <span class="opt">:</span><span class="kwb">=</span> aCollection size<span class="opt">.</span>
+   percentages <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">Array</span> <span class="kwb">new:</span> size<span class="opt">.</span>
+   collection <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">Array</span> <span class="kwb">new:</span> size<span class="opt">.</span>
+   cp <span class="opt">:</span><span class="kwb">=</span> <span class="num">0.0</span>d0<span class="opt">.</span>
+   <span class="num">1</span> <span class="kwb">to:</span> size <span class="kwb">do:</span> <span class="opt">[</span><span class="kwd">:i</span>|
+      collection <span class="kwb">at:</span> i <span class="kwb">put:</span> <span class="opt">(</span>aCollection <span class="kwb">at:</span> i<span class="opt">)</span> first<span class="opt">.</span>
+      percentages <span class="kwb">at:</span> i <span class="kwb">put:</span> <span class="opt">(</span>cp <span class="opt">:</span><span class="kwb">=</span> cp <span class="kwb">+</span> <span class="opt">(</span>aCollection <span class="kwb">at:</span> i<span class="opt">)</span> last<span class="opt">).</span>
+   <span class="opt">]! !</span>
 
 
-!<span class="kwc">Core</span>.<span class="kwc">Stream</span> <span class="kwb">methodsFor:</span> <span class="str">'benchmarks game'</span>!
+<span class="opt">!</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">Stream</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;benchmarks game&apos;</span><span class="opt">!</span>
 
 <span class="kwb">nl</span>
-   <span class="kwa">self</span> <span class="kwb">nextPut:</span> <span class="kwc">Character</span> lf! !
+   <span class="kwa">self</span> <span class="kwb">nextPut:</span> <span class="kwc">Character</span> lf<span class="opt">! !</span>
 
 
-<span class="kwc">RandomNumber</span> initialize!
+<span class="kwc">RandomNumber</span> initialize<span class="opt">!</span>
     </pre>
   </section>
   <section>
@@ -270,16 +270,16 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-VisualWorks&#174; Personal Use Edition Release 8.2 of July 15, 2016
+VisualWorks&#174; 8.3 Aug 19 2017
 
 
 
 
-Tue, 02 May 2017 18:38:32 GMT
+Tue, 12 Jun 2018 18:18:28 GMT
 
 MAKE:
-cp /usr/local/src/vw8.2pul/image/visualnc64.im fasta.vw_run.im
-/usr/local/src/vw8.2pul/bin/linuxx86_64/vwlinuxx86_64 fasta.vw_run.im -nogui -pcl MatriX -filein fasta.vw -doit 'ObjectMemory snapshotThenQuit'
+cp /opt/src/vw8.3pul/image/visualnc64.im fasta.vw_run.im
+/opt/src/vw8.3pul/bin/visual fasta.vw_run.im -nogui -pcl MatriX -filein fasta.vw -doit 'ObjectMemory snapshotThenQuit'
 
 Autoloading MatriX from $(VISUALWORKS)/preview/matrix/MatriX.pcl
 Autoloading Xtreams-Support from $(VISUALWORKS)/xtreams/Xtreams-Support.pcl
@@ -305,11 +305,11 @@ RandomStream&lt;initialize-release
 Stream&lt;benchmarks game
 Do you want to add Root.Smalltalk.Core.Stream&gt;&gt;nl to the previously unchanged package, Collections-Streams
 						OK to continue?
-/home/dunham/benchmarksgame_quadcore/fasta/tmp/fasta.vw_run.im created at May 2, 2017 11:38:25 AM
-4.52s to complete and log all make actions
+/home/dunham/benchmarksgame_quadcore/fasta/tmp/fasta.vw_run.im created at June 12, 2018 11:18:21 AM
+4.84s to complete and log all make actions
 
 COMMAND LINE:
-/usr/local/src/vw8.2pul/bin/linuxx86_64/vwlinuxx86_64 fasta.vw_run.im -nogui -evaluate &quot;BenchmarksGame program&quot; -a 25000000
+/opt/src/vw8.3pul/bin/visual fasta.vw_run.im -nogui -evaluate &quot;BenchmarksGame program&quot; -a 25000000
 
 (TRUNCATED) PROGRAM OUTPUT:
 &gt;ONE Homo sapiens alu

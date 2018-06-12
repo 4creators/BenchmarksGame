@@ -23,228 +23,228 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="com">&quot;* The Computer Language Benchmarks Game</span>
-<span class="com">    https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
-<span class="com">    contributed by Isaac Gouy *&quot;</span>!
+<span class="com">    http://benchmarksgame.alioth.debian.org/</span>
+<span class="com">    contributed by Isaac Gouy *&quot;</span><span class="opt">!</span>
 
 <span class="kwc">Smalltalk</span> <span class="kwb">defineClass:</span> <span class="kwd">#NBodySystem</span>
-    <span class="kwb">superclass:</span> #{<span class="kwc">Core</span>.<span class="kwc">Object</span>}
+    <span class="kwb">superclass:</span> <span class="opt">#{</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">Object</span><span class="opt">}</span>
     <span class="kwb">indexedType:</span> <span class="kwd">#none</span>
     <span class="kwb">private:</span> <span class="kwa">false</span>
-    <span class="kwb">instanceVariableNames:</span> <span class="str">'bodies '</span>
-    <span class="kwb">classInstanceVariableNames:</span> <span class="str">''</span>
-    <span class="kwb">imports:</span> <span class="str">''</span>
-    <span class="kwb">category:</span> <span class="str">'benchmarks game'</span>!
+    <span class="kwb">instanceVariableNames:</span> <span class="str">&apos;bodies &apos;</span>
+    <span class="kwb">classInstanceVariableNames:</span> <span class="str">&apos;&apos;</span>
+    <span class="kwb">imports:</span> <span class="str">&apos;&apos;</span>
+    <span class="kwb">category:</span> <span class="str">&apos;benchmarks game&apos;</span><span class="opt">!</span>
 
 <span class="kwc">Smalltalk</span> <span class="kwb">defineClass:</span> <span class="kwd">#Body</span>
-    <span class="kwb">superclass:</span> #{<span class="kwc">Core</span>.<span class="kwc">Object</span>}
+    <span class="kwb">superclass:</span> <span class="opt">#{</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">Object</span><span class="opt">}</span>
     <span class="kwb">indexedType:</span> <span class="kwd">#none</span>
     <span class="kwb">private:</span> <span class="kwa">false</span>
-    <span class="kwb">instanceVariableNames:</span> <span class="str">'x y z vx vy vz mass '</span>
-    <span class="kwb">classInstanceVariableNames:</span> <span class="str">''</span>
-    <span class="kwb">imports:</span> <span class="str">''</span>
-    <span class="kwb">category:</span> <span class="str">'benchmarks game'</span>!
+    <span class="kwb">instanceVariableNames:</span> <span class="str">&apos;x y z vx vy vz mass &apos;</span>
+    <span class="kwb">classInstanceVariableNames:</span> <span class="str">&apos;&apos;</span>
+    <span class="kwb">imports:</span> <span class="str">&apos;&apos;</span>
+    <span class="kwb">category:</span> <span class="str">&apos;benchmarks game&apos;</span><span class="opt">!</span>
 
-<span class="kwc">Smalltalk</span>.<span class="kwc">Core</span> <span class="kwb">defineClass:</span> <span class="kwd">#BenchmarksGame</span>
-    <span class="kwb">superclass:</span> #{<span class="kwc">Core</span>.<span class="kwc">Object</span>}
+<span class="kwc">Smalltalk</span><span class="opt">.</span><span class="kwc">Core</span> <span class="kwb">defineClass:</span> <span class="kwd">#BenchmarksGame</span>
+    <span class="kwb">superclass:</span> <span class="opt">#{</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">Object</span><span class="opt">}</span>
     <span class="kwb">indexedType:</span> <span class="kwd">#none</span>
     <span class="kwb">private:</span> <span class="kwa">false</span>
-    <span class="kwb">instanceVariableNames:</span> <span class="str">''</span>
-    <span class="kwb">classInstanceVariableNames:</span> <span class="str">''</span>
-    <span class="kwb">imports:</span> <span class="str">''</span>
-    <span class="kwb">category:</span> <span class="str">''</span>!
+    <span class="kwb">instanceVariableNames:</span> <span class="str">&apos;&apos;</span>
+    <span class="kwb">classInstanceVariableNames:</span> <span class="str">&apos;&apos;</span>
+    <span class="kwb">imports:</span> <span class="str">&apos;&apos;</span>
+    <span class="kwb">category:</span> <span class="str">&apos;&apos;</span><span class="opt">!</span>
 
-!<span class="kwc">Body</span> class <span class="kwb">methodsFor:</span> <span class="str">'constants'</span>!
+<span class="opt">!</span><span class="kwc">Body</span> class <span class="kwb">methodsFor:</span> <span class="str">&apos;constants&apos;</span><span class="opt">!</span>
 
 <span class="kwb">daysPerYear</span>
-   ^<span class="num">365.24</span>d0!
+   <span class="opt">^</span><span class="num">365.24</span>d0<span class="opt">!</span>
 
 <span class="kwb">sun</span>
-   ^<span class="kwa">self</span> new
+   <span class="opt">^</span><span class="kwa">self</span> new
       <span class="kwb">x:</span> <span class="num">0.0</span>d0
       <span class="kwb">y:</span> <span class="num">0.0</span>d0
       <span class="kwb">z:</span> <span class="num">0.0</span>d0
       <span class="kwb">vx:</span> <span class="num">0.0</span>d0
       <span class="kwb">vy:</span> <span class="num">0.0</span>d0
       <span class="kwb">vz:</span> <span class="num">0.0</span>d0
-      <span class="kwb">mass:</span> <span class="kwa">self</span> solarMass!
+      <span class="kwb">mass:</span> <span class="kwa">self</span> solarMass<span class="opt">!</span>
 
 <span class="kwb">uranus</span>
-   ^<span class="kwa">self</span> new
+   <span class="opt">^</span><span class="kwa">self</span> new
       <span class="kwb">x:</span> <span class="num">1.28943695621391310</span>d1
       <span class="kwb">y: -</span><span class="num">1.51111514016986312</span>d1
       <span class="kwb">z: -</span><span class="num">2.23307578892655734</span>d<span class="kwb">-</span><span class="num">1</span>
       <span class="kwb">vx:</span> <span class="num">2.96460137564761618</span>d<span class="kwb">-</span><span class="num">3</span> <span class="kwb">*</span> <span class="kwa">self</span> daysPerYear
       <span class="kwb">vy:</span> <span class="num">2.37847173959480950</span>d<span class="kwb">-</span><span class="num">3</span> <span class="kwb">*</span> <span class="kwa">self</span> daysPerYear
       <span class="kwb">vz: -</span><span class="num">2.96589568540237556</span>d<span class="kwb">-</span><span class="num">5</span> <span class="kwb">*</span> <span class="kwa">self</span> daysPerYear
-      <span class="kwb">mass:</span> <span class="num">4.36624404335156298</span>d<span class="kwb">-</span><span class="num">5</span> <span class="kwb">*</span> <span class="kwa">self</span> solarMass!
+      <span class="kwb">mass:</span> <span class="num">4.36624404335156298</span>d<span class="kwb">-</span><span class="num">5</span> <span class="kwb">*</span> <span class="kwa">self</span> solarMass<span class="opt">!</span>
 
 <span class="kwb">saturn</span>
-   ^<span class="kwa">self</span> new
+   <span class="opt">^</span><span class="kwa">self</span> new
       <span class="kwb">x:</span> <span class="num">8.34336671824457987</span>d0
       <span class="kwb">y:</span> <span class="num">4.12479856412430479</span>d0
       <span class="kwb">z: -</span><span class="num">4.03523417114321381</span>d<span class="kwb">-</span><span class="num">1</span>
       <span class="kwb">vx: -</span><span class="num">2.76742510726862411</span>d<span class="kwb">-</span><span class="num">3</span> <span class="kwb">*</span> <span class="kwa">self</span> daysPerYear
       <span class="kwb">vy:</span> <span class="num">4.99852801234917238</span>d<span class="kwb">-</span><span class="num">3</span> <span class="kwb">*</span> <span class="kwa">self</span> daysPerYear
       <span class="kwb">vz:</span> <span class="num">2.30417297573763929</span>d<span class="kwb">-</span><span class="num">5</span> <span class="kwb">*</span> <span class="kwa">self</span> daysPerYear
-      <span class="kwb">mass:</span> <span class="num">2.85885980666130812</span>d<span class="kwb">-</span><span class="num">4</span> <span class="kwb">*</span> <span class="kwa">self</span> solarMass!
+      <span class="kwb">mass:</span> <span class="num">2.85885980666130812</span>d<span class="kwb">-</span><span class="num">4</span> <span class="kwb">*</span> <span class="kwa">self</span> solarMass<span class="opt">!</span>
 
 <span class="kwb">solarMass</span>
-   ^<span class="num">4.0</span>d0 <span class="kwb">*</span> <span class="kwa">self</span> pi <span class="kwb">*</span> <span class="kwa">self</span> pi!
+   <span class="opt">^</span><span class="num">4.0</span>d0 <span class="kwb">*</span> <span class="kwa">self</span> pi <span class="kwb">*</span> <span class="kwa">self</span> pi<span class="opt">!</span>
 
 <span class="kwb">pi</span>
-   ^<span class="num">3.141592653589793</span>d0!
+   <span class="opt">^</span><span class="num">3.141592653589793</span>d0<span class="opt">!</span>
 
 <span class="kwb">jupiter</span>
-   ^<span class="kwa">self</span> new
+   <span class="opt">^</span><span class="kwa">self</span> new
       <span class="kwb">x:</span> <span class="num">4.84143144246472090</span>d0
       <span class="kwb">y: -</span><span class="num">1.16032004402742839</span>d0
       <span class="kwb">z: -</span><span class="num">1.03622044471123109</span>d<span class="kwb">-</span><span class="num">1</span>
       <span class="kwb">vx:</span> <span class="num">1.66007664274403694</span>d<span class="kwb">-</span><span class="num">3</span> <span class="kwb">*</span> <span class="kwa">self</span> daysPerYear
       <span class="kwb">vy:</span> <span class="num">7.69901118419740425</span>d<span class="kwb">-</span><span class="num">3</span> <span class="kwb">*</span> <span class="kwa">self</span> daysPerYear
       <span class="kwb">vz: -</span><span class="num">6.90460016972063023</span>d<span class="kwb">-</span><span class="num">5</span> <span class="kwb">*</span> <span class="kwa">self</span> daysPerYear
-      <span class="kwb">mass:</span> <span class="num">9.54791938424326609</span>d<span class="kwb">-</span><span class="num">4</span> <span class="kwb">*</span> <span class="kwa">self</span> solarMass!
+      <span class="kwb">mass:</span> <span class="num">9.54791938424326609</span>d<span class="kwb">-</span><span class="num">4</span> <span class="kwb">*</span> <span class="kwa">self</span> solarMass<span class="opt">!</span>
 
 <span class="kwb">neptune</span>
-   ^<span class="kwa">self</span> new
+   <span class="opt">^</span><span class="kwa">self</span> new
       <span class="kwb">x:</span> <span class="num">1.53796971148509165</span>d1
       <span class="kwb">y: -</span><span class="num">2.59193146099879641</span>d1
       <span class="kwb">z:</span> <span class="num">1.79258772950371181</span>d<span class="kwb">-</span><span class="num">1</span>
       <span class="kwb">vx:</span> <span class="num">2.68067772490389322</span>d<span class="kwb">-</span><span class="num">3</span> <span class="kwb">*</span> <span class="kwa">self</span> daysPerYear
       <span class="kwb">vy:</span> <span class="num">1.62824170038242295</span>d<span class="kwb">-</span><span class="num">3</span> <span class="kwb">*</span> <span class="kwa">self</span> daysPerYear
       <span class="kwb">vz: -</span><span class="num">9.51592254519715870</span>d<span class="kwb">-</span><span class="num">5</span> <span class="kwb">*</span> <span class="kwa">self</span> daysPerYear
-      <span class="kwb">mass:</span> <span class="num">5.15138902046611451</span>d<span class="kwb">-</span><span class="num">5</span> <span class="kwb">*</span> <span class="kwa">self</span> solarMass! !
+      <span class="kwb">mass:</span> <span class="num">5.15138902046611451</span>d<span class="kwb">-</span><span class="num">5</span> <span class="kwb">*</span> <span class="kwa">self</span> solarMass<span class="opt">! !</span>
 
 
-!<span class="kwc">Body</span> <span class="kwb">methodsFor:</span> <span class="str">'accessing'</span>!
+<span class="opt">!</span><span class="kwc">Body</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;accessing&apos;</span><span class="opt">!</span>
 
 z
-   ^z!
+   <span class="opt">^</span>z<span class="opt">!</span>
 
 x
-   ^x!
+   <span class="opt">^</span>x<span class="opt">!</span>
 
 <span class="kwb">mass</span>
-   ^mass!
+   <span class="opt">^</span>mass<span class="opt">!</span>
 
 <span class="kwb">x:</span> d1 <span class="kwb">y:</span> d2 <span class="kwb">z:</span> d3 <span class="kwb">vx:</span> d4 <span class="kwb">vy:</span> d5 <span class="kwb">vz:</span> d6 <span class="kwb">mass:</span> d7
-   x :<span class="kwb">=</span> d1.
-   y :<span class="kwb">=</span> d2. 
-   z :<span class="kwb">=</span> d3. 
-   vx :<span class="kwb">=</span> d4.
-   vy :<span class="kwb">=</span> d5.
-   vz :<span class="kwb">=</span> d6.
-   mass :<span class="kwb">=</span> d7!
+   x <span class="opt">:</span><span class="kwb">=</span> d1<span class="opt">.</span>
+   y <span class="opt">:</span><span class="kwb">=</span> d2<span class="opt">.</span> 
+   z <span class="opt">:</span><span class="kwb">=</span> d3<span class="opt">.</span> 
+   vx <span class="opt">:</span><span class="kwb">=</span> d4<span class="opt">.</span>
+   vy <span class="opt">:</span><span class="kwb">=</span> d5<span class="opt">.</span>
+   vz <span class="opt">:</span><span class="kwb">=</span> d6<span class="opt">.</span>
+   mass <span class="opt">:</span><span class="kwb">=</span> d7<span class="opt">!</span>
 
 y
-   ^y! !
+   <span class="opt">^</span>y<span class="opt">! !</span>
 
-!<span class="kwc">Body</span> <span class="kwb">methodsFor:</span> <span class="str">'nbody'</span>!
+<span class="opt">!</span><span class="kwc">Body</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;nbody&apos;</span><span class="opt">!</span>
 
 <span class="kwb">offsetMomentum:</span> anArray 
    <span class="kwd">| m |</span>
-   m :<span class="kwb">=</span> <span class="kwa">self</span> class solarMass.
-   vx :<span class="kwb">=</span> (anArray <span class="kwb">at:</span> <span class="num">1</span>) negated <span class="kwb">/</span> m.
-   vy :<span class="kwb">=</span> (anArray <span class="kwb">at:</span> <span class="num">2</span>) negated <span class="kwb">/</span> m.
-   vz :<span class="kwb">=</span> (anArray <span class="kwb">at:</span> <span class="num">3</span>) negated <span class="kwb">/</span> m!
+   m <span class="opt">:</span><span class="kwb">=</span> <span class="kwa">self</span> class solarMass<span class="opt">.</span>
+   vx <span class="opt">:</span><span class="kwb">=</span> <span class="opt">(</span>anArray <span class="kwb">at:</span> <span class="num">1</span><span class="opt">)</span> negated <span class="kwb">/</span> m<span class="opt">.</span>
+   vy <span class="opt">:</span><span class="kwb">=</span> <span class="opt">(</span>anArray <span class="kwb">at:</span> <span class="num">2</span><span class="opt">)</span> negated <span class="kwb">/</span> m<span class="opt">.</span>
+   vz <span class="opt">:</span><span class="kwb">=</span> <span class="opt">(</span>anArray <span class="kwb">at:</span> <span class="num">3</span><span class="opt">)</span> negated <span class="kwb">/</span> m<span class="opt">!</span>
 
 <span class="kwb">decreaseVelocity:</span> dx <span class="kwb">y:</span> dy <span class="kwb">z:</span> dz <span class="kwb">m:</span> m
-   vx :<span class="kwb">=</span> vx <span class="kwb">-</span> (dx <span class="kwb">*</span> m).
-   vy :<span class="kwb">=</span> vy <span class="kwb">-</span> (dy <span class="kwb">*</span> m).
-   vz :<span class="kwb">=</span> vz <span class="kwb">-</span> (dz <span class="kwb">*</span> m)!
+   vx <span class="opt">:</span><span class="kwb">=</span> vx <span class="kwb">-</span> <span class="opt">(</span>dx <span class="kwb">*</span> m<span class="opt">).</span>
+   vy <span class="opt">:</span><span class="kwb">=</span> vy <span class="kwb">-</span> <span class="opt">(</span>dy <span class="kwb">*</span> m<span class="opt">).</span>
+   vz <span class="opt">:</span><span class="kwb">=</span> vz <span class="kwb">-</span> <span class="opt">(</span>dz <span class="kwb">*</span> m<span class="opt">)!</span>
 
 <span class="kwb">positionAfter:</span> dt
-   x :<span class="kwb">=</span> x <span class="kwb">+</span> (dt <span class="kwb">*</span> vx).
-   y :<span class="kwb">=</span> y <span class="kwb">+</span> (dt <span class="kwb">*</span> vy).
-   z :<span class="kwb">=</span> z <span class="kwb">+</span> (dt <span class="kwb">*</span> vz)!
+   x <span class="opt">:</span><span class="kwb">=</span> x <span class="kwb">+</span> <span class="opt">(</span>dt <span class="kwb">*</span> vx<span class="opt">).</span>
+   y <span class="opt">:</span><span class="kwb">=</span> y <span class="kwb">+</span> <span class="opt">(</span>dt <span class="kwb">*</span> vy<span class="opt">).</span>
+   z <span class="opt">:</span><span class="kwb">=</span> z <span class="kwb">+</span> <span class="opt">(</span>dt <span class="kwb">*</span> vz<span class="opt">)!</span>
 
 <span class="kwb">and:</span> aBody <span class="kwb">velocityAfter:</span> dt        
    <span class="kwd">| dx dy dz distance mag |</span>
-   dx :<span class="kwb">=</span> x <span class="kwb">-</span> aBody x.
-   dy :<span class="kwb">=</span> y <span class="kwb">-</span> aBody y.
-   dz :<span class="kwb">=</span> z <span class="kwb">-</span> aBody z.
+   dx <span class="opt">:</span><span class="kwb">=</span> x <span class="kwb">-</span> aBody x<span class="opt">.</span>
+   dy <span class="opt">:</span><span class="kwb">=</span> y <span class="kwb">-</span> aBody y<span class="opt">.</span>
+   dz <span class="opt">:</span><span class="kwb">=</span> z <span class="kwb">-</span> aBody z<span class="opt">.</span>
    
-   distance :<span class="kwb">=</span> ((dx<span class="kwb">*</span>dx) <span class="kwb">+</span> (dy<span class="kwb">*</span>dy) <span class="kwb">+</span> (dz<span class="kwb">*</span>dz)) sqrt.
-   mag :<span class="kwb">=</span> dt <span class="kwb">/</span> (distance <span class="kwb">*</span> distance <span class="kwb">*</span> distance).
+   distance <span class="opt">:</span><span class="kwb">=</span> <span class="opt">((</span>dx<span class="kwb">*</span>dx<span class="opt">)</span> <span class="kwb">+</span> <span class="opt">(</span>dy<span class="kwb">*</span>dy<span class="opt">)</span> <span class="kwb">+</span> <span class="opt">(</span>dz<span class="kwb">*</span>dz<span class="opt">))</span> sqrt<span class="opt">.</span>
+   mag <span class="opt">:</span><span class="kwb">=</span> dt <span class="kwb">/</span> <span class="opt">(</span>distance <span class="kwb">*</span> distance <span class="kwb">*</span> distance<span class="opt">).</span>
 
-   <span class="kwa">self</span> <span class="kwb">decreaseVelocity:</span> dx <span class="kwb">y:</span> dy <span class="kwb">z:</span> dz <span class="kwb">m:</span> aBody mass <span class="kwb">*</span> mag.   
-   aBody <span class="kwb">increaseVelocity:</span> dx <span class="kwb">y:</span> dy <span class="kwb">z:</span> dz <span class="kwb">m:</span> mass <span class="kwb">*</span> mag!
+   <span class="kwa">self</span> <span class="kwb">decreaseVelocity:</span> dx <span class="kwb">y:</span> dy <span class="kwb">z:</span> dz <span class="kwb">m:</span> aBody mass <span class="kwb">*</span> mag<span class="opt">.</span>   
+   aBody <span class="kwb">increaseVelocity:</span> dx <span class="kwb">y:</span> dy <span class="kwb">z:</span> dz <span class="kwb">m:</span> mass <span class="kwb">*</span> mag<span class="opt">!</span>
 
 <span class="kwb">potentialEnergy:</span> aBody
    <span class="kwd">| dx dy dz distance |</span>
-   dx :<span class="kwb">=</span> x <span class="kwb">-</span> aBody x.
-   dy :<span class="kwb">=</span> y <span class="kwb">-</span> aBody y.
-   dz :<span class="kwb">=</span> z <span class="kwb">-</span> aBody z.
+   dx <span class="opt">:</span><span class="kwb">=</span> x <span class="kwb">-</span> aBody x<span class="opt">.</span>
+   dy <span class="opt">:</span><span class="kwb">=</span> y <span class="kwb">-</span> aBody y<span class="opt">.</span>
+   dz <span class="opt">:</span><span class="kwb">=</span> z <span class="kwb">-</span> aBody z<span class="opt">.</span>
 
-   distance :<span class="kwb">=</span> ((dx<span class="kwb">*</span>dx) <span class="kwb">+</span> (dy<span class="kwb">*</span>dy) <span class="kwb">+</span> (dz<span class="kwb">*</span>dz)) sqrt.
-   ^mass <span class="kwb">*</span> aBody mass <span class="kwb">/</span> distance!
+   distance <span class="opt">:</span><span class="kwb">=</span> <span class="opt">((</span>dx<span class="kwb">*</span>dx<span class="opt">)</span> <span class="kwb">+</span> <span class="opt">(</span>dy<span class="kwb">*</span>dy<span class="opt">)</span> <span class="kwb">+</span> <span class="opt">(</span>dz<span class="kwb">*</span>dz<span class="opt">))</span> sqrt<span class="opt">.</span>
+   <span class="opt">^</span>mass <span class="kwb">*</span> aBody mass <span class="kwb">/</span> distance<span class="opt">!</span>
 
 <span class="kwb">addMomentumTo:</span> anArray
-   anArray <span class="kwb">at:</span> <span class="num">1</span> <span class="kwb">put:</span> (anArray <span class="kwb">at:</span> <span class="num">1</span>) <span class="kwb">+</span> (vx <span class="kwb">*</span> mass).
-   anArray <span class="kwb">at:</span> <span class="num">2</span> <span class="kwb">put:</span> (anArray <span class="kwb">at:</span> <span class="num">2</span>) <span class="kwb">+</span> (vy <span class="kwb">*</span> mass).
-   anArray <span class="kwb">at:</span> <span class="num">3</span> <span class="kwb">put:</span> (anArray <span class="kwb">at:</span> <span class="num">3</span>) <span class="kwb">+</span> (vz <span class="kwb">*</span> mass).
-   ^anArray!
+   anArray <span class="kwb">at:</span> <span class="num">1</span> <span class="kwb">put:</span> <span class="opt">(</span>anArray <span class="kwb">at:</span> <span class="num">1</span><span class="opt">)</span> <span class="kwb">+</span> <span class="opt">(</span>vx <span class="kwb">*</span> mass<span class="opt">).</span>
+   anArray <span class="kwb">at:</span> <span class="num">2</span> <span class="kwb">put:</span> <span class="opt">(</span>anArray <span class="kwb">at:</span> <span class="num">2</span><span class="opt">)</span> <span class="kwb">+</span> <span class="opt">(</span>vy <span class="kwb">*</span> mass<span class="opt">).</span>
+   anArray <span class="kwb">at:</span> <span class="num">3</span> <span class="kwb">put:</span> <span class="opt">(</span>anArray <span class="kwb">at:</span> <span class="num">3</span><span class="opt">)</span> <span class="kwb">+</span> <span class="opt">(</span>vz <span class="kwb">*</span> mass<span class="opt">).</span>
+   <span class="opt">^</span>anArray<span class="opt">!</span>
 
 <span class="kwb">increaseVelocity:</span> dx <span class="kwb">y:</span> dy <span class="kwb">z:</span> dz <span class="kwb">m:</span> m
-   vx :<span class="kwb">=</span> vx <span class="kwb">+</span> (dx <span class="kwb">*</span> m).
-   vy :<span class="kwb">=</span> vy <span class="kwb">+</span> (dy <span class="kwb">*</span> m).
-   vz :<span class="kwb">=</span> vz <span class="kwb">+</span> (dz <span class="kwb">*</span> m)!
+   vx <span class="opt">:</span><span class="kwb">=</span> vx <span class="kwb">+</span> <span class="opt">(</span>dx <span class="kwb">*</span> m<span class="opt">).</span>
+   vy <span class="opt">:</span><span class="kwb">=</span> vy <span class="kwb">+</span> <span class="opt">(</span>dy <span class="kwb">*</span> m<span class="opt">).</span>
+   vz <span class="opt">:</span><span class="kwb">=</span> vz <span class="kwb">+</span> <span class="opt">(</span>dz <span class="kwb">*</span> m<span class="opt">)!</span>
 
 <span class="kwb">kineticEnergy</span>
-   ^<span class="num">0.5</span>d0 <span class="kwb">*</span> mass <span class="kwb">*</span> ((vx <span class="kwb">*</span> vx) <span class="kwb">+</span> (vy <span class="kwb">*</span> vy) <span class="kwb">+</span> (vz <span class="kwb">*</span> vz))! !
+   <span class="opt">^</span><span class="num">0.5</span>d0 <span class="kwb">*</span> mass <span class="kwb">*</span> <span class="opt">((</span>vx <span class="kwb">*</span> vx<span class="opt">)</span> <span class="kwb">+</span> <span class="opt">(</span>vy <span class="kwb">*</span> vy<span class="opt">)</span> <span class="kwb">+</span> <span class="opt">(</span>vz <span class="kwb">*</span> vz<span class="opt">))! !</span>
 
 
-!<span class="kwc">NBodySystem</span> <span class="kwb">methodsFor:</span> <span class="str">'initialize-release'</span>!
+<span class="opt">!</span><span class="kwc">NBodySystem</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;initialize-release&apos;</span><span class="opt">!</span>
 
 <span class="kwb">initialize</span>
-   bodies :<span class="kwb">=</span> <span class="kwc">OrderedCollection</span> new
-      <span class="kwb">add:</span> <span class="kwc">Body</span> sun; <span class="kwb">add:</span> <span class="kwc">Body</span> jupiter; <span class="kwb">add:</span> <span class="kwc">Body</span> saturn;
-      <span class="kwb">add:</span> <span class="kwc">Body</span> uranus; <span class="kwb">add:</span> <span class="kwc">Body</span> neptune; yourself.
+   bodies <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">OrderedCollection</span> new
+      <span class="kwb">add:</span> <span class="kwc">Body</span> sun<span class="opt">;</span> <span class="kwb">add:</span> <span class="kwc">Body</span> jupiter<span class="opt">;</span> <span class="kwb">add:</span> <span class="kwc">Body</span> saturn<span class="opt">;</span>
+      <span class="kwb">add:</span> <span class="kwc">Body</span> uranus<span class="opt">;</span> <span class="kwb">add:</span> <span class="kwc">Body</span> neptune<span class="opt">;</span> yourself<span class="opt">.</span>
 
    bodies first <span class="kwb">offsetMomentum:</span>
-      (bodies <span class="kwb">inject:</span> (<span class="kwc">Array</span> <span class="kwb">with:</span> <span class="num">0.0</span>d0 <span class="kwb">with:</span> <span class="num">0.0</span>d0 <span class="kwb">with:</span> <span class="num">0.0</span>d0)
-         <span class="kwb">into:</span> [<span class="kwd">:m :each</span> | each <span class="kwb">addMomentumTo:</span> m])! !
+      <span class="opt">(</span>bodies <span class="kwb">inject:</span> <span class="opt">(</span><span class="kwc">Array</span> <span class="kwb">with:</span> <span class="num">0.0</span>d0 <span class="kwb">with:</span> <span class="num">0.0</span>d0 <span class="kwb">with:</span> <span class="num">0.0</span>d0<span class="opt">)</span>
+         <span class="kwb">into:</span> <span class="opt">[</span><span class="kwd">:m :each</span> | each <span class="kwb">addMomentumTo:</span> m<span class="opt">])! !</span>
 
-!<span class="kwc">NBodySystem</span> <span class="kwb">methodsFor:</span> <span class="str">'nbody'</span>!
+<span class="opt">!</span><span class="kwc">NBodySystem</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;nbody&apos;</span><span class="opt">!</span>
 
 <span class="kwb">after:</span> dt
-   <span class="num">1</span> <span class="kwb">to:</span> bodies size <span class="kwb">do:</span> [<span class="kwd">:i</span>|
-      i<span class="kwb">+</span><span class="num">1</span> <span class="kwb">to:</span> bodies size <span class="kwb">do:</span> [<span class="kwd">:j</span>|                            
-         (bodies <span class="kwb">at:</span> i) <span class="kwb">and:</span> (bodies <span class="kwb">at:</span> j) <span class="kwb">velocityAfter:</span> dt].
-   ].   
-   bodies <span class="kwb">do:</span> [<span class="kwd">:each</span>| each <span class="kwb">positionAfter:</span> dt]!
+   <span class="num">1</span> <span class="kwb">to:</span> bodies size <span class="kwb">do:</span> <span class="opt">[</span><span class="kwd">:i</span>|
+      i<span class="kwb">+</span><span class="num">1</span> <span class="kwb">to:</span> bodies size <span class="kwb">do:</span> <span class="opt">[</span><span class="kwd">:j</span>|                            
+         <span class="opt">(</span>bodies <span class="kwb">at:</span> i<span class="opt">)</span> <span class="kwb">and:</span> <span class="opt">(</span>bodies <span class="kwb">at:</span> j<span class="opt">)</span> <span class="kwb">velocityAfter:</span> dt<span class="opt">].</span>
+   <span class="opt">].</span>   
+   bodies <span class="kwb">do:</span> <span class="opt">[</span><span class="kwd">:each</span>| each <span class="kwb">positionAfter:</span> dt<span class="opt">]!</span>
 
 <span class="kwb">energy</span>
    <span class="kwd">| e |</span>
-   e :<span class="kwb">=</span> <span class="num">0.0</span>d0.
-   <span class="num">1</span> <span class="kwb">to:</span> bodies size <span class="kwb">do:</span> [<span class="kwd">:i</span>|       
-      e :<span class="kwb">=</span> e <span class="kwb">+</span> (bodies <span class="kwb">at:</span> i) kineticEnergy.
+   e <span class="opt">:</span><span class="kwb">=</span> <span class="num">0.0</span>d0<span class="opt">.</span>
+   <span class="num">1</span> <span class="kwb">to:</span> bodies size <span class="kwb">do:</span> <span class="opt">[</span><span class="kwd">:i</span>|       
+      e <span class="opt">:</span><span class="kwb">=</span> e <span class="kwb">+</span> <span class="opt">(</span>bodies <span class="kwb">at:</span> i<span class="opt">)</span> kineticEnergy<span class="opt">.</span>
 
-      i<span class="kwb">+</span><span class="num">1</span> <span class="kwb">to:</span> bodies size <span class="kwb">do:</span> [<span class="kwd">:j</span>| 
-         e :<span class="kwb">=</span> e <span class="kwb">-</span> ((bodies <span class="kwb">at:</span> i) <span class="kwb">potentialEnergy:</span> (bodies <span class="kwb">at:</span> j))].
-   ].
-   ^e! !
+      i<span class="kwb">+</span><span class="num">1</span> <span class="kwb">to:</span> bodies size <span class="kwb">do:</span> <span class="opt">[</span><span class="kwd">:j</span>| 
+         e <span class="opt">:</span><span class="kwb">=</span> e <span class="kwb">-</span> <span class="opt">((</span>bodies <span class="kwb">at:</span> i<span class="opt">)</span> <span class="kwb">potentialEnergy:</span> <span class="opt">(</span>bodies <span class="kwb">at:</span> j<span class="opt">))].</span>
+   <span class="opt">].</span>
+   <span class="opt">^</span>e<span class="opt">! !</span>
 
-!<span class="kwc">Core</span>.<span class="kwc">BenchmarksGame</span> class <span class="kwb">methodsFor:</span> <span class="str">'initialize-release'</span>!
+<span class="opt">!</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">BenchmarksGame</span> class <span class="kwb">methodsFor:</span> <span class="str">&apos;initialize-release&apos;</span><span class="opt">!</span>
 
 <span class="kwb">program</span>
    <span class="kwd">| n bodies |</span>
-   n :<span class="kwb">=</span> <span class="kwc">CEnvironment</span> commandLine last asNumber.
+   n <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">CEnvironment</span> commandLine last asNumber<span class="opt">.</span>
 
-   bodies :<span class="kwb">=</span> <span class="kwc">NBodySystem</span> new initialize.
-   <span class="kwc">Stdout</span> <span class="kwb">print:</span> bodies energy <span class="kwb">digits:</span> <span class="num">9</span>; nl.
-   n <span class="kwb">timesRepeat:</span> [bodies <span class="kwb">after:</span> <span class="num">0.01</span>d0].
-   <span class="kwc">Stdout</span> <span class="kwb">print:</span> bodies energy <span class="kwb">digits:</span> <span class="num">9</span>; nl.
+   bodies <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">NBodySystem</span> new initialize<span class="opt">.</span>
+   <span class="kwc">Stdout</span> <span class="kwb">print:</span> bodies energy <span class="kwb">digits:</span> <span class="num">9</span><span class="opt">;</span> nl<span class="opt">.</span>
+   n <span class="kwb">timesRepeat:</span> <span class="opt">[</span>bodies <span class="kwb">after:</span> <span class="num">0.01</span>d0<span class="opt">].</span>
+   <span class="kwc">Stdout</span> <span class="kwb">print:</span> bodies energy <span class="kwb">digits:</span> <span class="num">9</span><span class="opt">;</span> nl<span class="opt">.</span>
 
-   ^<span class="str">''</span>! !
+   <span class="opt">^</span><span class="str">&apos;&apos;</span><span class="opt">! !</span>
 
-!<span class="kwc">Core</span>.<span class="kwc">Stream</span> <span class="kwb">methodsFor:</span> <span class="str">'benchmarks game'</span>!
+<span class="opt">!</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">Stream</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;benchmarks game&apos;</span><span class="opt">!</span>
 
 <span class="kwb">nl</span>
-   <span class="kwa">self</span> <span class="kwb">nextPut:</span> <span class="kwc">Character</span> lf!
+   <span class="kwa">self</span> <span class="kwb">nextPut:</span> <span class="kwc">Character</span> lf<span class="opt">!</span>
 
 <span class="kwb">print:</span> number <span class="kwb">digits:</span> decimalPlaces
    <span class="kwa">self</span> <span class="kwb">nextPutAll:</span> 
-      ((number <span class="kwb">asFixedPoint:</span> decimalPlaces) printString <span class="kwb">copyWithout:</span> <span class="num">$s</span>)! !
+      <span class="opt">((</span>number <span class="kwb">asFixedPoint:</span> decimalPlaces<span class="opt">)</span> printString <span class="kwb">copyWithout:</span> <span class="num">$s</span><span class="opt">)! !</span>
 
 
     </pre>
@@ -254,16 +254,16 @@ y
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-VisualWorks&#174; Personal Use Edition Release 8.2 of July 15, 2016
+VisualWorks&#174; 8.3 Aug 19 2017
 
 
 
 
-Tue, 02 May 2017 18:54:36 GMT
+Tue, 12 Jun 2018 18:51:07 GMT
 
 MAKE:
-cp /usr/local/src/vw8.2pul/image/visualnc64.im nbody.vw_run.im
-/usr/local/src/vw8.2pul/bin/linuxx86_64/vwlinuxx86_64 nbody.vw_run.im -nogui -pcl MatriX -filein nbody.vw -doit 'ObjectMemory snapshotThenQuit'
+cp /opt/src/vw8.3pul/image/visualnc64.im nbody.vw_run.im
+/opt/src/vw8.3pul/bin/visual nbody.vw_run.im -nogui -pcl MatriX -filein nbody.vw -doit 'ObjectMemory snapshotThenQuit'
 
 Autoloading MatriX from $(VISUALWORKS)/preview/matrix/MatriX.pcl
 Autoloading Xtreams-Support from $(VISUALWORKS)/xtreams/Xtreams-Support.pcl
@@ -283,11 +283,11 @@ BenchmarksGame class&lt;initialize-release
 Stream&lt;benchmarks game
 Do you want to add Root.Smalltalk.Core.Stream&gt;&gt;nl to the previously unchanged package, Collections-Streams
 						OK to continue?
-/home/dunham/benchmarksgame_quadcore/nbody/tmp/nbody.vw_run.im created at May 2, 2017 11:54:14 AM
-4.54s to complete and log all make actions
+/home/dunham/benchmarksgame_quadcore/nbody/tmp/nbody.vw_run.im created at June 12, 2018 11:50:45 AM
+4.70s to complete and log all make actions
 
 COMMAND LINE:
-/usr/local/src/vw8.2pul/bin/linuxx86_64/vwlinuxx86_64 nbody.vw_run.im -nogui -evaluate &quot;BenchmarksGame program&quot; -a 50000000
+/opt/src/vw8.3pul/bin/visual nbody.vw_run.im -nogui -evaluate &quot;BenchmarksGame program&quot; -a 50000000
 
 PROGRAM OUTPUT:
 -0.169075164

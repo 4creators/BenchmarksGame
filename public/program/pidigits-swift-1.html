@@ -24,7 +24,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 <span class="com">/**</span>
 <span class="com"> The Computer Language Benchmarks Game</span>
-<span class="com"> https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"> http://benchmarksgame.alioth.debian.org/</span>
 <span class="com"> contributed by Robert F. Dickerson</span>
 <span class="com"> fixed by Isaac Gouy</span>
 <span class="com">*/</span>
@@ -214,23 +214,23 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Swift version 4.1 (swift-4.1-RELEASE)
+Swift version 4.2-dev (LLVM a38ff55b31, Clang 5272858825, Swift defc3e9073)
 Target: x86_64-unknown-linux-gnu
 
 
 
 
-Fri, 30 Mar 2018 00:38:56 GMT
+Wed, 06 Jun 2018 22:53:30 GMT
 
 MAKE:
-/opt/src/swift-4.1-RELEASE-ubuntu16.10/usr/bin/swiftc pidigits.swift -Ounchecked -I Include/swift/gmp -o pidigits.swift_run
+/opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-06-05-a-ubuntu16.10/usr/bin/swiftc pidigits.swift -Ounchecked -I Include/swift/gmp -o pidigits.swift_run
 pidigits.swift:8:8: error: no such module 'CGMP'
 import CGMP
        ^
-/home/dunham/benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:669: recipe for target 'pidigits.swift_run' failed
+/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:669: recipe for target 'pidigits.swift_run' failed
 make: [pidigits.swift_run] Error 1 (ignored)
 
-0.53s to complete and log all make actions
+0.43s to complete and log all make actions
 
 COMMAND LINE:
 ./pidigits.swift_run 2000

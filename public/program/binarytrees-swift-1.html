@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="slc">// The Computer Language Benchmark Game</span>
-<span class="slc">// https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">// http://benchmarksgame.alioth.debian.org/</span>
 <span class="slc">//</span>
 <span class="slc">// contributed by Ralph Ganszky</span>
 <span class="slc">// *reset*</span>
@@ -113,38 +113,32 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Swift version 4.1 (swift-4.1-RELEASE)
+Swift version 4.2-dev (LLVM a38ff55b31, Clang 5272858825, Swift defc3e9073)
 Target: x86_64-unknown-linux-gnu
 
 
 
 
-Thu, 29 Mar 2018 23:59:04 GMT
+Wed, 06 Jun 2018 21:48:54 GMT
 
 MAKE:
-/opt/src/swift-4.1-RELEASE-ubuntu16.10/usr/bin/swiftc binarytrees.swift -Ounchecked -I Include/swift/apr -o binarytrees.swift_run
+/opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-06-05-a-ubuntu16.10/usr/bin/swiftc binarytrees.swift -Ounchecked -I Include/swift/apr -o binarytrees.swift_run
 binarytrees.swift:65:6: warning: immutable value 'i' was never used; consider replacing with '_' or removing it
         for i in 1...iterations {
             ^
             _
 
-2.48s to complete and log all make actions
+2.52s to complete and log all make actions
 
 COMMAND LINE:
-./binarytrees.swift_run 21
+./binarytrees.swift_run 7
+
+PROGRAM FAILED 
+
 
 PROGRAM OUTPUT:
-stretch tree of depth 22	 check: 8388607
-2097152	 trees of depth 4	 check: 65011712
-524288	 trees of depth 6	 check: 66584576
-131072	 trees of depth 8	 check: 66977792
-32768	 trees of depth 10	 check: 67076096
-8192	 trees of depth 12	 check: 67100672
-2048	 trees of depth 14	 check: 67106816
-512	 trees of depth 16	 check: 67108352
-128	 trees of depth 18	 check: 67108736
-32	 trees of depth 20	 check: 67108832
-long lived tree of depth 21	 check: 4194303
+
+./binarytrees.swift_run: /usr/lib/x86_64-linux-gnu/libcurl.so.4: version `CURL_OPENSSL_3' not found (required by /opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-06-05-a-ubuntu16.10/usr/lib/swift/linux/libFoundation.so)
     </pre>
   </section>
 </article>

@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="com">/* The Computer Language Benchmarks Game</span>
-<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com">   http://benchmarksgame.alioth.debian.org/</span>
 <span class="com"></span>
 <span class="com">   contributed by Ralph Ganszky</span>
 <span class="com"></span>
@@ -161,28 +161,31 @@ defer <span class="opt">{</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Swift version 4.1 (swift-4.1-RELEASE)
+Swift version 4.2-dev (LLVM a38ff55b31, Clang 5272858825, Swift defc3e9073)
 Target: x86_64-unknown-linux-gnu
 
 
 
 
-Fri, 30 Mar 2018 00:34:26 GMT
+Wed, 06 Jun 2018 22:41:13 GMT
 
 MAKE:
-/opt/src/swift-4.1-RELEASE-ubuntu16.10/usr/bin/swiftc nbody.swift-4.swift -Ounchecked -Xllvm -unroll-count=5 -Xllvm -unroll-threshold=500 -o nbody.swift-4.swift_run
+/opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-06-05-a-ubuntu16.10/usr/bin/swiftc nbody.swift-4.swift -Ounchecked -Xllvm -unroll-count=5 -Xllvm -unroll-threshold=500 -o nbody.swift-4.swift_run
 nbody.swift-4.swift:55:12: warning: 'deallocate(capacity:)' is deprecated: Swift currently only supports freeing entire heap blocks, use deallocate() instead
     bodies.deallocate(capacity: nPlanets)
            ^
 
-2.17s to complete and log all make actions
+2.41s to complete and log all make actions
 
 COMMAND LINE:
-./nbody.swift-4.swift_run 50000000
+./nbody.swift-4.swift_run 500000
+
+PROGRAM FAILED 
+
 
 PROGRAM OUTPUT:
--0.169075164
--0.169059907
+
+./nbody.swift-4.swift_run: /usr/lib/x86_64-linux-gnu/libcurl.so.4: version `CURL_OPENSSL_3' not found (required by /opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-06-05-a-ubuntu16.10/usr/lib/swift/linux/libFoundation.so)
     </pre>
   </section>
 </article>

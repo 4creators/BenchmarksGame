@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="slc">// The Computer Language Benchmark Game</span>
-<span class="slc">// https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">// http://benchmarksgame.alioth.debian.org/</span>
 <span class="slc">//</span>
 <span class="slc">// Inspired by the gcc implementation</span>
 <span class="slc">// contributed by Ralph Ganszky</span>
@@ -126,16 +126,16 @@ defer <span class="opt">{</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Swift version 4.1 (swift-4.1-RELEASE)
+Swift version 4.2-dev (LLVM a38ff55b31, Clang 5272858825, Swift defc3e9073)
 Target: x86_64-unknown-linux-gnu
 
 
 
 
-Fri, 30 Mar 2018 00:39:00 GMT
+Wed, 06 Jun 2018 22:53:19 GMT
 
 MAKE:
-/opt/src/swift-4.1-RELEASE-ubuntu16.10/usr/bin/swiftc pidigits.swift-2.swift -Ounchecked -I Include/swift/gmp -o pidigits.swift-2.swift_run
+/opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-06-05-a-ubuntu16.10/usr/bin/swiftc pidigits.swift-2.swift -Ounchecked -I Include/swift/gmp -o pidigits.swift-2.swift_run
 pidigits.swift-2.swift:30:10: warning: 'deallocate(capacity:)' is deprecated: Swift currently only supports freeing entire heap blocks, use deallocate() instead
     tmp1.deallocate(capacity: 1)
          ^
@@ -152,7 +152,7 @@ pidigits.swift-2.swift:34:9: warning: 'deallocate(capacity:)' is deprecated: Swi
     num.deallocate(capacity: 1)
         ^
 
-2.40s to complete and log all make actions
+1.93s to complete and log all make actions
 
 COMMAND LINE:
 ./pidigits.swift-2.swift_run 10000

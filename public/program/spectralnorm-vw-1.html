@@ -23,91 +23,91 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="com">&quot;* The Computer Language Benchmarks Game</span>
-<span class="com">    https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com">    http://benchmarksgame.alioth.debian.org/</span>
 <span class="com">    contributed by Paolo Bonzini </span>
-<span class="com">    reworked by Isaac Gouy *&quot;</span>!
+<span class="com">    reworked by Isaac Gouy *&quot;</span><span class="opt">!</span>
 
-<span class="kwc">Smalltalk</span>.<span class="kwc">Core</span> <span class="kwb">defineClass:</span> <span class="kwd">#BenchmarksGame</span>
-    <span class="kwb">superclass:</span> #{<span class="kwc">Core</span>.<span class="kwc">Object</span>}
+<span class="kwc">Smalltalk</span><span class="opt">.</span><span class="kwc">Core</span> <span class="kwb">defineClass:</span> <span class="kwd">#BenchmarksGame</span>
+    <span class="kwb">superclass:</span> <span class="opt">#{</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">Object</span><span class="opt">}</span>
     <span class="kwb">indexedType:</span> <span class="kwd">#none</span>
     <span class="kwb">private:</span> <span class="kwa">false</span>
-    <span class="kwb">instanceVariableNames:</span> <span class="str">''</span>
-    <span class="kwb">classInstanceVariableNames:</span> <span class="str">''</span>
-    <span class="kwb">imports:</span> <span class="str">''</span>
-    <span class="kwb">category:</span> <span class="str">''</span>!
+    <span class="kwb">instanceVariableNames:</span> <span class="str">&apos;&apos;</span>
+    <span class="kwb">classInstanceVariableNames:</span> <span class="str">&apos;&apos;</span>
+    <span class="kwb">imports:</span> <span class="str">&apos;&apos;</span>
+    <span class="kwb">category:</span> <span class="str">&apos;&apos;</span><span class="opt">!</span>
 
 
-!<span class="kwc">Core</span>.<span class="kwc">BenchmarksGame</span> class <span class="kwb">methodsFor:</span> <span class="str">'private'</span>!
+<span class="opt">!</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">BenchmarksGame</span> class <span class="kwb">methodsFor:</span> <span class="str">&apos;private&apos;</span><span class="opt">!</span>
 
 <span class="kwb">spectralnorm:</span> n
    <span class="kwd">| u v vBv vv |</span>
-   u :<span class="kwb">=</span> <span class="kwc">Array</span> <span class="kwb">new:</span> n <span class="kwb">withAll:</span> <span class="num">1.0</span>d0.
+   u <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">Array</span> <span class="kwb">new:</span> n <span class="kwb">withAll:</span> <span class="num">1.0</span>d0<span class="opt">.</span>
    <span class="num">10</span> <span class="kwb">timesRepeat:</span>
-      [v :<span class="kwb">=</span> u multiplyAtAv.
-       u :<span class="kwb">=</span> v multiplyAtAv].
-   vBv :<span class="kwb">=</span> <span class="num">0.0</span>d0.
-   vv :<span class="kwb">=</span> <span class="num">0.0</span>d0.
+      <span class="opt">[</span>v <span class="opt">:</span><span class="kwb">=</span> u multiplyAtAv<span class="opt">.</span>
+       u <span class="opt">:</span><span class="kwb">=</span> v multiplyAtAv<span class="opt">].</span>
+   vBv <span class="opt">:</span><span class="kwb">=</span> <span class="num">0.0</span>d0<span class="opt">.</span>
+   vv <span class="opt">:</span><span class="kwb">=</span> <span class="num">0.0</span>d0<span class="opt">.</span>
    <span class="num">1</span> <span class="kwb">to:</span> n <span class="kwb">do:</span>
-      [<span class="kwd">:i</span> |
-       vBv :<span class="kwb">=</span> vBv <span class="kwb">+</span> ((u <span class="kwb">at:</span> i) <span class="kwb">*</span> (v <span class="kwb">at:</span> i)).
-       vv :<span class="kwb">=</span> vv <span class="kwb">+</span> ((v <span class="kwb">at:</span> i) <span class="kwb">*</span> (v <span class="kwb">at:</span> i))].
-   ^(vBv <span class="kwb">/</span> vv) sqrt! !
+      <span class="opt">[</span><span class="kwd">:i</span> |
+       vBv <span class="opt">:</span><span class="kwb">=</span> vBv <span class="kwb">+</span> <span class="opt">((</span>u <span class="kwb">at:</span> i<span class="opt">)</span> <span class="kwb">*</span> <span class="opt">(</span>v <span class="kwb">at:</span> i<span class="opt">)).</span>
+       vv <span class="opt">:</span><span class="kwb">=</span> vv <span class="kwb">+</span> <span class="opt">((</span>v <span class="kwb">at:</span> i<span class="opt">)</span> <span class="kwb">*</span> <span class="opt">(</span>v <span class="kwb">at:</span> i<span class="opt">))].</span>
+   <span class="opt">^(</span>vBv <span class="kwb">/</span> vv<span class="opt">)</span> sqrt<span class="opt">! !</span>
 
-!<span class="kwc">Core</span>.<span class="kwc">BenchmarksGame</span> class <span class="kwb">methodsFor:</span> <span class="str">'initialize-release'</span>!
+<span class="opt">!</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">BenchmarksGame</span> class <span class="kwb">methodsFor:</span> <span class="str">&apos;initialize-release&apos;</span><span class="opt">!</span>
 
 <span class="kwb">program</span>
    <span class="kwd">| n |</span>
-   n :<span class="kwb">=</span> <span class="kwc">CEnvironment</span> commandLine last asNumber.
+   n <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">CEnvironment</span> commandLine last asNumber<span class="opt">.</span>
 
    <span class="kwc">Stdout</span>
-      <span class="kwb">print:</span> (<span class="kwa">self</span> <span class="kwb">spectralnorm:</span> n) <span class="kwb">digits:</span> <span class="num">9</span>;
-      nl.
+      <span class="kwb">print:</span> <span class="opt">(</span><span class="kwa">self</span> <span class="kwb">spectralnorm:</span> n<span class="opt">)</span> <span class="kwb">digits:</span> <span class="num">9</span><span class="opt">;</span>
+      nl<span class="opt">.</span>
 
-   ^<span class="str">''</span>! !
+   <span class="opt">^</span><span class="str">&apos;&apos;</span><span class="opt">! !</span>
 
 
-!<span class="kwc">Core</span>.<span class="kwc">SmallInteger</span> <span class="kwb">methodsFor:</span> <span class="str">'benchmarks game'</span>!
+<span class="opt">!</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">SmallInteger</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;benchmarks game&apos;</span><span class="opt">!</span>
 
 <span class="kwb">matrixA:</span> anInteger
-   ^<span class="num">1.0</span>d0 <span class="kwb">/</span> ((<span class="kwa">self</span> <span class="kwb">+</span> anInteger <span class="kwb">-</span> <span class="num">2</span>) <span class="kwb">*</span> (<span class="kwa">self</span> <span class="kwb">+</span> anInteger <span class="kwb">-</span> <span class="num">1</span>) <span class="kwb">/</span><span class="num">2</span>  <span class="kwb">+</span> <span class="kwa">self</span>)! !
+   <span class="opt">^</span><span class="num">1.0</span>d0 <span class="kwb">/</span> <span class="opt">((</span><span class="kwa">self</span> <span class="kwb">+</span> anInteger <span class="kwb">-</span> <span class="num">2</span><span class="opt">)</span> <span class="kwb">*</span> <span class="opt">(</span><span class="kwa">self</span> <span class="kwb">+</span> anInteger <span class="kwb">-</span> <span class="num">1</span><span class="opt">)</span> <span class="kwb">/</span><span class="num">2</span>  <span class="kwb">+</span> <span class="kwa">self</span><span class="opt">)! !</span>
 
 
-!<span class="kwc">Core</span>.<span class="kwc">Array</span> <span class="kwb">methodsFor:</span> <span class="str">'benchmarks game'</span>!
+<span class="opt">!</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">Array</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;benchmarks game&apos;</span><span class="opt">!</span>
 
 <span class="kwb">multiplyAtv</span>
    <span class="kwd">| n atv sum |</span>
-   n :<span class="kwb">=</span> <span class="kwa">self</span> size.
-   atv :<span class="kwb">=</span> <span class="kwc">Array</span> <span class="kwb">new:</span> n.
-   <span class="num">1</span> <span class="kwb">to:</span> n <span class="kwb">do:</span> [<span class="kwd">:i</span>|
-      sum :<span class="kwb">=</span> <span class="num">0.0</span>d0.
-      <span class="num">1</span> <span class="kwb">to:</span> n <span class="kwb">do:</span> [<span class="kwd">:j</span>|
-         sum :<span class="kwb">=</span> sum <span class="kwb">+</span> ((j <span class="kwb">matrixA:</span> i) <span class="kwb">*</span> (<span class="kwa">self</span> <span class="kwb">at:</span> j)) ].
-      atv <span class="kwb">at:</span> i <span class="kwb">put:</span> sum].
-   ^atv!
+   n <span class="opt">:</span><span class="kwb">=</span> <span class="kwa">self</span> size<span class="opt">.</span>
+   atv <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">Array</span> <span class="kwb">new:</span> n<span class="opt">.</span>
+   <span class="num">1</span> <span class="kwb">to:</span> n <span class="kwb">do:</span> <span class="opt">[</span><span class="kwd">:i</span>|
+      sum <span class="opt">:</span><span class="kwb">=</span> <span class="num">0.0</span>d0<span class="opt">.</span>
+      <span class="num">1</span> <span class="kwb">to:</span> n <span class="kwb">do:</span> <span class="opt">[</span><span class="kwd">:j</span>|
+         sum <span class="opt">:</span><span class="kwb">=</span> sum <span class="kwb">+</span> <span class="opt">((</span>j <span class="kwb">matrixA:</span> i<span class="opt">)</span> <span class="kwb">*</span> <span class="opt">(</span><span class="kwa">self</span> <span class="kwb">at:</span> j<span class="opt">)) ].</span>
+      atv <span class="kwb">at:</span> i <span class="kwb">put:</span> sum<span class="opt">].</span>
+   <span class="opt">^</span>atv<span class="opt">!</span>
 
 <span class="kwb">multiplyAtAv</span>
-   ^(<span class="kwa">self</span> multiplyAv) multiplyAtv!
+   <span class="opt">^(</span><span class="kwa">self</span> multiplyAv<span class="opt">)</span> multiplyAtv<span class="opt">!</span>
 
 <span class="kwb">multiplyAv</span>
    <span class="kwd">| n av sum |</span>
-   n :<span class="kwb">=</span> <span class="kwa">self</span> size.
-   av :<span class="kwb">=</span> <span class="kwc">Array</span> <span class="kwb">new:</span> n.
-   <span class="num">1</span> <span class="kwb">to:</span> n <span class="kwb">do:</span> [<span class="kwd">:i</span>|
-      sum :<span class="kwb">=</span> <span class="num">0.0</span>d0.
-      <span class="num">1</span> <span class="kwb">to:</span> n <span class="kwb">do:</span> [<span class="kwd">:j</span>|
-         sum :<span class="kwb">=</span> sum <span class="kwb">+</span> ((i <span class="kwb">matrixA:</span> j) <span class="kwb">*</span> (<span class="kwa">self</span> <span class="kwb">at:</span> j)) ].
-      av <span class="kwb">at:</span> i <span class="kwb">put:</span> sum].
-   ^av! !
+   n <span class="opt">:</span><span class="kwb">=</span> <span class="kwa">self</span> size<span class="opt">.</span>
+   av <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">Array</span> <span class="kwb">new:</span> n<span class="opt">.</span>
+   <span class="num">1</span> <span class="kwb">to:</span> n <span class="kwb">do:</span> <span class="opt">[</span><span class="kwd">:i</span>|
+      sum <span class="opt">:</span><span class="kwb">=</span> <span class="num">0.0</span>d0<span class="opt">.</span>
+      <span class="num">1</span> <span class="kwb">to:</span> n <span class="kwb">do:</span> <span class="opt">[</span><span class="kwd">:j</span>|
+         sum <span class="opt">:</span><span class="kwb">=</span> sum <span class="kwb">+</span> <span class="opt">((</span>i <span class="kwb">matrixA:</span> j<span class="opt">)</span> <span class="kwb">*</span> <span class="opt">(</span><span class="kwa">self</span> <span class="kwb">at:</span> j<span class="opt">)) ].</span>
+      av <span class="kwb">at:</span> i <span class="kwb">put:</span> sum<span class="opt">].</span>
+   <span class="opt">^</span>av<span class="opt">! !</span>
 
 
-!<span class="kwc">Core</span>.<span class="kwc">Stream</span> <span class="kwb">methodsFor:</span> <span class="str">'benchmarks game'</span>!
+<span class="opt">!</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">Stream</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;benchmarks game&apos;</span><span class="opt">!</span>
 
 <span class="kwb">nl</span>
-   <span class="kwa">self</span> <span class="kwb">nextPut:</span> <span class="kwc">Character</span> lf!
+   <span class="kwa">self</span> <span class="kwb">nextPut:</span> <span class="kwc">Character</span> lf<span class="opt">!</span>
 
 <span class="kwb">print:</span> number <span class="kwb">digits:</span> decimalPlaces
    <span class="kwa">self</span> <span class="kwb">nextPutAll:</span> 
-      ((number <span class="kwb">asFixedPoint:</span> decimalPlaces) printString <span class="kwb">copyWithout:</span> <span class="num">$s</span>)! !
+      <span class="opt">((</span>number <span class="kwb">asFixedPoint:</span> decimalPlaces<span class="opt">)</span> printString <span class="kwb">copyWithout:</span> <span class="num">$s</span><span class="opt">)! !</span>
 
     </pre>
   </section>
@@ -116,16 +116,16 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-VisualWorks&#174; Personal Use Edition Release 8.2 of July 15, 2016
+VisualWorks&#174; 8.3 Aug 19 2017
 
 
 
 
-Tue, 02 May 2017 19:03:32 GMT
+Tue, 12 Jun 2018 19:00:29 GMT
 
 MAKE:
-cp /usr/local/src/vw8.2pul/image/visualnc64.im spectralnorm.vw_run.im
-/usr/local/src/vw8.2pul/bin/linuxx86_64/vwlinuxx86_64 spectralnorm.vw_run.im -nogui -pcl MatriX -filein spectralnorm.vw -doit 'ObjectMemory snapshotThenQuit'
+cp /opt/src/vw8.3pul/image/visualnc64.im spectralnorm.vw_run.im
+/opt/src/vw8.3pul/bin/visual spectralnorm.vw_run.im -nogui -pcl MatriX -filein spectralnorm.vw -doit 'ObjectMemory snapshotThenQuit'
 
 Autoloading MatriX from $(VISUALWORKS)/preview/matrix/MatriX.pcl
 Autoloading Xtreams-Support from $(VISUALWORKS)/xtreams/Xtreams-Support.pcl
@@ -147,11 +147,11 @@ Do you want to add Root.Smalltalk.Core.Array&gt;&gt;multiplyAtv to the previousl
 Stream&lt;benchmarks game
 Do you want to add Root.Smalltalk.Core.Stream&gt;&gt;nl to the previously unchanged package, Collections-Streams
 						OK to continue?
-/home/dunham/benchmarksgame_quadcore/spectralnorm/tmp/spectralnorm.vw_run.im created at May 2, 2017 12:03:03 PM
-4.64s to complete and log all make actions
+/home/dunham/benchmarksgame_quadcore/spectralnorm/tmp/spectralnorm.vw_run.im created at June 12, 2018 12:00:00 PM
+4.59s to complete and log all make actions
 
 COMMAND LINE:
-/usr/local/src/vw8.2pul/bin/linuxx86_64/vwlinuxx86_64 spectralnorm.vw_run.im -nogui -evaluate &quot;BenchmarksGame program&quot; -a 5500
+/opt/src/vw8.3pul/bin/visual spectralnorm.vw_run.im -nogui -evaluate &quot;BenchmarksGame program&quot; -a 5500
 
 PROGRAM OUTPUT:
 1.274224153

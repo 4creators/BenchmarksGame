@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="slc">// The Computer Language Benchmarks Game</span>
-<span class="slc">// https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">// http://benchmarksgame.alioth.debian.org/</span>
 <span class="slc">//</span>
 <span class="slc">// contributed by Francois Green</span>
 
@@ -86,36 +86,28 @@ DispatchQueue<span class="opt">.</span><span class="kwd">global</span><span clas
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Swift version 4.1 (swift-4.1-RELEASE)
+Swift version 4.2-dev (LLVM a38ff55b31, Clang 5272858825, Swift defc3e9073)
 Target: x86_64-unknown-linux-gnu
 
 
 
 
-Fri, 30 Mar 2018 00:49:09 GMT
+Wed, 06 Jun 2018 22:53:34 GMT
 
 MAKE:
-/opt/src/swift-4.1-RELEASE-ubuntu16.10/usr/bin/swiftc regexredux.swift -Ounchecked  -o regexredux.swift_run
+/opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-06-05-a-ubuntu16.10/usr/bin/swiftc regexredux.swift -Ounchecked  -o regexredux.swift_run
 
-1.27s to complete and log all make actions
+1.23s to complete and log all make actions
 
 COMMAND LINE:
-./regexredux.swift_run 0 &lt; regexredux-input5000000.txt
+./regexredux.swift_run 0 &lt; regexredux-input50000.txt
+
+PROGRAM FAILED 
+
 
 PROGRAM OUTPUT:
-agggtaaa|tttaccct 356
-[cgt]gggtaaa|tttaccc[acg] 1250
-a[act]ggtaaa|tttacc[agt]t 4252
-ag[act]gtaaa|tttac[agt]ct 2894
-agg[act]taaa|ttta[agt]cct 5435
-aggg[acg]aaa|ttt[cgt]ccct 1537
-agggt[cgt]aa|tt[acg]accct 1431
-agggta[cgt]a|t[acg]taccct 1608
-agggtaa[cgt]|[acg]ttaccct 2178
 
-50833411
-50000000
-27388361
+./regexredux.swift_run: /usr/lib/x86_64-linux-gnu/libcurl.so.4: version `CURL_OPENSSL_3' not found (required by /opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-06-05-a-ubuntu16.10/usr/lib/swift/linux/libFoundation.so)
     </pre>
   </section>
 </article>

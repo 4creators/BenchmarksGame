@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="com">/* The Computer Language Benchmarks Game</span>
-<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com">   http://benchmarksgame.alioth.debian.org/</span>
 <span class="com"></span>
 <span class="com">   contributed by Ralph Ganszky</span>
 <span class="com">   modified by Michael Morrell</span>
@@ -164,16 +164,16 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Swift version 4.1 (swift-4.1-RELEASE)
+Swift version 4.2-dev (LLVM a38ff55b31, Clang 5272858825, Swift defc3e9073)
 Target: x86_64-unknown-linux-gnu
 
 
 
 
-Fri, 30 Mar 2018 00:09:22 GMT
+Wed, 06 Jun 2018 22:32:30 GMT
 
 MAKE:
-/opt/src/swift-4.1-RELEASE-ubuntu16.10/usr/bin/swiftc knucleotide.swift -Ounchecked  -o knucleotide.swift_run
+/opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-06-05-a-ubuntu16.10/usr/bin/swiftc knucleotide.swift -Ounchecked  -o knucleotide.swift_run
 knucleotide.swift:61:20: warning: 'characters' is deprecated: Please use String or Substring directly
     let cSeq = seq.characters
                    ^
@@ -181,7 +181,7 @@ knucleotide.swift:73:21: warning: 'characters' is deprecated: Please use String 
     while numberStr.characters.count &lt; Int(log10(num)) + 2 + precision {
                     ^
 
-6.17s to complete and log all make actions
+4.94s to complete and log all make actions
 
 COMMAND LINE:
 ./knucleotide.swift_run 0 &lt; knucleotide-input25000000.txt

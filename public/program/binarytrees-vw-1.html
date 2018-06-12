@@ -22,99 +22,99 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-<span class="com">&quot;* The Computer Language Benchmarks Game</span>
-<span class="com">    https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com">&quot;* The Computer Language Shootout</span>
+<span class="com">    http://shootout.alioth.debian.org/</span>
 <span class="com">    contributed by Isaac Gouy</span>
 <span class="com">    modified by Eliot Miranda </span>
-<span class="com">*&quot;</span>!
+<span class="com">*&quot;</span><span class="opt">!</span>
 
 
-<span class="kwc">Smalltalk</span>.<span class="kwc">Core</span> <span class="kwb">defineClass:</span> <span class="kwd">#BenchmarksGame</span>
-	<span class="kwb">superclass:</span> #{<span class="kwc">Core</span>.<span class="kwc">Object</span>}
+<span class="kwc">Smalltalk</span><span class="opt">.</span><span class="kwc">Core</span> <span class="kwb">defineClass:</span> <span class="kwd">#BenchmarksGame</span>
+	<span class="kwb">superclass:</span> <span class="opt">#{</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">Object</span><span class="opt">}</span>
 	<span class="kwb">indexedType:</span> <span class="kwd">#none</span>
 	<span class="kwb">private:</span> <span class="kwa">false</span>
-	<span class="kwb">instanceVariableNames:</span> <span class="str">''</span>
-	<span class="kwb">classInstanceVariableNames:</span> <span class="str">''</span>
-	<span class="kwb">imports:</span> <span class="str">''</span>
-	<span class="kwb">category:</span> <span class="str">''</span>!
+	<span class="kwb">instanceVariableNames:</span> <span class="str">&apos;&apos;</span>
+	<span class="kwb">classInstanceVariableNames:</span> <span class="str">&apos;&apos;</span>
+	<span class="kwb">imports:</span> <span class="str">&apos;&apos;</span>
+	<span class="kwb">category:</span> <span class="str">&apos;&apos;</span><span class="opt">!</span>
 
 <span class="kwc">Smalltalk</span> <span class="kwb">defineClass:</span> <span class="kwd">#TreeNode</span>
-	<span class="kwb">superclass:</span> #{<span class="kwc">Core</span>.<span class="kwc">Object</span>}
+	<span class="kwb">superclass:</span> <span class="opt">#{</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">Object</span><span class="opt">}</span>
 	<span class="kwb">indexedType:</span> <span class="kwd">#none</span>
 	<span class="kwb">private:</span> <span class="kwa">false</span>
-	<span class="kwb">instanceVariableNames:</span> <span class="str">'left right '</span>
-	<span class="kwb">classInstanceVariableNames:</span> <span class="str">''</span>
-	<span class="kwb">imports:</span> <span class="str">''</span>
-	<span class="kwb">category:</span> <span class="str">'benchmarks game'</span>!
+	<span class="kwb">instanceVariableNames:</span> <span class="str">&apos;left right &apos;</span>
+	<span class="kwb">classInstanceVariableNames:</span> <span class="str">&apos;&apos;</span>
+	<span class="kwb">imports:</span> <span class="str">&apos;&apos;</span>
+	<span class="kwb">category:</span> <span class="str">&apos;benchmarks game&apos;</span><span class="opt">!</span>
 
-!<span class="kwc">Core</span>.<span class="kwc">BenchmarksGame</span> class <span class="kwb">methodsFor:</span> <span class="str">'initialize-release'</span>!
+<span class="opt">!</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">BenchmarksGame</span> class <span class="kwb">methodsFor:</span> <span class="str">&apos;initialize-release&apos;</span><span class="opt">!</span>
 
 <span class="kwb">program</span>
    <span class="kwd">| n minDepth maxDepth stretchDepth check longLivedTree iterations |</span>
-   n :<span class="kwb">=</span> <span class="kwc">CEnvironment</span> commandLine last asNumber.
+   n <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">CEnvironment</span> commandLine last asNumber<span class="opt">.</span>
 
-   minDepth :<span class="kwb">=</span> <span class="num">4</span>.
-   maxDepth :<span class="kwb">=</span> minDepth <span class="kwb">+</span> <span class="num">2</span> <span class="kwb">max:</span> n.
-   stretchDepth :<span class="kwb">=</span> maxDepth <span class="kwb">+</span> <span class="num">1</span>.
+   minDepth <span class="opt">:</span><span class="kwb">=</span> <span class="num">4</span><span class="opt">.</span>
+   maxDepth <span class="opt">:</span><span class="kwb">=</span> minDepth <span class="kwb">+</span> <span class="num">2</span> <span class="kwb">max:</span> n<span class="opt">.</span>
+   stretchDepth <span class="opt">:</span><span class="kwb">=</span> maxDepth <span class="kwb">+</span> <span class="num">1</span><span class="opt">.</span>
 
-   check :<span class="kwb">=</span> (<span class="kwc">TreeNode</span> <span class="kwb">bottomUpTree:</span> stretchDepth) itemCheck.
+   check <span class="opt">:</span><span class="kwb">=</span> <span class="opt">(</span><span class="kwc">TreeNode</span> <span class="kwb">bottomUpTree:</span> stretchDepth<span class="opt">)</span> itemCheck<span class="opt">.</span>
    <span class="kwc">Stdout</span>
-      <span class="kwb">nextPutAll:</span> <span class="str">'stretch tree of depth '</span>; <span class="kwb">print:</span> stretchDepth; tab;
-      <span class="kwb">nextPutAll:</span> <span class="str">' check: '</span>; <span class="kwb">print:</span> check; nl.
+      <span class="kwb">nextPutAll:</span> <span class="str">&apos;stretch tree of depth &apos;</span><span class="opt">;</span> <span class="kwb">print:</span> stretchDepth<span class="opt">;</span> tab<span class="opt">;</span>
+      <span class="kwb">nextPutAll:</span> <span class="str">&apos; check: &apos;</span><span class="opt">;</span> <span class="kwb">print:</span> check<span class="opt">;</span> nl<span class="opt">.</span>
 
-   longLivedTree :<span class="kwb">=</span> <span class="kwc">TreeNode</span> <span class="kwb">bottomUpTree:</span> maxDepth.
-   minDepth <span class="kwb">to:</span> maxDepth <span class="kwb">by:</span> <span class="num">2</span> <span class="kwb">do:</span> [<span class="kwd">:depth</span>|
-      iterations :<span class="kwb">=</span> <span class="num">1</span> <span class="kwb">bitShift:</span> maxDepth <span class="kwb">-</span> depth <span class="kwb">+</span> minDepth.
+   longLivedTree <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">TreeNode</span> <span class="kwb">bottomUpTree:</span> maxDepth<span class="opt">.</span>
+   minDepth <span class="kwb">to:</span> maxDepth <span class="kwb">by:</span> <span class="num">2</span> <span class="kwb">do:</span> <span class="opt">[</span><span class="kwd">:depth</span>|
+      iterations <span class="opt">:</span><span class="kwb">=</span> <span class="num">1</span> <span class="kwb">bitShift:</span> maxDepth <span class="kwb">-</span> depth <span class="kwb">+</span> minDepth<span class="opt">.</span>
 
-      check :<span class="kwb">=</span> <span class="num">0</span>.
-      <span class="num">1</span> <span class="kwb">to:</span> iterations <span class="kwb">do:</span> [<span class="kwd">:i</span>|
-         check :<span class="kwb">=</span> check <span class="kwb">+</span> (<span class="kwc">TreeNode</span> <span class="kwb">bottomUpTree:</span> depth) itemCheck
-         ].
+      check <span class="opt">:</span><span class="kwb">=</span> <span class="num">0</span><span class="opt">.</span>
+      <span class="num">1</span> <span class="kwb">to:</span> iterations <span class="kwb">do:</span> <span class="opt">[</span><span class="kwd">:i</span>|
+         check <span class="opt">:</span><span class="kwb">=</span> check <span class="kwb">+</span> <span class="opt">(</span><span class="kwc">TreeNode</span> <span class="kwb">bottomUpTree:</span> depth<span class="opt">)</span> itemCheck
+         <span class="opt">].</span>
       <span class="kwc">Stdout</span>
-         <span class="kwb">print:</span> iterations; tab;
-         <span class="kwb">nextPutAll:</span> <span class="str">' trees of depth '</span>; <span class="kwb">print:</span> depth; tab;
-         <span class="kwb">nextPutAll:</span> <span class="str">' check: '</span>; <span class="kwb">print:</span> check; nl
-      ].
+         <span class="kwb">print:</span> iterations<span class="opt">;</span> tab<span class="opt">;</span>
+         <span class="kwb">nextPutAll:</span> <span class="str">&apos; trees of depth &apos;</span><span class="opt">;</span> <span class="kwb">print:</span> depth<span class="opt">;</span> tab<span class="opt">;</span>
+         <span class="kwb">nextPutAll:</span> <span class="str">&apos; check: &apos;</span><span class="opt">;</span> <span class="kwb">print:</span> check<span class="opt">;</span> nl
+      <span class="opt">].</span>
 
    <span class="kwc">Stdout</span>
-      <span class="kwb">nextPutAll:</span> <span class="str">'long lived tree of depth '</span>; <span class="kwb">print:</span> maxDepth; tab;
-      <span class="kwb">nextPutAll:</span> <span class="str">' check: '</span>; <span class="kwb">print:</span> longLivedTree itemCheck; nl.
+      <span class="kwb">nextPutAll:</span> <span class="str">&apos;long lived tree of depth &apos;</span><span class="opt">;</span> <span class="kwb">print:</span> maxDepth<span class="opt">;</span> tab<span class="opt">;</span>
+      <span class="kwb">nextPutAll:</span> <span class="str">&apos; check: &apos;</span><span class="opt">;</span> <span class="kwb">print:</span> longLivedTree itemCheck<span class="opt">;</span> nl<span class="opt">.</span>
 
-   ^<span class="str">''</span>! !
+   <span class="opt">^</span><span class="str">&apos;&apos;</span><span class="opt">! !</span>
 
 
-!<span class="kwc">TreeNode</span> class <span class="kwb">methodsFor:</span> <span class="str">'instance creation'</span>!
+<span class="opt">!</span><span class="kwc">TreeNode</span> class <span class="kwb">methodsFor:</span> <span class="str">&apos;instance creation&apos;</span><span class="opt">!</span>
 
 <span class="kwb">bottomUpTree:</span> anInteger
-   ^(anInteger &gt; <span class="num">0</span>) 
-      <span class="kwb">ifTrue:</span> [
+   <span class="opt">^(</span>anInteger &gt; <span class="num">0</span><span class="opt">)</span> 
+      <span class="kwb">ifTrue:</span> <span class="opt">[</span>
          <span class="kwa">self</span> 
-            <span class="kwb">left:</span> (<span class="kwa">self</span> <span class="kwb">bottomUpTree:</span> anInteger <span class="kwb">-</span> <span class="num">1</span>) 
-            <span class="kwb">right:</span> (<span class="kwa">self</span> <span class="kwb">bottomUpTree:</span> anInteger <span class="kwb">-</span> <span class="num">1</span>)  
-         ]
-      <span class="kwb">ifFalse:</span> [<span class="kwa">self</span> <span class="kwb">left:</span> <span class="kwa">nil</span> <span class="kwb">right:</span> <span class="kwa">nil</span>]!
+            <span class="kwb">left:</span> <span class="opt">(</span><span class="kwa">self</span> <span class="kwb">bottomUpTree:</span> anInteger <span class="kwb">-</span> <span class="num">1</span><span class="opt">)</span> 
+            <span class="kwb">right:</span> <span class="opt">(</span><span class="kwa">self</span> <span class="kwb">bottomUpTree:</span> anInteger <span class="kwb">-</span> <span class="num">1</span><span class="opt">)</span>  
+         <span class="opt">]</span>
+      <span class="kwb">ifFalse:</span> <span class="opt">[</span><span class="kwa">self</span> <span class="kwb">left:</span> <span class="kwa">nil</span> <span class="kwb">right:</span> <span class="kwa">nil</span><span class="opt">]!</span>
 
 <span class="kwb">left:</span> leftChild <span class="kwb">right:</span> rightChild      
-   ^(<span class="kwa">super</span> new) <span class="kwb">left:</span> leftChild <span class="kwb">right:</span> rightChild! !
+   <span class="opt">^(</span><span class="kwa">super</span> new<span class="opt">)</span> <span class="kwb">left:</span> leftChild <span class="kwb">right:</span> rightChild<span class="opt">! !</span>
 
 
-!<span class="kwc">TreeNode</span> <span class="kwb">methodsFor:</span> <span class="str">'accessing'</span>!
+<span class="opt">!</span><span class="kwc">TreeNode</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;accessing&apos;</span><span class="opt">!</span>
 
 <span class="kwb">itemCheck</span>
-   ^left isNil 
-      <span class="kwb">ifTrue:</span> [<span class="num">1</span>] <span class="kwb">ifFalse:</span> [<span class="num">1</span> <span class="kwb">+</span> left itemCheck <span class="kwb">+</span> right itemCheck]! !
+   <span class="opt">^</span>left isNil 
+      <span class="kwb">ifTrue:</span> <span class="opt">[</span><span class="num">1</span><span class="opt">]</span> <span class="kwb">ifFalse:</span> <span class="opt">[</span><span class="num">1</span> <span class="kwb">+</span> left itemCheck <span class="kwb">+</span> right itemCheck<span class="opt">]! !</span>
 
-!<span class="kwc">TreeNode</span> <span class="kwb">methodsFor:</span> <span class="str">'initialize-release'</span>!
+<span class="opt">!</span><span class="kwc">TreeNode</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;initialize-release&apos;</span><span class="opt">!</span>
 
 <span class="kwb">left:</span> leftChild <span class="kwb">right:</span> rightChild
-   left :<span class="kwb">=</span> leftChild.
-   right :<span class="kwb">=</span> rightChild! !
+   left <span class="opt">:</span><span class="kwb">=</span> leftChild<span class="opt">.</span>
+   right <span class="opt">:</span><span class="kwb">=</span> rightChild<span class="opt">! !</span>
 
 
-!<span class="kwc">Core</span>.<span class="kwc">Stream</span> <span class="kwb">methodsFor:</span> <span class="str">'benchmarks game'</span>!
+<span class="opt">!</span><span class="kwc">Core</span><span class="opt">.</span><span class="kwc">Stream</span> <span class="kwb">methodsFor:</span> <span class="str">&apos;benchmarks game&apos;</span><span class="opt">!</span>
 
 <span class="kwb">nl</span>
-   <span class="kwa">self</span> <span class="kwb">nextPut:</span> <span class="kwc">Character</span> lf! !
+   <span class="kwa">self</span> <span class="kwb">nextPut:</span> <span class="kwc">Character</span> lf<span class="opt">! !</span>
     </pre>
   </section>
   <section>
@@ -122,16 +122,16 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-VisualWorks&#174; Personal Use Edition Release 8.2 of July 15, 2016
+VisualWorks&#174; 8.3 Aug 19 2017
 
 
 
 
-Thu, 11 May 2017 00:40:37 GMT
+Tue, 12 Jun 2018 17:57:41 GMT
 
 MAKE:
-cp /usr/local/src/vw8.2pul/image/visualnc64.im binarytrees.vw_run.im
-/usr/local/src/vw8.2pul/bin/linuxx86_64/vwlinuxx86_64 binarytrees.vw_run.im -nogui -pcl MatriX -filein binarytrees.vw -doit 'ObjectMemory snapshotThenQuit'
+cp /opt/src/vw8.3pul/image/visualnc64.im binarytrees.vw_run.im
+/opt/src/vw8.3pul/bin/visual binarytrees.vw_run.im -nogui -pcl MatriX -filein binarytrees.vw -doit 'ObjectMemory snapshotThenQuit'
 
 Autoloading MatriX from $(VISUALWORKS)/preview/matrix/MatriX.pcl
 Autoloading Xtreams-Support from $(VISUALWORKS)/xtreams/Xtreams-Support.pcl
@@ -149,11 +149,11 @@ TreeNode&lt;initialize-release
 Stream&lt;benchmarks game
 Do you want to add Root.Smalltalk.Core.Stream&gt;&gt;nl to the previously unchanged package, Collections-Streams
 						OK to continue?
-/home/dunham/benchmarksgame_quadcore/binarytrees/tmp/binarytrees.vw_run.im created at May 10, 2017 5:40:35 PM
-5.38s to complete and log all make actions
+/home/dunham/benchmarksgame_quadcore/binarytrees/tmp/binarytrees.vw_run.im created at June 12, 2018 10:57:40 AM
+4.57s to complete and log all make actions
 
 COMMAND LINE:
-/usr/local/src/vw8.2pul/bin/linuxx86_64/vwlinuxx86_64 binarytrees.vw_run.im -nogui -evaluate &quot;BenchmarksGame program&quot; -a 21
+/opt/src/vw8.3pul/bin/visual binarytrees.vw_run.im -nogui -evaluate &quot;BenchmarksGame program&quot; -a 21
 
 PROGRAM OUTPUT:
 stretch tree of depth 22	 check: 8388607

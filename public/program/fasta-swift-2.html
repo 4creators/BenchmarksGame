@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="com">/* The Computer Language Benchmarks Game</span>
-<span class="com"> https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"> http://benchmarksgame.alioth.debian.org/</span>
 <span class="com"> contributed by Ralph Ganszky</span>
 <span class="com"> converted to Swift 3 by Sergo Beruashvili</span>
 <span class="com"> software pipelining of randomFasta and optimized sequential</span>
@@ -267,16 +267,16 @@ _ <span class="opt">=</span> <span class="kwc">alu</span><span class="opt">.</sp
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Swift version 4.1 (swift-4.1-RELEASE)
+Swift version 4.2-dev (LLVM a38ff55b31, Clang 5272858825, Swift defc3e9073)
 Target: x86_64-unknown-linux-gnu
 
 
 
 
-Fri, 30 Mar 2018 00:07:27 GMT
+Wed, 06 Jun 2018 22:30:33 GMT
 
 MAKE:
-/opt/src/swift-4.1-RELEASE-ubuntu16.10/usr/bin/swiftc fasta.swift-2.swift -Ounchecked  -o fasta.swift-2.swift_run
+/opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-06-05-a-ubuntu16.10/usr/bin/swiftc fasta.swift-2.swift -Ounchecked  -o fasta.swift-2.swift_run
 fasta.swift-2.swift:146:13: warning: 'deallocate(capacity:)' is deprecated: Swift currently only supports freeing entire heap blocks, use deallocate() instead
         raw.deallocate(capacity: capacity)
             ^
@@ -290,7 +290,7 @@ fasta.swift-2.swift:93:17: warning: 'deallocate(capacity:)' is deprecated: Swift
     defer { raw.deallocate(capacity: bufSize) }
                 ^
 
-3.28s to complete and log all make actions
+3.08s to complete and log all make actions
 
 COMMAND LINE:
 ./fasta.swift-2.swift_run 25000000

@@ -24,7 +24,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 <span class="slc">//</span>
 <span class="slc">// The Computer Language Benchmarks Game</span>
-<span class="slc">// https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">// http://benchmarksgame.alioth.debian.org/</span>
 <span class="slc">//</span>
 <span class="slc">// Contributed by Alex Drozhak</span>
 <span class="slc">//</span>
@@ -197,25 +197,28 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Swift version 4.1 (swift-4.1-RELEASE)
+Swift version 4.2-dev (LLVM a38ff55b31, Clang 5272858825, Swift defc3e9073)
 Target: x86_64-unknown-linux-gnu
 
 
 
 
-Fri, 30 Mar 2018 00:23:33 GMT
+Wed, 06 Jun 2018 22:47:04 GMT
 
 MAKE:
-/opt/src/swift-4.1-RELEASE-ubuntu16.10/usr/bin/swiftc nbody.swift-7.swift -Ounchecked -Xllvm -unroll-count=5 -Xllvm -unroll-threshold=500 -o nbody.swift-7.swift_run
+/opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-06-05-a-ubuntu16.10/usr/bin/swiftc nbody.swift-7.swift -Ounchecked -Xllvm -unroll-count=5 -Xllvm -unroll-threshold=500 -o nbody.swift-7.swift_run
 
-2.72s to complete and log all make actions
+2.69s to complete and log all make actions
 
 COMMAND LINE:
-./nbody.swift-7.swift_run 50000000
+./nbody.swift-7.swift_run 500000
+
+PROGRAM FAILED 
+
 
 PROGRAM OUTPUT:
--0.169075163828524
--0.169059906802725
+
+./nbody.swift-7.swift_run: /usr/lib/x86_64-linux-gnu/libcurl.so.4: version `CURL_OPENSSL_3' not found (required by /opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-06-05-a-ubuntu16.10/usr/lib/swift/linux/libFoundation.so)
     </pre>
   </section>
 </article>

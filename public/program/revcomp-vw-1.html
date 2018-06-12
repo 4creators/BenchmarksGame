@@ -23,7 +23,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     </div>
     <pre>
 <span class="com">&quot;* The Computer Language Benchmarks Game</span>
-<span class="com">    https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com">    http://benchmarksgame.alioth.debian.org/</span>
 <span class="com">   contributed by Eliot Miranda and Isaac Gouy *&quot;</span><span class="opt">!</span>
 
 
@@ -112,24 +112,392 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-VisualWorks&#174; Personal Use Edition Release 8.2 of July 15, 2016
+VisualWorks&#174; 8.3 Aug 19 2017
 
 
 
 
-Mon, 26 Mar 2018 19:13:17 GMT
+Tue, 12 Jun 2018 18:55:52 GMT
 
 MAKE:
-make: *** No rule to make target 'revcomp.vw_run'.  Stop.
+cp /opt/src/vw8.3pul/image/visualnc64.im revcomp.vw_run.im
+/opt/src/vw8.3pul/bin/visual revcomp.vw_run.im -nogui -pcl MatriX -filein revcomp.vw -doit 'ObjectMemory snapshotThenQuit'
 
-0.07s to complete and log all make actions
+Autoloading MatriX from $(VISUALWORKS)/preview/matrix/MatriX.pcl
+Autoloading Xtreams-Support from $(VISUALWORKS)/xtreams/Xtreams-Support.pcl
+Autoloading Xtreams-Core from $(VISUALWORKS)/xtreams/Xtreams-Core.pcl
+Autoloading Xtreams-Terminals from $(VISUALWORKS)/xtreams/Xtreams-Terminals.pcl
+Autoloading Xtreams-Transforms from $(VISUALWORKS)/xtreams/Xtreams-Transforms.pcl
+Autoloading Xtreams-Substreams from $(VISUALWORKS)/xtreams/Xtreams-Substreams.pcl
+Autoloading Xtreams-Multiplexing from $(VISUALWORKS)/xtreams/Xtreams-Multiplexing.pcl
+Filing in from:
+	revcomp.vw
+BenchmarksGame class&lt;private
+BenchmarksGame class&lt;initialize-release
+/home/dunham/benchmarksgame_quadcore/revcomp/tmp/revcomp.vw_run.im created at June 12, 2018 11:55:51 AM
+4.59s to complete and log all make actions
 
 COMMAND LINE:
-/usr/local/src/vw8.2pul/bin/linuxx86_64/vwlinuxx86_64 revcomp.vw_run.im -nogui -evaluate &quot;BenchmarksGame program&quot; -a 0 &lt; revcomp-input250000.txt
+/opt/src/vw8.3pul/bin/visual revcomp.vw_run.im -nogui -evaluate &quot;BenchmarksGame program&quot; -a 0 &lt; revcomp-input100000000.txt
 
-MAKE ERROR 
+UNEXPECTED OUTPUT 
 
-    </pre>
+Binary files _out and 100000000_out differ
+
+(TRUNCATED) PROGRAM OUTPUT:
+Unhandled exception: No space available to allocate this object
+
+----------------------------------------------------------------------
+ByteString class(Behavior)&gt;&gt;newNoRetry:
+Receiver:
+	a ByteString class
+Instance Variables:
+	superclass = ByteEncodedString
+	methodDict = a MethodDictionary[10]
+	format = 4096
+	subclasses = nil
+	instanceVariables = nil
+	organization = ('accessing' #at: #at:put: #replaceFrom:to:with:startingAt: #size)
+('converting' #asByteString #asIntegerArray)
+('private' #replaceBytesFrom:to:with:startingAt: #replaceBytesFrom:to:with:startingAt:map:)
+('comparing' #hash)
+('binary storage' #representBinaryOn:)
+
+	name = #ByteString
+	classPool = a NameSpaceOfClass[0]
+	environment = a NameSpace[265]
+	encoder = a ByteCharacterEncoder
+Arguments:
+	anInteger = 283115468
+Context PC = 15
+
+----------------------------------------------------------------------
+ByteString class(Behavior)&gt;&gt;handleFailedNew:size:
+Receiver:
+	a ByteString class
+Instance Variables:
+	superclass = ByteEncodedString
+	methodDict = a MethodDictionary[10]
+	format = 4096
+	subclasses = nil
+	instanceVariables = nil
+	organization = ('accessing' #at: #at:put: #replaceFrom:to:with:startingAt: #size)
+('converting' #asByteString #asIntegerArray)
+('private' #replaceBytesFrom:to:with:startingAt: #replaceBytesFrom:to:with:startingAt:map:)
+('comparing' #hash)
+('binary storage' #representBinaryOn:)
+
+	name = #ByteString
+	classPool = a NameSpaceOfClass[0]
+	environment = a NameSpace[265]
+	encoder = a ByteCharacterEncoder
+Arguments:
+	error = a SystemError(#'allocation failed',283115468)
+	newSize = 283115468
+Context PC = 29
+
+----------------------------------------------------------------------
+ByteString class(Behavior)&gt;&gt;basicNew:
+Receiver:
+	a ByteString class
+Instance Variables:
+	superclass = ByteEncodedString
+	methodDict = a MethodDictionary[10]
+	format = 4096
+	subclasses = nil
+	instanceVariables = nil
+	organization = ('accessing' #at: #at:put: #replaceFrom:to:with:startingAt: #size)
+('converting' #asByteString #asIntegerArray)
+('private' #replaceBytesFrom:to:with:startingAt: #replaceBytesFrom:to:with:startingAt:map:)
+('comparing' #hash)
+('binary storage' #representBinaryOn:)
+
+	name = #ByteString
+	classPool = a NameSpaceOfClass[0]
+	environment = a NameSpace[265]
+	encoder = a ByteCharacterEncoder
+Arguments:
+	anInteger = 283115468
+Temporaries:
+	error = a SystemError(#'allocation failed',283115468)
+Context PC = 11
+
+----------------------------------------------------------------------
+ByteString class(ByteEncodedString class)&gt;&gt;new:
+Receiver:
+	a ByteString class
+Instance Variables:
+	superclass = ByteEncodedString
+	methodDict = a MethodDictionary[10]
+	format = 4096
+	subclasses = nil
+	instanceVariables = nil
+	organization = ('accessing' #at: #at:put: #replaceFrom:to:with:startingAt: #size)
+('converting' #asByteString #asIntegerArray)
+('private' #replaceBytesFrom:to:with:startingAt: #replaceBytesFrom:to:with:startingAt:map:)
+('comparing' #hash)
+('binary storage' #representBinaryOn:)
+
+	name = #ByteString
+	classPool = a NameSpaceOfClass[0]
+	environment = a NameSpace[265]
+	encoder = a ByteCharacterEncoder
+Arguments:
+	size = 283115468
+Context PC = 5
+
+----------------------------------------------------------------------
+ByteString(Collection)&gt;&gt;copyEmpty:
+Receiver:
+	a ByteString
+Arguments:
+	aSize = 283115468
+Context PC = 6
+
+----------------------------------------------------------------------
+ByteString(SequenceableCollection)&gt;&gt;changeSizeTo:
+Receiver:
+	a ByteString
+Arguments:
+	newSize = 283115468
+Temporaries:
+	newArray = nil
+Context PC = 5
+
+----------------------------------------------------------------------
+ByteString(SequenceableCollection)&gt;&gt;growToAtLeast:
+Receiver:
+	a ByteString
+Arguments:
+	anInteger = 141557760
+Context PC = 16
+
+----------------------------------------------------------------------
+ReadWriteStream(PositionableStream)&gt;&gt;next:putAll:startingAt:
+Receiver:
+	a ReadWriteStream
+Instance Variables:
+	collection = 'GGCCGGGCGCGGTGGCTCACGCCTGTAAT...ACATGGTGAAACCCCGTCTCT       '
+	position = 141557701
+	readLimit = 0
+	writeLimit = 141557708
+	policy = nil
+Arguments:
+	anInteger = 60
+	aSequenceableCollection = 'TACTAAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCG'
+	startIndex = 1
+Temporaries:
+	newPosition = 141557760
+Context PC = 34
+
+----------------------------------------------------------------------
+ReadWriteStream(Stream)&gt;&gt;nextPutAll:
+Receiver:
+	a ReadWriteStream
+Instance Variables:
+	collection = 'GGCCGGGCGCGGTGGCTCACGCCTGTAAT...ACATGGTGAAACCCCGTCTCT       '
+	position = 141557701
+	readLimit = 0
+	writeLimit = 141557708
+	policy = nil
+Arguments:
+	aCollection = 'TACTAAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCG'
+Context PC = 12
+
+----------------------------------------------------------------------
+BenchmarksGame class&gt;&gt;readFasta:from:
+Receiver:
+	a BenchmarksGame class
+Instance Variables:
+	superclass = Object
+	methodDict = a MethodDictionary[0]
+	format = 16384
+	subclasses = nil
+	instanceVariables = nil
+	organization = nil
+	name = #BenchmarksGame
+	classPool = a NameSpaceOfClass[0]
+	environment = a NameSpace[265]
+Arguments:
+	sequenceName = 'ONE'
+	input = an ExternalReadStream
+Temporaries:
+	prefix = '&gt;ONE'
+	newline = Core.Character cr
+	buffer = a ReadWriteStream
+	description = '&gt;ONE Homo sapiens alu'
+	line = '&gt;ONE Homo sapiens alu'
+	char = $T &quot;16r0054&quot;
+Context PC = 89
+
+----------------------------------------------------------------------
+optimized [] in BenchmarksGame class&gt;&gt;program
+Receiver:
+	an UndefinedObject
+Arguments:
+	sequenceName = 'ONE'
+Temporaries:
+	fasta = nil
+	.self = BenchmarksGame
+	.input = an ExternalReadStream
+	.output = an ExternalWriteStream
+Context PC = 8
+
+----------------------------------------------------------------------
+Array(SequenceableCollection)&gt;&gt;do:
+Receiver:
+	an Array
+Arguments:
+	aBlock = BlockClosure [] in BenchmarksGame class&gt;&gt;program
+Temporaries:
+	i = 1
+Context PC = 19
+
+----------------------------------------------------------------------
+BenchmarksGame class&gt;&gt;program
+Receiver:
+	a BenchmarksGame class
+Instance Variables:
+	superclass = Object
+	methodDict = a MethodDictionary[0]
+	format = 16384
+	subclasses = nil
+	instanceVariables = nil
+	organization = nil
+	name = #BenchmarksGame
+	classPool = a NameSpaceOfClass[0]
+	environment = a NameSpace[265]
+Temporaries:
+	input = an ExternalReadStream
+	output = an ExternalWriteStream
+Context PC = 30
+
+----------------------------------------------------------------------
+UndefinedObject&gt;&gt;unboundMethod
+Receiver:
+	an UndefinedObject
+Context PC = 3
+
+----------------------------------------------------------------------
+UndefinedObject(Object)&gt;&gt;performMethod:arguments:
+Receiver:
+	an UndefinedObject
+Arguments:
+	method = AnnotatedMethod UndefinedObject&gt;&gt;unboundMethod
+	args = an Array[0]
+Context PC = 5
+
+----------------------------------------------------------------------
+UndefinedObject(Object)&gt;&gt;performMethod:
+Receiver:
+	an UndefinedObject
+Arguments:
+	method = AnnotatedMethod UndefinedObject&gt;&gt;unboundMethod
+Context PC = 5
+
+----------------------------------------------------------------------
+Compiler(SmalltalkCompiler)&gt;&gt;evaluate:in:allowReceiver:receiver:environment:notifying:ifFail:
+Receiver:
+	a Compiler
+Instance Variables:
+	sourceStream = a ReadStream
+	requestor = nil
+	class = UndefinedObject
+	targetClass = UndefinedObject
+	environment = a NameSpace[48]
+	context = nil
+	methodClass = CompiledMethod
+	allowSelfReferences = true
+	allowClassVariableReferences = nil
+Arguments:
+	textOrStream = 'BenchmarksGame program'
+	aContext = nil
+	allowSelf = true
+	receiver = nil
+	env = a NameSpace[48]
+	aRequestor = nil
+	failBlock = BlockClosure [] in SmalltalkCompiler class&gt;&gt;evaluate:for:in:notifying:logged:
+Temporaries:
+	method = AnnotatedMethod UndefinedObject&gt;&gt;unboundMethod
+Context PC = 22
+
+----------------------------------------------------------------------
+Compiler class(SmalltalkCompiler class)&gt;&gt;evaluate:for:in:notifying:logged:
+Receiver:
+	a Compiler class
+Instance Variables:
+	superclass = SmalltalkCompiler
+	methodDict = a MethodDictionary[5]
+	format = 16393
+	subclasses = an Array[2]
+	instanceVariables = nil
+	organization = ('private' #compile:in: #newCodeStream #newMethodHolder #parseWithSignalling:in:noPattern:notifying: #translate:noPattern:ifFail:needSourceMap:handler:)
+
+	name = #Compiler
+	classPool = a NameSpaceOfClass[0]
+	environment = a NameSpace[260]
+Arguments:
+	textOrString = 'BenchmarksGame program'
+	anObject = nil
+	aNameSpace = a NameSpace[48]
+	aController = nil
+	logFlag = false
+Temporaries:
+	val = nil
+Context PC = 14
+
+----------------------------------------------------------------------
+Compiler class(SmalltalkCompiler class)&gt;&gt;evaluate:notifying:logged:
+Receiver:
+	a Compiler class
+Instance Variables:
+	superclass = SmalltalkCompiler
+	methodDict = a MethodDictionary[5]
+	format = 16393
+	subclasses = an Array[2]
+	instanceVariables = nil
+	organization = ('private' #compile:in: #newCodeStream #newMethodHolder #parseWithSignalling:in:noPattern:notifying: #translate:noPattern:ifFail:needSourceMap:handler:)
+
+	name = #Compiler
+	classPool = a NameSpaceOfClass[0]
+	environment = a NameSpace[260]
+Arguments:
+	textOrString = 'BenchmarksGame program'
+	aController = nil
+	logFlag = false
+Context PC = 9
+
+----------------------------------------------------------------------
+Compiler class(SmalltalkCompiler class)&gt;&gt;evaluate:logged:
+Receiver:
+	a Compiler class
+Instance Variables:
+	superclass = SmalltalkCompiler
+	methodDict = a MethodDictionary[5]
+	format = 16393
+	subclasses = an Array[2]
+	instanceVariables = nil
+	organization = ('private' #compile:in: #newCodeStream #newMethodHolder #parseWithSignalling:in:noPattern:notifying: #translate:noPattern:ifFail:needSourceMap:handler:)
+
+	name = #Compiler
+	classPool = a NameSpaceOfClass[0]
+	environment = a NameSpace[260]
+Arguments:
+	textOrString = 'BenchmarksGame program'
+	logFlag = false
+Context PC = 7
+
+----------------------------------------------------------------------
+Compiler class(SmalltalkCompiler class)&gt;&gt;evaluate:
+Receiver:
+	a Compiler class
+Instance Variables:
+	superclass = SmalltalkCompiler
+	methodDict = a MethodDictionary[5]
+	format = 16393
+	subclasses = an Array[2]
+	instanceVariables = nil
+	organization = ('private' #compile:in: #newCodeStream #newMethodHolder #parseWithSigna    </pre>
   </section>
 </article>
 <footer>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>mandelbrot Java AOT&nbsp;#6 program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans, Ubuntu, Verdana, sans-serif;margin:0;-webkit-text-size-adjust:100%}h3, h1, h2, li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h1,h2{margin:1.5em 0 0}h1{font-size:1.4em;font-weight:normal}h2{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin: .5em .5em 0;padding: .5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin: .3em 0 0}p a, a span{border-bottom: .1em solid #333;padding-bottom: .1em}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header>
+  <h3><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h3>
+</header>
+<article>
+  <div>
+    <h1>mandelbrot Java AOT&nbsp;#6 program</h1>
+    <aside>
+      <p><a href="../description/mandelbrot.html#mandelbrot">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h2>source code</h2>
+    </div>
+    <pre>
+/* The Computer Language Benchmarks Game
+ * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+ * 
+ * contributed by Stefan Krause
+ * slightly modified by Chad Whipkey
+ * parallelized by Colin D Bennett 2008-10-04
+ * reduce synchronization cost by The Anh Tran
+ * optimizations and refactoring by Enotus 2010-11-11
+ */
+ 
+
+import java.io.*;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public final class mandelbrot {
+    static byte[][] out;
+    static AtomicInteger yCt;
+    static double[] Crb;
+    static double[] Cib;
+
+    static int getByte(int x, int y){
+        double Ci=Cib[y];
+        int res=0;
+        for(int i=0;i&lt;8;i+=2){
+            double Zr1=Crb[x+i];
+            double Zi1=Cib[y];
+
+            double Zr2=Crb[x+i+1];
+            double Zi2=Cib[y];
+
+            int b=0;
+            int j=49;do{
+                double nZr1=Zr1*Zr1-Zi1*Zi1+Crb[x+i];
+                double nZi1=Zr1*Zi1+Zr1*Zi1+Cib[y];
+                Zr1=nZr1;Zi1=nZi1;
+
+                double nZr2=Zr2*Zr2-Zi2*Zi2+Crb[x+i+1];
+                double nZi2=Zr2*Zi2+Zr2*Zi2+Cib[y];
+                Zr2=nZr2;Zi2=nZi2;
+
+                if(Zr1*Zr1+Zi1*Zi1&gt;4) b|=2;
+                if(Zr2*Zr2+Zi2*Zi2&gt;4) b|=1;
+                if(b==3) break;
+            }while(--j&gt;0);
+            res=(res&lt;&lt;2)+b;
+        }
+        return res^-1;
+    }
+    
+    static void putLine(int y, byte[] line){
+        for (int xb=0; xb&lt;line.length; xb++)
+            line[xb]=(byte)getByte(xb*8,y);
+    }
+ 
+    public static void main(String[] args) throws Exception {
+        int N=6000;
+        if (args.length&gt;=1) N=Integer.parseInt(args[0]);
+
+        Crb=new double[N+7]; Cib=new double[N+7];
+        double invN=2.0/N; for(int i=0;i&lt;N;i++){ Cib[i]=i*invN-1.0; Crb[i]=i*invN-1.5; }
+        yCt=new AtomicInteger();
+        out=new byte[N][(N+7)/8];
+
+        Thread[] pool=new Thread[2*Runtime.getRuntime().availableProcessors()];
+        for (int i=0;i&lt;pool.length;i++)
+            pool[i]=new Thread(){
+                public void run() {
+                     int y; while((y=yCt.getAndIncrement())&lt;out.length) putLine(y,out[y]);
+                }
+            };
+        for (Thread t:pool) t.start();
+        for (Thread t:pool) t.join();
+
+        OutputStream stream = new BufferedOutputStream(System.out);
+        stream.write((&quot;P4\n&quot;+N+&quot; &quot;+N+&quot;\n&quot;).getBytes());
+        for(int i=0;i&lt;N;i++) stream.write(out[i]);
+        stream.close();
+    }
+}
+
+    </pre>
+  </section>
+  <section>
+    <h2 id="log">notes, command-line, and program output</h2>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+openjdk version "1.8.0_171"
+OpenJDK Runtime Environment (build 1.8.0_171-11)
+GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
+
+
+Wed, 13 Jun 2018 19:42:32 GMT
+
+MAKE:
+mv mandelbrot.javaaot-6.javaaot mandelbrot.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  mandelbrot.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image mandelbrot
+Build on Server(pid: 1896, port: 42381)
+   classlist:     162.07 ms
+       (cap):   1,528.81 ms
+       setup:   1,816.81 ms
+  (typeflow):   2,764.55 ms
+   (objects):   1,414.06 ms
+  (features):      34.26 ms
+    analysis:   4,290.88 ms
+    universe:     132.37 ms
+     (parse):     678.02 ms
+    (inline):     863.40 ms
+   (compile):   2,935.02 ms
+     compile:   4,736.88 ms
+       image:     505.78 ms
+       write:     184.61 ms
+     [total]:  11,856.69 ms
+mv mandelbrot mandelbrot.javaaot-6.javaaot_run
+
+13.64s to complete and log all make actions
+
+COMMAND LINE:
+./mandelbrot.javaaot-6.javaaot_run 16000
+
+(BINARY) PROGRAM OUTPUT NOT SHOWN
+    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>3-Clause BSD License</span></a>
+    </ul>
+  </nav>
+</footer>
+

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>regex-redux Java AOT&nbsp;#5 program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans, Ubuntu, Verdana, sans-serif;margin:0;-webkit-text-size-adjust:100%}h3, h1, h2, li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h1,h2{margin:1.5em 0 0}h1{font-size:1.4em;font-weight:normal}h2{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin: .5em .5em 0;padding: .5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin: .3em 0 0}p a, a span{border-bottom: .1em solid #333;padding-bottom: .1em}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header>
+  <h3><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h3>
+</header>
+<article>
+  <div>
+    <h1>regex-redux Java AOT&nbsp;#5 program</h1>
+    <aside>
+      <p><a href="../description/regexredux.html#regexredux">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h2>source code</h2>
+    </div>
+    <pre>
+/*
+   The Computer Language Benchmarks Game
+   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+
+   regex-dna program contributed by Michael Stover
+   converted from regex-dna program
+ */
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public final class regexredux {
+
+   private static final Map&lt;String, String&gt; replacements = new HashMap&lt;String, String&gt;();
+
+   static {
+      replacements.put(&quot;tHa[Nt]&quot;, &quot;&lt;4&gt;&quot;);
+      replacements.put(&quot;aND|caN|Ha[DS]|WaS&quot;, &quot;&lt;3&gt;&quot;);
+      replacements.put(&quot;a[NSt]|BY&quot;, &quot;&lt;2&gt;&quot;);
+      replacements.put(&quot;&lt;[^&gt;]*&gt;&quot;, &quot;|&quot;);
+      replacements.put(&quot;\\|[^|][^|]*\\|&quot;, &quot;-&quot;);
+   }
+
+   public static void main(String[] args) throws IOException {
+      BufferedReader r = new BufferedReader(new InputStreamReader(System.in,
+            &quot;US-ASCII&quot;));
+      StringBuffer sb = new StringBuffer();
+      String line;
+      while ((line = r.readLine()) != null) {
+         sb.append(line);
+         sb.append(&quot;\n&quot;);
+      }
+
+      int initialLength = sb.length();
+
+      final String sequence = sb.toString().replaceAll(&quot;&gt;.*\n|\n&quot;, &quot;&quot;);
+
+      int codeLength = sequence.length();
+
+      String[] variants = { &quot;agggtaaa|tttaccct&quot;, &quot;[cgt]gggtaaa|tttaccc[acg]&quot;,
+            &quot;a[act]ggtaaa|tttacc[agt]t&quot;, &quot;ag[act]gtaaa|tttac[agt]ct&quot;,
+            &quot;agg[act]taaa|ttta[agt]cct&quot;, &quot;aggg[acg]aaa|ttt[cgt]ccct&quot;,
+            &quot;agggt[cgt]aa|tt[acg]accct&quot;, &quot;agggta[cgt]a|t[acg]taccct&quot;,
+            &quot;agggtaa[cgt]|[acg]ttaccct&quot; };
+
+      final Map&lt;String, Integer&gt; results = new HashMap&lt;String, Integer&gt;();
+      ThreadGroup tg = new ThreadGroup(&quot;regexWork&quot;);
+      for (String v : variants) {
+         final String variant = v;
+         new Thread(tg, v) {
+            &#64;Override
+            public void run() {
+               int count = 0;
+               Matcher m = Pattern.compile(variant).matcher(sequence);
+               while (m.find()) {
+                  count++;
+               }
+               results.put(variant, count);
+            }
+         }.start();
+      }
+      Thread[] threads = new Thread[variants.length];
+      tg.enumerate(threads);
+      for (Thread t : threads) {
+         try {
+            if (t != null) {
+               t.join();
+            }
+         } catch (InterruptedException e) {
+            // noop
+         }
+      }
+      tg.destroy();
+      for (String variant : variants) {
+         System.out.println(variant + &quot; &quot; + results.get(variant));
+      }
+      StringBuffer buf = new StringBuffer();
+      Matcher m = Pattern.compile(&quot;[WYKMSRBDVHN]&quot;).matcher(sequence);
+      while (m.find()) {
+         m.appendReplacement(buf, &quot;&quot;);
+         buf.append(replacements.get(m.group()));
+      }
+      m.appendTail(buf);
+
+      System.out.println();
+      System.out.println(initialLength);
+      System.out.println(codeLength);
+      System.out.println(buf.length());
+   }
+}
+    </pre>
+  </section>
+  <section>
+    <h2 id="log">notes, command-line, and program output</h2>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+openjdk version "1.8.0_171"
+OpenJDK Runtime Environment (build 1.8.0_171-11)
+GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
+
+
+Wed, 13 Jun 2018 20:09:17 GMT
+
+MAKE:
+mv regexredux.javaaot-5.javaaot regexredux.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  regexredux.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image regexredux
+Build on Server(pid: 1896, port: 42381)
+   classlist:     147.24 ms
+       (cap):   1,556.61 ms
+       setup:   1,843.99 ms
+  (typeflow):   2,630.64 ms
+   (objects):   1,675.82 ms
+  (features):      32.29 ms
+    analysis:   4,417.41 ms
+    universe:     129.23 ms
+     (parse):     511.67 ms
+    (inline):   1,173.78 ms
+   (compile):   3,633.28 ms
+     compile:   5,565.27 ms
+       image:     531.98 ms
+       write:     185.95 ms
+     [total]:  12,844.58 ms
+mv regexredux regexredux.javaaot-5.javaaot_run
+
+14.95s to complete and log all make actions
+
+COMMAND LINE:
+./regexredux.javaaot-5.javaaot_run 0 &lt; regexredux-input50000.txt
+
+UNEXPECTED OUTPUT 
+
+0a1,13
+&gt; agggtaaa|tttaccct 3
+&gt; [cgt]gggtaaa|tttaccc[acg] 12
+&gt; a[act]ggtaaa|tttacc[agt]t 43
+&gt; ag[act]gtaaa|tttac[agt]ct 27
+&gt; agg[act]taaa|ttta[agt]cct 58
+&gt; aggg[acg]aaa|ttt[cgt]ccct 16
+&gt; agggt[cgt]aa|tt[acg]accct 15
+&gt; agggta[cgt]a|t[acg]taccct 18
+&gt; agggtaa[cgt]|[acg]ttaccct 20
+&gt; 
+&gt; 508411
+&gt; 500000
+&gt; 273927
+
+PROGRAM OUTPUT:
+
+Exception in thread &quot;main&quot; java.lang.reflect.InvocationTargetException
+	at java.lang.Throwable.&lt;init&gt;(Throwable.java:310)
+	at java.lang.Exception.&lt;init&gt;(Exception.java:102)
+	at java.lang.ReflectiveOperationException.&lt;init&gt;(ReflectiveOperationException.java:89)
+	at java.lang.reflect.InvocationTargetException.&lt;init&gt;(InvocationTargetException.java:72)
+	at com.oracle.svm.reflect.proxies.Proxy_33_regexredux_main.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at com.oracle.svm.core.JavaMainWrapper.run(JavaMainWrapper.java:173)
+Caused by: java.lang.IllegalThreadStateException
+	at java.lang.Throwable.&lt;init&gt;(Throwable.java:250)
+	at java.lang.Exception.&lt;init&gt;(Exception.java:54)
+	at java.lang.RuntimeException.&lt;init&gt;(RuntimeException.java:51)
+	at java.lang.IllegalArgumentException.&lt;init&gt;(IllegalArgumentException.java:42)
+	at java.lang.IllegalThreadStateException.&lt;init&gt;(IllegalThreadStateException.java:47)
+	at java.lang.ThreadGroup.destroy(ThreadGroup.java:778)
+	at regexredux.main(regexredux.java:78)
+	... 3 more
+    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>3-Clause BSD License</span></a>
+    </ul>
+  </nav>
+</footer>
+

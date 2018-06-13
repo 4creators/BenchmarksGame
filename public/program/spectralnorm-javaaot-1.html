@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>spectral-norm Java AOT program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans, Ubuntu, Verdana, sans-serif;margin:0;-webkit-text-size-adjust:100%}h3, h1, h2, li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h1,h2{margin:1.5em 0 0}h1{font-size:1.4em;font-weight:normal}h2{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin: .5em .5em 0;padding: .5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin: .3em 0 0}p a, a span{border-bottom: .1em solid #333;padding-bottom: .1em}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header>
+  <h3><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h3>
+</header>
+<article>
+  <div>
+    <h1>spectral-norm Java AOT program</h1>
+    <aside>
+      <p><a href="../description/spectralnorm.html#spectralnorm">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h2>source code</h2>
+    </div>
+    <pre>
+/* The Computer Language Benchmarks Game
+   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+ 
+ contributed by Java novice Jarkko Miettinen
+ modified ~3 lines of the original C#-version 
+ by Isaac Gouy
+ */
+ 
+import java.text.DecimalFormat;
+import java.text.NumberFormat; 
+
+public class spectralnorm
+{
+   
+   private static final NumberFormat formatter = new DecimalFormat(&quot;#.000000000&quot;);
+   
+   public static void main(String[] args) {
+      int n = 100;
+      if (args.length &gt; 0) n = Integer.parseInt(args[0]);
+      
+      System.out.println(formatter.format(new spectralnorm().Approximate(n)));
+   }
+   
+   private final double Approximate(int n) {
+      // create unit vector
+      double[] u = new double[n];
+      for (int i=0; i&lt;n; i++) u[i] =  1;
+      
+      // 20 steps of the power method
+      double[] v = new double[n];
+      for (int i=0; i&lt;n; i++) v[i] = 0;
+      
+      for (int i=0; i&lt;10; i++) {
+         MultiplyAtAv(n,u,v);
+         MultiplyAtAv(n,v,u);
+      }
+      
+      // B=AtA         A multiplied by A transposed
+      // v.Bv /(v.v)   eigenvalue of v
+      double vBv = 0, vv = 0;
+      for (int i=0; i&lt;n; i++) {
+         vBv += u[i]*v[i];
+         vv  += v[i]*v[i];
+      }
+      
+      return Math.sqrt(vBv/vv);
+   }
+   
+   
+   /* return element i,j of infinite matrix A */
+   private final double A(int i, int j){
+      return 1.0/((i+j)*(i+j+1)/2 +i+1);
+   }
+   
+   /* multiply vector v by matrix A */
+   private final void MultiplyAv(int n, double[] v, double[] Av){
+      for (int i=0; i&lt;n; i++){
+         Av[i] = 0;
+         for (int j=0; j&lt;n; j++) Av[i] += A(i,j)*v[j];
+      }
+   }
+   
+   /* multiply vector v by matrix A transposed */
+   private final void MultiplyAtv(int n, double[] v, double[] Atv){
+      for (int i=0;i&lt;n;i++){
+         Atv[i] = 0;
+         for (int j=0; j&lt;n; j++) Atv[i] += A(j,i)*v[j];
+      }
+   }
+   
+   /* multiply vector v by matrix A and then by matrix A transposed */
+   private final void MultiplyAtAv(int n, double[] v, double[] AtAv){
+      double[] u = new double[n];
+      MultiplyAv(n,v,u);
+      MultiplyAtv(n,u,AtAv);
+   }
+}
+    </pre>
+  </section>
+  <section>
+    <h2 id="log">notes, command-line, and program output</h2>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+openjdk version "1.8.0_171"
+OpenJDK Runtime Environment (build 1.8.0_171-11)
+GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
+
+
+Wed, 13 Jun 2018 20:23:52 GMT
+
+MAKE:
+mv spectralnorm.javaaot spectralnorm.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  spectralnorm.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image spectralnorm
+Build on Server(pid: 1896, port: 42381)
+   classlist:     141.34 ms
+       (cap):   3,815.31 ms
+       setup:   4,198.95 ms
+  (typeflow):   2,629.50 ms
+   (objects):   1,700.93 ms
+  (features):      32.07 ms
+    analysis:   4,440.80 ms
+    universe:     130.33 ms
+     (parse):     511.43 ms
+    (inline):   1,041.74 ms
+   (compile):   3,582.86 ms
+     compile:   5,384.37 ms
+       image:     534.94 ms
+       write:     228.30 ms
+     [total]:  15,089.68 ms
+mv spectralnorm spectralnorm.javaaot_run
+
+22.74s to complete and log all make actions
+
+COMMAND LINE:
+./spectralnorm.javaaot_run 5500
+
+PROGRAM OUTPUT:
+1.274224153
+    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>3-Clause BSD License</span></a>
+    </ul>
+  </nav>
+</footer>
+

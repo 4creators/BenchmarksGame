@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>fasta Java AOT&nbsp;#5 program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans, Ubuntu, Verdana, sans-serif;margin:0;-webkit-text-size-adjust:100%}h3, h1, h2, li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h1,h2{margin:1.5em 0 0}h1{font-size:1.4em;font-weight:normal}h2{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin: .5em .5em 0;padding: .5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin: .3em 0 0}p a, a span{border-bottom: .1em solid #333;padding-bottom: .1em}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header>
+  <h3><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h3>
+</header>
+<article>
+  <div>
+    <h1>fasta Java AOT&nbsp;#5 program</h1>
+    <aside>
+      <p><a href="../description/fasta.html#fasta">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h2>source code</h2>
+    </div>
+    <pre>
+/*
+ * The Computer Language Benchmarks Game
+ * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+ * 
+ * modified by Mehmet D. AKIN
+ * modified by Daryl Griffith
+ */
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class fasta {
+
+    static final int LINE_LENGTH = 60;
+    static final int LINE_COUNT = 1024;
+    static final NucleotideSelector[] WORKERS 
+            = new NucleotideSelector[
+                    Runtime.getRuntime().availableProcessors() &gt; 1 
+                    ? Runtime.getRuntime().availableProcessors() - 1 
+                    : 1];
+    static final AtomicInteger IN = new AtomicInteger();
+    static final AtomicInteger OUT = new AtomicInteger();
+    static final int BUFFERS_IN_PLAY = 6;
+    static final int IM = 139968;
+    static final int IA = 3877;
+    static final int IC = 29573;
+    static final float ONE_OVER_IM = 1f / IM;
+    static int last = 42;
+
+    public static void main(String[] args) {
+        int n = 1000;
+
+        if (args.length &gt; 0) {
+            n = Integer.parseInt(args[0]);
+        }
+        for (int i = 0; i &lt; WORKERS.length; i++) {
+            WORKERS[i] = new NucleotideSelector();
+            WORKERS[i].setDaemon(true);
+            WORKERS[i].start();
+        }
+        try (OutputStream writer = System.out;) {
+            final int bufferSize = LINE_COUNT * LINE_LENGTH;
+
+            for (int i = 0; i &lt; BUFFERS_IN_PLAY; i++) {
+                lineFillALU(
+                        new AluBuffer(LINE_LENGTH, bufferSize, i * bufferSize));
+            }
+            speciesFillALU(writer, n * 2, &quot;&gt;ONE Homo sapiens alu\n&quot;);
+            for (int i = 0; i &lt; BUFFERS_IN_PLAY; i++) {
+                writeBuffer(writer);
+                lineFillRandom(new Buffer(true, LINE_LENGTH, bufferSize));
+            }
+            speciesFillRandom(writer
+                    , n * 3
+                    , &quot;&gt;TWO IUB ambiguity codes\n&quot;
+                    , true);
+            for (int i = 0; i &lt; BUFFERS_IN_PLAY; i++) {
+                writeBuffer(writer);
+                lineFillRandom(new Buffer(false, LINE_LENGTH, bufferSize));
+            }
+            speciesFillRandom(writer
+                    , n * 5
+                    , &quot;&gt;THREE Homo sapiens frequency\n&quot;
+                    , false);
+            for (int i = 0; i &lt; BUFFERS_IN_PLAY; i++) {
+                writeBuffer(writer);
+            }
+        } catch (IOException ex) {
+        }
+     }
+
+    private static void lineFillALU(AbstractBuffer buffer) {
+        WORKERS[OUT.incrementAndGet() % WORKERS.length].put(buffer);
+    }
+
+    private static void bufferFillALU(OutputStream writer
+            , int buffers) throws IOException {
+        AbstractBuffer buffer;
+
+        for (int i = 0; i &lt; buffers; i++) {
+            buffer = WORKERS[IN.incrementAndGet() % WORKERS.length].take();
+            writer.write(buffer.nucleotides);
+            lineFillALU(buffer);
+        }
+    }
+
+    private static void speciesFillALU(final OutputStream writer
+            , final int nChars
+            , final String name) throws IOException {
+        final int bufferSize = LINE_COUNT * LINE_LENGTH;
+        final int bufferCount = nChars / bufferSize;
+        final int bufferLoops = bufferCount - BUFFERS_IN_PLAY;
+        final int charsLeftover = nChars - (bufferCount * bufferSize);
+
+        writer.write(name.getBytes());
+        bufferFillALU(writer, bufferLoops);
+        if (charsLeftover &gt; 0) {
+            writeBuffer(writer);
+            lineFillALU(
+                    new AluBuffer(LINE_LENGTH
+                            , charsLeftover
+                            , nChars - charsLeftover));
+        }
+    }
+
+    private static void lineFillRandom(Buffer buffer) {
+        for (int i = 0; i &lt; buffer.randoms.length; i++) {
+            last = (last * IA + IC) % IM;
+            buffer.randoms[i] = last * ONE_OVER_IM;
+        }
+        WORKERS[OUT.incrementAndGet() % WORKERS.length].put(buffer);
+    }
+
+    private static void bufferFillRandom(OutputStream writer
+            , int loops) throws IOException {
+        AbstractBuffer buffer;
+
+        for (int i = 0; i &lt; loops; i++) {
+            buffer = WORKERS[IN.incrementAndGet() % WORKERS.length].take();
+            writer.write(buffer.nucleotides);
+            lineFillRandom((Buffer) buffer);
+        }
+    }
+
+    private static void speciesFillRandom(final OutputStream writer
+            , final int nChars
+            , final String name
+            , final boolean isIUB) throws IOException {
+        final int bufferSize = LINE_COUNT * LINE_LENGTH;
+        final int bufferCount = nChars / bufferSize;
+        final int bufferLoops = bufferCount - BUFFERS_IN_PLAY;
+        final int charsLeftover = nChars - (bufferCount * bufferSize);
+
+        writer.write(name.getBytes());
+        bufferFillRandom(writer, bufferLoops);
+        if (charsLeftover &gt; 0) {
+            writeBuffer(writer);    
+            lineFillRandom(new Buffer(isIUB, LINE_LENGTH, charsLeftover));
+        }
+    }
+
+    private static void writeBuffer(OutputStream writer) throws IOException {
+        writer.write(
+                WORKERS[IN.incrementAndGet() % WORKERS.length]
+                        .take()
+                        .nucleotides);
+    }
+
+    public static class NucleotideSelector extends Thread {
+
+        private final BlockingQueue&lt;AbstractBuffer&gt; 
+                in = new ArrayBlockingQueue&lt;&gt;(BUFFERS_IN_PLAY);
+        private final BlockingQueue&lt;AbstractBuffer&gt; 
+                out = new ArrayBlockingQueue&lt;&gt;(BUFFERS_IN_PLAY);
+
+        public void put(AbstractBuffer line) {
+            try {
+                in.put(line);
+            } catch (InterruptedException ex) {
+            }
+        }
+
+        &#64;Override
+        public void run() {
+            AbstractBuffer line;
+
+            try {
+                for (;;) {
+                    line = in.take();
+                    line.selectNucleotides();
+                    out.put(line);
+                }
+            } catch (InterruptedException ex) {
+            }
+        }
+
+        public AbstractBuffer take() {
+            try {
+                return out.take();
+            } catch (InterruptedException ex) {
+            }
+            return null;
+        }
+    }
+
+    public abstract static class AbstractBuffer {
+
+        final int LINE_LENGTH;
+        final int LINE_COUNT;
+        byte[] chars;
+        final byte[] nucleotides;
+        final int CHARS_LEFTOVER;
+
+        public AbstractBuffer(final int lineLength, final int nChars) {
+            LINE_LENGTH = lineLength;
+            final int outputLineLength = lineLength + 1;
+            LINE_COUNT = nChars / lineLength;
+            CHARS_LEFTOVER = nChars % lineLength;
+            final int nucleotidesSize 
+                    = nChars + LINE_COUNT + (CHARS_LEFTOVER == 0 ? 0 : 1);
+            final int lastNucleotide = nucleotidesSize - 1;
+
+            nucleotides = new byte[nucleotidesSize];
+            for (int i = lineLength
+                    ; i &lt; lastNucleotide
+                    ; i += outputLineLength) {
+                nucleotides[i] = &apos;\n&apos;;
+            }
+            nucleotides[nucleotides.length - 1] = &apos;\n&apos;;
+        }
+
+        public abstract void selectNucleotides();
+    }
+
+    public static class AluBuffer extends AbstractBuffer {
+
+        final String ALU =
+                &quot;GGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGG&quot;
+                + &quot;GAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGA&quot;
+                + &quot;CCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAAT&quot;
+                + &quot;ACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCA&quot;
+                + &quot;GCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGG&quot;
+                + &quot;AGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCC&quot;
+                + &quot;AGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAA&quot;;
+        final int MAX_ALU_INDEX = ALU.length() - LINE_LENGTH;
+        final int ALU_ADJUST = LINE_LENGTH - ALU.length();
+        final int nChars;
+        int charIndex;
+        int nucleotideIndex;
+
+        public AluBuffer(final int lineLength
+                , final int nChars
+                , final int offset) {
+            super(lineLength, nChars);
+            this.nChars = nChars;
+            chars = (ALU + ALU.substring(0, LINE_LENGTH)).getBytes();
+            charIndex = offset % ALU.length();
+        }
+
+        &#64;Override
+        public void selectNucleotides() {
+            nucleotideIndex = 0;
+            for (int i = 0; i &lt; LINE_COUNT; i++) {
+                ALUFillLine(LINE_LENGTH);
+            }
+            if (CHARS_LEFTOVER &gt; 0) {
+                ALUFillLine(CHARS_LEFTOVER);
+            }
+            charIndex = (charIndex + (nChars * (BUFFERS_IN_PLAY - 1))) 
+                    % ALU.length();
+        }
+
+        private void ALUFillLine(final int charCount) {
+            System.arraycopy(chars
+                    , charIndex
+                    , nucleotides
+                    , nucleotideIndex
+                    , charCount);
+            charIndex += charIndex &lt; MAX_ALU_INDEX ? charCount : ALU_ADJUST;
+            nucleotideIndex += charCount + 1;
+        }
+    }
+
+    public static class Buffer extends AbstractBuffer {
+
+        final byte[] iubChars = new byte[]{
+            &apos;a&apos;, &apos;c&apos;, &apos;g&apos;, &apos;t&apos;,
+            &apos;B&apos;, &apos;D&apos;, &apos;H&apos;, &apos;K&apos;,
+            &apos;M&apos;, &apos;N&apos;, &apos;R&apos;, &apos;S&apos;,
+            &apos;V&apos;, &apos;W&apos;, &apos;Y&apos;};
+        final double[] iubProbs = new double[]{
+            0.27, 0.12, 0.12, 0.27,
+            0.02, 0.02, 0.02, 0.02,
+            0.02, 0.02, 0.02, 0.02,
+            0.02, 0.02, 0.02,};
+        final byte[] sapienChars = new byte[]{
+            &apos;a&apos;,
+            &apos;c&apos;,
+            &apos;g&apos;,
+            &apos;t&apos;};
+        final double[] sapienProbs = new double[]{
+            0.3029549426680,
+            0.1979883004921,
+            0.1975473066391,
+            0.3015094502008};
+        final float[] probs;
+        final float[] randoms;
+        final int charsInFullLines;
+
+        public Buffer(final boolean isIUB
+                , final int lineLength
+                , final int nChars) {
+            super(lineLength, nChars);
+            double cp = 0;
+            final double[] dblProbs = isIUB ? iubProbs : sapienProbs;
+
+            chars = isIUB ? iubChars : sapienChars;
+            probs = new float[dblProbs.length];
+            for (int i = 0; i &lt; probs.length; i++) {
+                cp += dblProbs[i];
+                probs[i] = (float) cp;
+            }
+            probs[probs.length - 1] = 2f;
+            randoms = new float[nChars];
+            charsInFullLines = (nChars / lineLength) * lineLength;
+        }
+
+        &#64;Override
+        public void selectNucleotides() {
+            int i, j, m;
+            float r;
+            int k;
+
+            for (i = 0, j = 0; i &lt; charsInFullLines; j++) {
+                for (k = 0; k &lt; LINE_LENGTH; k++) {
+                    r = randoms[i++];
+                    for (m = 0; probs[m] &lt; r; m++) {
+                    }
+                    nucleotides[j++] = chars[m];
+                }
+            }
+            for (k = 0; k &lt; CHARS_LEFTOVER; k++) {
+                r = randoms[i++];
+                for (m = 0; probs[m] &lt; r; m++) {
+                }
+                nucleotides[j++] = chars[m];
+            }
+        }
+    }
+}
+    </pre>
+  </section>
+  <section>
+    <h2 id="log">notes, command-line, and program output</h2>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+openjdk version "1.8.0_171"
+OpenJDK Runtime Environment (build 1.8.0_171-11)
+GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
+
+
+Wed, 13 Jun 2018 19:17:49 GMT
+
+MAKE:
+mv fasta.javaaot-5.javaaot fasta.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  fasta.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image fasta
+Build on Server(pid: 1896, port: 42381)
+   classlist:     311.31 ms
+       (cap):   1,527.18 ms
+       setup:   1,818.26 ms
+  (typeflow):   2,904.76 ms
+   (objects):   1,402.70 ms
+  (features):      32.72 ms
+    analysis:   4,419.74 ms
+    universe:     143.98 ms
+     (parse):     829.37 ms
+    (inline):     867.30 ms
+   (compile):   4,127.61 ms
+     compile:   6,087.76 ms
+       image:     543.35 ms
+       write:     185.52 ms
+     [total]:  13,538.14 ms
+mv fasta fasta.javaaot-5.javaaot_run
+
+15.57s to complete and log all make actions
+
+COMMAND LINE:
+./fasta.javaaot-5.javaaot_run 25000000
+
+(TRUNCATED) PROGRAM OUTPUT:
+&gt;ONE Homo sapiens alu
+GGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGA
+TCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACT
+AAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAG
+GCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCG
+CCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGGT
+GGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATCACCTGAGGTCA
+GGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAATACAAAAA
+TTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAG
+AATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCCA
+GCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTCACGCCTGT
+AATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGACC
+AGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAATACAAAAATTAGCCGGGCGTG
+GTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACC
+CGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCCAGCCTGGGCGACAG
+AGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTT
+TGGGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACA
+TGGTGAAACCCCGTCTCTACTAAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCT
+GTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGG
+TTGCAGTGAGCCGAGATCGCGCCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGT
+CTCAAAAAGGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGG
+CGGGCGGATCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCG
+TCTCTACTAAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTA
+CTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCG
+AGATCGCGCCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCG
+GGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATCACC
+TGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAA
+TACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGA
+GGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACT
+GCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTC
+ACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGT
+TCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAATACAAAAATTAGC
+CGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCG
+CTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCCAGCCTG
+GGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTCACGCCTGTAATCC
+CAGCACTTTGGGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGACCAGCCT
+GGCCAACATGGTGAAACCCCGTCTCTACTAAAAATACAAAAATTAGCCGGGCGTGGTGGC
+GCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGGA
+GGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCCAGCCTGGGCGACAGAGCGA
+GACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGA
+GGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTG
+AAACCCCGTCTCTACTAAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAAT
+CCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCA
+GTGAGCCGAGATCGCGCCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAA
+AAAGGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGC
+GGATCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCT
+ACTAAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGG
+GAGGCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATC
+GCGCCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCGC
+GGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATCACCTGAGG
+TCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAATACAA
+AAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAG
+GAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACT
+CCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTCACGCC
+TGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAG
+ACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAATACAAAAATTAGCCGGGC
+GTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGA
+ACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCCAGCCTGGGCGA
+CAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCA
+CTTTGGGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCA
+ACATGGTGAAACCCCGTCTCTACTAAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCG
+CCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGG
+AGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTC
+CGTCTCAAAAAGGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCG
+AGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACC
+CCGTCTCTACTAAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAG
+CTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAG
+CCGAGATCGCGCCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGG
+CCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATC
+ACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAA
+AAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGC
+TGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCC
+ACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGGTGG
+CTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGG
+AGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAATACAAAAATT
+AGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAA
+TCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCCAGC
+CTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTCACGCCTGTAA
+TCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGACCAG
+CCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAATACAAAAATTAGCCGGGCGTGGT
+GGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCG
+GGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCCAGCCTGGGCGACAGAG
+CGAGACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTG
+GGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATG
+GTGAAACCCCGTCTCTACTAAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGT
+AATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTT
+GCAGTGAGCCGAGATCGCGCCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCT
+CAAAAAGGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCG
+GGCGGATCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTC
+TCTACTAAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACT
+CGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAG
+ATCGCGCCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGG
+CGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATCACCTG
+AGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAATA
+CAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGG
+CAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGC
+ACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTCAC
+GCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTC
+GAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAATACAAAAATTAGCCG
+GGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCT
+TGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCCAGCCTGGG
+CGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTCACGCCTGTAATCCCA
+GCACTTTGGGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGACCAGCCTGG
+CCAACATGGTGAAACCCCGTCTCTACTAAAAATACAAAAATTAGCCGGGCGTGGTGGCGC
+GCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGGAGG
+CGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCCAGCCTGGGCGACAGAGCGAGA
+CTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGG
+CCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAA
+ACCCCGTCTCTACTAAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCC
+CAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGT
+GAGCCGAGATCGCGCCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAA
+AGGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGG
+ATCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTAC
+TAAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGA
+GGCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGC
+GCCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGG
+TGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATCACCTGAGGTC
+AGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAATACAAAA
+ATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGA
+GAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCC
+AGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTCACGCCTG
+TAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGAC
+CAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAATACAAAAATTAGCCGGGCGT
+GGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAAC
+CCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCCAGCCTGGGCGACA
+GAGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACT
+TTGGGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAAC
+ATGGTGAAACCCCGTCTCTACTAAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCC
+TGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAG
+GTTGCAGTGAGCCGAGATCGCGCCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCG
+TCTCAAAAAGGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAG
+GCGGGCGGATCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCC
+GTCTCTACTAAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCT
+ACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCC
+GAGATCGCGCCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCC
+GGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATCAC
+CTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAA
+ATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTG
+AGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCAC
+TGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCT
+CACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAG
+TTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAATACAAAAATTAG
+CCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATC
+GCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCCAGCCT
+GGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTCACGCCTGTAATC
+CCAGCACTTTGGGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGACCAGCC
+TGGCCAACATGGTGAAACCCCGTCTCTACTAAAAATACAAAAATTAGCCGGGCGTGGTGG
+CGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGG
+AGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCCAGCCTGGGCGACAGAGCG
+AGACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGG
+AGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGT
+GAAACCCCGTCTCTACTAAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAA
+TCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGC
+AGTGAGCCGAGATCGCGCCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCA
+AAAAGGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGG
+CGGATCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTC
+TACTAAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCG
+GGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGAT
+CGCGCCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCG
+CGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATCACCTGAG
+GTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAATACA
+AAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCA
+GGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCAC
+TCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAAGGCCGGGCGCGGTGGCTCACGC
+CTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGA
+GACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAATACAAAAATTAGCCGGG
+CGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTG
+AACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCCAGCCTGGGCG
+ACAGAGCGAGACTCCGTCTCAAAAAGGCCGG    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>3-Clause BSD License</span></a>
+    </ul>
+  </nav>
+</footer>
+

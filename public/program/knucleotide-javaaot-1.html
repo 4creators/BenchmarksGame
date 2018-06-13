@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>k-nucleotide Java AOT program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans, Ubuntu, Verdana, sans-serif;margin:0;-webkit-text-size-adjust:100%}h3, h1, h2, li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h1,h2{margin:1.5em 0 0}h1{font-size:1.4em;font-weight:normal}h2{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin: .5em .5em 0;padding: .5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin: .3em 0 0}p a, a span{border-bottom: .1em solid #333;padding-bottom: .1em}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header>
+  <h3><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h3>
+</header>
+<article>
+  <div>
+    <h1>k-nucleotide Java AOT program</h1>
+    <aside>
+      <p><a href="../description/knucleotide.html#knucleotide">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h2>source code</h2>
+    </div>
+    <pre>
+/* The Computer Language Benchmarks Game
+ https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+ 
+ contributed by James McIlree
+ modified by Tagir Valeev
+ */
+
+import it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+public class knucleotide {
+    static final byte[] codes = { -1, 0, -1, 1, 3, -1, -1, 2 };
+    static final char[] nucleotides = { &apos;A&apos;, &apos;C&apos;, &apos;G&apos;, &apos;T&apos; };
+
+    static class Result {
+        Long2IntOpenHashMap map = new Long2IntOpenHashMap();
+        int keyLength;
+    
+        public Result(int keyLength) {
+            this.keyLength = keyLength;
+        }
+    }
+
+    static ArrayList&lt;Callable&lt;Result&gt;&gt; createFragmentTasks(final byte[] sequence,
+            int[] fragmentLengths) {
+        ArrayList&lt;Callable&lt;Result&gt;&gt; tasks = new ArrayList&lt;&gt;();
+        for (int fragmentLength : fragmentLengths) {
+            for (int index = 0; index &lt; fragmentLength; index++) {
+                int offset = index;
+                tasks.add(() -&gt; createFragmentMap(sequence, offset, fragmentLength));
+            }
+        }
+        return tasks;
+    }
+
+    static Result createFragmentMap(byte[] sequence, int offset, int fragmentLength) {
+        Result res = new Result(fragmentLength);
+        Long2IntOpenHashMap map = res.map;
+        int lastIndex = sequence.length - fragmentLength + 1;
+        for (int index = offset; index &lt; lastIndex; index += fragmentLength) {
+            map.addTo(getKey(sequence, index, fragmentLength), 1);
+        }
+
+        return res;
+    }
+
+    static Result sumTwoMaps(Result map1, Result map2) {
+        map2.map.forEach((key, value) -&gt; map1.map.addTo(key, value));
+        return map1;
+    }
+
+    static String writeFrequencies(float totalCount, Result frequencies) {
+        List&lt;Entry&lt;String, Integer&gt;&gt; freq = new ArrayList&lt;&gt;(frequencies.map.size());
+        frequencies.map.forEach((key, cnt) -&gt; freq.add(new SimpleEntry&lt;&gt;(keyToString(key,
+                frequencies.keyLength), cnt)));
+        freq.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        StringBuilder sb = new StringBuilder();
+        for (Entry&lt;String, Integer&gt; entry : freq) {
+            sb.append(String.format(Locale.ENGLISH, &quot;%s %.3f\n&quot;, entry.getKey(),
+                    entry.getValue() * 100.0f / totalCount));
+        }
+        return sb.append(&apos;\n&apos;).toString();
+    }
+
+    static String writeCount(List&lt;Future&lt;Result&gt;&gt; futures, String nucleotideFragment)
+            throws Exception {
+        byte[] key = toCodes(nucleotideFragment.getBytes(StandardCharsets.ISO_8859_1),
+                nucleotideFragment.length());
+        long k = getKey(key, 0, nucleotideFragment.length());
+        int count = 0;
+        for (Future&lt;Result&gt; future : futures) {
+            Result f = future.get();
+            if (f.keyLength == nucleotideFragment.length()) {
+                count += f.map.get(k);
+            }
+        }
+
+        return count + &quot;\t&quot; + nucleotideFragment + &apos;\n&apos;;
+    }
+
+    /**
+     * Convert long key to the nucleotides string
+     */
+    static String keyToString(long key, int length) {
+        char[] res = new char[length];
+        for (int i = 0; i &lt; length; i++) {
+            res[length - i - 1] = nucleotides[(int) (key &amp; 0x3)];
+            key &gt;&gt;= 2;
+        }
+        return new String(res);
+    }
+
+    /**
+     * Get the long key for given byte array of codes at given offset and length
+     * (length must be less than 32)
+     */
+    static long getKey(byte[] arr, int offset, int length) {
+        long key = 0;
+        for (int i = offset; i &lt; offset + length; i++) {
+            key = key * 4 + arr[i];
+        }
+        return key;
+    }
+
+    /**
+     * Convert given byte array (limiting to given length) containing acgtACGT
+     * to codes (0 = A, 1 = C, 2 = G, 3 = T) and returns new array
+     */
+    static byte[] toCodes(byte[] sequence, int length) {
+        byte[] result = new byte[length];
+        for (int i = 0; i &lt; length; i++) {
+            result[i] = codes[sequence[i] &amp; 0x7];
+        }
+        return result;
+    }
+
+    static byte[] read(InputStream is) throws IOException {
+        String line;
+        BufferedReader in = new BufferedReader(new InputStreamReader(is,
+                StandardCharsets.ISO_8859_1));
+        while ((line = in.readLine()) != null) {
+            if (line.startsWith(&quot;&gt;THREE&quot;))
+                break;
+        }
+    
+        byte[] bytes = new byte[1048576];
+        int position = 0;
+        while ((line = in.readLine()) != null &amp;&amp; line.charAt(0) != &apos;&gt;&apos;) {
+            if (line.length() + position &gt; bytes.length) {
+                byte[] newBytes = new byte[bytes.length * 2];
+                System.arraycopy(bytes, 0, newBytes, 0, position);
+                bytes = newBytes;
+            }
+            for (int i = 0; i &lt; line.length(); i++)
+                bytes[position++] = (byte) line.charAt(i);
+        }
+    
+        return toCodes(bytes, position);
+    }
+
+    public static void main(String[] args) throws Exception {
+        byte[] sequence = read(System.in);
+
+        ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime()
+                .availableProcessors());
+        int[] fragmentLengths = { 1, 2, 3, 4, 6, 12, 18 };
+        List&lt;Future&lt;Result&gt;&gt; futures = pool.invokeAll(createFragmentTasks(sequence,
+                fragmentLengths));
+        pool.shutdown();
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(writeFrequencies(sequence.length, futures.get(0).get()));
+        sb.append(writeFrequencies(sequence.length - 1,
+                sumTwoMaps(futures.get(1).get(), futures.get(2).get())));
+
+        String[] nucleotideFragments = { &quot;GGT&quot;, &quot;GGTA&quot;, &quot;GGTATT&quot;, &quot;GGTATTTTAATT&quot;,
+                &quot;GGTATTTTAATTTATAGT&quot; };
+        for (String nucleotideFragment : nucleotideFragments) {
+            sb.append(writeCount(futures, nucleotideFragment));
+        }
+
+        System.out.print(sb);
+    }
+}
+    </pre>
+  </section>
+  <section>
+    <h2 id="log">notes, command-line, and program output</h2>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+openjdk version "1.8.0_171"
+OpenJDK Runtime Environment (build 1.8.0_171-11)
+GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
+
+
+Wed, 13 Jun 2018 19:18:19 GMT
+
+MAKE:
+mv knucleotide.javaaot knucleotide.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d . -cp .:/opt/src/java-libs/fastutil-8.1.0.jar knucleotide.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image knucleotide
+Build on Server(pid: 1896, port: 42381)
+   classlist:     149.99 ms
+       (cap):   1,537.07 ms
+       setup:   1,828.27 ms
+    analysis:   4,448.79 ms
+error: unsupported features in 4 methods
+Detailed message:
+Error: Bytecode parsing error: java.lang.NoClassDefFoundError
+Trace: 
+	at parsing knucleotide.createFragmentMap(knucleotide.java:54)
+Call path from entry point to knucleotide.createFragmentMap(byte[], int, int): 
+	at knucleotide.createFragmentMap(knucleotide.java:53)
+	at knucleotide.lambda$createFragmentTasks$0(knucleotide.java:46)
+	at knucleotide$$Lambda$461/1649257774.call(Unknown Source)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at com.oracle.svm.core.jdk.RuntimeSupport.executeHooks(RuntimeSupport.java:112)
+	at com.oracle.svm.core.jdk.RuntimeSupport.executeStartupHooks(RuntimeSupport.java:85)
+	at com.oracle.svm.core.JavaMainWrapper.run(JavaMainWrapper.java:172)
+	at com.oracle.svm.core.code.CEntryPointCallStubs.com_002eoracle_002esvm_002ecore_002eJavaMainWrapper_002erun_0028int_002corg_002egraalvm_002enativeimage_002ec_002etype_002eCCharPointerPointer_0029(generated:0)
+Original exception that caused the problem: java.lang.NoClassDefFoundError
+	at jdk.vm.ci.hotspot.HotSpotJVMCIRuntime.lookupType(HotSpotJVMCIRuntime.java:389)
+	at jdk.vm.ci.hotspot.HotSpotUnresolvedJavaType.resolve(HotSpotUnresolvedJavaType.java:91)
+	at com.oracle.graal.pointsto.meta.AnalysisField.&lt;init&gt;(AnalysisField.java:104)
+	at com.oracle.graal.pointsto.meta.AnalysisUniverse.createField(AnalysisUniverse.java:357)
+	at com.oracle.graal.pointsto.meta.AnalysisUniverse.lookupAllowUnresolved(AnalysisUniverse.java:345)
+	at com.oracle.graal.pointsto.infrastructure.WrappedConstantPool.lookupField(WrappedConstantPool.java:73)
+	at org.graalvm.compiler.java.BytecodeParser.lookupField(BytecodeParser.java:3891)
+	at org.graalvm.compiler.java.BytecodeParser.genGetField(BytecodeParser.java:4209)
+	at com.oracle.svm.hosted.phases.SharedGraphBuilderPhase$SharedBytecodeParser.genGetField(SharedGraphBuilderPhase.java:248)
+	at org.graalvm.compiler.java.BytecodeParser.loadLocalObject(BytecodeParser.java:3625)
+	at org.graalvm.compiler.java.BytecodeParser.processBytecode(BytecodeParser.java:4657)
+	at org.graalvm.compiler.java.BytecodeParser.iterateBytecodesForBlock(BytecodeParser.java:3115)
+	at org.graalvm.compiler.java.BytecodeParser.processBlock(BytecodeParser.java:2924)
+	at org.graalvm.compiler.java.BytecodeParser.build(BytecodeParser.java:887)
+	at org.graalvm.compiler.java.BytecodeParser.buildRootMethod(BytecodeParser.java:781)
+	at org.graalvm.compiler.java.GraphBuilderPhase$Instance.run(GraphBuilderPhase.java:95)
+	at org.graalvm.compiler.phases.Phase.run(Phase.java:49)
+	at org.graalvm.compiler.phases.BasePhase.apply(BasePhase.java:197)
+	at org.graalvm.compiler.phases.Phase.apply(Phase.java:42)
+	at org.graalvm.compiler.phases.Phase.apply(Phase.java:38)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlowBuilder.parse(MethodTypeFlowBuilder.java:196)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlowBuilder.apply(MethodTypeFlowBuilder.java:315)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlow.doParse(MethodTypeFlow.java:310)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlow.ensureParsed(MethodTypeFlow.java:300)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlow.addContext(MethodTypeFlow.java:107)
+	at com.oracle.graal.pointsto.flow.StaticInvokeTypeFlow.update(InvokeTypeFlow.java:346)
+	at com.oracle.graal.pointsto.BigBang$2.run(BigBang.java:500)
+	at com.oracle.graal.pointsto.util.CompletionExecutor.lambda$execute$0(CompletionExecutor.java:174)
+	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1402)
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)
+Caused by: java.lang.ClassNotFoundException: it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	at jdk.vm.ci.hotspot.CompilerToVM.lookupType(Native Method)
+	at jdk.vm.ci.hotspot.HotSpotJVMCIRuntime.lookupType(HotSpotJVMCIRuntime.java:381)
+	... 32 more
+Error: Bytecode parsing error: java.lang.NoClassDefFoundError
+Trace: 
+	at parsing knucleotide.sumTwoMaps(knucleotide.java:64)
+Call path from entry point to knucleotide.sumTwoMaps(knucleotide$Result, knucleotide$Result): 
+	at knucleotide.sumTwoMaps(knucleotide.java:64)
+	at knucleotide.main(knucleotide.java:171)
+	at com.oracle.svm.reflect.proxies.Proxy_13_knucleotide_main.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at com.oracle.svm.core.JavaMainWrapper.run(JavaMainWrapper.java:173)
+	at com.oracle.svm.core.code.CEntryPointCallStubs.com_002eoracle_002esvm_002ecore_002eJavaMainWrapper_002erun_0028int_002corg_002egraalvm_002enativeimage_002ec_002etype_002eCCharPointerPointer_0029(generated:0)
+Original exception that caused the problem: java.lang.NoClassDefFoundError
+	at jdk.vm.ci.hotspot.HotSpotJVMCIRuntime.lookupType(HotSpotJVMCIRuntime.java:389)
+	at jdk.vm.ci.hotspot.HotSpotUnresolvedJavaType.resolve(HotSpotUnresolvedJavaType.java:91)
+	at com.oracle.graal.pointsto.meta.AnalysisField.&lt;init&gt;(AnalysisField.java:104)
+	at com.oracle.graal.pointsto.meta.AnalysisUniverse.createField(AnalysisUniverse.java:357)
+	at com.oracle.graal.pointsto.meta.AnalysisUniverse.lookupAllowUnresolved(AnalysisUniverse.java:345)
+	at com.oracle.graal.pointsto.infrastructure.WrappedConstantPool.lookupField(WrappedConstantPool.java:73)
+	at org.graalvm.compiler.java.BytecodeParser.lookupField(BytecodeParser.java:3891)
+	at org.graalvm.compiler.java.BytecodeParser.genGetField(BytecodeParser.java:4209)
+	at com.oracle.svm.hosted.phases.SharedGraphBuilderPhase$SharedBytecodeParser.genGetField(SharedGraphBuilderPhase.java:248)
+	at org.graalvm.compiler.java.BytecodeParser.loadLocalObject(BytecodeParser.java:3625)
+	at org.graalvm.compiler.java.BytecodeParser.processBytecode(BytecodeParser.java:4657)
+	at org.graalvm.compiler.java.BytecodeParser.iterateBytecodesForBlock(BytecodeParser.java:3115)
+	at org.graalvm.compiler.java.BytecodeParser.processBlock(BytecodeParser.java:2924)
+	at org.graalvm.compiler.java.BytecodeParser.build(BytecodeParser.java:887)
+	at org.graalvm.compiler.java.BytecodeParser.buildRootMethod(BytecodeParser.java:781)
+	at org.graalvm.compiler.java.GraphBuilderPhase$Instance.run(GraphBuilderPhase.java:95)
+	at org.graalvm.compiler.phases.Phase.run(Phase.java:49)
+	at org.graalvm.compiler.phases.BasePhase.apply(BasePhase.java:197)
+	at org.graalvm.compiler.phases.Phase.apply(Phase.java:42)
+	at org.graalvm.compiler.phases.Phase.apply(Phase.java:38)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlowBuilder.parse(MethodTypeFlowBuilder.java:196)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlowBuilder.apply(MethodTypeFlowBuilder.java:315)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlow.doParse(MethodTypeFlow.java:310)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlow.ensureParsed(MethodTypeFlow.java:300)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlow.addContext(MethodTypeFlow.java:107)
+	at com.oracle.graal.pointsto.flow.StaticInvokeTypeFlow.update(InvokeTypeFlow.java:346)
+	at com.oracle.graal.pointsto.BigBang$2.run(BigBang.java:500)
+	at com.oracle.graal.pointsto.util.CompletionExecutor.lambda$execute$0(CompletionExecutor.java:174)
+	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1402)
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)
+Caused by: java.lang.ClassNotFoundException: it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	at jdk.vm.ci.hotspot.CompilerToVM.lookupType(Native Method)
+	at jdk.vm.ci.hotspot.HotSpotJVMCIRuntime.lookupType(HotSpotJVMCIRuntime.java:381)
+	... 32 more
+Error: Bytecode parsing error: java.lang.NoClassDefFoundError
+Trace: 
+	at parsing knucleotide.writeCount(knucleotide.java:90)
+Call path from entry point to knucleotide.writeCount(List, String): 
+	at knucleotide.writeCount(knucleotide.java:83)
+	at knucleotide.main(knucleotide.java:176)
+	at com.oracle.svm.reflect.proxies.Proxy_13_knucleotide_main.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at com.oracle.svm.core.JavaMainWrapper.run(JavaMainWrapper.java:173)
+	at com.oracle.svm.core.code.CEntryPointCallStubs.com_002eoracle_002esvm_002ecore_002eJavaMainWrapper_002erun_0028int_002corg_002egraalvm_002enativeimage_002ec_002etype_002eCCharPointerPointer_0029(generated:0)
+Original exception that caused the problem: java.lang.NoClassDefFoundError
+	at jdk.vm.ci.hotspot.HotSpotJVMCIRuntime.lookupType(HotSpotJVMCIRuntime.java:389)
+	at jdk.vm.ci.hotspot.HotSpotUnresolvedJavaType.resolve(HotSpotUnresolvedJavaType.java:91)
+	at com.oracle.graal.pointsto.meta.AnalysisField.&lt;init&gt;(AnalysisField.java:104)
+	at com.oracle.graal.pointsto.meta.AnalysisUniverse.createField(AnalysisUniverse.java:357)
+	at com.oracle.graal.pointsto.meta.AnalysisUniverse.lookupAllowUnresolved(AnalysisUniverse.java:345)
+	at com.oracle.graal.pointsto.infrastructure.WrappedConstantPool.lookupField(WrappedConstantPool.java:73)
+	at org.graalvm.compiler.java.BytecodeParser.lookupField(BytecodeParser.java:3891)
+	at org.graalvm.compiler.java.BytecodeParser.genGetField(BytecodeParser.java:4209)
+	at com.oracle.svm.hosted.phases.SharedGraphBuilderPhase$SharedBytecodeParser.genGetField(SharedGraphBuilderPhase.java:248)
+	at org.graalvm.compiler.java.BytecodeParser.loadLocalObject(BytecodeParser.java:3625)
+	at org.graalvm.compiler.java.BytecodeParser.processBytecode(BytecodeParser.java:4637)
+	at org.graalvm.compiler.java.BytecodeParser.iterateBytecodesForBlock(BytecodeParser.java:3115)
+	at org.graalvm.compiler.java.BytecodeParser.processBlock(BytecodeParser.java:2924)
+	at org.graalvm.compiler.java.BytecodeParser.build(BytecodeParser.java:887)
+	at org.graalvm.compiler.java.BytecodeParser.buildRootMethod(BytecodeParser.java:781)
+	at org.graalvm.compiler.java.GraphBuilderPhase$Instance.run(GraphBuilderPhase.java:95)
+	at org.graalvm.compiler.phases.Phase.run(Phase.java:49)
+	at org.graalvm.compiler.phases.BasePhase.apply(BasePhase.java:197)
+	at org.graalvm.compiler.phases.Phase.apply(Phase.java:42)
+	at org.graalvm.compiler.phases.Phase.apply(Phase.java:38)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlowBuilder.parse(MethodTypeFlowBuilder.java:196)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlowBuilder.apply(MethodTypeFlowBuilder.java:315)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlow.doParse(MethodTypeFlow.java:310)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlow.ensureParsed(MethodTypeFlow.java:300)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlow.addContext(MethodTypeFlow.java:107)
+	at com.oracle.graal.pointsto.flow.StaticInvokeTypeFlow.update(InvokeTypeFlow.java:346)
+	at com.oracle.graal.pointsto.BigBang$2.run(BigBang.java:500)
+	at com.oracle.graal.pointsto.util.CompletionExecutor.lambda$execute$0(CompletionExecutor.java:174)
+	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1402)
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)
+Caused by: java.lang.ClassNotFoundException: it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	at jdk.vm.ci.hotspot.CompilerToVM.lookupType(Native Method)
+	at jdk.vm.ci.hotspot.HotSpotJVMCIRuntime.lookupType(HotSpotJVMCIRuntime.java:381)
+	... 32 more
+Error: Bytecode parsing error: java.lang.NoClassDefFoundError
+Trace: 
+	at parsing knucleotide.writeFrequencies(knucleotide.java:69)
+Call path from entry point to knucleotide.writeFrequencies(float, knucleotide$Result): 
+	at knucleotide.writeFrequencies(knucleotide.java:69)
+	at knucleotide.main(knucleotide.java:170)
+	at com.oracle.svm.reflect.proxies.Proxy_13_knucleotide_main.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at com.oracle.svm.core.JavaMainWrapper.run(JavaMainWrapper.java:173)
+	at com.oracle.svm.core.code.CEntryPointCallStubs.com_002eoracle_002esvm_002ecore_002eJavaMainWrapper_002erun_0028int_002corg_002egraalvm_002enativeimage_002ec_002etype_002eCCharPointerPointer_0029(generated:0)
+Original exception that caused the problem: java.lang.NoClassDefFoundError
+	at jdk.vm.ci.hotspot.HotSpotJVMCIRuntime.lookupType(HotSpotJVMCIRuntime.java:389)
+	at jdk.vm.ci.hotspot.HotSpotUnresolvedJavaType.resolve(HotSpotUnresolvedJavaType.java:91)
+	at com.oracle.graal.pointsto.meta.AnalysisField.&lt;init&gt;(AnalysisField.java:104)
+	at com.oracle.graal.pointsto.meta.AnalysisUniverse.createField(AnalysisUniverse.java:357)
+	at com.oracle.graal.pointsto.meta.AnalysisUniverse.lookupAllowUnresolved(AnalysisUniverse.java:345)
+	at com.oracle.graal.pointsto.infrastructure.WrappedConstantPool.lookupField(WrappedConstantPool.java:73)
+	at org.graalvm.compiler.java.BytecodeParser.lookupField(BytecodeParser.java:3891)
+	at org.graalvm.compiler.java.BytecodeParser.genGetField(BytecodeParser.java:4209)
+	at com.oracle.svm.hosted.phases.SharedGraphBuilderPhase$SharedBytecodeParser.genGetField(SharedGraphBuilderPhase.java:248)
+	at org.graalvm.compiler.java.BytecodeParser.loadLocalObject(BytecodeParser.java:3625)
+	at org.graalvm.compiler.java.BytecodeParser.processBytecode(BytecodeParser.java:4657)
+	at org.graalvm.compiler.java.BytecodeParser.iterateBytecodesForBlock(BytecodeParser.java:3115)
+	at org.graalvm.compiler.java.BytecodeParser.processBlock(BytecodeParser.java:2924)
+	at org.graalvm.compiler.java.BytecodeParser.build(BytecodeParser.java:887)
+	at org.graalvm.compiler.java.BytecodeParser.buildRootMethod(BytecodeParser.java:781)
+	at org.graalvm.compiler.java.GraphBuilderPhase$Instance.run(GraphBuilderPhase.java:95)
+	at org.graalvm.compiler.phases.Phase.run(Phase.java:49)
+	at org.graalvm.compiler.phases.BasePhase.apply(BasePhase.java:197)
+	at org.graalvm.compiler.phases.Phase.apply(Phase.java:42)
+	at org.graalvm.compiler.phases.Phase.apply(Phase.java:38)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlowBuilder.parse(MethodTypeFlowBuilder.java:196)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlowBuilder.apply(MethodTypeFlowBuilder.java:315)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlow.doParse(MethodTypeFlow.java:310)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlow.ensureParsed(MethodTypeFlow.java:300)
+	at com.oracle.graal.pointsto.flow.MethodTypeFlow.addContext(MethodTypeFlow.java:107)
+	at com.oracle.graal.pointsto.flow.StaticInvokeTypeFlow.update(InvokeTypeFlow.java:346)
+	at com.oracle.graal.pointsto.BigBang$2.run(BigBang.java:500)
+	at com.oracle.graal.pointsto.util.CompletionExecutor.lambda$execute$0(CompletionExecutor.java:174)
+	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1402)
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)
+Caused by: java.lang.ClassNotFoundException: it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	at jdk.vm.ci.hotspot.CompilerToVM.lookupType(Native Method)
+	at jdk.vm.ci.hotspot.HotSpotJVMCIRuntime.lookupType(HotSpotJVMCIRuntime.java:381)
+	... 32 more
+
+Error: Processing image build request failed
+/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:727: recipe for target 'knucleotide.javaaot_run' failed
+make: [knucleotide.javaaot_run] Error 1 (ignored)
+mv knucleotide knucleotide.javaaot_run
+mv: cannot stat 'knucleotide': No such file or directory
+/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:727: recipe for target 'knucleotide.javaaot_run' failed
+make: [knucleotide.javaaot_run] Error 1 (ignored)
+
+8.43s to complete and log all make actions
+
+COMMAND LINE:
+./knucleotide.javaaot_run 0 &lt; knucleotide-input250000.txt
+
+MAKE ERROR 
+
+    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>3-Clause BSD License</span></a>
+    </ul>
+  </nav>
+</footer>
+

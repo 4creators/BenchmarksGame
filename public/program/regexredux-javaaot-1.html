@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>regex-redux Java AOT program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans, Ubuntu, Verdana, sans-serif;margin:0;-webkit-text-size-adjust:100%}h3, h1, h2, li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h1,h2{margin:1.5em 0 0}h1{font-size:1.4em;font-weight:normal}h2{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin: .5em .5em 0;padding: .5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin: .3em 0 0}p a, a span{border-bottom: .1em solid #333;padding-bottom: .1em}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header>
+  <h3><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h3>
+</header>
+<article>
+  <div>
+    <h1>regex-redux Java AOT program</h1>
+    <aside>
+      <p><a href="../description/regexredux.html#regexredux">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h2>source code</h2>
+    </div>
+    <pre>
+/*
+   The Computer Language Benchmarks Game
+   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+
+   contributed by Francois Green
+*/
+
+import java.io.*;
+
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.function.*;
+import java.util.regex.*;
+
+import static java.util.stream.Collectors.*;
+
+public class regexredux {
+
+  public static void main(String[] args) throws IOException {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    {
+        byte[] buf = new byte[65536];
+        int count;
+        while ((count = System.in.read(buf)) &gt; 0) {
+            baos.write(buf, 0, count);
+        }
+    }
+    final String input = baos.toString(&quot;US-ASCII&quot;);
+
+    final int initialLength = input.length();
+
+    final String sequence = input.replaceAll(&quot;&gt;.*\n|\n&quot;, &quot;&quot;);
+
+    final int codeLength = sequence.length();
+
+    final List&lt;String&gt; variants = Arrays.asList(&quot;agggtaaa|tttaccct&quot;,
+                                                &quot;[cgt]gggtaaa|tttaccc[acg]&quot;,
+                                                &quot;a[act]ggtaaa|tttacc[agt]t&quot;,
+                                                &quot;ag[act]gtaaa|tttac[agt]ct&quot;,
+                                                &quot;agg[act]taaa|ttta[agt]cct&quot;,
+                                                &quot;aggg[acg]aaa|ttt[cgt]ccct&quot;,
+                                                &quot;agggt[cgt]aa|tt[acg]accct&quot;,
+                                                &quot;agggta[cgt]a|t[acg]taccct&quot;,
+                                                &quot;agggtaa[cgt]|[acg]ttaccct&quot;);
+
+    BiFunction&lt;String, String, Entry&lt;String, Long&gt;&gt; counts = (v, s) -&gt; {
+       //Java 9 Matcher.results isn&apos;t off by one
+      Long count = Pattern.compile(v).splitAsStream(s).count() - 1;
+      return new AbstractMap.SimpleEntry&lt;&gt;(v, count);
+    };
+
+    final Map&lt;String, Long&gt; results = variants.parallelStream()
+                                              .map(variant -&gt; counts.apply(variant, sequence))
+                                              .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+    variants.forEach(variant -&gt; System.out.println(variant + &quot; &quot; + results.get(variant)));
+
+    final Map&lt;String, String&gt; replacements = new LinkedHashMap&lt;&gt;();//Only works with LinkedHashMap
+    {
+      replacements.put(&quot;tHa[Nt]&quot;, &quot;&lt;4&gt;&quot;);
+      replacements.put(&quot;aND|caN|Ha[DS]|WaS&quot;, &quot;&lt;3&gt;&quot;);
+      replacements.put(&quot;a[NSt]|BY&quot;, &quot;&lt;2&gt;&quot;);
+      replacements.put(&quot;&lt;[^&gt;]*&gt;&quot;, &quot;|&quot;);
+      replacements.put(&quot;\\|[^|][^|]*\\|&quot;, &quot;-&quot;);
+    }
+
+    String buf = sequence;
+    for (Map.Entry&lt;String, String&gt; entry : replacements.entrySet()) {
+        buf = Pattern.compile(entry.getKey()).matcher(buf).replaceAll(entry.getValue());
+    }
+
+    System.out.println();
+    System.out.println(initialLength);
+    System.out.println(codeLength);
+    System.out.println(buf.length());
+  }
+}
+    </pre>
+  </section>
+  <section>
+    <h2 id="log">notes, command-line, and program output</h2>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+openjdk version "1.8.0_171"
+OpenJDK Runtime Environment (build 1.8.0_171-11)
+GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
+
+
+Wed, 13 Jun 2018 20:05:42 GMT
+
+MAKE:
+mv regexredux.javaaot regexredux.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  regexredux.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image regexredux
+Build on Server(pid: 1896, port: 42381)
+   classlist:     161.67 ms
+       (cap):   1,527.97 ms
+       setup:   1,811.75 ms
+  (typeflow):   2,973.38 ms
+   (objects):   1,357.59 ms
+  (features):      32.42 ms
+    analysis:   4,446.02 ms
+    universe:     130.70 ms
+     (parse):     874.67 ms
+    (inline):   1,691.33 ms
+   (compile):   4,067.25 ms
+     compile:   6,882.94 ms
+       image:     529.91 ms
+       write:     184.63 ms
+     [total]:  14,172.57 ms
+mv regexredux regexredux.javaaot_run
+
+16.57s to complete and log all make actions
+
+COMMAND LINE:
+./regexredux.javaaot_run 0 &lt; regexredux-input5000000.txt
+
+PROGRAM OUTPUT:
+agggtaaa|tttaccct 356
+[cgt]gggtaaa|tttaccc[acg] 1250
+a[act]ggtaaa|tttacc[agt]t 4252
+ag[act]gtaaa|tttac[agt]ct 2894
+agg[act]taaa|ttta[agt]cct 5435
+aggg[acg]aaa|ttt[cgt]ccct 1537
+agggt[cgt]aa|tt[acg]accct 1431
+agggta[cgt]a|t[acg]taccct 1608
+agggtaa[cgt]|[acg]ttaccct 2178
+
+50833411
+50000000
+27388361
+    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>3-Clause BSD License</span></a>
+    </ul>
+  </nav>
+</footer>
+

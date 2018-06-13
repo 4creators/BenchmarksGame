@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>k-nucleotide Java AOT&nbsp;#5 program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans, Ubuntu, Verdana, sans-serif;margin:0;-webkit-text-size-adjust:100%}h3, h1, h2, li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h1,h2{margin:1.5em 0 0}h1{font-size:1.4em;font-weight:normal}h2{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin: .5em .5em 0;padding: .5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin: .3em 0 0}p a, a span{border-bottom: .1em solid #333;padding-bottom: .1em}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header>
+  <h3><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h3>
+</header>
+<article>
+  <div>
+    <h1>k-nucleotide Java AOT&nbsp;#5 program</h1>
+    <aside>
+      <p><a href="../description/knucleotide.html#knucleotide">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h2>source code</h2>
+    </div>
+    <pre>
+/* The Computer Language Benchmarks Game
+ * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+ *
+ * contributed by Daryl Griffith 
+ */
+
+import java.io.Closeable;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.Future;
+
+public class knucleotide extends ForkJoinTask {
+
+    static final long start = System.nanoTime();
+    static final ForkJoinPool pool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
+    static final Map&lt;Key, Value&gt; MAP = new ConcurrentHashMap&lt;&gt;();
+    static final int[] SEQUENCES1 = {2, 1};
+    static final int[] SEQUENCES2 = {18, 12, 6, 4, 3};
+    static final String[] SPICIFIC_SEQUENCES = new String[]{&quot;GGT&quot;, &quot;GGTA&quot;, &quot;GGTATT&quot;, &quot;GGTATTTTAATT&quot;, &quot;GGTATTTTAATTTATAGT&quot;};
+    static final int LINE_LENGTH = 60;
+    static final int EOF = -1;
+    static byte[] nucleotides;
+    Object rawResult;
+    final int sequence;
+
+    public static void main(String[] args) {
+        {
+            byte[] temp = new byte[LINE_LENGTH];
+            byte[] buffer = new byte[125_000_000];
+            byte[] species = &quot;&gt;TH&quot;.getBytes();
+            int n;
+            int i;
+
+            try (LineInputStream in = new LineInputStream(System.in)) {
+outer:
+                for (;;) {
+                    n = in.readLine(temp);
+                    if (n == EOF) {
+                        return;
+                    }
+                    if (n != LINE_LENGTH) {
+                        for (i = 0; i &lt; species.length; i++) {
+                            if (temp[i] != species[i]) {
+                                continue outer;
+                            }
+                        }
+                        break;
+                    }
+                }
+                i = 0;
+                for (;;) {
+                    n = in.readLine(temp);
+                    if (n == EOF) {
+                        break;
+                    }
+                    for (int j = 0; j &lt; n; i++, j++) {
+                        buffer[i] = translate(temp[j]);
+                    }
+                }
+                if (i == buffer.length) {
+                    nucleotides = buffer;
+                } else {
+                    nucleotides = new byte[i];
+                    System.arraycopy(buffer, 0, nucleotides, 0, i);
+                }
+            } catch (IOException e) {
+
+            }
+        }
+        countSequences(SEQUENCES1);
+        {
+            List&lt;Entry&lt;Key, Value&gt;&gt; sequence1 = new ArrayList&lt;&gt;();
+            List&lt;Entry&lt;Key, Value&gt;&gt; sequence2 = new ArrayList&lt;&gt;();
+
+            for (Entry&lt;Key, Value&gt; entry : MAP.entrySet()) {
+                switch (Long.numberOfLeadingZeros(entry.getKey().key)) {
+                    case 61:
+                        sequence1.add(entry);
+                        break;
+                    case 59:
+                        sequence2.add(entry);
+                }
+            }
+            printSequence(sequence1);
+            printSequence(sequence2);
+        }
+        countSequences(SEQUENCES2);
+        {
+            Key key = new Key();
+            for (String sequence : SPICIFIC_SEQUENCES) {
+                key.setHash(sequence);
+                System.out.print(MAP.get(key).count);
+                System.out.print(&apos;\t&apos;);
+                System.out.println(sequence);
+            }
+        }
+    }
+        
+    static byte translate(byte b) {
+        return (byte) ((b &gt;&gt; 1) &amp; 3);
+    }
+
+    static void countSequences(int[] sequences) {
+        Future[] futures = new Future[sequences.length];
+        int i = 0;
+
+        for (int sequence : sequences) {
+            futures[i] = pool.submit(new knucleotide(sequence));
+            i++;
+        }
+        for (Future future: futures) {
+            try {
+                future.get();
+            } catch (InterruptedException | ExecutionException ex) {
+            }
+        }
+    }
+
+    static void updateHashtable(int sequence) {
+        int sequenceTop = nucleotides.length - sequence + 1;
+        Key key = new Key();
+        Value value;
+        
+        for (int i = 0; i &lt; sequenceTop; i++) {
+            key.setHash(i, sequence);
+            value = MAP.get(key);
+            if (value == null) {
+                value = new Value();
+                value.count = 1;
+                MAP.put(key, value);
+                key = new Key();
+            } else {
+                value.count++;
+            }
+        }
+    }
+
+    static void printSequence(List&lt;Entry&lt;Key, Value&gt;&gt; sequence) {
+        int sum = 0;
+
+        Collections.sort(sequence, new Comparator&lt;Entry&lt;Key, Value&gt;&gt;() {
+
+            &#64;Override
+            public int compare(Entry&lt;Key, Value&gt; entry1, Entry&lt;Key, Value&gt; entry2) {
+                if (entry2.getValue().count != entry1.getValue().count) {
+                    return entry2.getValue().count - entry1.getValue().count;
+                }
+                return entry1.getKey().toString().compareTo(entry2.getKey().toString());
+            }
+        });
+        for (Entry&lt;Key, Value&gt; entry : sequence) {
+            sum += entry.getValue().count;
+        }
+        for (Entry&lt;Key, Value&gt; entry : sequence) {
+            System.out.format(&quot;%s %.3f\n&quot;, entry.getKey(), entry.getValue().count * 100f / sum);
+        }
+        System.out.println();
+    }
+
+    public knucleotide(int sequence) {
+        this.sequence = sequence;
+    }
+
+    &#64;Override
+    public Object getRawResult() {
+        return rawResult;
+    }
+
+    &#64;Override
+    protected void setRawResult(Object value) {
+        rawResult = value;
+    }
+
+    &#64;Override
+    protected boolean exec() {
+        updateHashtable(sequence);
+        setRawResult(new Object());
+        return true;
+    }
+    static class LineInputStream implements Closeable {
+
+        private static final int LF = 10;
+        private final ByteBuffer buffer = ByteBuffer.allocate(8192);
+        private final InputStream in;
+
+        public LineInputStream(InputStream in) {
+            this.in = in;
+            buffer.limit(buffer.position());
+        }
+
+        public int readLine(byte[] b) throws IOException {
+            for (int end = buffer.position(); end &lt; buffer.limit(); end++) {
+                if (buffer.get(end) == LF) {
+                    if (end - buffer.position() == LINE_LENGTH) {
+                        buffer.get(b);
+                        buffer.position(buffer.position() + 1);
+                        return LINE_LENGTH;
+                    } else {
+                        int size = end - buffer.position();
+
+                        buffer.get(b, 0, size);
+                        buffer.position(buffer.position() + 1);
+                        return size;
+                    }
+                }
+            }
+            buffer.compact();
+            int n = in.read(buffer.array(), buffer.position(), buffer.remaining());
+
+            if (n == EOF) {
+                buffer.flip();
+                if (buffer.hasRemaining()) {
+                    int size = buffer.remaining();
+
+                    buffer.get(b, 0, size);
+                    return size;
+                } else {
+                    return EOF;
+                }
+            } else {
+                buffer.position(buffer.position() + n);
+                buffer.flip();
+            }
+            for (int end = buffer.position(); end &lt; buffer.limit(); end++) {
+                if (buffer.get(end) == LF) {
+                    if (end - buffer.position() == LINE_LENGTH) {
+                        buffer.get(b);
+                        buffer.position(buffer.position() + 1);
+                        return LINE_LENGTH;
+                    } else {
+                        int size = end - buffer.position();
+
+                        buffer.get(b, 0, size);
+                        buffer.position(buffer.position() + 1);
+                        return size;
+                    }
+                }
+            }
+            return EOF;
+        }
+
+        &#64;Override
+        public void close() throws IOException {
+            in.close();
+        }
+    }
+
+    static class Key {
+
+        long key;
+
+        void setHash(int offset, int length) {
+            key = 1;
+            for (int i = offset + length - 1; i &gt;= offset; i--) {
+                key = (key &lt;&lt; 2) | nucleotides[i];
+            }
+        }
+
+        void setHash(String species) {
+            key = 1;
+            for (int i = species.length() - 1; i &gt;= 0; i--) {
+                key = (key &lt;&lt; 2) | translate((byte) species.charAt(i));
+            }
+        }
+
+        &#64;Override
+        public int hashCode() {
+            return (int) key;
+        }
+
+        &#64;Override
+        public boolean equals(Object obj) {
+            final Key other = (Key) obj;
+
+            return key == other.key;
+        }
+
+        &#64;Override
+        public String toString() {
+            char[] name = new char[(63 - Long.numberOfLeadingZeros(key)) / 2];
+            long temp = key;
+
+            for (int i = 0; temp &gt; 1; temp &gt;&gt;= 2, i++) {
+                name[i] = (char) (((temp &amp; 3) &lt;&lt; 1) | &apos;A&apos;);
+                if (name[i] == &apos;E&apos;) {
+                    name[i] = &apos;T&apos;;
+                }
+            }
+            return new String(name);
+        }
+    }
+
+    static class Value {
+
+        int count;
+    }
+}
+    </pre>
+  </section>
+  <section>
+    <h2 id="log">notes, command-line, and program output</h2>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+openjdk version "1.8.0_171"
+OpenJDK Runtime Environment (build 1.8.0_171-11)
+GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
+
+
+Wed, 13 Jun 2018 19:20:58 GMT
+
+MAKE:
+mv knucleotide.javaaot-5.javaaot knucleotide.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d . -cp .:/opt/src/java-libs/fastutil-8.1.0.jar knucleotide.java
+Note: knucleotide.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image knucleotide
+Build on Server(pid: 1896, port: 42381)
+   classlist:     306.88 ms
+       (cap):   1,548.24 ms
+       setup:   1,840.10 ms
+  (typeflow):   2,707.91 ms
+   (objects):   1,630.74 ms
+  (features):      32.35 ms
+    analysis:   4,449.22 ms
+    universe:     137.23 ms
+     (parse):     512.11 ms
+    (inline):   1,058.43 ms
+   (compile):   3,907.71 ms
+     compile:   5,746.85 ms
+       image:     507.40 ms
+       write:     202.21 ms
+     [total]:  13,227.95 ms
+mv knucleotide knucleotide.javaaot-5.javaaot_run
+
+15.33s to complete and log all make actions
+
+COMMAND LINE:
+./knucleotide.javaaot-5.javaaot_run 0 &lt; knucleotide-input25000000.txt
+
+PROGRAM OUTPUT:
+A 30.295
+T 30.151
+C 19.800
+G 19.754
+
+AA 9.177
+TA 9.132
+AT 9.131
+TT 9.091
+CA 6.002
+AC 6.001
+AG 5.987
+GA 5.984
+CT 5.971
+TC 5.971
+GT 5.957
+TG 5.956
+CC 3.917
+GC 3.911
+CG 3.909
+GG 3.902
+
+1471758	GGT
+446535	GGTA
+47336	GGTATT
+893	GGTATTTTAATT
+893	GGTATTTTAATTTATAGT
+    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>3-Clause BSD License</span></a>
+    </ul>
+  </nav>
+</footer>
+

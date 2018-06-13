@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>regex-redux Java AOT&nbsp;#2 program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans, Ubuntu, Verdana, sans-serif;margin:0;-webkit-text-size-adjust:100%}h3, h1, h2, li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h1,h2{margin:1.5em 0 0}h1{font-size:1.4em;font-weight:normal}h2{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin: .5em .5em 0;padding: .5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin: .3em 0 0}p a, a span{border-bottom: .1em solid #333;padding-bottom: .1em}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header>
+  <h3><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h3>
+</header>
+<article>
+  <div>
+    <h1>regex-redux Java AOT&nbsp;#2 program</h1>
+    <aside>
+      <p><a href="../description/regexredux.html#regexredux">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h2>source code</h2>
+    </div>
+    <pre>
+/*
+   The Computer Language Benchmarks Game
+   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+
+   regex-dna program contributed by The Anh Tran
+   converted from regex-dna program
+ */
+
+
+import java.io.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.*;
+import java.util.regex.*;
+import java.util.*;
+
+
+public class regexredux
+{
+    // source data is duplicated into 2 arrays
+    static ArrayList&lt;StringBuilder&gt; source_as_segments = new ArrayList&lt;StringBuilder&gt;();;
+    static ArrayList&lt;StringBuilder&gt; source_as_lines = new ArrayList&lt;StringBuilder&gt;();;
+    
+    // read data from stdin to StringBuilder
+    // return initial data size
+    private static int ReadInput(StringBuilder sb)
+    {
+        try
+        {
+            BufferedReader reader = new BufferedReader (new InputStreamReader (System.in, &quot;US-ASCII&quot;));
+            
+            char[] buf = new char[64 *1024];
+            int read = 0, total = 0;
+            
+            while ((read = reader.read (buf)) != -1)
+            {
+                total += read;
+                sb.append (buf, 0, read);
+            }
+
+            return total;
+        }
+        catch (IOException ie)
+        {
+            ie.printStackTrace ();
+        }
+        
+        return 0;
+    }
+    
+    // strip header and newline
+    // duplicate each data line into 2 arrays
+    private static int StripHeader(StringBuilder sb)
+    {
+        Pattern pat = Pattern.compile(&quot;(&gt;.*\n)|\n&quot;);
+        Matcher mt = pat.matcher(sb);   // scan all data
+        
+        StringBuilder desti = null;
+        StringBuffer tmp = new StringBuffer();
+        
+        while (mt.find())
+        {
+            mt.appendReplacement(tmp, &quot;&quot;);
+
+            if (mt.start(1) &gt;= 0)   // this is header line
+            {
+                desti = new StringBuilder();    // alloc new dna sequence
+                source_as_segments.add(desti);
+            }
+
+            desti.append(tmp);  // append this line to current dna sequence
+            source_as_lines.add(new StringBuilder(tmp));    // also append this line to 2nd array
+
+            // reset buffer len, re-use in next match
+            tmp.setLength(0);
+        }
+
+        int strip_len = 0;
+        for (StringBuilder b : source_as_segments)
+            strip_len += b.length();
+        
+        return strip_len;
+    }
+    
+    private static void CountMatch()
+    {
+        final String[] patterns = 
+        {   &quot;agggtaaa|tttaccct&quot; ,
+            &quot;[cgt]gggtaaa|tttaccc[acg]&quot;,
+            &quot;a[act]ggtaaa|tttacc[agt]t&quot;,
+            &quot;ag[act]gtaaa|tttac[agt]ct&quot;,
+            &quot;agg[act]taaa|ttta[agt]cct&quot;,
+            &quot;aggg[acg]aaa|ttt[cgt]ccct&quot;,
+            &quot;agggt[cgt]aa|tt[acg]accct&quot;,
+            &quot;agggta[cgt]a|t[acg]taccct&quot;,
+            &quot;agggtaa[cgt]|[acg]ttaccct&quot;
+        };
+    
+        final AtomicIntegerArray results = new AtomicIntegerArray(patterns.length);
+        final AtomicIntegerArray tasks = new AtomicIntegerArray(patterns.length);
+        
+        Thread[] pool = new Thread[Runtime.getRuntime().availableProcessors()];
+        for (int i = 0; i &lt; pool.length; i++)
+        {
+            pool[i] = new Thread()
+            {
+                public void run()
+                {
+                    // for each search pattern
+                    for (int pt = 0; pt &lt; patterns.length; pt++)
+                    {
+                        Pattern expression = Pattern.compile(patterns[pt]);
+
+                        int total_seg = source_as_segments.size();
+                        int seq;
+                        Matcher mt = expression.matcher(&quot;&quot;);
+                        
+                        // fetch not-yet-processed sequence
+                        while ((seq = tasks.getAndIncrement(pt)) &lt; total_seg)
+                        {
+                            mt.reset(source_as_segments.get(seq));
+
+                            while (mt.find())
+                                results.incrementAndGet(pt);
+                        }
+                    }
+                }
+            };
+            pool[i].start();
+        }
+        
+        // wait for result
+        for (Thread t : pool)
+        {
+            try
+            {
+                t.join();
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        
+        for (int i = 0; i&lt; patterns.length; i++)
+        {
+            System.out.format(&quot;%s %d\n&quot;, patterns[i], results.get(i));
+        }
+    }
+    
+    private static int Replace()
+    {
+        final String[] pat_search = 
+        {
+            &quot;tHa[Nt]&quot;, &quot;aND|caN|Ha[DS]|WaS&quot;, &quot;a[NSt]|BY&quot;, 
+            &quot;&lt;[^&gt;]*&gt;&quot;, &quot;\\|[^|][^|]*\\|&quot;
+        };
+        final String[] pat_replace = 
+        {
+            &quot;&lt;4&gt;&quot;, &quot;&lt;3&gt;&quot;, &quot;&lt;2&gt;&quot;,
+            &quot;|&quot;, &quot;-&quot;
+        };
+        
+        final AtomicIntegerArray tasks = new AtomicIntegerArray(pat_search.length);
+        final AtomicIntegerArray result = new AtomicIntegerArray(pat_search.length);
+        
+        Thread[] pool = new Thread[Runtime.getRuntime().availableProcessors()];
+        final CyclicBarrier barrier = new CyclicBarrier(pool.length);
+
+        for (int i = 0; i &lt; pool.length; i++)
+        {
+            pool[i] = new Thread()
+            {
+                public void run()
+                {
+                    StringBuffer des_buf = new StringBuffer();
+                    
+                    for (int pt = 0; pt &lt; pat_search.length; pt++)
+                    {
+                        Pattern pattern = Pattern.compile(pat_search[pt]);
+                        Matcher m = pattern.matcher(&quot;&quot;);
+
+                        int total_line = source_as_lines.size();
+                        int line;
+
+                        while ((line = tasks.getAndIncrement(pt)) &lt; total_line)
+                        {
+                            StringBuilder src_buf = source_as_lines.get(line);
+                            m.reset(src_buf);
+                            boolean change = false;
+
+                            while (m.find())
+                            {
+                                m.appendReplacement(des_buf, pat_replace[pt]);
+                                change = true;
+                            }
+
+                            if (change)
+                            {
+                                m.appendTail(des_buf);
+                                src_buf.setLength(0);
+                                src_buf.append(des_buf);
+                            }
+
+                            if (pt == (pat_search.length -1))
+                                result.addAndGet(pt, src_buf.length());
+                            
+                            des_buf.setLength(0);
+                        }
+                        
+                        try
+                        {
+                            barrier.await();
+                        }
+                        catch (Exception ie)
+                        {
+                            ie.printStackTrace();
+                        }
+                    }
+                }
+            };
+            
+            pool[i].start();
+        }
+        
+        for (Thread t : pool)
+        {
+            try
+            {
+                t.join();
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        
+        int replace_len = 0;
+        for (int i = 0; i &lt; result.length(); i++)
+            replace_len += result.get(i);
+        return replace_len;
+    }
+    
+    public static void main (String[] args)
+    {
+        StringBuilder sb = new StringBuilder ();
+        int init_len = ReadInput(sb);
+        
+        int strip_len = StripHeader(sb);
+        sb = null;
+        
+        CountMatch();
+        source_as_segments = null;
+        
+        int replace_len = Replace();
+        source_as_lines = null;
+        
+        System.out.format(&quot;\n%d\n%d\n%d\n&quot;, init_len, strip_len, replace_len);
+    }
+}
+    </pre>
+  </section>
+  <section>
+    <h2 id="log">notes, command-line, and program output</h2>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+openjdk version "1.8.0_171"
+OpenJDK Runtime Environment (build 1.8.0_171-11)
+GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
+
+
+Wed, 13 Jun 2018 20:09:02 GMT
+
+MAKE:
+mv regexredux.javaaot-2.javaaot regexredux.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  regexredux.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image regexredux
+Build on Server(pid: 1896, port: 42381)
+   classlist:     141.78 ms
+       (cap):   1,526.56 ms
+       setup:   1,810.43 ms
+  (typeflow):   2,727.62 ms
+   (objects):   1,569.58 ms
+  (features):      33.37 ms
+    analysis:   4,409.47 ms
+    universe:     130.35 ms
+     (parse):     656.94 ms
+    (inline):     912.50 ms
+   (compile):   2,924.01 ms
+     compile:   4,763.11 ms
+       image:     506.11 ms
+       write:     273.22 ms
+     [total]:  12,062.86 ms
+mv regexredux regexredux.javaaot-2.javaaot_run
+
+14.26s to complete and log all make actions
+
+COMMAND LINE:
+./regexredux.javaaot-2.javaaot_run 0 &lt; regexredux-input50000.txt
+
+UNEXPECTED OUTPUT 
+
+13c13
+&lt; 325690
+---
+&gt; 273927
+
+PROGRAM OUTPUT:
+agggtaaa|tttaccct 3
+[cgt]gggtaaa|tttaccc[acg] 12
+a[act]ggtaaa|tttacc[agt]t 43
+ag[act]gtaaa|tttac[agt]ct 27
+agg[act]taaa|ttta[agt]cct 58
+aggg[acg]aaa|ttt[cgt]ccct 16
+agggt[cgt]aa|tt[acg]accct 15
+agggta[cgt]a|t[acg]taccct 18
+agggtaa[cgt]|[acg]ttaccct 20
+
+508411
+500000
+325690
+    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>3-Clause BSD License</span></a>
+    </ul>
+  </nav>
+</footer>
+

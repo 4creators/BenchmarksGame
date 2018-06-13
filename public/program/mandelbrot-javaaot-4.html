@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>mandelbrot Java AOT&nbsp;#4 program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans, Ubuntu, Verdana, sans-serif;margin:0;-webkit-text-size-adjust:100%}h3, h1, h2, li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h1,h2{margin:1.5em 0 0}h1{font-size:1.4em;font-weight:normal}h2{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin: .5em .5em 0;padding: .5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin: .3em 0 0}p a, a span{border-bottom: .1em solid #333;padding-bottom: .1em}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header>
+  <h3><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h3>
+</header>
+<article>
+  <div>
+    <h1>mandelbrot Java AOT&nbsp;#4 program</h1>
+    <aside>
+      <p><a href="../description/mandelbrot.html#mandelbrot">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h2>source code</h2>
+    </div>
+    <pre>
+/* The Computer Language Benchmarks Game
+   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+   
+   modified by Henco Appel
+*/
+
+import java.io.*;
+import java.util.concurrent.atomic.*;
+import java.util.stream.*;
+
+public final class mandelbrot {
+
+   static final byte getByte(final double[] Crb, final double CibY, final int x){
+      int res=0;
+      for(int i=0;i&lt;8;i+=2){
+         double Zr1=Crb[x+i];
+         double Zi1=CibY;
+
+         double Zr2=Crb[x+i+1];
+         double Zi2=CibY;
+
+         int b=0;
+         int j=49;do{
+            double nZr1=Zr1*Zr1-Zi1*Zi1+Crb[x+i];
+            Zi1=Zr1*Zi1+Zr1*Zi1+CibY;
+            Zr1=nZr1;
+
+            double nZr2=Zr2*Zr2-Zi2*Zi2+Crb[x+i+1];
+            Zi2=Zr2*Zi2+Zr2*Zi2+CibY;
+            Zr2=nZr2;
+
+            if(Zr1*Zr1+Zi1*Zi1&gt;4){b|=2;if(b==3)break;}
+            if(Zr2*Zr2+Zi2*Zi2&gt;4){b|=1;if(b==3)break;}
+         }while(--j&gt;0);
+         res=(res&lt;&lt;2)+b;
+      }
+      return (byte)(res^-1);
+   }
+
+   public static void main(String[] args) throws Exception {
+      int N=6000;
+      if (args.length&gt;=1)
+		  N=Integer.parseInt(args[0]);
+
+      double[] Crb=new double[N+7];
+      double invN=2.0/N;
+	  for(int i=0;i&lt;N;i++){  Crb[i]=i*invN-1.5; }
+	  int lineLen = (N-1)/8 + 1;
+	  byte[] data = new byte[N*lineLen];
+	  IntStream.range(0,N).parallel().forEach(y -&gt; {
+		  double Ciby = y*invN-1.0;
+		  int offset = y*lineLen;
+		  for(int x=0; x&lt;lineLen; x++)
+			  data[offset+x] = getByte(Crb, Ciby, x*8);
+	  });
+
+      OutputStream stream = new BufferedOutputStream(System.out);
+      stream.write((&quot;P4\n&quot;+N+&quot; &quot;+N+&quot;\n&quot;).getBytes());
+      stream.write(data);
+      stream.close();
+   }
+}
+
+    </pre>
+  </section>
+  <section>
+    <h2 id="log">notes, command-line, and program output</h2>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+openjdk version "1.8.0_171"
+OpenJDK Runtime Environment (build 1.8.0_171-11)
+GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
+
+
+Wed, 13 Jun 2018 19:45:14 GMT
+
+MAKE:
+mv mandelbrot.javaaot-4.javaaot mandelbrot.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  mandelbrot.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image mandelbrot
+Build on Server(pid: 1896, port: 42381)
+   classlist:     132.44 ms
+       (cap):   1,546.44 ms
+       setup:   1,828.03 ms
+  (typeflow):   2,868.57 ms
+   (objects):   1,628.44 ms
+  (features):      31.69 ms
+    analysis:   4,608.35 ms
+    universe:     134.70 ms
+     (parse):     802.09 ms
+    (inline):     889.84 ms
+   (compile):   3,043.24 ms
+     compile:   4,978.92 ms
+       image:     516.17 ms
+       write:     184.46 ms
+     [total]:  12,406.52 ms
+mv mandelbrot mandelbrot.javaaot-4.javaaot_run
+
+14.59s to complete and log all make actions
+
+COMMAND LINE:
+./mandelbrot.javaaot-4.javaaot_run 16000
+
+(BINARY) PROGRAM OUTPUT NOT SHOWN
+    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>3-Clause BSD License</span></a>
+    </ul>
+  </nav>
+</footer>
+

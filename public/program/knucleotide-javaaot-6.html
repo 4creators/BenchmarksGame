@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>k-nucleotide Java AOT&nbsp;#6 program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans, Ubuntu, Verdana, sans-serif;margin:0;-webkit-text-size-adjust:100%}h3, h1, h2, li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h1,h2{margin:1.5em 0 0}h1{font-size:1.4em;font-weight:normal}h2{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin: .5em .5em 0;padding: .5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin: .3em 0 0}p a, a span{border-bottom: .1em solid #333;padding-bottom: .1em}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header>
+  <h3><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h3>
+</header>
+<article>
+  <div>
+    <h1>k-nucleotide Java AOT&nbsp;#6 program</h1>
+    <aside>
+      <p><a href="../description/knucleotide.html#knucleotide">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h2>source code</h2>
+    </div>
+    <pre>
+/* The Computer Language Benchmarks Game
+ https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+ 
+ contributed by James McIlree
+ ByteString code thanks to Matthieu Bentot and The Anh Tran
+ */
+
+import java.util.*;
+import java.io.*;
+import java.util.concurrent.*;
+
+public class knucleotide {
+    static ArrayList&lt;Callable&lt; Map&lt;ByteString, ByteString&gt; &gt; &gt; createFragmentTasks(final byte[] sequence, int[] fragmentLengths) {
+	ArrayList&lt;Callable&lt;Map&lt;ByteString, ByteString&gt;&gt;&gt; tasks = new ArrayList&lt;Callable&lt;Map&lt;ByteString, ByteString&gt;&gt;&gt;();
+	for (int fragmentLength : fragmentLengths) {
+	    for (int index=0; index&lt;fragmentLength; index++) {
+		final int offset = index;
+		final int finalFragmentLength = fragmentLength;
+		tasks.add(new Callable&lt;Map&lt;ByteString, ByteString&gt;&gt;() {
+		    public Map&lt;ByteString, ByteString&gt; call() {
+			return createFragmentMap(sequence, offset, finalFragmentLength);
+		    }
+		});
+	    }
+	}
+	return tasks;
+    }
+    	
+    static Map&lt;ByteString, ByteString&gt; createFragmentMap(byte[] sequence, int offset, int fragmentLength) {
+	HashMap&lt;ByteString, ByteString&gt; map = new HashMap&lt;ByteString, ByteString&gt;();
+	int lastIndex = sequence.length - fragmentLength + 1;
+	ByteString key = new ByteString(fragmentLength);	
+	for (int index=offset; index&lt;lastIndex; index+=fragmentLength) {
+	    key.calculateHash(sequence, index);
+	    ByteString fragment = map.get(key);
+	    if (fragment != null) {
+		fragment.count++;
+	    } else {
+		map.put(key, key);
+		key = new ByteString(fragmentLength);
+	    }
+	}
+
+	return map;
+    }
+        
+    // Destructive!
+    static Map&lt;ByteString, ByteString&gt; sumTwoMaps(Map&lt;ByteString, ByteString&gt; map1, Map&lt;ByteString, ByteString&gt; map2) {
+	for (Map.Entry&lt;ByteString, ByteString&gt; entry : map2.entrySet()) {
+	    ByteString sum = map1.get(entry.getKey());
+	    if (sum != null)
+		sum.count += entry.getValue().count;
+	    else
+		map1.put(entry.getKey(), entry.getValue());
+	}
+	return map1;
+    }
+    
+    static String writeFrequencies(float totalCount, Map&lt;ByteString, ByteString&gt; frequencies) {
+	SortedSet&lt;ByteString&gt; list = new TreeSet&lt;ByteString&gt;(frequencies.values());
+	StringBuilder sb = new StringBuilder();
+	for (ByteString k : list)
+	    sb.append(String.format(&quot;%s %.3f\n&quot;, k.toString().toUpperCase(), (float)(k.count) * 100.0f / totalCount));
+	
+	return sb.append(&apos;\n&apos;).toString();
+    }
+    
+    static String writeCount(List&lt;Future&lt;Map&lt;ByteString, ByteString&gt;&gt;&gt; futures, String nucleotideFragment) throws Exception {
+	ByteString key = new ByteString(nucleotideFragment.length());
+	key.calculateHash(nucleotideFragment.getBytes(), 0);
+	
+	int count = 0;
+	for (Future&lt;Map&lt;ByteString, ByteString&gt;&gt; future : futures) {
+	    ByteString temp = future.get().get(key);
+	    if (temp != null) count += temp.count;
+	}
+	
+	return count + &quot;\t&quot; + nucleotideFragment.toUpperCase() + &apos;\n&apos;;
+    }
+    
+    public static void main (String[] args) throws Exception {
+	String line;
+	BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+	while ((line = in.readLine()) != null) {
+	    if (line.startsWith(&quot;&gt;THREE&quot;)) break;
+	}
+	    
+	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte bytes[] = new byte[100];
+        while((line = in.readLine()) != null) {
+	    if (line.length() &gt; bytes.length)
+		bytes = new byte[line.length()];
+	    
+	    int i;
+	    for(i=0; i&lt;line.length(); i++)
+		bytes[i] = (byte)line.charAt(i);
+	    baos.write(bytes, 0, i);
+        }
+	
+	byte[] sequence = baos.toByteArray();
+		
+	ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+	int[] fragmentLengths = { 1, 2, 3, 4, 6, 12, 18 };
+	List&lt;Future&lt;Map&lt;ByteString, ByteString&gt;&gt;&gt; futures = pool.invokeAll(createFragmentTasks(sequence, fragmentLengths));
+	pool.shutdown();
+	
+	StringBuilder sb = new StringBuilder();
+
+	sb.append(writeFrequencies(sequence.length, futures.get(0).get()));
+	sb.append(writeFrequencies(sequence.length - 1, sumTwoMaps(futures.get(1).get(), futures.get(2).get())));
+	
+	String[] nucleotideFragments = { &quot;ggt&quot;, &quot;ggta&quot;, &quot;ggtatt&quot;, &quot;ggtattttaatt&quot;, &quot;ggtattttaatttatagt&quot; };
+	for (String nucleotideFragment : nucleotideFragments) {
+	    sb.append(writeCount(futures, nucleotideFragment));
+	}
+	
+	System.out.print(sb.toString());	
+    }
+    
+    static final class ByteString implements Comparable&lt;ByteString&gt; {
+        public int hash, count=1;
+        public final byte bytes[];
+	
+        public ByteString(int size) {
+            bytes = new byte[size];
+        }
+	
+        public void calculateHash(byte k[], int offset) {
+	    int temp = 0;
+            for (int i=0; i&lt;bytes.length; i++) {
+		byte b = k[offset+i];
+                bytes[i] = b;
+                temp = temp * 31 + b;
+            }
+	    hash = temp;
+        }
+	
+        public int hashCode() {
+            return hash;
+        }
+	
+        public boolean equals(Object obj) {
+	    return Arrays.equals(bytes, ((ByteString)obj).bytes);
+        }
+	
+        public int compareTo(ByteString other) {
+            return other.count - count;
+        }
+	
+	public String toString() {
+	    return new String(bytes);
+	}
+    }
+}
+    </pre>
+  </section>
+  <section>
+    <h2 id="log">notes, command-line, and program output</h2>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+openjdk version "1.8.0_171"
+OpenJDK Runtime Environment (build 1.8.0_171-11)
+GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
+
+
+Wed, 13 Jun 2018 19:18:38 GMT
+
+MAKE:
+mv knucleotide.javaaot-6.javaaot knucleotide.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d . -cp .:/opt/src/java-libs/fastutil-8.1.0.jar knucleotide.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image knucleotide
+Build on Server(pid: 1896, port: 42381)
+   classlist:     148.79 ms
+       (cap):   1,547.20 ms
+       setup:   1,845.74 ms
+  (typeflow):   2,604.40 ms
+   (objects):   1,533.59 ms
+  (features):      33.12 ms
+    analysis:   4,251.53 ms
+    universe:     143.00 ms
+     (parse):     746.71 ms
+    (inline):     958.00 ms
+   (compile):   3,010.39 ms
+     compile:   4,980.38 ms
+       image:     552.07 ms
+       write:     191.70 ms
+     [total]:  12,145.71 ms
+mv knucleotide knucleotide.javaaot-6.javaaot_run
+
+15.97s to complete and log all make actions
+
+COMMAND LINE:
+./knucleotide.javaaot-6.javaaot_run 0 &lt; knucleotide-input25000000.txt
+
+PROGRAM OUTPUT:
+A 30.295
+T 30.151
+C 19.800
+G 19.754
+
+AA 9.177
+TA 9.132
+AT 9.131
+TT 9.091
+CA 6.002
+AC 6.001
+AG 5.987
+GA 5.984
+CT 5.971
+TC 5.971
+GT 5.957
+TG 5.956
+CC 3.917
+GC 3.911
+CG 3.909
+GG 3.902
+
+1471758	GGT
+446535	GGTA
+47336	GGTATT
+893	GGTATTTTAATT
+893	GGTATTTTAATTTATAGT
+    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>3-Clause BSD License</span></a>
+    </ul>
+  </nav>
+</footer>
+

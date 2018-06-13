@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>regex-redux Java AOT&nbsp;#6 program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans, Ubuntu, Verdana, sans-serif;margin:0;-webkit-text-size-adjust:100%}h3, h1, h2, li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h1,h2{margin:1.5em 0 0}h1{font-size:1.4em;font-weight:normal}h2{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin: .5em .5em 0;padding: .5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin: .3em 0 0}p a, a span{border-bottom: .1em solid #333;padding-bottom: .1em}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header>
+  <h3><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h3>
+</header>
+<article>
+  <div>
+    <h1>regex-redux Java AOT&nbsp;#6 program</h1>
+    <aside>
+      <p><a href="../description/regexredux.html#regexredux">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h2>source code</h2>
+    </div>
+    <pre>
+/*
+   The Computer Language Benchmarks Game
+   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+
+   contributed by Francois Green
+*/
+
+import java.io.*;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.stream.*;
+
+public class regexredux {
+
+    public static void main(String[] args) throws IOException {
+
+    var baos = new ByteArrayOutputStream();
+    {
+        byte[] buf = new byte[65536];
+        int count;
+        while ((count = System.in.read(buf)) &gt; 0) {
+        baos.write(buf, 0, count);
+        }
+    }
+    final var input = baos.toString(&quot;US-ASCII&quot;);
+
+    final var sequence = Pattern.compile(&quot;&gt;.*\n|\n&quot;)
+                                   .matcher(input).replaceAll(&quot;&quot;);
+
+    final var replacements = CompletableFuture.supplyAsync(() -&gt;
+        Stream.of(
+            Map.entry(&quot;tHa[Nt]&quot;, &quot;&lt;4&gt;&quot;),
+            Map.entry(&quot;aND|caN|Ha[DS]|WaS&quot;, &quot;&lt;3&gt;&quot;),
+            Map.entry(&quot;a[NSt]|BY&quot;, &quot;&lt;2&gt;&quot;),
+            Map.entry(&quot;&lt;[^&gt;]*&gt;&quot;, &quot;|&quot;),
+            Map.entry(&quot;\\|[^|][^|]*\\|&quot;, &quot;-&quot;)
+        ).reduce(sequence,
+            (buffer, e) -&gt; Pattern.compile(e.getKey())
+                                     .matcher(buffer).replaceAll(e.getValue()),
+            (a, __) -&gt; a));
+
+    final var variants = List.of(
+        &quot;agggtaaa|tttaccct&quot;,
+        &quot;[cgt]gggtaaa|tttaccc[acg]&quot;,
+        &quot;a[act]ggtaaa|tttacc[agt]t&quot;,
+        &quot;ag[act]gtaaa|tttac[agt]ct&quot;,
+        &quot;agg[act]taaa|ttta[agt]cct&quot;,
+        &quot;aggg[acg]aaa|ttt[cgt]ccct&quot;,
+        &quot;agggt[cgt]aa|tt[acg]accct&quot;,
+        &quot;agggta[cgt]a|t[acg]taccct&quot;,
+        &quot;agggtaa[cgt]|[acg]ttaccct&quot;
+    );
+
+    final var results = variants.parallelStream()
+        .collect(Collectors.toMap(v -&gt; v, v -&gt; Pattern
+           .compile(v).matcher(sequence).results().count()));
+
+    variants.forEach(v -&gt; System.out.println(v + &quot; &quot; + results.get(v)));
+
+    System.out.println();
+    System.out.println(input.length());
+    System.out.println(sequence.length());
+    System.out.println(replacements.join().length());
+    }
+}
+    </pre>
+  </section>
+  <section>
+    <h2 id="log">notes, command-line, and program output</h2>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+openjdk version "1.8.0_171"
+OpenJDK Runtime Environment (build 1.8.0_171-11)
+GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
+
+
+Wed, 13 Jun 2018 20:09:33 GMT
+
+MAKE:
+mv regexredux.javaaot-6.javaaot regexredux.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  regexredux.java
+regexredux.java:20: error: cannot find symbol
+    var baos = new ByteArrayOutputStream();
+    ^
+  symbol:   class var
+  location: class regexredux
+regexredux.java:28: error: cannot find symbol
+    final var input = baos.toString(&quot;US-ASCII&quot;);
+          ^
+  symbol:   class var
+  location: class regexredux
+regexredux.java:30: error: cannot find symbol
+    final var sequence = Pattern.compile(&quot;&gt;.*\n|\n&quot;)
+          ^
+  symbol:   class var
+  location: class regexredux
+regexredux.java:33: error: cannot find symbol
+    final var replacements = CompletableFuture.supplyAsync(() -&gt;
+          ^
+  symbol:   class var
+  location: class regexredux
+regexredux.java:35: error: cannot find symbol
+            Map.entry(&quot;tHa[Nt]&quot;, &quot;&lt;4&gt;&quot;),
+               ^
+  symbol:   method entry(String,String)
+  location: interface Map
+regexredux.java:36: error: cannot find symbol
+            Map.entry(&quot;aND|caN|Ha[DS]|WaS&quot;, &quot;&lt;3&gt;&quot;),
+               ^
+  symbol:   method entry(String,String)
+  location: interface Map
+regexredux.java:37: error: cannot find symbol
+            Map.entry(&quot;a[NSt]|BY&quot;, &quot;&lt;2&gt;&quot;),
+               ^
+  symbol:   method entry(String,String)
+  location: interface Map
+regexredux.java:38: error: cannot find symbol
+            Map.entry(&quot;&lt;[^&gt;]*&gt;&quot;, &quot;|&quot;),
+               ^
+  symbol:   method entry(String,String)
+  location: interface Map
+regexredux.java:39: error: cannot find symbol
+            Map.entry(&quot;\\|[^|][^|]*\\|&quot;, &quot;-&quot;)
+               ^
+  symbol:   method entry(String,String)
+  location: interface Map
+regexredux.java:45: error: cannot find symbol
+    final var variants = List.of(
+          ^
+  symbol:   class var
+  location: class regexredux
+regexredux.java:45: error: cannot find symbol
+    final var variants = List.of(
+                             ^
+  symbol:   method of(String,String,String,String,String,String,String,String,String)
+  location: interface List
+regexredux.java:57: error: cannot find symbol
+    final var results = variants.parallelStream()
+          ^
+  symbol:   class var
+  location: class regexredux
+regexredux.java:59: error: incompatible types: Object cannot be converted to String
+           .compile(v).matcher(sequence).results().count()));
+                    ^
+Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+13 errors
+/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:727: recipe for target 'regexredux.javaaot-6.javaaot_run' failed
+make: [regexredux.javaaot-6.javaaot_run] Error 1 (ignored)
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image regexredux
+Build on Server(pid: 1896, port: 42381)
+   classlist:     137.70 ms
+error: Main entry point class 'regexredux' not found.
+Error: Processing image build request failed
+/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:727: recipe for target 'regexredux.javaaot-6.javaaot_run' failed
+make: [regexredux.javaaot-6.javaaot_run] Error 1 (ignored)
+mv regexredux regexredux.javaaot-6.javaaot_run
+mv: cannot stat 'regexredux': No such file or directory
+/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:727: recipe for target 'regexredux.javaaot-6.javaaot_run' failed
+make: [regexredux.javaaot-6.javaaot_run] Error 1 (ignored)
+
+1.76s to complete and log all make actions
+
+COMMAND LINE:
+./regexredux.javaaot-6.javaaot_run 0 &lt; regexredux-input50000.txt
+
+MAKE ERROR 
+
+    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>3-Clause BSD License</span></a>
+    </ul>
+  </nav>
+</footer>
+

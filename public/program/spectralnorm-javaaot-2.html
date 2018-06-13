@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>spectral-norm Java AOT&nbsp;#2 program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans, Ubuntu, Verdana, sans-serif;margin:0;-webkit-text-size-adjust:100%}h3, h1, h2, li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h1,h2{margin:1.5em 0 0}h1{font-size:1.4em;font-weight:normal}h2{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin: .5em .5em 0;padding: .5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin: .3em 0 0}p a, a span{border-bottom: .1em solid #333;padding-bottom: .1em}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header>
+  <h3><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h3>
+</header>
+<article>
+  <div>
+    <h1>spectral-norm Java AOT&nbsp;#2 program</h1>
+    <aside>
+      <p><a href="../description/spectralnorm.html#spectralnorm">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h2>source code</h2>
+    </div>
+    <pre>
+/*
+The Computer Language Benchmarks Game
+https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+ 
+Based on C# entry by Isaac Gouy
+contributed by Jarkko Miettinen
+Parallel by The Anh Tran
+ */
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.concurrent.CyclicBarrier;
+
+public class spectralnorm
+{
+    private static final NumberFormat formatter = new DecimalFormat (&quot;#.000000000&quot;);
+    
+    public static void main (String[] args)
+    {
+        int n = 1000;
+        if (args.length &gt; 0) n = Integer.parseInt (args[0]);
+        
+        System.out.println (formatter.format (spectralnormGame (n)) );
+    }
+    
+    
+    private static final double spectralnormGame (int n)
+    {
+        // create unit vector
+        double[] u = new double[n];
+        double[] v = new double[n];
+        double[] tmp = new double[n];
+        
+        for (int i = 0; i &lt; n; i++)
+            u[i] = 1.0;
+        
+        // get available processor, then set up syn object
+        int nthread = Runtime.getRuntime ().availableProcessors ();
+        Approximate.barrier = new CyclicBarrier (nthread);
+        
+        int chunk = n / nthread;
+        Approximate[] ap = new Approximate[nthread];
+        
+        for (int i = 0; i &lt; nthread; i++)
+        {
+            int r1 = i * chunk;
+            int r2 = (i &lt; (nthread -1)) ? r1 + chunk : n;
+            
+            ap[i] = new Approximate (u, v, tmp, r1, r2);
+        }
+        
+        
+        double vBv = 0, vv = 0;
+        for (int i = 0; i &lt; nthread; i++)
+        {
+            try
+            {
+                ap[i].join ();
+                
+                vBv += ap[i].m_vBv;
+                vv += ap[i].m_vv;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace ();
+            }
+        }
+        
+        return Math.sqrt (vBv/vv);
+    }
+    
+    
+    private static class Approximate extends Thread
+    {
+        private static CyclicBarrier barrier;
+        
+        private double[] _u;
+        private double[] _v;
+        private double[] _tmp;
+        
+        private int range_begin, range_end;
+        private double m_vBv = 0, m_vv = 0;
+        
+        
+        public Approximate (double[] u, double[] v, double[] tmp, int rbegin, int rend)
+        {
+            super ();
+            
+            _u = u;
+            _v = v;
+            _tmp = tmp;
+            
+            range_begin = rbegin;
+            range_end = rend;
+            
+            start ();
+        }
+        
+        public void run ()
+        {
+            // 20 steps of the power method
+            for (int i = 0; i &lt; 10; i++)
+            {
+                MultiplyAtAv (_u, _tmp, _v);
+                MultiplyAtAv (_v, _tmp, _u);
+            }
+            
+            for (int i = range_begin; i &lt; range_end; i++)
+            {
+                m_vBv += _u[i] * _v[i];
+                m_vv  += _v[i] * _v[i];
+            }
+        }
+        
+        /* return element i,j of infinite matrix A */
+        private final static double eval_A (int i, int j)
+        {
+            int div = ( ((i+j) * (i+j+1) &gt;&gt;&gt; 1) +i+1 );
+            return 1.0 / div;
+        }
+        
+        /* multiply vector v by matrix A, each thread evaluate its range only */
+        private final void MultiplyAv (final double[] v, double[] Av)
+        {
+            for (int i = range_begin; i &lt; range_end; i++)
+            {
+                double sum = 0;
+                for (int j = 0; j &lt; v.length; j++)
+                    sum += eval_A (i, j) * v[j];
+                
+                Av[i] = sum;
+            }
+        }
+        
+        /* multiply vector v by matrix A transposed */
+        private final void MultiplyAtv (final double[] v, double[] Atv)
+        {
+            for (int i = range_begin; i &lt; range_end; i++)
+            {
+                double sum = 0;
+                for (int j = 0; j &lt; v.length; j++)
+                    sum += eval_A (j, i) * v[j];
+                
+                Atv[i] = sum;
+            }
+        }
+        
+        /* multiply vector v by matrix A and then by matrix A transposed */
+        private final void MultiplyAtAv (final double[] v, double[] tmp, double[] AtAv)
+        {
+            try
+            {
+                MultiplyAv (v, tmp);
+                // all thread must syn at completion
+                barrier.await ();
+                MultiplyAtv (tmp, AtAv);
+                // all thread must syn at completion
+                barrier.await ();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace ();
+            }
+        }
+    }
+}
+    </pre>
+  </section>
+  <section>
+    <h2 id="log">notes, command-line, and program output</h2>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+openjdk version "1.8.0_171"
+OpenJDK Runtime Environment (build 1.8.0_171-11)
+GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
+
+
+Wed, 13 Jun 2018 20:25:43 GMT
+
+MAKE:
+mv spectralnorm.javaaot-2.javaaot spectralnorm.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  spectralnorm.java
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image spectralnorm
+Build on Server(pid: 1896, port: 42381)
+   classlist:     126.44 ms
+       (cap):   1,524.31 ms
+       setup:   1,806.74 ms
+  (typeflow):   2,681.21 ms
+   (objects):   1,645.44 ms
+  (features):      32.15 ms
+    analysis:   4,436.76 ms
+    universe:     127.29 ms
+     (parse):     513.79 ms
+    (inline):   1,029.44 ms
+   (compile):   3,035.83 ms
+     compile:   4,830.06 ms
+       image:     534.13 ms
+       write:     182.88 ms
+     [total]:  12,067.93 ms
+mv spectralnorm spectralnorm.javaaot-2.javaaot_run
+
+14.23s to complete and log all make actions
+
+COMMAND LINE:
+./spectralnorm.javaaot-2.javaaot_run 5500
+
+PROGRAM OUTPUT:
+1.274224153
+    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>3-Clause BSD License</span></a>
+    </ul>
+  </nav>
+</footer>
+

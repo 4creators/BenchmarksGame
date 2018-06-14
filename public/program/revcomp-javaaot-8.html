@@ -22,309 +22,309 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/*
- * The Computer Language Benchmarks Game
- * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
-
- * contributed by Han Kai
- */
-
-import java.io.Closeable;
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-public class revcomp {
-
-    public static void main(String[] args) throws Exception {
-        try (Strand strand = new Strand();
-                FileInputStream standIn = new FileInputStream(FileDescriptor.in);
-                FileOutputStream standOut = new FileOutputStream(FileDescriptor.out);) {
-
-            while (strand.readOneStrand(standIn) &gt;= 0) {
-                strand.reverse();
-                strand.write(standOut);
-                strand.reset();
-            }
-
-        }
-    }
-}
-
-class Chunk {
-    public static final int CHUNK_SIZE = 64 * 1024;
-
-    public int capacity = 0;
-    public int length = 0;
-
-    public final byte[] bytes = new byte[CHUNK_SIZE];
-
-    public void clear() {
-        capacity = 0;
-        length = 0;
-    }
-}
-
-class Strand implements Closeable {
-
-    private static final byte NEW_LINE = &apos;\n&apos;;
-    private static final byte ANGLE = &apos;&gt;&apos;;
-    private static final int LINE_LENGTH = 61;
-
-    private static final byte[] map = new byte[128];
-    static {
-        for (int i = 0; i &lt; map.length; i++) {
-            map[i] = (byte) i;
-        }
-
-        map[&apos;t&apos;] = map[&apos;T&apos;] = &apos;A&apos;;
-        map[&apos;a&apos;] = map[&apos;A&apos;] = &apos;T&apos;;
-        map[&apos;g&apos;] = map[&apos;G&apos;] = &apos;C&apos;;
-        map[&apos;c&apos;] = map[&apos;C&apos;] = &apos;G&apos;;
-        map[&apos;v&apos;] = map[&apos;V&apos;] = &apos;B&apos;;
-        map[&apos;h&apos;] = map[&apos;H&apos;] = &apos;D&apos;;
-        map[&apos;r&apos;] = map[&apos;R&apos;] = &apos;Y&apos;;
-        map[&apos;m&apos;] = map[&apos;M&apos;] = &apos;K&apos;;
-        map[&apos;y&apos;] = map[&apos;Y&apos;] = &apos;R&apos;;
-        map[&apos;k&apos;] = map[&apos;K&apos;] = &apos;M&apos;;
-        map[&apos;b&apos;] = map[&apos;B&apos;] = &apos;V&apos;;
-        map[&apos;d&apos;] = map[&apos;D&apos;] = &apos;H&apos;;
-        map[&apos;u&apos;] = map[&apos;U&apos;] = &apos;A&apos;;
-    }
-
-    private static int NCPU = Runtime.getRuntime().availableProcessors();
-    private ExecutorService executor = Executors.newFixedThreadPool(NCPU);
-
-    private int chunkCount = 0;
-
-    private final ArrayList&lt;Chunk&gt; chunks = new ArrayList&lt;Chunk&gt;();
-
-    private void ensureSize() {
-        if (chunkCount == chunks.size()) {
-            chunks.add(new Chunk());
-        }
-    }
-
-    private boolean isLastChunk(Chunk chunk) {
-        return chunk.length != chunk.capacity;
-    }
-
-    private void correctLentgh(Chunk chunk, boolean skipFirst) {
-        final byte[] bytes = chunk.bytes;
-
-        final int start = skipFirst ? 1 : 0;
-        final int end = chunk.capacity;
-
-        for (int i = start; i &lt; end; i++) {
-            if (ANGLE == bytes[i]) {
-                chunk.length = i;
-                return;
-            }
-        }
+<span class="com">/*</span>
+<span class="com"> * The Computer Language Benchmarks Game</span>
+<span class="com"> * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"></span>
+<span class="com"> * contributed by Han Kai</span>
+<span class="com"> */</span>
+
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>Closeable<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>FileDescriptor<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>FileInputStream<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>FileOutputStream<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>IOException<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>InputStream<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>OutputStream<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>ArrayList<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>List<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>concurrent<span class="opt">.</span>Callable<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>concurrent<span class="opt">.</span>ExecutorService<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>concurrent<span class="opt">.</span>Executors<span class="opt">;</span>
+
+<span class="kwa">public class</span> revcomp <span class="opt">{</span>
+
+    <span class="kwa">public static void</span> <span class="kwd">main</span><span class="opt">(</span>String<span class="opt">[]</span> args<span class="opt">)</span> <span class="kwa">throws</span> Exception <span class="opt">{</span>
+        <span class="kwa">try</span> <span class="opt">(</span>Strand strand <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">Strand</span><span class="opt">();</span>
+                FileInputStream standIn <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">FileInputStream</span><span class="opt">(</span>FileDescriptor<span class="opt">.</span>in<span class="opt">);</span>
+                FileOutputStream standOut <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">FileOutputStream</span><span class="opt">(</span>FileDescriptor<span class="opt">.</span>out<span class="opt">);) {</span>
+
+            <span class="kwa">while</span> <span class="opt">(</span>strand<span class="opt">.</span><span class="kwd">readOneStrand</span><span class="opt">(</span>standIn<span class="opt">) &gt;=</span> <span class="num">0</span><span class="opt">) {</span>
+                strand<span class="opt">.</span><span class="kwd">reverse</span><span class="opt">();</span>
+                strand<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>standOut<span class="opt">);</span>
+                strand<span class="opt">.</span><span class="kwd">reset</span><span class="opt">();</span>
+            <span class="opt">}</span>
+
+        <span class="opt">}</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
+
+<span class="kwa">class</span> Chunk <span class="opt">{</span>
+    <span class="kwa">public static final int</span> CHUNK_SIZE <span class="opt">=</span> <span class="num">64</span> <span class="opt">*</span> <span class="num">1024</span><span class="opt">;</span>
+
+    <span class="kwa">public int</span> capacity <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+    <span class="kwa">public int</span> length <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+
+    <span class="kwa">public final byte</span><span class="opt">[]</span> bytes <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span>CHUNK_SIZE<span class="opt">];</span>
+
+    <span class="kwa">public void</span> <span class="kwd">clear</span><span class="opt">() {</span>
+        capacity <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+        length <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
+
+<span class="kwa">class</span> Strand <span class="kwa">implements</span> Closeable <span class="opt">{</span>
+
+    <span class="kwa">private static final byte</span> NEW_LINE <span class="opt">=</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">;</span>
+    <span class="kwa">private static final byte</span> ANGLE <span class="opt">=</span> <span class="str">&apos;&gt;&apos;</span><span class="opt">;</span>
+    <span class="kwa">private static final int</span> LINE_LENGTH <span class="opt">=</span> <span class="num">61</span><span class="opt">;</span>
+
+    <span class="kwa">private static final byte</span><span class="opt">[]</span> map <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span><span class="num">128</span><span class="opt">];</span>
+    <span class="kwa">static</span> <span class="opt">{</span>
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> map<span class="opt">.</span>length<span class="opt">;</span> i<span class="opt">++) {</span>
+            map<span class="opt">[</span>i<span class="opt">] = (</span><span class="kwa">byte</span><span class="opt">)</span> i<span class="opt">;</span>
+        <span class="opt">}</span>
+
+        map<span class="opt">[</span><span class="str">&apos;t&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;T&apos;</span><span class="opt">] =</span> <span class="str">&apos;A&apos;</span><span class="opt">;</span>
+        map<span class="opt">[</span><span class="str">&apos;a&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;A&apos;</span><span class="opt">] =</span> <span class="str">&apos;T&apos;</span><span class="opt">;</span>
+        map<span class="opt">[</span><span class="str">&apos;g&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;G&apos;</span><span class="opt">] =</span> <span class="str">&apos;C&apos;</span><span class="opt">;</span>
+        map<span class="opt">[</span><span class="str">&apos;c&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;C&apos;</span><span class="opt">] =</span> <span class="str">&apos;G&apos;</span><span class="opt">;</span>
+        map<span class="opt">[</span><span class="str">&apos;v&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;V&apos;</span><span class="opt">] =</span> <span class="str">&apos;B&apos;</span><span class="opt">;</span>
+        map<span class="opt">[</span><span class="str">&apos;h&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;H&apos;</span><span class="opt">] =</span> <span class="str">&apos;D&apos;</span><span class="opt">;</span>
+        map<span class="opt">[</span><span class="str">&apos;r&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;R&apos;</span><span class="opt">] =</span> <span class="str">&apos;Y&apos;</span><span class="opt">;</span>
+        map<span class="opt">[</span><span class="str">&apos;m&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;M&apos;</span><span class="opt">] =</span> <span class="str">&apos;K&apos;</span><span class="opt">;</span>
+        map<span class="opt">[</span><span class="str">&apos;y&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;Y&apos;</span><span class="opt">] =</span> <span class="str">&apos;R&apos;</span><span class="opt">;</span>
+        map<span class="opt">[</span><span class="str">&apos;k&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;K&apos;</span><span class="opt">] =</span> <span class="str">&apos;M&apos;</span><span class="opt">;</span>
+        map<span class="opt">[</span><span class="str">&apos;b&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;B&apos;</span><span class="opt">] =</span> <span class="str">&apos;V&apos;</span><span class="opt">;</span>
+        map<span class="opt">[</span><span class="str">&apos;d&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;D&apos;</span><span class="opt">] =</span> <span class="str">&apos;H&apos;</span><span class="opt">;</span>
+        map<span class="opt">[</span><span class="str">&apos;u&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;U&apos;</span><span class="opt">] =</span> <span class="str">&apos;A&apos;</span><span class="opt">;</span>
+    <span class="opt">}</span>
+
+    <span class="kwa">private static int</span> NCPU <span class="opt">=</span> Runtime<span class="opt">.</span><span class="kwd">getRuntime</span><span class="opt">().</span><span class="kwd">availableProcessors</span><span class="opt">();</span>
+    <span class="kwa">private</span> ExecutorService executor <span class="opt">=</span> Executors<span class="opt">.</span><span class="kwd">newFixedThreadPool</span><span class="opt">(</span>NCPU<span class="opt">);</span>
+
+    <span class="kwa">private int</span> chunkCount <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+
+    <span class="kwa">private final</span> ArrayList<span class="opt">&lt;</span>Chunk<span class="opt">&gt;</span> chunks <span class="opt">=</span> <span class="kwa">new</span> ArrayList<span class="opt">&lt;</span>Chunk<span class="opt">&gt;();</span>
+
+    <span class="kwa">private void</span> <span class="kwd">ensureSize</span><span class="opt">() {</span>
+        <span class="kwa">if</span> <span class="opt">(</span>chunkCount <span class="opt">==</span> chunks<span class="opt">.</span><span class="kwd">size</span><span class="opt">()) {</span>
+            chunks<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span><span class="kwa">new</span> <span class="kwd">Chunk</span><span class="opt">());</span>
+        <span class="opt">}</span>
+    <span class="opt">}</span>
+
+    <span class="kwa">private boolean</span> <span class="kwd">isLastChunk</span><span class="opt">(</span>Chunk chunk<span class="opt">) {</span>
+        <span class="kwa">return</span> chunk<span class="opt">.</span>length <span class="opt">!=</span> chunk<span class="opt">.</span>capacity<span class="opt">;</span>
+    <span class="opt">}</span>
+
+    <span class="kwa">private void</span> <span class="kwd">correctLentgh</span><span class="opt">(</span>Chunk chunk<span class="opt">,</span> <span class="kwa">boolean</span> skipFirst<span class="opt">) {</span>
+        <span class="kwa">final byte</span><span class="opt">[]</span> bytes <span class="opt">=</span> chunk<span class="opt">.</span>bytes<span class="opt">;</span>
+
+        <span class="kwa">final int</span> start <span class="opt">=</span> skipFirst ? <span class="num">1</span> <span class="opt">:</span> <span class="num">0</span><span class="opt">;</span>
+        <span class="kwa">final int</span> end <span class="opt">=</span> chunk<span class="opt">.</span>capacity<span class="opt">;</span>
+
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> start<span class="opt">;</span> i <span class="opt">&lt;</span> end<span class="opt">;</span> i<span class="opt">++) {</span>
+            <span class="kwa">if</span> <span class="opt">(</span>ANGLE <span class="opt">==</span> bytes<span class="opt">[</span>i<span class="opt">]) {</span>
+                chunk<span class="opt">.</span>length <span class="opt">=</span> i<span class="opt">;</span>
+                <span class="kwa">return</span><span class="opt">;</span>
+            <span class="opt">}</span>
+        <span class="opt">}</span>
 
-        chunk.length = chunk.capacity;
-    }
+        chunk<span class="opt">.</span>length <span class="opt">=</span> chunk<span class="opt">.</span>capacity<span class="opt">;</span>
+    <span class="opt">}</span>
 
-    private void prepareNextStrand() {
-        if (chunkCount == 0) {
-            return;
-        }
+    <span class="kwa">private void</span> <span class="kwd">prepareNextStrand</span><span class="opt">() {</span>
+        <span class="kwa">if</span> <span class="opt">(</span>chunkCount <span class="opt">==</span> <span class="num">0</span><span class="opt">) {</span>
+            <span class="kwa">return</span><span class="opt">;</span>
+        <span class="opt">}</span>
 
-        Chunk first = chunks.get(0);
-        Chunk last = chunks.get(chunkCount - 1);
+        Chunk first <span class="opt">=</span> chunks<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span><span class="num">0</span><span class="opt">);</span>
+        Chunk last <span class="opt">=</span> chunks<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>chunkCount <span class="opt">-</span> <span class="num">1</span><span class="opt">);</span>
 
-        if (last.capacity == last.length) {
-            for (int i = 0; i &lt; chunkCount; i++) {
-                chunks.get(i).clear();
-            }
+        <span class="kwa">if</span> <span class="opt">(</span>last<span class="opt">.</span>capacity <span class="opt">==</span> last<span class="opt">.</span>length<span class="opt">) {</span>
+            <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> chunkCount<span class="opt">;</span> i<span class="opt">++) {</span>
+                chunks<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>i<span class="opt">).</span><span class="kwd">clear</span><span class="opt">();</span>
+            <span class="opt">}</span>
 
-            return;
-        }
+            <span class="kwa">return</span><span class="opt">;</span>
+        <span class="opt">}</span>
 
-        System.arraycopy(last.bytes, last.length, first.bytes, 0, last.capacity - last.length);
+        System<span class="opt">.</span><span class="kwd">arraycopy</span><span class="opt">(</span>last<span class="opt">.</span>bytes<span class="opt">,</span> last<span class="opt">.</span>length<span class="opt">,</span> first<span class="opt">.</span>bytes<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> last<span class="opt">.</span>capacity <span class="opt">-</span> last<span class="opt">.</span>length<span class="opt">);</span>
 
-        first.capacity = last.capacity - last.length;
-        correctLentgh(first, true);
+        first<span class="opt">.</span>capacity <span class="opt">=</span> last<span class="opt">.</span>capacity <span class="opt">-</span> last<span class="opt">.</span>length<span class="opt">;</span>
+        <span class="kwd">correctLentgh</span><span class="opt">(</span>first<span class="opt">,</span> <span class="kwb">true</span><span class="opt">);</span>
 
-        for (int i = 1; i &lt; chunkCount; i++) {
-            chunks.get(i).clear();
-        }
-    }
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">1</span><span class="opt">;</span> i <span class="opt">&lt;</span> chunkCount<span class="opt">;</span> i<span class="opt">++) {</span>
+            chunks<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>i<span class="opt">).</span><span class="kwd">clear</span><span class="opt">();</span>
+        <span class="opt">}</span>
+    <span class="opt">}</span>
 
-    public int readOneStrand(InputStream is) throws IOException {
-        while (true) {
-            ensureSize();
+    <span class="kwa">public int</span> <span class="kwd">readOneStrand</span><span class="opt">(</span>InputStream is<span class="opt">)</span> <span class="kwa">throws</span> IOException <span class="opt">{</span>
+        <span class="kwa">while</span> <span class="opt">(</span><span class="kwb">true</span><span class="opt">) {</span>
+            <span class="kwd">ensureSize</span><span class="opt">();</span>
 
-            Chunk chunk = chunks.get(chunkCount);
-            chunkCount++;
+            Chunk chunk <span class="opt">=</span> chunks<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>chunkCount<span class="opt">);</span>
+            chunkCount<span class="opt">++;</span>
 
-            if (isLastChunk(chunk)) {
-                return chunkCount;
-            }
+            <span class="kwa">if</span> <span class="opt">(</span><span class="kwd">isLastChunk</span><span class="opt">(</span>chunk<span class="opt">)) {</span>
+                <span class="kwa">return</span> chunkCount<span class="opt">;</span>
+            <span class="opt">}</span>
 
-            byte[] bytes = chunk.bytes;
+            <span class="kwa">byte</span><span class="opt">[]</span> bytes <span class="opt">=</span> chunk<span class="opt">.</span>bytes<span class="opt">;</span>
 
-            int readLength = is.read(bytes, chunk.length, Chunk.CHUNK_SIZE - chunk.length);
+            <span class="kwa">int</span> readLength <span class="opt">=</span> is<span class="opt">.</span><span class="kwd">read</span><span class="opt">(</span>bytes<span class="opt">,</span> chunk<span class="opt">.</span>length<span class="opt">,</span> Chunk<span class="opt">.</span>CHUNK_SIZE <span class="opt">-</span> chunk<span class="opt">.</span>length<span class="opt">);</span>
 
-            if (chunkCount == 1 &amp;&amp; readLength &lt; 0 &amp;&amp; chunk.length == 0) {
-                return -1;
-            }
+            <span class="kwa">if</span> <span class="opt">(</span>chunkCount <span class="opt">==</span> <span class="num">1</span> <span class="opt">&amp;&amp;</span> readLength <span class="opt">&lt;</span> <span class="num">0</span> <span class="opt">&amp;&amp;</span> chunk<span class="opt">.</span>length <span class="opt">==</span> <span class="num">0</span><span class="opt">) {</span>
+                <span class="kwa">return</span> <span class="opt">-</span><span class="num">1</span><span class="opt">;</span>
+            <span class="opt">}</span>
 
-            if (readLength &gt; 0) {
-                chunk.capacity += readLength;
-                correctLentgh(chunk, chunkCount == 1);
-            }
+            <span class="kwa">if</span> <span class="opt">(</span>readLength <span class="opt">&gt;</span> <span class="num">0</span><span class="opt">) {</span>
+                chunk<span class="opt">.</span>capacity <span class="opt">+=</span> readLength<span class="opt">;</span>
+                <span class="kwd">correctLentgh</span><span class="opt">(</span>chunk<span class="opt">,</span> chunkCount <span class="opt">==</span> <span class="num">1</span><span class="opt">);</span>
+            <span class="opt">}</span>
 
-            if (readLength &lt; 0 || isLastChunk(chunk)) {
-                return chunkCount;
-            }
-        }
-    }
+            <span class="kwa">if</span> <span class="opt">(</span>readLength <span class="opt">&lt;</span> <span class="num">0</span> <span class="opt">||</span> <span class="kwd">isLastChunk</span><span class="opt">(</span>chunk<span class="opt">)) {</span>
+                <span class="kwa">return</span> chunkCount<span class="opt">;</span>
+            <span class="opt">}</span>
+        <span class="opt">}</span>
+    <span class="opt">}</span>
 
-    public void reset() {
-        prepareNextStrand();
-        chunkCount = 0;
-    }
+    <span class="kwa">public void</span> <span class="kwd">reset</span><span class="opt">() {</span>
+        <span class="kwd">prepareNextStrand</span><span class="opt">();</span>
+        chunkCount <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+    <span class="opt">}</span>
 
-    public void write(OutputStream out) throws IOException {
-        for (int i = 0; i &lt; chunkCount; i++) {
-            Chunk chunk = chunks.get(i);
-            out.write(chunk.bytes, 0, chunk.length);
-        }
-    }
+    <span class="kwa">public void</span> <span class="kwd">write</span><span class="opt">(</span>OutputStream out<span class="opt">)</span> <span class="kwa">throws</span> IOException <span class="opt">{</span>
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> chunkCount<span class="opt">;</span> i<span class="opt">++) {</span>
+            Chunk chunk <span class="opt">=</span> chunks<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>i<span class="opt">);</span>
+            out<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>chunk<span class="opt">.</span>bytes<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> chunk<span class="opt">.</span>length<span class="opt">);</span>
+        <span class="opt">}</span>
+    <span class="opt">}</span>
 
-    public void reverse() throws InterruptedException {
-        final int sumLength = getSumLength();
-        final int titleLength = getTitleLength();
-        final int dataLength = sumLength - titleLength;
-        final int realDataLength = dataLength - ceilDiv(dataLength, LINE_LENGTH);
+    <span class="kwa">public void</span> <span class="kwd">reverse</span><span class="opt">()</span> <span class="kwa">throws</span> InterruptedException <span class="opt">{</span>
+        <span class="kwa">final int</span> sumLength <span class="opt">=</span> <span class="kwd">getSumLength</span><span class="opt">();</span>
+        <span class="kwa">final int</span> titleLength <span class="opt">=</span> <span class="kwd">getTitleLength</span><span class="opt">();</span>
+        <span class="kwa">final int</span> dataLength <span class="opt">=</span> sumLength <span class="opt">-</span> titleLength<span class="opt">;</span>
+        <span class="kwa">final int</span> realDataLength <span class="opt">=</span> dataLength <span class="opt">-</span> <span class="kwd">ceilDiv</span><span class="opt">(</span>dataLength<span class="opt">,</span> LINE_LENGTH<span class="opt">);</span>
 
-        final int leftEndIndex = realDataLength / 2;
-        final int rawLeftEndIndex = leftEndIndex + leftEndIndex / (LINE_LENGTH - 1);
-        final int leftEndChunkIndex = ceilDiv(rawLeftEndIndex + titleLength, Chunk.CHUNK_SIZE) - 1;
-        final int realLeftEndIndex = (rawLeftEndIndex + titleLength) % Chunk.CHUNK_SIZE - 1;
+        <span class="kwa">final int</span> leftEndIndex <span class="opt">=</span> realDataLength <span class="opt">/</span> <span class="num">2</span><span class="opt">;</span>
+        <span class="kwa">final int</span> rawLeftEndIndex <span class="opt">=</span> leftEndIndex <span class="opt">+</span> leftEndIndex <span class="opt">/ (</span>LINE_LENGTH <span class="opt">-</span> <span class="num">1</span><span class="opt">);</span>
+        <span class="kwa">final int</span> leftEndChunkIndex <span class="opt">=</span> <span class="kwd">ceilDiv</span><span class="opt">(</span>rawLeftEndIndex <span class="opt">+</span> titleLength<span class="opt">,</span> Chunk<span class="opt">.</span>CHUNK_SIZE<span class="opt">) -</span> <span class="num">1</span><span class="opt">;</span>
+        <span class="kwa">final int</span> realLeftEndIndex <span class="opt">= (</span>rawLeftEndIndex <span class="opt">+</span> titleLength<span class="opt">) %</span> Chunk<span class="opt">.</span>CHUNK_SIZE <span class="opt">-</span> <span class="num">1</span><span class="opt">;</span>
 
-        final List&lt;Callable&lt;Void&gt;&gt; tasks = new ArrayList&lt;Callable&lt;Void&gt;&gt;(NCPU);
+        <span class="kwa">final</span> List<span class="opt">&lt;</span>Callable<span class="opt">&lt;</span>Void<span class="opt">&gt;&gt;</span> tasks <span class="opt">=</span> <span class="kwa">new</span> ArrayList<span class="opt">&lt;</span>Callable<span class="opt">&lt;</span>Void<span class="opt">&gt;&gt;(</span>NCPU<span class="opt">);</span>
 
-        final int itemCount = ceilDiv(leftEndChunkIndex + 1, NCPU);
+        <span class="kwa">final int</span> itemCount <span class="opt">=</span> <span class="kwd">ceilDiv</span><span class="opt">(</span>leftEndChunkIndex <span class="opt">+</span> <span class="num">1</span><span class="opt">,</span> NCPU<span class="opt">);</span>
 
-        for (int t = 0; t &lt; NCPU; t++) {
-            final int start = itemCount * t;
-            final int end = Math.min(start + itemCount, leftEndChunkIndex + 1);
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> t <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> t <span class="opt">&lt;</span> NCPU<span class="opt">;</span> t<span class="opt">++) {</span>
+            <span class="kwa">final int</span> start <span class="opt">=</span> itemCount <span class="opt">*</span> t<span class="opt">;</span>
+            <span class="kwa">final int</span> end <span class="opt">=</span> Math<span class="opt">.</span><span class="kwd">min</span><span class="opt">(</span>start <span class="opt">+</span> itemCount<span class="opt">,</span> leftEndChunkIndex <span class="opt">+</span> <span class="num">1</span><span class="opt">);</span>
 
-            Callable&lt;Void&gt; task = () -&gt; {
-                for (int i = start; i &lt; end; i++) {
-                    int rawLeftIndex = i == 0 ? 0 : i * Chunk.CHUNK_SIZE - titleLength;
+            Callable<span class="opt">&lt;</span>Void<span class="opt">&gt;</span> task <span class="opt">= () -&gt; {</span>
+                <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> start<span class="opt">;</span> i <span class="opt">&lt;</span> end<span class="opt">;</span> i<span class="opt">++) {</span>
+                    <span class="kwa">int</span> rawLeftIndex <span class="opt">=</span> i <span class="opt">==</span> <span class="num">0</span> ? <span class="num">0</span> <span class="opt">:</span> i <span class="opt">*</span> Chunk<span class="opt">.</span>CHUNK_SIZE <span class="opt">-</span> titleLength<span class="opt">;</span>
 
-                    int leftIndex = rawLeftIndex - rawLeftIndex / LINE_LENGTH;
-                    int rightIndex = realDataLength - leftIndex - 1;
+                    <span class="kwa">int</span> leftIndex <span class="opt">=</span> rawLeftIndex <span class="opt">-</span> rawLeftIndex <span class="opt">/</span> LINE_LENGTH<span class="opt">;</span>
+                    <span class="kwa">int</span> rightIndex <span class="opt">=</span> realDataLength <span class="opt">-</span> leftIndex <span class="opt">-</span> <span class="num">1</span><span class="opt">;</span>
 
-                    int rawRightIndex = rightIndex + rightIndex / (LINE_LENGTH - 1);
+                    <span class="kwa">int</span> rawRightIndex <span class="opt">=</span> rightIndex <span class="opt">+</span> rightIndex <span class="opt">/ (</span>LINE_LENGTH <span class="opt">-</span> <span class="num">1</span><span class="opt">);</span>
 
-                    int leftChunkIndex = i;
-                    int rightChunkIndex = ceilDiv(rawRightIndex + titleLength, Chunk.CHUNK_SIZE) - 1;
+                    <span class="kwa">int</span> leftChunkIndex <span class="opt">=</span> i<span class="opt">;</span>
+                    <span class="kwa">int</span> rightChunkIndex <span class="opt">=</span> <span class="kwd">ceilDiv</span><span class="opt">(</span>rawRightIndex <span class="opt">+</span> titleLength<span class="opt">,</span> Chunk<span class="opt">.</span>CHUNK_SIZE<span class="opt">) -</span> <span class="num">1</span><span class="opt">;</span>
 
-                    int realLeftIndex = (rawLeftIndex + titleLength) % Chunk.CHUNK_SIZE;
-                    int realRightIndex = (rawRightIndex + titleLength) % Chunk.CHUNK_SIZE;
+                    <span class="kwa">int</span> realLeftIndex <span class="opt">= (</span>rawLeftIndex <span class="opt">+</span> titleLength<span class="opt">) %</span> Chunk<span class="opt">.</span>CHUNK_SIZE<span class="opt">;</span>
+                    <span class="kwa">int</span> realRightIndex <span class="opt">= (</span>rawRightIndex <span class="opt">+</span> titleLength<span class="opt">) %</span> Chunk<span class="opt">.</span>CHUNK_SIZE<span class="opt">;</span>
 
-                    int endIndex = leftEndChunkIndex == leftChunkIndex ? realLeftEndIndex
-                            : chunks.get(leftChunkIndex).length - 1;
+                    <span class="kwa">int</span> endIndex <span class="opt">=</span> leftEndChunkIndex <span class="opt">==</span> leftChunkIndex ? realLeftEndIndex
+                            <span class="opt">:</span> chunks<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>leftChunkIndex<span class="opt">).</span>length <span class="opt">-</span> <span class="num">1</span><span class="opt">;</span>
 
-                    reverse(leftChunkIndex, rightChunkIndex, realLeftIndex, realRightIndex, endIndex);
-                }
+                    <span class="kwd">reverse</span><span class="opt">(</span>leftChunkIndex<span class="opt">,</span> rightChunkIndex<span class="opt">,</span> realLeftIndex<span class="opt">,</span> realRightIndex<span class="opt">,</span> endIndex<span class="opt">);</span>
+                <span class="opt">}</span>
 
-                return null;
-            };
+                <span class="kwa">return</span> <span class="kwb">null</span><span class="opt">;</span>
+            <span class="opt">};</span>
 
-            tasks.add(task);
-        }
+            tasks<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span>task<span class="opt">);</span>
+        <span class="opt">}</span>
 
-        executor.invokeAll(tasks);
-    }
+        executor<span class="opt">.</span><span class="kwd">invokeAll</span><span class="opt">(</span>tasks<span class="opt">);</span>
+    <span class="opt">}</span>
 
-    private void reverse(int leftChunkIndex, int rightChunkIndex, int leftIndex, int rightIndex, int leftEndIndex) {
+    <span class="kwa">private void</span> <span class="kwd">reverse</span><span class="opt">(</span><span class="kwa">int</span> leftChunkIndex<span class="opt">,</span> <span class="kwa">int</span> rightChunkIndex<span class="opt">,</span> <span class="kwa">int</span> leftIndex<span class="opt">,</span> <span class="kwa">int</span> rightIndex<span class="opt">,</span> <span class="kwa">int</span> leftEndIndex<span class="opt">) {</span>
 
-        final byte[] map = Strand.map;
+        <span class="kwa">final byte</span><span class="opt">[]</span> map <span class="opt">=</span> Strand<span class="opt">.</span>map<span class="opt">;</span>
 
-        Chunk leftChunk = chunks.get(leftChunkIndex);
-        Chunk rightChunk = chunks.get(rightChunkIndex);
+        Chunk leftChunk <span class="opt">=</span> chunks<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>leftChunkIndex<span class="opt">);</span>
+        Chunk rightChunk <span class="opt">=</span> chunks<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>rightChunkIndex<span class="opt">);</span>
 
-        byte[] leftBytes = leftChunk.bytes;
-        byte[] rightBytes = rightChunk.bytes;
+        <span class="kwa">byte</span><span class="opt">[]</span> leftBytes <span class="opt">=</span> leftChunk<span class="opt">.</span>bytes<span class="opt">;</span>
+        <span class="kwa">byte</span><span class="opt">[]</span> rightBytes <span class="opt">=</span> rightChunk<span class="opt">.</span>bytes<span class="opt">;</span>
 
-        while (leftIndex &lt;= leftEndIndex) {
-            if (rightIndex &lt; 0) {
-                rightChunk = chunks.get(--rightChunkIndex);
-                rightBytes = rightChunk.bytes;
-                rightIndex = rightChunk.length - 1;
-            }
+        <span class="kwa">while</span> <span class="opt">(</span>leftIndex <span class="opt">&lt;=</span> leftEndIndex<span class="opt">) {</span>
+            <span class="kwa">if</span> <span class="opt">(</span>rightIndex <span class="opt">&lt;</span> <span class="num">0</span><span class="opt">) {</span>
+                rightChunk <span class="opt">=</span> chunks<span class="opt">.</span><span class="kwd">get</span><span class="opt">(--</span>rightChunkIndex<span class="opt">);</span>
+                rightBytes <span class="opt">=</span> rightChunk<span class="opt">.</span>bytes<span class="opt">;</span>
+                rightIndex <span class="opt">=</span> rightChunk<span class="opt">.</span>length <span class="opt">-</span> <span class="num">1</span><span class="opt">;</span>
+            <span class="opt">}</span>
 
-            if (leftBytes[leftIndex] == NEW_LINE) {
-                leftIndex++;
-            }
+            <span class="kwa">if</span> <span class="opt">(</span>leftBytes<span class="opt">[</span>leftIndex<span class="opt">] ==</span> NEW_LINE<span class="opt">) {</span>
+                leftIndex<span class="opt">++;</span>
+            <span class="opt">}</span>
 
-            if (rightBytes[rightIndex] == NEW_LINE) {
-                rightIndex--;
+            <span class="kwa">if</span> <span class="opt">(</span>rightBytes<span class="opt">[</span>rightIndex<span class="opt">] ==</span> NEW_LINE<span class="opt">) {</span>
+                rightIndex<span class="opt">--;</span>
 
-                if (rightIndex &lt; 0) {
-                    rightChunk = chunks.get(--rightChunkIndex);
-                    rightBytes = rightChunk.bytes;
-                    rightIndex = rightChunk.length - 1;
-                }
-            }
+                <span class="kwa">if</span> <span class="opt">(</span>rightIndex <span class="opt">&lt;</span> <span class="num">0</span><span class="opt">) {</span>
+                    rightChunk <span class="opt">=</span> chunks<span class="opt">.</span><span class="kwd">get</span><span class="opt">(--</span>rightChunkIndex<span class="opt">);</span>
+                    rightBytes <span class="opt">=</span> rightChunk<span class="opt">.</span>bytes<span class="opt">;</span>
+                    rightIndex <span class="opt">=</span> rightChunk<span class="opt">.</span>length <span class="opt">-</span> <span class="num">1</span><span class="opt">;</span>
+                <span class="opt">}</span>
+            <span class="opt">}</span>
 
-            if (leftIndex &lt;= leftEndIndex) {
-                byte lByte = leftBytes[leftIndex];
-                byte rByte = rightBytes[rightIndex];
+            <span class="kwa">if</span> <span class="opt">(</span>leftIndex <span class="opt">&lt;=</span> leftEndIndex<span class="opt">) {</span>
+                <span class="kwa">byte</span> lByte <span class="opt">=</span> leftBytes<span class="opt">[</span>leftIndex<span class="opt">];</span>
+                <span class="kwa">byte</span> rByte <span class="opt">=</span> rightBytes<span class="opt">[</span>rightIndex<span class="opt">];</span>
 
-                leftBytes[leftIndex++] = map[rByte];
-                rightBytes[rightIndex--] = map[lByte];
-            }
-        }
+                leftBytes<span class="opt">[</span>leftIndex<span class="opt">++] =</span> map<span class="opt">[</span>rByte<span class="opt">];</span>
+                rightBytes<span class="opt">[</span>rightIndex<span class="opt">--] =</span> map<span class="opt">[</span>lByte<span class="opt">];</span>
+            <span class="opt">}</span>
+        <span class="opt">}</span>
 
-    }
+    <span class="opt">}</span>
 
-    private int ceilDiv(int a, int b) {
-        return (a + b - 1) / b;
-    }
+    <span class="kwa">private int</span> <span class="kwd">ceilDiv</span><span class="opt">(</span><span class="kwa">int</span> a<span class="opt">,</span> <span class="kwa">int</span> b<span class="opt">) {</span>
+        <span class="kwa">return</span> <span class="opt">(</span>a <span class="opt">+</span> b <span class="opt">-</span> <span class="num">1</span><span class="opt">) /</span> b<span class="opt">;</span>
+    <span class="opt">}</span>
 
-    private int getSumLength() {
-        int sumLength = 0;
+    <span class="kwa">private int</span> <span class="kwd">getSumLength</span><span class="opt">() {</span>
+        <span class="kwa">int</span> sumLength <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
 
-        for (int i = 0; i &lt; chunkCount; i++) {
-            sumLength += chunks.get(i).length;
-        }
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> chunkCount<span class="opt">;</span> i<span class="opt">++) {</span>
+            sumLength <span class="opt">+=</span> chunks<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>i<span class="opt">).</span>length<span class="opt">;</span>
+        <span class="opt">}</span>
 
-        return sumLength;
-    }
+        <span class="kwa">return</span> sumLength<span class="opt">;</span>
+    <span class="opt">}</span>
 
-    private int getTitleLength() {
-        Chunk first = chunks.get(0);
-        byte[] bytes = first.bytes;
+    <span class="kwa">private int</span> <span class="kwd">getTitleLength</span><span class="opt">() {</span>
+        Chunk first <span class="opt">=</span> chunks<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span><span class="num">0</span><span class="opt">);</span>
+        <span class="kwa">byte</span><span class="opt">[]</span> bytes <span class="opt">=</span> first<span class="opt">.</span>bytes<span class="opt">;</span>
 
-        for (int i = 0; i &lt; first.length; i++) {
-            if (bytes[i] == NEW_LINE) {
-                return (i + 1);
-            }
-        }
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> first<span class="opt">.</span>length<span class="opt">;</span> i<span class="opt">++) {</span>
+            <span class="kwa">if</span> <span class="opt">(</span>bytes<span class="opt">[</span>i<span class="opt">] ==</span> NEW_LINE<span class="opt">) {</span>
+                <span class="kwa">return</span> <span class="opt">(</span>i <span class="opt">+</span> <span class="num">1</span><span class="opt">);</span>
+            <span class="opt">}</span>
+        <span class="opt">}</span>
 
-        return -1;
-    }
+        <span class="kwa">return</span> <span class="opt">-</span><span class="num">1</span><span class="opt">;</span>
+    <span class="opt">}</span>
 
-    &#64;Override
-    public void close() throws IOException {
-        executor.shutdown();
-    }
+    <span class="kwc">&#64;Override</span>
+    <span class="kwa">public void</span> <span class="kwd">close</span><span class="opt">()</span> <span class="kwa">throws</span> IOException <span class="opt">{</span>
+        executor<span class="opt">.</span><span class="kwd">shutdown</span><span class="opt">();</span>
+    <span class="opt">}</span>
 
-}
+<span class="opt">}</span>
     </pre>
   </section>
   <section>

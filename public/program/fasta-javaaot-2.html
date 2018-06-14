@@ -22,156 +22,156 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/*
- * The Computer Language Benchmarks Game
- * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
- * 
- * modified by Mehmet D. AKIN
- *
- */
+<span class="com">/*</span>
+<span class="com"> * The Computer Language Benchmarks Game</span>
+<span class="com"> * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"> * </span>
+<span class="com"> * modified by Mehmet D. AKIN</span>
+<span class="com"> *</span>
+<span class="com"> */</span>
 
-import java.io.IOException;
-import java.io.OutputStream;
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>IOException<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>OutputStream<span class="opt">;</span>
 
-class fasta {
-    public static final int IM = 139968;
-    public static final int IA = 3877;
-    public static final int IC = 29573;
-    public static int last = 42;
+<span class="kwa">class</span> fasta <span class="opt">{</span>
+    <span class="kwa">public static final int</span> IM <span class="opt">=</span> <span class="num">139968</span><span class="opt">;</span>
+    <span class="kwa">public static final int</span> IA <span class="opt">=</span> <span class="num">3877</span><span class="opt">;</span>
+    <span class="kwa">public static final int</span> IC <span class="opt">=</span> <span class="num">29573</span><span class="opt">;</span>
+    <span class="kwa">public static int</span> last <span class="opt">=</span> <span class="num">42</span><span class="opt">;</span>
 
-    public static final int LINE_LENGTH = 60;
+    <span class="kwa">public static final int</span> LINE_LENGTH <span class="opt">=</span> <span class="num">60</span><span class="opt">;</span>
 
-    // pseudo-random number generator
-    public static final double random(double max) {
-        last = (last * IA + IC) % IM;
-        return max * last / IM;
-    }
+    <span class="slc">// pseudo-random number generator</span>
+    <span class="kwa">public static final double</span> <span class="kwd">random</span><span class="opt">(</span><span class="kwa">double</span> max<span class="opt">) {</span>
+        last <span class="opt">= (</span>last <span class="opt">*</span> IA <span class="opt">+</span> IC<span class="opt">) %</span> IM<span class="opt">;</span>
+        <span class="kwa">return</span> max <span class="opt">*</span> last <span class="opt">/</span> IM<span class="opt">;</span>
+    <span class="opt">}</span>
 
-    // Weighted selection from alphabet
-    public static String ALU = 
-              &quot;GGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGG&quot;
-            + &quot;GAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGA&quot;
-            + &quot;CCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAAT&quot;
-            + &quot;ACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCA&quot;
-            + &quot;GCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGG&quot;
-            + &quot;AGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCC&quot;
-            + &quot;AGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAA&quot;;
-    public static byte[] ALUB = ALU.getBytes(); 
+    <span class="slc">// Weighted selection from alphabet</span>
+    <span class="kwa">public static</span> String ALU <span class="opt">=</span> 
+              <span class="str">&quot;GGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGG&quot;</span>
+            <span class="opt">+</span> <span class="str">&quot;GAGGCCGAGGCGGGCGGATCACCTGAGGTCAGGAGTTCGAGA&quot;</span>
+            <span class="opt">+</span> <span class="str">&quot;CCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAAT&quot;</span>
+            <span class="opt">+</span> <span class="str">&quot;ACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCA&quot;</span>
+            <span class="opt">+</span> <span class="str">&quot;GCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTGAACCCGGG&quot;</span>
+            <span class="opt">+</span> <span class="str">&quot;AGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCC&quot;</span>
+            <span class="opt">+</span> <span class="str">&quot;AGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAA&quot;</span><span class="opt">;</span>
+    <span class="kwa">public static byte</span><span class="opt">[]</span> ALUB <span class="opt">=</span> ALU<span class="opt">.</span><span class="kwd">getBytes</span><span class="opt">();</span> 
 
-    public static final frequency[] IUB = new frequency[] {
-            new frequency(&apos;a&apos;, 0.27), 
-            new frequency(&apos;c&apos;, 0.12),
-            new frequency(&apos;g&apos;, 0.12), 
-            new frequency(&apos;t&apos;, 0.27),
+    <span class="kwa">public static final</span> frequency<span class="opt">[]</span> IUB <span class="opt">=</span> <span class="kwa">new</span> frequency<span class="opt">[] {</span>
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;a&apos;</span><span class="opt">,</span> <span class="num">0.27</span><span class="opt">),</span> 
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;c&apos;</span><span class="opt">,</span> <span class="num">0.12</span><span class="opt">),</span>
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;g&apos;</span><span class="opt">,</span> <span class="num">0.12</span><span class="opt">),</span> 
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;t&apos;</span><span class="opt">,</span> <span class="num">0.27</span><span class="opt">),</span>
             
-            new frequency(&apos;B&apos;, 0.02), 
-            new frequency(&apos;D&apos;, 0.02),
-            new frequency(&apos;H&apos;, 0.02), 
-            new frequency(&apos;K&apos;, 0.02),
-            new frequency(&apos;M&apos;, 0.02), 
-            new frequency(&apos;N&apos;, 0.02),
-            new frequency(&apos;R&apos;, 0.02), 
-            new frequency(&apos;S&apos;, 0.02),
-            new frequency(&apos;V&apos;, 0.02), 
-            new frequency(&apos;W&apos;, 0.02),
-            new frequency(&apos;Y&apos;, 0.02) };
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;B&apos;</span><span class="opt">,</span> <span class="num">0.02</span><span class="opt">),</span> 
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;D&apos;</span><span class="opt">,</span> <span class="num">0.02</span><span class="opt">),</span>
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;H&apos;</span><span class="opt">,</span> <span class="num">0.02</span><span class="opt">),</span> 
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;K&apos;</span><span class="opt">,</span> <span class="num">0.02</span><span class="opt">),</span>
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;M&apos;</span><span class="opt">,</span> <span class="num">0.02</span><span class="opt">),</span> 
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;N&apos;</span><span class="opt">,</span> <span class="num">0.02</span><span class="opt">),</span>
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;R&apos;</span><span class="opt">,</span> <span class="num">0.02</span><span class="opt">),</span> 
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;S&apos;</span><span class="opt">,</span> <span class="num">0.02</span><span class="opt">),</span>
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;V&apos;</span><span class="opt">,</span> <span class="num">0.02</span><span class="opt">),</span> 
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;W&apos;</span><span class="opt">,</span> <span class="num">0.02</span><span class="opt">),</span>
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;Y&apos;</span><span class="opt">,</span> <span class="num">0.02</span><span class="opt">) };</span>
 
-    public static final frequency[] HomoSapiens = new frequency[] {
-            new frequency(&apos;a&apos;, 0.3029549426680d),
-            new frequency(&apos;c&apos;, 0.1979883004921d),
-            new frequency(&apos;g&apos;, 0.1975473066391d),
-            new frequency(&apos;t&apos;, 0.3015094502008d)};
+    <span class="kwa">public static final</span> frequency<span class="opt">[]</span> HomoSapiens <span class="opt">=</span> <span class="kwa">new</span> frequency<span class="opt">[] {</span>
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;a&apos;</span><span class="opt">,</span> <span class="num">0.3029549426680</span>d<span class="opt">),</span>
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;c&apos;</span><span class="opt">,</span> <span class="num">0.1979883004921</span>d<span class="opt">),</span>
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;g&apos;</span><span class="opt">,</span> <span class="num">0.1975473066391</span>d<span class="opt">),</span>
+            <span class="kwa">new</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="str">&apos;t&apos;</span><span class="opt">,</span> <span class="num">0.3015094502008</span>d<span class="opt">)};</span>
 
-    public static void makeCumulative(frequency[] a) {
-        double cp = 0.0;
-        for (int i = 0; i &lt; a.length; i++) {
-            cp += a[i].p;
-            a[i].p = cp;
-        }
-    }
+    <span class="kwa">public static void</span> <span class="kwd">makeCumulative</span><span class="opt">(</span>frequency<span class="opt">[]</span> a<span class="opt">) {</span>
+        <span class="kwa">double</span> cp <span class="opt">=</span> <span class="num">0.0</span><span class="opt">;</span>
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> a<span class="opt">.</span>length<span class="opt">;</span> i<span class="opt">++) {</span>
+            cp <span class="opt">+=</span> a<span class="opt">[</span>i<span class="opt">].</span>p<span class="opt">;</span>
+            a<span class="opt">[</span>i<span class="opt">].</span>p <span class="opt">=</span> cp<span class="opt">;</span>
+        <span class="opt">}</span>
+    <span class="opt">}</span>
 
-    // naive
-    public final static byte selectRandom(frequency[] a) {
-        int len = a.length;
-        double r = random(1.0);
-        for (int i = 0; i &lt; len; i++)
-            if (r &lt; a[i].p)
-                return a[i].c;
-        return a[len - 1].c;
-    }
+    <span class="slc">// naive</span>
+    <span class="kwa">public final static byte</span> <span class="kwd">selectRandom</span><span class="opt">(</span>frequency<span class="opt">[]</span> a<span class="opt">) {</span>
+        <span class="kwa">int</span> len <span class="opt">=</span> a<span class="opt">.</span>length<span class="opt">;</span>
+        <span class="kwa">double</span> r <span class="opt">=</span> <span class="kwd">random</span><span class="opt">(</span><span class="num">1.0</span><span class="opt">);</span>
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> len<span class="opt">;</span> i<span class="opt">++)</span>
+            <span class="kwa">if</span> <span class="opt">(</span>r <span class="opt">&lt;</span> a<span class="opt">[</span>i<span class="opt">].</span>p<span class="opt">)</span>
+                <span class="kwa">return</span> a<span class="opt">[</span>i<span class="opt">].</span>c<span class="opt">;</span>
+        <span class="kwa">return</span> a<span class="opt">[</span>len <span class="opt">-</span> <span class="num">1</span><span class="opt">].</span>c<span class="opt">;</span>
+    <span class="opt">}</span>
 
-    static int BUFFER_SIZE = 1024;
-    static int index = 0;
-    static byte[] bbuffer = new byte[BUFFER_SIZE];
-    static final void makeRandomFasta(String id, String desc,frequency[] a, int n, OutputStream writer) throws IOException
-    {
-        index = 0;
-        int m = 0;
-        String descStr = &quot;&gt;&quot; + id + &quot; &quot; + desc + &apos;\n&apos;; 
-        writer.write(descStr.getBytes());
-        while (n &gt; 0) {
-            if (n &lt; LINE_LENGTH) m = n;  else m = LINE_LENGTH;
-            if(BUFFER_SIZE - index &lt; m){
-                writer.write(bbuffer, 0, index);
-                index = 0;
-            }
-            for (int i = 0; i &lt; m; i++) {
-                bbuffer[index++] = selectRandom(a);
-            }
-            bbuffer[index++] = &apos;\n&apos;;
-            n -= LINE_LENGTH;
-        }
-        if(index != 0) writer.write(bbuffer, 0, index);
-    }    
+    <span class="kwa">static int</span> BUFFER_SIZE <span class="opt">=</span> <span class="num">1024</span><span class="opt">;</span>
+    <span class="kwa">static int</span> index <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+    <span class="kwa">static byte</span><span class="opt">[]</span> bbuffer <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span>BUFFER_SIZE<span class="opt">];</span>
+    <span class="kwa">static final void</span> <span class="kwd">makeRandomFasta</span><span class="opt">(</span>String id<span class="opt">,</span> String desc<span class="opt">,</span>frequency<span class="opt">[]</span> a<span class="opt">,</span> <span class="kwa">int</span> n<span class="opt">,</span> OutputStream writer<span class="opt">)</span> <span class="kwa">throws</span> IOException
+    <span class="opt">{</span>
+        index <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+        <span class="kwa">int</span> m <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+        String descStr <span class="opt">=</span> <span class="str">&quot;&gt;&quot;</span> <span class="opt">+</span> id <span class="opt">+</span> <span class="str">&quot; &quot;</span> <span class="opt">+</span> desc <span class="opt">+</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">;</span> 
+        writer<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>descStr<span class="opt">.</span><span class="kwd">getBytes</span><span class="opt">());</span>
+        <span class="kwa">while</span> <span class="opt">(</span>n <span class="opt">&gt;</span> <span class="num">0</span><span class="opt">) {</span>
+            <span class="kwa">if</span> <span class="opt">(</span>n <span class="opt">&lt;</span> LINE_LENGTH<span class="opt">)</span> m <span class="opt">=</span> n<span class="opt">;</span>  <span class="kwa">else</span> m <span class="opt">=</span> LINE_LENGTH<span class="opt">;</span>
+            <span class="kwa">if</span><span class="opt">(</span>BUFFER_SIZE <span class="opt">-</span> index <span class="opt">&lt;</span> m<span class="opt">){</span>
+                writer<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>bbuffer<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> index<span class="opt">);</span>
+                index <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+            <span class="opt">}</span>
+            <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> m<span class="opt">;</span> i<span class="opt">++) {</span>
+                bbuffer<span class="opt">[</span>index<span class="opt">++] =</span> <span class="kwd">selectRandom</span><span class="opt">(</span>a<span class="opt">);</span>
+            <span class="opt">}</span>
+            bbuffer<span class="opt">[</span>index<span class="opt">++] =</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">;</span>
+            n <span class="opt">-=</span> LINE_LENGTH<span class="opt">;</span>
+        <span class="opt">}</span>
+        <span class="kwa">if</span><span class="opt">(</span>index <span class="opt">!=</span> <span class="num">0</span><span class="opt">)</span> writer<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>bbuffer<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> index<span class="opt">);</span>
+    <span class="opt">}</span>    
     
-    static final void makeRepeatFasta(String id, String desc, String alu, int n, OutputStream writer) throws IOException
-    {
-        index = 0;
-        int m = 0;
-        int k = 0;
-        int kn = ALUB.length;
-        String descStr = &quot;&gt;&quot; + id + &quot; &quot; + desc + &apos;\n&apos;; 
-        writer.write(descStr.getBytes());
-        while (n &gt; 0) {
-            if (n &lt; LINE_LENGTH) m = n; else m = LINE_LENGTH;
-            if(BUFFER_SIZE - index &lt; m){
-                writer.write(bbuffer, 0, index);
-                index = 0;
-            }
-            for (int i = 0; i &lt; m; i++) {
-                if (k == kn) k = 0;
-                bbuffer[index++] = ALUB[k];
-                k++;
-            }
-            bbuffer[index++] = &apos;\n&apos;;
-            n -= LINE_LENGTH;
-        }
-        if(index != 0) writer.write(bbuffer, 0, index);
-    }
+    <span class="kwa">static final void</span> <span class="kwd">makeRepeatFasta</span><span class="opt">(</span>String id<span class="opt">,</span> String desc<span class="opt">,</span> String alu<span class="opt">,</span> <span class="kwa">int</span> n<span class="opt">,</span> OutputStream writer<span class="opt">)</span> <span class="kwa">throws</span> IOException
+    <span class="opt">{</span>
+        index <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+        <span class="kwa">int</span> m <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+        <span class="kwa">int</span> k <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+        <span class="kwa">int</span> kn <span class="opt">=</span> ALUB<span class="opt">.</span>length<span class="opt">;</span>
+        String descStr <span class="opt">=</span> <span class="str">&quot;&gt;&quot;</span> <span class="opt">+</span> id <span class="opt">+</span> <span class="str">&quot; &quot;</span> <span class="opt">+</span> desc <span class="opt">+</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">;</span> 
+        writer<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>descStr<span class="opt">.</span><span class="kwd">getBytes</span><span class="opt">());</span>
+        <span class="kwa">while</span> <span class="opt">(</span>n <span class="opt">&gt;</span> <span class="num">0</span><span class="opt">) {</span>
+            <span class="kwa">if</span> <span class="opt">(</span>n <span class="opt">&lt;</span> LINE_LENGTH<span class="opt">)</span> m <span class="opt">=</span> n<span class="opt">;</span> <span class="kwa">else</span> m <span class="opt">=</span> LINE_LENGTH<span class="opt">;</span>
+            <span class="kwa">if</span><span class="opt">(</span>BUFFER_SIZE <span class="opt">-</span> index <span class="opt">&lt;</span> m<span class="opt">){</span>
+                writer<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>bbuffer<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> index<span class="opt">);</span>
+                index <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+            <span class="opt">}</span>
+            <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> m<span class="opt">;</span> i<span class="opt">++) {</span>
+                <span class="kwa">if</span> <span class="opt">(</span>k <span class="opt">==</span> kn<span class="opt">)</span> k <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+                bbuffer<span class="opt">[</span>index<span class="opt">++] =</span> ALUB<span class="opt">[</span>k<span class="opt">];</span>
+                k<span class="opt">++;</span>
+            <span class="opt">}</span>
+            bbuffer<span class="opt">[</span>index<span class="opt">++] =</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">;</span>
+            n <span class="opt">-=</span> LINE_LENGTH<span class="opt">;</span>
+        <span class="opt">}</span>
+        <span class="kwa">if</span><span class="opt">(</span>index <span class="opt">!=</span> <span class="num">0</span><span class="opt">)</span> writer<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>bbuffer<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> index<span class="opt">);</span>
+    <span class="opt">}</span>
     
-    public static void main(String[] args) throws IOException {
-        makeCumulative(HomoSapiens);
-        makeCumulative(IUB);
-        int n = 2500000;
-        if (args.length &gt; 0)
-            n = Integer.parseInt(args[0]);
-        OutputStream out = System.out;
-        makeRepeatFasta(&quot;ONE&quot;, &quot;Homo sapiens alu&quot;, ALU, n * 2, out);
-        makeRandomFasta(&quot;TWO&quot;, &quot;IUB ambiguity codes&quot;, IUB, n * 3, out);
-        makeRandomFasta(&quot;THREE&quot;, &quot;Homo sapiens frequency&quot;, HomoSapiens, n * 5, out);
-        out.close();
-    }
+    <span class="kwa">public static void</span> <span class="kwd">main</span><span class="opt">(</span>String<span class="opt">[]</span> args<span class="opt">)</span> <span class="kwa">throws</span> IOException <span class="opt">{</span>
+        <span class="kwd">makeCumulative</span><span class="opt">(</span>HomoSapiens<span class="opt">);</span>
+        <span class="kwd">makeCumulative</span><span class="opt">(</span>IUB<span class="opt">);</span>
+        <span class="kwa">int</span> n <span class="opt">=</span> <span class="num">2500000</span><span class="opt">;</span>
+        <span class="kwa">if</span> <span class="opt">(</span>args<span class="opt">.</span>length <span class="opt">&gt;</span> <span class="num">0</span><span class="opt">)</span>
+            n <span class="opt">=</span> Integer<span class="opt">.</span><span class="kwd">parseInt</span><span class="opt">(</span>args<span class="opt">[</span><span class="num">0</span><span class="opt">]);</span>
+        OutputStream out <span class="opt">=</span> System<span class="opt">.</span>out<span class="opt">;</span>
+        <span class="kwd">makeRepeatFasta</span><span class="opt">(</span><span class="str">&quot;ONE&quot;</span><span class="opt">,</span> <span class="str">&quot;Homo sapiens alu&quot;</span><span class="opt">,</span> ALU<span class="opt">,</span> n <span class="opt">*</span> <span class="num">2</span><span class="opt">,</span> out<span class="opt">);</span>
+        <span class="kwd">makeRandomFasta</span><span class="opt">(</span><span class="str">&quot;TWO&quot;</span><span class="opt">,</span> <span class="str">&quot;IUB ambiguity codes&quot;</span><span class="opt">,</span> IUB<span class="opt">,</span> n <span class="opt">*</span> <span class="num">3</span><span class="opt">,</span> out<span class="opt">);</span>
+        <span class="kwd">makeRandomFasta</span><span class="opt">(</span><span class="str">&quot;THREE&quot;</span><span class="opt">,</span> <span class="str">&quot;Homo sapiens frequency&quot;</span><span class="opt">,</span> HomoSapiens<span class="opt">,</span> n <span class="opt">*</span> <span class="num">5</span><span class="opt">,</span> out<span class="opt">);</span>
+        out<span class="opt">.</span><span class="kwd">close</span><span class="opt">();</span>
+    <span class="opt">}</span>
 
-    public static class frequency {
-        public byte c;
-        public double p;
+    <span class="kwa">public static class</span> frequency <span class="opt">{</span>
+        <span class="kwa">public byte</span> c<span class="opt">;</span>
+        <span class="kwa">public double</span> p<span class="opt">;</span>
 
-        public frequency(char c, double p) {
-            this.c = (byte)c;
-            this.p = p;
-        }
-    }
-}
+        <span class="kwa">public</span> <span class="kwd">frequency</span><span class="opt">(</span><span class="kwa">char</span> c<span class="opt">,</span> <span class="kwa">double</span> p<span class="opt">) {</span>
+            <span class="kwa">this</span><span class="opt">.</span>c <span class="opt">= (</span><span class="kwa">byte</span><span class="opt">)</span>c<span class="opt">;</span>
+            <span class="kwa">this</span><span class="opt">.</span>p <span class="opt">=</span> p<span class="opt">;</span>
+        <span class="opt">}</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
     </pre>
   </section>
   <section>

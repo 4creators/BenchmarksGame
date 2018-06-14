@@ -22,241 +22,241 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/* The Computer Language Benchmarks Game
-   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
- 
-   contributed by Leonhard Holz
-   thanks to Anthony Donnefort for the basic mapping idea
-*/
+<span class="com">/* The Computer Language Benchmarks Game</span>
+<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"> </span>
+<span class="com">   contributed by Leonhard Holz</span>
+<span class="com">   thanks to Anthony Donnefort for the basic mapping idea</span>
+<span class="com">*/</span>
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>IOException<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>ArrayList<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>Collections<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>LinkedList<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>List<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>concurrent<span class="opt">.</span>ExecutorService<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>concurrent<span class="opt">.</span>Executors<span class="opt">;</span>
 
-public class revcomp
-{
-   private static final byte[] map = new byte[256];      
-   private static final int CHUNK_SIZE = 1024 * 1024 * 16;
-   private static final int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
-   private static final ExecutorService service = Executors.newFixedThreadPool(NUMBER_OF_CORES);
-   private static final List&lt;byte[]&gt; list = Collections.synchronizedList(new ArrayList&lt;byte[]&gt;());
+<span class="kwa">public class</span> revcomp
+<span class="opt">{</span>
+   <span class="kwa">private static final byte</span><span class="opt">[]</span> map <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span><span class="num">256</span><span class="opt">];</span>      
+   <span class="kwa">private static final int</span> CHUNK_SIZE <span class="opt">=</span> <span class="num">1024</span> <span class="opt">*</span> <span class="num">1024</span> <span class="opt">*</span> <span class="num">16</span><span class="opt">;</span>
+   <span class="kwa">private static final int</span> NUMBER_OF_CORES <span class="opt">=</span> Runtime<span class="opt">.</span><span class="kwd">getRuntime</span><span class="opt">().</span><span class="kwd">availableProcessors</span><span class="opt">();</span>
+   <span class="kwa">private static final</span> ExecutorService service <span class="opt">=</span> Executors<span class="opt">.</span><span class="kwd">newFixedThreadPool</span><span class="opt">(</span>NUMBER_OF_CORES<span class="opt">);</span>
+   <span class="kwa">private static final</span> List<span class="opt">&lt;</span><span class="kwa">byte</span><span class="opt">[]&gt;</span> list <span class="opt">=</span> Collections<span class="opt">.</span><span class="kwd">synchronizedList</span><span class="opt">(</span><span class="kwa">new</span> ArrayList<span class="opt">&lt;</span><span class="kwa">byte</span><span class="opt">[]&gt;());</span>
 
-   static {
-      for (int i = 0; i &lt; map.length; i++) {
-         map[i] = (byte) i;
-      }
-       map[&apos;t&apos;] = map[&apos;T&apos;] = &apos;A&apos;;
-       map[&apos;a&apos;] = map[&apos;A&apos;] = &apos;T&apos;;
-       map[&apos;g&apos;] = map[&apos;G&apos;] = &apos;C&apos;;
-       map[&apos;c&apos;] = map[&apos;C&apos;] = &apos;G&apos;;
-       map[&apos;v&apos;] = map[&apos;V&apos;] = &apos;B&apos;;
-       map[&apos;h&apos;] = map[&apos;H&apos;] = &apos;D&apos;;
-       map[&apos;r&apos;] = map[&apos;R&apos;] = &apos;Y&apos;;
-       map[&apos;m&apos;] = map[&apos;M&apos;] = &apos;K&apos;;
-       map[&apos;y&apos;] = map[&apos;Y&apos;] = &apos;R&apos;;
-       map[&apos;k&apos;] = map[&apos;K&apos;] = &apos;M&apos;;
-       map[&apos;b&apos;] = map[&apos;B&apos;] = &apos;V&apos;;
-       map[&apos;d&apos;] = map[&apos;D&apos;] = &apos;H&apos;;
-       map[&apos;u&apos;] = map[&apos;U&apos;] = &apos;A&apos;;
-   }
+   <span class="kwa">static</span> <span class="opt">{</span>
+      <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> map<span class="opt">.</span>length<span class="opt">;</span> i<span class="opt">++) {</span>
+         map<span class="opt">[</span>i<span class="opt">] = (</span><span class="kwa">byte</span><span class="opt">)</span> i<span class="opt">;</span>
+      <span class="opt">}</span>
+       map<span class="opt">[</span><span class="str">&apos;t&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;T&apos;</span><span class="opt">] =</span> <span class="str">&apos;A&apos;</span><span class="opt">;</span>
+       map<span class="opt">[</span><span class="str">&apos;a&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;A&apos;</span><span class="opt">] =</span> <span class="str">&apos;T&apos;</span><span class="opt">;</span>
+       map<span class="opt">[</span><span class="str">&apos;g&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;G&apos;</span><span class="opt">] =</span> <span class="str">&apos;C&apos;</span><span class="opt">;</span>
+       map<span class="opt">[</span><span class="str">&apos;c&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;C&apos;</span><span class="opt">] =</span> <span class="str">&apos;G&apos;</span><span class="opt">;</span>
+       map<span class="opt">[</span><span class="str">&apos;v&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;V&apos;</span><span class="opt">] =</span> <span class="str">&apos;B&apos;</span><span class="opt">;</span>
+       map<span class="opt">[</span><span class="str">&apos;h&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;H&apos;</span><span class="opt">] =</span> <span class="str">&apos;D&apos;</span><span class="opt">;</span>
+       map<span class="opt">[</span><span class="str">&apos;r&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;R&apos;</span><span class="opt">] =</span> <span class="str">&apos;Y&apos;</span><span class="opt">;</span>
+       map<span class="opt">[</span><span class="str">&apos;m&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;M&apos;</span><span class="opt">] =</span> <span class="str">&apos;K&apos;</span><span class="opt">;</span>
+       map<span class="opt">[</span><span class="str">&apos;y&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;Y&apos;</span><span class="opt">] =</span> <span class="str">&apos;R&apos;</span><span class="opt">;</span>
+       map<span class="opt">[</span><span class="str">&apos;k&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;K&apos;</span><span class="opt">] =</span> <span class="str">&apos;M&apos;</span><span class="opt">;</span>
+       map<span class="opt">[</span><span class="str">&apos;b&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;B&apos;</span><span class="opt">] =</span> <span class="str">&apos;V&apos;</span><span class="opt">;</span>
+       map<span class="opt">[</span><span class="str">&apos;d&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;D&apos;</span><span class="opt">] =</span> <span class="str">&apos;H&apos;</span><span class="opt">;</span>
+       map<span class="opt">[</span><span class="str">&apos;u&apos;</span><span class="opt">] =</span> map<span class="opt">[</span><span class="str">&apos;U&apos;</span><span class="opt">] =</span> <span class="str">&apos;A&apos;</span><span class="opt">;</span>
+   <span class="opt">}</span>
 
-   public static void main(String[] args) throws IOException
-   {
-      int read;
-      byte[] buffer;
-      Finder lastFinder = null; 
+   <span class="kwa">public static void</span> <span class="kwd">main</span><span class="opt">(</span>String<span class="opt">[]</span> args<span class="opt">)</span> <span class="kwa">throws</span> IOException
+   <span class="opt">{</span>
+      <span class="kwa">int</span> read<span class="opt">;</span>
+      <span class="kwa">byte</span><span class="opt">[]</span> buffer<span class="opt">;</span>
+      Finder lastFinder <span class="opt">=</span> <span class="kwb">null</span><span class="opt">;</span> 
       
-      do {
-         buffer = new byte[CHUNK_SIZE];
-         read = System.in.read(buffer);
-         list.add(buffer);
+      <span class="kwa">do</span> <span class="opt">{</span>
+         buffer <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span>CHUNK_SIZE<span class="opt">];</span>
+         read <span class="opt">=</span> System<span class="opt">.</span>in<span class="opt">.</span><span class="kwd">read</span><span class="opt">(</span>buffer<span class="opt">);</span>
+         list<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span>buffer<span class="opt">);</span>
 
-         Finder finder = new Finder(buffer, read, lastFinder);
-         service.execute(finder);
-         lastFinder = finder;
+         Finder finder <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">Finder</span><span class="opt">(</span>buffer<span class="opt">,</span> read<span class="opt">,</span> lastFinder<span class="opt">);</span>
+         service<span class="opt">.</span><span class="kwd">execute</span><span class="opt">(</span>finder<span class="opt">);</span>
+         lastFinder <span class="opt">=</span> finder<span class="opt">;</span>
 
-      } while (read == CHUNK_SIZE);
+      <span class="opt">}</span> <span class="kwa">while</span> <span class="opt">(</span>read <span class="opt">==</span> CHUNK_SIZE<span class="opt">);</span>
 
-      Status status = lastFinder.finish();
-      Mapper mapper = new Mapper(status.lastFinding, status.count - 1, status.lastMapper);
-      service.execute(mapper);
+      Status status <span class="opt">=</span> lastFinder<span class="opt">.</span><span class="kwd">finish</span><span class="opt">();</span>
+      Mapper mapper <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">Mapper</span><span class="opt">(</span>status<span class="opt">.</span>lastFinding<span class="opt">,</span> status<span class="opt">.</span>count <span class="opt">-</span> <span class="num">1</span><span class="opt">,</span> status<span class="opt">.</span>lastMapper<span class="opt">);</span>
+      service<span class="opt">.</span><span class="kwd">execute</span><span class="opt">(</span>mapper<span class="opt">);</span>
 
-      service.shutdown();
-   }
+      service<span class="opt">.</span><span class="kwd">shutdown</span><span class="opt">();</span>
+   <span class="opt">}</span>
 
-   private static final class Status
-   {
-      private int count = 0;
-      private int lastFinding = 0;
-      private Mapper lastMapper = null;
-   }
+   <span class="kwa">private static final class</span> Status
+   <span class="opt">{</span>
+      <span class="kwa">private int</span> count <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+      <span class="kwa">private int</span> lastFinding <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+      <span class="kwa">private</span> Mapper lastMapper <span class="opt">=</span> <span class="kwb">null</span><span class="opt">;</span>
+   <span class="opt">}</span>
    
-   private static final class Finder implements Runnable
-   {
-      private int size;
-      private byte[] a;
-      private Status status;
-      private Finder previous;
-      private boolean done = false;
+   <span class="kwa">private static final class</span> Finder <span class="kwa">implements</span> Runnable
+   <span class="opt">{</span>
+      <span class="kwa">private int</span> size<span class="opt">;</span>
+      <span class="kwa">private byte</span><span class="opt">[]</span> a<span class="opt">;</span>
+      <span class="kwa">private</span> Status status<span class="opt">;</span>
+      <span class="kwa">private</span> Finder previous<span class="opt">;</span>
+      <span class="kwa">private boolean</span> done <span class="opt">=</span> <span class="kwb">false</span><span class="opt">;</span>
       
-      public Finder(byte[] a, int size, Finder previous)
-      {
-         this.a = a;
-         this.size = size;
-         this.previous = previous;
-      }
+      <span class="kwa">public</span> <span class="kwd">Finder</span><span class="opt">(</span><span class="kwa">byte</span><span class="opt">[]</span> a<span class="opt">,</span> <span class="kwa">int</span> size<span class="opt">,</span> Finder previous<span class="opt">)</span>
+      <span class="opt">{</span>
+         <span class="kwa">this</span><span class="opt">.</span>a <span class="opt">=</span> a<span class="opt">;</span>
+         <span class="kwa">this</span><span class="opt">.</span>size <span class="opt">=</span> size<span class="opt">;</span>
+         <span class="kwa">this</span><span class="opt">.</span>previous <span class="opt">=</span> previous<span class="opt">;</span>
+      <span class="opt">}</span>
       
-      public Status finish()
-      {
-         while (!done) try {
-            Thread.sleep(1);
-         } catch (InterruptedException e) {
-            // ignored
-         }
-         return status;
-      }
+      <span class="kwa">public</span> Status <span class="kwd">finish</span><span class="opt">()</span>
+      <span class="opt">{</span>
+         <span class="kwa">while</span> <span class="opt">(!</span>done<span class="opt">)</span> <span class="kwa">try</span> <span class="opt">{</span>
+            Thread<span class="opt">.</span><span class="kwd">sleep</span><span class="opt">(</span><span class="num">1</span><span class="opt">);</span>
+         <span class="opt">}</span> <span class="kwa">catch</span> <span class="opt">(</span>InterruptedException e<span class="opt">) {</span>
+            <span class="slc">// ignored</span>
+         <span class="opt">}</span>
+         <span class="kwa">return</span> status<span class="opt">;</span>
+      <span class="opt">}</span>
 
-      public void run()
-      {
-         LinkedList&lt;Integer&gt; findings = new LinkedList&lt;Integer&gt;();
+      <span class="kwa">public void</span> <span class="kwd">run</span><span class="opt">()</span>
+      <span class="opt">{</span>
+         LinkedList<span class="opt">&lt;</span>Integer<span class="opt">&gt;</span> findings <span class="opt">=</span> <span class="kwa">new</span> LinkedList<span class="opt">&lt;</span>Integer<span class="opt">&gt;();</span>
 
-         for (int i = 0; i &lt; size; i++) {
-            if (a[i] == &apos;&gt;&apos;) {
-               findings.add(i);
-            }
-         }
+         <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> size<span class="opt">;</span> i<span class="opt">++) {</span>
+            <span class="kwa">if</span> <span class="opt">(</span>a<span class="opt">[</span>i<span class="opt">] ==</span> <span class="str">&apos;&gt;&apos;</span><span class="opt">) {</span>
+               findings<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span>i<span class="opt">);</span>
+            <span class="opt">}</span>
+         <span class="opt">}</span>
       
-         if (previous == null) {
-            status = new Status();
-         } else {
-            status = previous.finish();
-            findings.add(0, status.lastFinding);
-            for (int i = 1; i &lt; findings.size(); i++) {
-               findings.set(i, findings.get(i) + status.count);
-            }
-         }
+         <span class="kwa">if</span> <span class="opt">(</span>previous <span class="opt">==</span> <span class="kwb">null</span><span class="opt">) {</span>
+            status <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">Status</span><span class="opt">();</span>
+         <span class="opt">}</span> <span class="kwa">else</span> <span class="opt">{</span>
+            status <span class="opt">=</span> previous<span class="opt">.</span><span class="kwd">finish</span><span class="opt">();</span>
+            findings<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span><span class="num">0</span><span class="opt">,</span> status<span class="opt">.</span>lastFinding<span class="opt">);</span>
+            <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">1</span><span class="opt">;</span> i <span class="opt">&lt;</span> findings<span class="opt">.</span><span class="kwd">size</span><span class="opt">();</span> i<span class="opt">++) {</span>
+               findings<span class="opt">.</span><span class="kwd">set</span><span class="opt">(</span>i<span class="opt">,</span> findings<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>i<span class="opt">) +</span> status<span class="opt">.</span>count<span class="opt">);</span>
+            <span class="opt">}</span>
+         <span class="opt">}</span>
       
-         if (findings.size() &gt; 1) for (int i = 0; i &lt; findings.size() - 1; i++) {
-            status.lastMapper = new Mapper(findings.get(i), findings.get(i + 1) - 1, status.lastMapper);
-            service.execute(status.lastMapper);
-         }
+         <span class="kwa">if</span> <span class="opt">(</span>findings<span class="opt">.</span><span class="kwd">size</span><span class="opt">() &gt;</span> <span class="num">1</span><span class="opt">)</span> <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> findings<span class="opt">.</span><span class="kwd">size</span><span class="opt">() -</span> <span class="num">1</span><span class="opt">;</span> i<span class="opt">++) {</span>
+            status<span class="opt">.</span>lastMapper <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">Mapper</span><span class="opt">(</span>findings<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>i<span class="opt">),</span> findings<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>i <span class="opt">+</span> <span class="num">1</span><span class="opt">) -</span> <span class="num">1</span><span class="opt">,</span> status<span class="opt">.</span>lastMapper<span class="opt">);</span>
+            service<span class="opt">.</span><span class="kwd">execute</span><span class="opt">(</span>status<span class="opt">.</span>lastMapper<span class="opt">);</span>
+         <span class="opt">}</span>
          
-         status.lastFinding = findings.get(findings.size() - 1);
-         status.count += size;
-         done = true;
-      }
-   }
+         status<span class="opt">.</span>lastFinding <span class="opt">=</span> findings<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>findings<span class="opt">.</span><span class="kwd">size</span><span class="opt">() -</span> <span class="num">1</span><span class="opt">);</span>
+         status<span class="opt">.</span>count <span class="opt">+=</span> size<span class="opt">;</span>
+         done <span class="opt">=</span> <span class="kwb">true</span><span class="opt">;</span>
+      <span class="opt">}</span>
+   <span class="opt">}</span>
    
-   private static final class Mapper implements Runnable
-   {
-      private int end;
-      private int start;
-      private Mapper previous;
-      private boolean done = false;
+   <span class="kwa">private static final class</span> Mapper <span class="kwa">implements</span> Runnable
+   <span class="opt">{</span>
+      <span class="kwa">private int</span> end<span class="opt">;</span>
+      <span class="kwa">private int</span> start<span class="opt">;</span>
+      <span class="kwa">private</span> Mapper previous<span class="opt">;</span>
+      <span class="kwa">private boolean</span> done <span class="opt">=</span> <span class="kwb">false</span><span class="opt">;</span>
       
-      public Mapper(int start, int end, Mapper previous)
-      {
-         this.end = end;
-         this.start = start;
-         this.previous = previous;
-      }
+      <span class="kwa">public</span> <span class="kwd">Mapper</span><span class="opt">(</span><span class="kwa">int</span> start<span class="opt">,</span> <span class="kwa">int</span> end<span class="opt">,</span> Mapper previous<span class="opt">)</span>
+      <span class="opt">{</span>
+         <span class="kwa">this</span><span class="opt">.</span>end <span class="opt">=</span> end<span class="opt">;</span>
+         <span class="kwa">this</span><span class="opt">.</span>start <span class="opt">=</span> start<span class="opt">;</span>
+         <span class="kwa">this</span><span class="opt">.</span>previous <span class="opt">=</span> previous<span class="opt">;</span>
+      <span class="opt">}</span>
       
-      public void finish()
-      {
-         while (!done) try {
-            Thread.sleep(1);
-         } catch (InterruptedException e) {
-            // ignored
-         }
-      }
+      <span class="kwa">public void</span> <span class="kwd">finish</span><span class="opt">()</span>
+      <span class="opt">{</span>
+         <span class="kwa">while</span> <span class="opt">(!</span>done<span class="opt">)</span> <span class="kwa">try</span> <span class="opt">{</span>
+            Thread<span class="opt">.</span><span class="kwd">sleep</span><span class="opt">(</span><span class="num">1</span><span class="opt">);</span>
+         <span class="opt">}</span> <span class="kwa">catch</span> <span class="opt">(</span>InterruptedException e<span class="opt">) {</span>
+            <span class="slc">// ignored</span>
+         <span class="opt">}</span>
+      <span class="opt">}</span>
 
-      public void run()
-      {
-         int[] positions = find(list, start, end);
+      <span class="kwa">public void</span> <span class="kwd">run</span><span class="opt">()</span>
+      <span class="opt">{</span>
+         <span class="kwa">int</span><span class="opt">[]</span> positions <span class="opt">=</span> <span class="kwd">find</span><span class="opt">(</span>list<span class="opt">,</span> start<span class="opt">,</span> end<span class="opt">);</span>
          
-         int lp1 = positions[0];
-         byte[] tob = list.get(lp1);
+         <span class="kwa">int</span> lp1 <span class="opt">=</span> positions<span class="opt">[</span><span class="num">0</span><span class="opt">];</span>
+         <span class="kwa">byte</span><span class="opt">[]</span> tob <span class="opt">=</span> list<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>lp1<span class="opt">);</span>
 
-         int lp2 = positions[2];
-         byte[] bot = list.get(lp2);
+         <span class="kwa">int</span> lp2 <span class="opt">=</span> positions<span class="opt">[</span><span class="num">2</span><span class="opt">];</span>
+         <span class="kwa">byte</span><span class="opt">[]</span> bot <span class="opt">=</span> list<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>lp2<span class="opt">);</span>
          
-         int p1 = positions[1];
-         while (tob[p1] != &apos;\n&apos;) p1++;
+         <span class="kwa">int</span> p1 <span class="opt">=</span> positions<span class="opt">[</span><span class="num">1</span><span class="opt">];</span>
+         <span class="kwa">while</span> <span class="opt">(</span>tob<span class="opt">[</span>p1<span class="opt">] !=</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">)</span> p1<span class="opt">++;</span>
 
-         int p2 = positions[3];
+         <span class="kwa">int</span> p2 <span class="opt">=</span> positions<span class="opt">[</span><span class="num">3</span><span class="opt">];</span>
       
-         while (lp1 &lt; lp2 || p1 &lt; p2) {
-            if (tob[p1] == &apos;\n&apos;) {
-               p1++;
-            } else if (bot[p2] == &apos;\n&apos;) {
-               p2--;
-            } else {
-               byte tmp = tob[p1];
-               tob[p1] = map[bot[p2]];
-               bot[p2] = map[tmp];
-               p1++;
-               p2--;
-            }
-            if (p1 == tob.length) {
-               lp1++;
-               tob = list.get(lp1);
-               p1 = 0;
-            }
-            if (p2 == -1) {
-               lp2--;
-               bot = list.get(lp2);
-               p2 = bot.length - 1;
-            }
-         }
+         <span class="kwa">while</span> <span class="opt">(</span>lp1 <span class="opt">&lt;</span> lp2 <span class="opt">||</span> p1 <span class="opt">&lt;</span> p2<span class="opt">) {</span>
+            <span class="kwa">if</span> <span class="opt">(</span>tob<span class="opt">[</span>p1<span class="opt">] ==</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">) {</span>
+               p1<span class="opt">++;</span>
+            <span class="opt">}</span> <span class="kwa">else if</span> <span class="opt">(</span>bot<span class="opt">[</span>p2<span class="opt">] ==</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">) {</span>
+               p2<span class="opt">--;</span>
+            <span class="opt">}</span> <span class="kwa">else</span> <span class="opt">{</span>
+               <span class="kwa">byte</span> tmp <span class="opt">=</span> tob<span class="opt">[</span>p1<span class="opt">];</span>
+               tob<span class="opt">[</span>p1<span class="opt">] =</span> map<span class="opt">[</span>bot<span class="opt">[</span>p2<span class="opt">]];</span>
+               bot<span class="opt">[</span>p2<span class="opt">] =</span> map<span class="opt">[</span>tmp<span class="opt">];</span>
+               p1<span class="opt">++;</span>
+               p2<span class="opt">--;</span>
+            <span class="opt">}</span>
+            <span class="kwa">if</span> <span class="opt">(</span>p1 <span class="opt">==</span> tob<span class="opt">.</span>length<span class="opt">) {</span>
+               lp1<span class="opt">++;</span>
+               tob <span class="opt">=</span> list<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>lp1<span class="opt">);</span>
+               p1 <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+            <span class="opt">}</span>
+            <span class="kwa">if</span> <span class="opt">(</span>p2 <span class="opt">== -</span><span class="num">1</span><span class="opt">) {</span>
+               lp2<span class="opt">--;</span>
+               bot <span class="opt">=</span> list<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>lp2<span class="opt">);</span>
+               p2 <span class="opt">=</span> bot<span class="opt">.</span>length <span class="opt">-</span> <span class="num">1</span><span class="opt">;</span>
+            <span class="opt">}</span>
+         <span class="opt">}</span>
 
-         if (previous != null) {
-            previous.finish();
-         }
+         <span class="kwa">if</span> <span class="opt">(</span>previous <span class="opt">!=</span> <span class="kwb">null</span><span class="opt">) {</span>
+            previous<span class="opt">.</span><span class="kwd">finish</span><span class="opt">();</span>
+         <span class="opt">}</span>
 
-         write(list, positions[0], positions[1], positions[2], positions[3]);
-         done = true;
-      }
-   }
+         <span class="kwd">write</span><span class="opt">(</span>list<span class="opt">,</span> positions<span class="opt">[</span><span class="num">0</span><span class="opt">],</span> positions<span class="opt">[</span><span class="num">1</span><span class="opt">],</span> positions<span class="opt">[</span><span class="num">2</span><span class="opt">],</span> positions<span class="opt">[</span><span class="num">3</span><span class="opt">]);</span>
+         done <span class="opt">=</span> <span class="kwb">true</span><span class="opt">;</span>
+      <span class="opt">}</span>
+   <span class="opt">}</span>
 
-   private static void write(List&lt;byte[]&gt; list, int lpStart, int start, int lpEnd, int end)
-   {
-      byte[] a = list.get(lpStart);
-      while (lpStart &lt; lpEnd) {
-         System.out.write(a, start, a.length - start);
-         lpStart++;
-         a = list.get(lpStart);
-         start = 0;
-      }
-      System.out.write(a, start, end - start + 1);
-   }
+   <span class="kwa">private static void</span> <span class="kwd">write</span><span class="opt">(</span>List<span class="opt">&lt;</span><span class="kwa">byte</span><span class="opt">[]&gt;</span> list<span class="opt">,</span> <span class="kwa">int</span> lpStart<span class="opt">,</span> <span class="kwa">int</span> start<span class="opt">,</span> <span class="kwa">int</span> lpEnd<span class="opt">,</span> <span class="kwa">int</span> end<span class="opt">)</span>
+   <span class="opt">{</span>
+      <span class="kwa">byte</span><span class="opt">[]</span> a <span class="opt">=</span> list<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>lpStart<span class="opt">);</span>
+      <span class="kwa">while</span> <span class="opt">(</span>lpStart <span class="opt">&lt;</span> lpEnd<span class="opt">) {</span>
+         System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>a<span class="opt">,</span> start<span class="opt">,</span> a<span class="opt">.</span>length <span class="opt">-</span> start<span class="opt">);</span>
+         lpStart<span class="opt">++;</span>
+         a <span class="opt">=</span> list<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>lpStart<span class="opt">);</span>
+         start <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+      <span class="opt">}</span>
+      System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>a<span class="opt">,</span> start<span class="opt">,</span> end <span class="opt">-</span> start <span class="opt">+</span> <span class="num">1</span><span class="opt">);</span>
+   <span class="opt">}</span>
    
-   private static int[] find(List&lt;byte[]&gt; list, int start, int end)
-   {
-      int n = 0, lp = 0;
-      int[] result = new int[4];
-      boolean foundStart = false;
+   <span class="kwa">private static int</span><span class="opt">[]</span> <span class="kwd">find</span><span class="opt">(</span>List<span class="opt">&lt;</span><span class="kwa">byte</span><span class="opt">[]&gt;</span> list<span class="opt">,</span> <span class="kwa">int</span> start<span class="opt">,</span> <span class="kwa">int</span> end<span class="opt">)</span>
+   <span class="opt">{</span>
+      <span class="kwa">int</span> n <span class="opt">=</span> <span class="num">0</span><span class="opt">,</span> lp <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+      <span class="kwa">int</span><span class="opt">[]</span> result <span class="opt">=</span> <span class="kwa">new int</span><span class="opt">[</span><span class="num">4</span><span class="opt">];</span>
+      <span class="kwa">boolean</span> foundStart <span class="opt">=</span> <span class="kwb">false</span><span class="opt">;</span>
 
-      for (byte[] bytes : list) {
-         if (!foundStart &amp;&amp; n + bytes.length &gt; start) {
-            result[0] = lp;
-            result[1] = start - n;
-            foundStart = true;
-         }
-         if (foundStart &amp;&amp; n + bytes.length &gt; end) {
-            result[2] = lp;
-            result[3] = end - n;
-            break;
-         }
-         n += bytes.length;
-         lp++;
-      }
-      return result;
-   }   
-}
+      <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">byte</span><span class="opt">[]</span> bytes <span class="opt">:</span> list<span class="opt">) {</span>
+         <span class="kwa">if</span> <span class="opt">(!</span>foundStart <span class="opt">&amp;&amp;</span> n <span class="opt">+</span> bytes<span class="opt">.</span>length <span class="opt">&gt;</span> start<span class="opt">) {</span>
+            result<span class="opt">[</span><span class="num">0</span><span class="opt">] =</span> lp<span class="opt">;</span>
+            result<span class="opt">[</span><span class="num">1</span><span class="opt">] =</span> start <span class="opt">-</span> n<span class="opt">;</span>
+            foundStart <span class="opt">=</span> <span class="kwb">true</span><span class="opt">;</span>
+         <span class="opt">}</span>
+         <span class="kwa">if</span> <span class="opt">(</span>foundStart <span class="opt">&amp;&amp;</span> n <span class="opt">+</span> bytes<span class="opt">.</span>length <span class="opt">&gt;</span> end<span class="opt">) {</span>
+            result<span class="opt">[</span><span class="num">2</span><span class="opt">] =</span> lp<span class="opt">;</span>
+            result<span class="opt">[</span><span class="num">3</span><span class="opt">] =</span> end <span class="opt">-</span> n<span class="opt">;</span>
+            <span class="kwa">break</span><span class="opt">;</span>
+         <span class="opt">}</span>
+         n <span class="opt">+=</span> bytes<span class="opt">.</span>length<span class="opt">;</span>
+         lp<span class="opt">++;</span>
+      <span class="opt">}</span>
+      <span class="kwa">return</span> result<span class="opt">;</span>
+   <span class="opt">}</span>   
+<span class="opt">}</span>
     </pre>
   </section>
   <section>

@@ -22,163 +22,163 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/*
- * The Computer Language Benchmarks Game
- * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+<span class="com">/*</span>
+<span class="com"> * The Computer Language Benchmarks Game</span>
+<span class="com"> * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"></span>
+<span class="com"> * contributed by Tao Lei</span>
+<span class="com"> */</span>
 
- * contributed by Tao Lei
- */
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>InputStream<span class="opt">;</span>
 
-import java.io.InputStream;
+<span class="kwa">public class</span> revcomp <span class="opt">{</span>
 
-public class revcomp {
+   <span class="kwa">static final</span> String transFrom    <span class="opt">=</span> <span class="str">&quot;ACGTUMRWSYKVHDBN&quot;</span><span class="opt">;</span>
+   <span class="kwa">static final</span> String transTo    <span class="opt">=</span> <span class="str">&quot;TGCAAKYWSRMBDHVN&quot;</span><span class="opt">;</span>
+   <span class="kwa">static final byte</span><span class="opt">[]</span> transMap <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span><span class="num">128</span><span class="opt">];</span>
+   <span class="kwa">static</span> <span class="opt">{</span>
+      <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span>i<span class="opt">&lt;</span>transMap<span class="opt">.</span>length<span class="opt">;</span>i<span class="opt">++)</span> transMap<span class="opt">[</span>i<span class="opt">] = (</span><span class="kwa">byte</span><span class="opt">)</span>i<span class="opt">;</span>
+      <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span>i<span class="opt">&lt;</span>transFrom<span class="opt">.</span><span class="kwd">length</span><span class="opt">();</span>i<span class="opt">++)</span>
+      <span class="opt">{</span>
+         <span class="kwa">char</span> c <span class="opt">=</span> transFrom<span class="opt">.</span><span class="kwd">charAt</span><span class="opt">(</span>i<span class="opt">);</span>
+         transMap<span class="opt">[</span>c<span class="opt">] =</span> transMap<span class="opt">[</span>Character<span class="opt">.</span><span class="kwd">toLowerCase</span><span class="opt">(</span>c<span class="opt">)] = (</span><span class="kwa">byte</span><span class="opt">)</span>transTo<span class="opt">.</span><span class="kwd">charAt</span><span class="opt">(</span>i<span class="opt">);</span>
+      <span class="opt">}</span>
+   <span class="opt">}</span>
+   <span class="kwa">static byte</span><span class="opt">[]</span> buffer <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span><span class="num">65536</span><span class="opt">];</span>
+   <span class="kwa">static</span> InputStream in <span class="opt">=</span> System<span class="opt">.</span>in<span class="opt">;</span>
+   <span class="kwa">static int</span> pos<span class="opt">,</span>limit<span class="opt">;</span>
+   <span class="kwa">static int</span> start<span class="opt">,</span>end<span class="opt">;</span>
+   <span class="kwa">static int</span> <span class="kwd">endPos</span><span class="opt">()</span>
+   <span class="opt">{</span>
+      <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> off<span class="opt">=</span>pos<span class="opt">;</span>off<span class="opt">&lt;</span>limit<span class="opt">;</span>off<span class="opt">++)</span>
+      <span class="opt">{</span>
+         <span class="kwa">if</span><span class="opt">(</span>buffer<span class="opt">[</span>off<span class="opt">] ==</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">)</span>
+            <span class="kwa">return</span> off<span class="opt">;</span>
+      <span class="opt">}</span>
+      <span class="kwa">return</span> <span class="opt">-</span><span class="num">1</span><span class="opt">;</span>
+   <span class="opt">}</span>
+   <span class="kwa">static boolean</span> <span class="kwd">nextLine</span><span class="opt">()</span> <span class="kwa">throws</span> Exception
+   <span class="opt">{</span>
+      <span class="kwa">for</span><span class="opt">(;;)</span>
+      <span class="opt">{</span>
+         end <span class="opt">=</span> <span class="kwd">endPos</span><span class="opt">();</span>
+         <span class="kwa">if</span><span class="opt">(</span>end <span class="opt">&gt;=</span> <span class="num">0</span><span class="opt">)</span>
+         <span class="opt">{</span>
+            start <span class="opt">=</span> pos<span class="opt">;</span>
+            pos <span class="opt">=</span> end<span class="opt">+</span><span class="num">1</span><span class="opt">;</span>
+            <span class="kwa">if</span><span class="opt">(</span>buffer<span class="opt">[</span>end<span class="opt">-</span><span class="num">1</span><span class="opt">]==</span> <span class="str">&apos;</span><span class="esc">\r</span><span class="str">&apos;</span><span class="opt">)</span>
+               end <span class="opt">--;</span>
+            <span class="kwa">while</span><span class="opt">(</span>buffer<span class="opt">[</span>start<span class="opt">]==</span><span class="str">&apos; &apos;</span><span class="opt">)</span> start<span class="opt">++;</span>
+            <span class="kwa">while</span><span class="opt">(</span>end<span class="opt">&gt;</span>start <span class="opt">&amp;&amp;</span> buffer<span class="opt">[</span>end<span class="opt">-</span><span class="num">1</span><span class="opt">] ==</span> <span class="str">&apos; &apos;</span><span class="opt">)</span> end<span class="opt">--;</span>
+            <span class="kwa">if</span><span class="opt">(</span>end <span class="opt">&gt;</span> start<span class="opt">)</span>
+               <span class="kwa">return</span> <span class="kwb">true</span><span class="opt">;</span>
+         <span class="opt">}</span>
+         <span class="kwa">else</span>
+         <span class="opt">{</span>
+            <span class="kwa">if</span><span class="opt">(</span>pos <span class="opt">&gt;</span> <span class="num">0</span> <span class="opt">&amp;&amp;</span> limit <span class="opt">&gt;</span> pos<span class="opt">)</span>
+            <span class="opt">{</span>
+               limit<span class="opt">-=</span>pos<span class="opt">;</span>
+               System<span class="opt">.</span><span class="kwd">arraycopy</span><span class="opt">(</span>buffer<span class="opt">,</span>pos<span class="opt">,</span>buffer<span class="opt">,</span><span class="num">0</span><span class="opt">,</span>limit<span class="opt">);</span>
+               pos <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+            <span class="opt">}</span>
+            <span class="kwa">else</span>
+            <span class="opt">{</span>
+               pos<span class="opt">=</span>limit<span class="opt">=</span><span class="num">0</span><span class="opt">;</span>
+            <span class="opt">}</span>
+            <span class="kwa">int</span> r <span class="opt">=</span> in<span class="opt">.</span><span class="kwd">read</span><span class="opt">(</span>buffer<span class="opt">,</span> limit<span class="opt">,</span> buffer<span class="opt">.</span>length<span class="opt">-</span>limit<span class="opt">);</span>
+            <span class="kwa">if</span><span class="opt">(</span>r<span class="opt">&lt;</span><span class="num">0</span><span class="opt">)</span>
+               <span class="kwa">return</span> <span class="kwb">false</span><span class="opt">;</span>
+            limit <span class="opt">+=</span> r<span class="opt">;</span>
+         <span class="opt">}</span>
+      <span class="opt">}</span>
+   <span class="opt">}</span>
+   <span class="kwa">static int</span> LINE_WIDTH <span class="opt">=</span><span class="num">0</span><span class="opt">;</span> 
+   <span class="kwa">static byte</span><span class="opt">[]</span> data <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span><span class="num">1</span><span class="opt">&lt;&lt;</span><span class="num">20</span><span class="opt">];</span>
+   <span class="kwa">static int</span> size<span class="opt">;</span> 
+   <span class="kwa">static byte</span><span class="opt">[]</span> outputBuffer <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span><span class="num">65536</span><span class="opt">];</span>
+   <span class="kwa">static int</span> outputPos <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+   <span class="kwa">static void</span> <span class="kwd">flushData</span><span class="opt">()</span> <span class="kwa">throws</span> Exception
+   <span class="opt">{</span>
+      System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>outputBuffer<span class="opt">,</span><span class="num">0</span><span class="opt">,</span>outputPos<span class="opt">);</span>
+      outputPos <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+   <span class="opt">}</span>
+   <span class="kwa">static void</span> <span class="kwd">prepareWrite</span><span class="opt">(</span><span class="kwa">int</span> len<span class="opt">)</span> <span class="kwa">throws</span> Exception
+   <span class="opt">{</span>
+      <span class="kwa">if</span><span class="opt">(</span>outputPos <span class="opt">+</span> len <span class="opt">&gt;</span> outputBuffer<span class="opt">.</span>length<span class="opt">)</span>
+         <span class="kwd">flushData</span><span class="opt">();</span>
+   <span class="opt">}</span>
+   <span class="kwa">static void</span> <span class="kwd">write</span><span class="opt">(</span><span class="kwa">int</span> b<span class="opt">)</span> <span class="kwa">throws</span> Exception
+   <span class="opt">{</span>
+      outputBuffer<span class="opt">[</span>outputPos<span class="opt">++] = (</span><span class="kwa">byte</span><span class="opt">)</span>b<span class="opt">;</span>
+   <span class="opt">}</span>
+   <span class="kwa">static void</span> <span class="kwd">write</span><span class="opt">(</span><span class="kwa">byte</span><span class="opt">[]</span> b<span class="opt">,</span><span class="kwa">int</span> off<span class="opt">,</span><span class="kwa">int</span> len<span class="opt">)</span> <span class="kwa">throws</span> Exception
+   <span class="opt">{</span>
+      <span class="kwd">prepareWrite</span><span class="opt">(</span>len<span class="opt">);</span>
+      System<span class="opt">.</span><span class="kwd">arraycopy</span><span class="opt">(</span>b<span class="opt">,</span>off<span class="opt">,</span>outputBuffer<span class="opt">,</span>outputPos<span class="opt">,</span>len<span class="opt">);</span>
+      outputPos <span class="opt">+=</span> len<span class="opt">;</span>
+   <span class="opt">}</span>
+   <span class="kwa">static void</span> <span class="kwd">finishData</span><span class="opt">()</span> <span class="kwa">throws</span> Exception
+   <span class="opt">{</span>
+      <span class="kwa">while</span><span class="opt">(</span>size <span class="opt">&gt;</span> <span class="num">0</span><span class="opt">)</span>
+      <span class="opt">{</span>
+         <span class="kwa">int</span> len <span class="opt">=</span> Math<span class="opt">.</span><span class="kwd">min</span><span class="opt">(</span>LINE_WIDTH<span class="opt">,</span>size<span class="opt">);</span>
+         <span class="kwd">prepareWrite</span><span class="opt">(</span>len <span class="opt">+</span> <span class="num">1</span><span class="opt">);</span>
+         <span class="kwa">while</span><span class="opt">(</span>len<span class="opt">-- !=</span> <span class="num">0</span><span class="opt">)</span>
+         <span class="opt">{</span>
+            <span class="kwd">write</span><span class="opt">(</span>data<span class="opt">[--</span>size<span class="opt">]);</span>
+         <span class="opt">}</span>
+         <span class="kwd">write</span><span class="opt">(</span><span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">);</span>
+      <span class="opt">}</span>
+      <span class="kwd">resetData</span><span class="opt">();</span>
+   <span class="opt">}</span>
+   <span class="kwa">static void</span> <span class="kwd">resetData</span><span class="opt">()</span>
+   <span class="opt">{</span>
+      LINE_WIDTH <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+      size <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+   <span class="opt">}</span>
+   <span class="kwa">static void</span> <span class="kwd">appendLine</span><span class="opt">()</span> <span class="kwa">throws</span> Exception
+   <span class="opt">{</span>
+      <span class="kwa">int</span> len <span class="opt">=</span> end<span class="opt">-</span>start<span class="opt">;</span>
+      <span class="kwa">if</span><span class="opt">(</span>LINE_WIDTH<span class="opt">==</span><span class="num">0</span><span class="opt">)</span> LINE_WIDTH <span class="opt">=</span> len<span class="opt">;</span>
+      <span class="kwa">if</span><span class="opt">(</span>size <span class="opt">+</span> len <span class="opt">&gt;</span> data<span class="opt">.</span>length<span class="opt">)</span>
+      <span class="opt">{</span>
+         <span class="kwa">byte</span><span class="opt">[]</span> data0 <span class="opt">=</span> data<span class="opt">;</span>
+         data <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span>data<span class="opt">.</span>length<span class="opt">*</span><span class="num">2</span><span class="opt">];</span>
+         System<span class="opt">.</span><span class="kwd">arraycopy</span><span class="opt">(</span>data0<span class="opt">,</span><span class="num">0</span><span class="opt">,</span>data<span class="opt">,</span><span class="num">0</span><span class="opt">,</span>size<span class="opt">);</span>
+      <span class="opt">}</span>
+      <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span>start<span class="opt">;</span>i<span class="opt">&lt;</span>end<span class="opt">;</span>i<span class="opt">++)</span>
+      <span class="opt">{</span>
+         data<span class="opt">[</span>size<span class="opt">++] =</span> transMap<span class="opt">[</span>buffer<span class="opt">[</span>i<span class="opt">]];</span>
+      <span class="opt">}</span>
+   <span class="opt">}</span>
+   <span class="kwa">static void</span> <span class="kwd">solve</span><span class="opt">(</span>InputStream ins<span class="opt">)</span> <span class="kwa">throws</span> Exception
+   <span class="opt">{</span>
+      in <span class="opt">=</span> ins<span class="opt">;</span>
+      pos <span class="opt">=</span> limit <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+      outputPos <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+      <span class="kwd">resetData</span><span class="opt">();</span>
+      <span class="kwa">while</span><span class="opt">(</span><span class="kwd">nextLine</span><span class="opt">())</span>
+      <span class="opt">{</span>
+         <span class="kwa">if</span><span class="opt">(</span>buffer<span class="opt">[</span>start<span class="opt">] ==</span> <span class="str">&apos;&gt;&apos;</span><span class="opt">)</span>
+         <span class="opt">{</span>
+            <span class="kwd">finishData</span><span class="opt">();</span>
+            <span class="kwd">write</span><span class="opt">(</span>buffer<span class="opt">,</span>start<span class="opt">,</span>pos<span class="opt">-</span>start<span class="opt">);</span>
+         <span class="opt">}</span>
+         <span class="kwa">else</span>
+         <span class="opt">{</span>
+            <span class="kwd">appendLine</span><span class="opt">();</span>
+         <span class="opt">}</span>
+      <span class="opt">}</span>
+      <span class="kwd">finishData</span><span class="opt">();</span>
+      <span class="kwa">if</span><span class="opt">(</span>outputPos <span class="opt">&gt;</span> <span class="num">0</span><span class="opt">)</span> <span class="kwd">flushData</span><span class="opt">();</span>
+      System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">flush</span><span class="opt">();</span>
+   <span class="opt">}</span>
+   <span class="kwa">public static void</span> <span class="kwd">main</span><span class="opt">(</span>String<span class="opt">[]</span> args<span class="opt">)</span> <span class="kwa">throws</span> Exception 
+   <span class="opt">{</span>
+      <span class="kwd">solve</span><span class="opt">(</span>System<span class="opt">.</span>in<span class="opt">);</span>
+   <span class="opt">}</span>
 
-   static final String transFrom    = &quot;ACGTUMRWSYKVHDBN&quot;;
-   static final String transTo    = &quot;TGCAAKYWSRMBDHVN&quot;;
-   static final byte[] transMap = new byte[128];
-   static {
-      for(int i=0;i&lt;transMap.length;i++) transMap[i] = (byte)i;
-      for(int i=0;i&lt;transFrom.length();i++)
-      {
-         char c = transFrom.charAt(i);
-         transMap[c] = transMap[Character.toLowerCase(c)] = (byte)transTo.charAt(i);
-      }
-   }
-   static byte[] buffer = new byte[65536];
-   static InputStream in = System.in;
-   static int pos,limit;
-   static int start,end;
-   static int endPos()
-   {
-      for(int off=pos;off&lt;limit;off++)
-      {
-         if(buffer[off] == &apos;\n&apos;)
-            return off;
-      }
-      return -1;
-   }
-   static boolean nextLine() throws Exception
-   {
-      for(;;)
-      {
-         end = endPos();
-         if(end &gt;= 0)
-         {
-            start = pos;
-            pos = end+1;
-            if(buffer[end-1]== &apos;\r&apos;)
-               end --;
-            while(buffer[start]==&apos; &apos;) start++;
-            while(end&gt;start &amp;&amp; buffer[end-1] == &apos; &apos;) end--;
-            if(end &gt; start)
-               return true;
-         }
-         else
-         {
-            if(pos &gt; 0 &amp;&amp; limit &gt; pos)
-            {
-               limit-=pos;
-               System.arraycopy(buffer,pos,buffer,0,limit);
-               pos = 0;
-            }
-            else
-            {
-               pos=limit=0;
-            }
-            int r = in.read(buffer, limit, buffer.length-limit);
-            if(r&lt;0)
-               return false;
-            limit += r;
-         }
-      }
-   }
-   static int LINE_WIDTH =0; 
-   static byte[] data = new byte[1&lt;&lt;20];
-   static int size; 
-   static byte[] outputBuffer = new byte[65536];
-   static int outputPos = 0;
-   static void flushData() throws Exception
-   {
-      System.out.write(outputBuffer,0,outputPos);
-      outputPos = 0;
-   }
-   static void prepareWrite(int len) throws Exception
-   {
-      if(outputPos + len &gt; outputBuffer.length)
-         flushData();
-   }
-   static void write(int b) throws Exception
-   {
-      outputBuffer[outputPos++] = (byte)b;
-   }
-   static void write(byte[] b,int off,int len) throws Exception
-   {
-      prepareWrite(len);
-      System.arraycopy(b,off,outputBuffer,outputPos,len);
-      outputPos += len;
-   }
-   static void finishData() throws Exception
-   {
-      while(size &gt; 0)
-      {
-         int len = Math.min(LINE_WIDTH,size);
-         prepareWrite(len + 1);
-         while(len-- != 0)
-         {
-            write(data[--size]);
-         }
-         write(&apos;\n&apos;);
-      }
-      resetData();
-   }
-   static void resetData()
-   {
-      LINE_WIDTH = 0;
-      size = 0;
-   }
-   static void appendLine() throws Exception
-   {
-      int len = end-start;
-      if(LINE_WIDTH==0) LINE_WIDTH = len;
-      if(size + len &gt; data.length)
-      {
-         byte[] data0 = data;
-         data = new byte[data.length*2];
-         System.arraycopy(data0,0,data,0,size);
-      }
-      for(int i=start;i&lt;end;i++)
-      {
-         data[size++] = transMap[buffer[i]];
-      }
-   }
-   static void solve(InputStream ins) throws Exception
-   {
-      in = ins;
-      pos = limit = 0;
-      outputPos = 0;
-      resetData();
-      while(nextLine())
-      {
-         if(buffer[start] == &apos;&gt;&apos;)
-         {
-            finishData();
-            write(buffer,start,pos-start);
-         }
-         else
-         {
-            appendLine();
-         }
-      }
-      finishData();
-      if(outputPos &gt; 0) flushData();
-      System.out.flush();
-   }
-   public static void main(String[] args) throws Exception 
-   {
-      solve(System.in);
-   }
-
-}
+<span class="opt">}</span>
     </pre>
   </section>
   <section>

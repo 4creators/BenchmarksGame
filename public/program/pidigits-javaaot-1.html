@@ -22,129 +22,129 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/* The Computer Language Benchmarks Game
-   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
- 
-   contributed by Isaac Gouy
-*/
+<span class="com">/* The Computer Language Benchmarks Game</span>
+<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"> </span>
+<span class="com">   contributed by Isaac Gouy</span>
+<span class="com">*/</span>
 
-import java.math.BigInteger;
+<span class="kwa">import</span> java<span class="opt">.</span>math<span class="opt">.</span>BigInteger<span class="opt">;</span>
 
-public class pidigits {
-   static final int L = 10;
+<span class="kwa">public class</span> pidigits <span class="opt">{</span>
+   <span class="kwa">static final int</span> L <span class="opt">=</span> <span class="num">10</span><span class="opt">;</span>
 
-   public static void main(String args[]) { 
-      int n = Integer.parseInt(args[0]);
-      int j = 0;
+   <span class="kwa">public static void</span> <span class="kwd">main</span><span class="opt">(</span>String args<span class="opt">[]) {</span> 
+      <span class="kwa">int</span> n <span class="opt">=</span> Integer<span class="opt">.</span><span class="kwd">parseInt</span><span class="opt">(</span>args<span class="opt">[</span><span class="num">0</span><span class="opt">]);</span>
+      <span class="kwa">int</span> j <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
    
-      PiDigitSpigot digits = new PiDigitSpigot();
+      PiDigitSpigot digits <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">PiDigitSpigot</span><span class="opt">();</span>
       
-      while (n &gt; 0){
-         if (n &gt;= L){
-            for (int i=0; i&lt;L; i++) System.out.print( digits.next() );
-            j += L;
-         } else {
-            for (int i=0; i&lt;n; i++) System.out.print( digits.next() );
-            for (int i=n; i&lt;L; i++) System.out.print(&quot; &quot;);  
-            j += n;   
-         }
-         System.out.print(&quot;\t:&quot;); System.out.println(j);
-         n -= L;           
-      }               
-   }
-}
+      <span class="kwa">while</span> <span class="opt">(</span>n <span class="opt">&gt;</span> <span class="num">0</span><span class="opt">){</span>
+         <span class="kwa">if</span> <span class="opt">(</span>n <span class="opt">&gt;=</span> L<span class="opt">){</span>
+            <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span> i<span class="opt">&lt;</span>L<span class="opt">;</span> i<span class="opt">++)</span> System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">print</span><span class="opt">(</span> digits<span class="opt">.</span><span class="kwd">next</span><span class="opt">() );</span>
+            j <span class="opt">+=</span> L<span class="opt">;</span>
+         <span class="opt">}</span> <span class="kwa">else</span> <span class="opt">{</span>
+            <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span> i<span class="opt">&lt;</span>n<span class="opt">;</span> i<span class="opt">++)</span> System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">print</span><span class="opt">(</span> digits<span class="opt">.</span><span class="kwd">next</span><span class="opt">() );</span>
+            <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span>n<span class="opt">;</span> i<span class="opt">&lt;</span>L<span class="opt">;</span> i<span class="opt">++)</span> System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">print</span><span class="opt">(</span><span class="str">&quot; &quot;</span><span class="opt">);</span>  
+            j <span class="opt">+=</span> n<span class="opt">;</span>   
+         <span class="opt">}</span>
+         System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">print</span><span class="opt">(</span><span class="str">&quot;</span><span class="esc">\t</span><span class="str">:&quot;</span><span class="opt">);</span> System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>j<span class="opt">);</span>
+         n <span class="opt">-=</span> L<span class="opt">;</span>           
+      <span class="opt">}</span>               
+   <span class="opt">}</span>
+<span class="opt">}</span>
 
 
-class PiDigitSpigot {
-   Transformation z, x, inverse;            
+<span class="kwa">class</span> PiDigitSpigot <span class="opt">{</span>
+   Transformation z<span class="opt">,</span> x<span class="opt">,</span> inverse<span class="opt">;</span>            
        
-   public PiDigitSpigot(){
-      z = new Transformation(1,0,0,1);
-      x = new Transformation(0,0,0,0);
-      inverse = new Transformation(0,0,0,0);
-   }   
+   <span class="kwa">public</span> <span class="kwd">PiDigitSpigot</span><span class="opt">(){</span>
+      z <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">Transformation</span><span class="opt">(</span><span class="num">1</span><span class="opt">,</span><span class="num">0</span><span class="opt">,</span><span class="num">0</span><span class="opt">,</span><span class="num">1</span><span class="opt">);</span>
+      x <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">Transformation</span><span class="opt">(</span><span class="num">0</span><span class="opt">,</span><span class="num">0</span><span class="opt">,</span><span class="num">0</span><span class="opt">,</span><span class="num">0</span><span class="opt">);</span>
+      inverse <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">Transformation</span><span class="opt">(</span><span class="num">0</span><span class="opt">,</span><span class="num">0</span><span class="opt">,</span><span class="num">0</span><span class="opt">,</span><span class="num">0</span><span class="opt">);</span>
+   <span class="opt">}</span>   
    
-   public int next(){
-      int y = digit();
-      if (isSafe(y)){ 
-         z = produce(y); return y;
-      } else {
-         z = consume( x.next() ); return next();   
-      }
-   }    
+   <span class="kwa">public int</span> <span class="kwd">next</span><span class="opt">(){</span>
+      <span class="kwa">int</span> y <span class="opt">=</span> <span class="kwd">digit</span><span class="opt">();</span>
+      <span class="kwa">if</span> <span class="opt">(</span><span class="kwd">isSafe</span><span class="opt">(</span>y<span class="opt">)){</span> 
+         z <span class="opt">=</span> <span class="kwd">produce</span><span class="opt">(</span>y<span class="opt">);</span> <span class="kwa">return</span> y<span class="opt">;</span>
+      <span class="opt">}</span> <span class="kwa">else</span> <span class="opt">{</span>
+         z <span class="opt">=</span> <span class="kwd">consume</span><span class="opt">(</span> x<span class="opt">.</span><span class="kwd">next</span><span class="opt">() );</span> <span class="kwa">return</span> <span class="kwd">next</span><span class="opt">();</span>   
+      <span class="opt">}</span>
+   <span class="opt">}</span>    
       
-   public int digit(){
-      return z.extract(3);
-   }        
+   <span class="kwa">public int</span> <span class="kwd">digit</span><span class="opt">(){</span>
+      <span class="kwa">return</span> z<span class="opt">.</span><span class="kwd">extract</span><span class="opt">(</span><span class="num">3</span><span class="opt">);</span>
+   <span class="opt">}</span>        
    
-   public boolean isSafe(int digit){
-      return digit == z.extract(4);
-   }   
+   <span class="kwa">public boolean</span> <span class="kwd">isSafe</span><span class="opt">(</span><span class="kwa">int</span> digit<span class="opt">){</span>
+      <span class="kwa">return</span> digit <span class="opt">==</span> z<span class="opt">.</span><span class="kwd">extract</span><span class="opt">(</span><span class="num">4</span><span class="opt">);</span>
+   <span class="opt">}</span>   
    
-   public Transformation produce(int i){
-      return ( inverse.qrst(10,-10*i,0,1) ).compose(z);
-   }     
+   <span class="kwa">public</span> Transformation <span class="kwd">produce</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">){</span>
+      <span class="kwa">return</span> <span class="opt">(</span> inverse<span class="opt">.</span><span class="kwd">qrst</span><span class="opt">(</span><span class="num">10</span><span class="opt">,-</span><span class="num">10</span><span class="opt">*</span>i<span class="opt">,</span><span class="num">0</span><span class="opt">,</span><span class="num">1</span><span class="opt">) ).</span><span class="kwd">compose</span><span class="opt">(</span>z<span class="opt">);</span>
+   <span class="opt">}</span>     
       
-   public Transformation consume(Transformation a){
-      return z.compose(a);
-   }                   
-} 
+   <span class="kwa">public</span> Transformation <span class="kwd">consume</span><span class="opt">(</span>Transformation a<span class="opt">){</span>
+      <span class="kwa">return</span> z<span class="opt">.</span><span class="kwd">compose</span><span class="opt">(</span>a<span class="opt">);</span>
+   <span class="opt">}</span>                   
+<span class="opt">}</span> 
 
 
-class Transformation {
-   BigInteger q, r, s, t;
-   int k;              
+<span class="kwa">class</span> Transformation <span class="opt">{</span>
+   BigInteger q<span class="opt">,</span> r<span class="opt">,</span> s<span class="opt">,</span> t<span class="opt">;</span>
+   <span class="kwa">int</span> k<span class="opt">;</span>              
        
-   public Transformation(int q, int r, int s, int t){
-      this.q = BigInteger.valueOf(q);
-      this.r = BigInteger.valueOf(r);
-      this.s = BigInteger.valueOf(s);
-      this.t = BigInteger.valueOf(t);                  
-      k = 0;
-   }
+   <span class="kwa">public</span> <span class="kwd">Transformation</span><span class="opt">(</span><span class="kwa">int</span> q<span class="opt">,</span> <span class="kwa">int</span> r<span class="opt">,</span> <span class="kwa">int</span> s<span class="opt">,</span> <span class="kwa">int</span> t<span class="opt">){</span>
+      <span class="kwa">this</span><span class="opt">.</span>q <span class="opt">=</span> BigInteger<span class="opt">.</span><span class="kwd">valueOf</span><span class="opt">(</span>q<span class="opt">);</span>
+      <span class="kwa">this</span><span class="opt">.</span>r <span class="opt">=</span> BigInteger<span class="opt">.</span><span class="kwd">valueOf</span><span class="opt">(</span>r<span class="opt">);</span>
+      <span class="kwa">this</span><span class="opt">.</span>s <span class="opt">=</span> BigInteger<span class="opt">.</span><span class="kwd">valueOf</span><span class="opt">(</span>s<span class="opt">);</span>
+      <span class="kwa">this</span><span class="opt">.</span>t <span class="opt">=</span> BigInteger<span class="opt">.</span><span class="kwd">valueOf</span><span class="opt">(</span>t<span class="opt">);</span>                  
+      k <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+   <span class="opt">}</span>
    
-   public Transformation(BigInteger q, BigInteger r, BigInteger s, BigInteger t){
-      this.q = q;
-      this.r = r;
-      this.s = s;
-      this.t = t;                  
-      k = 0;
-   }        
+   <span class="kwa">public</span> <span class="kwd">Transformation</span><span class="opt">(</span>BigInteger q<span class="opt">,</span> BigInteger r<span class="opt">,</span> BigInteger s<span class="opt">,</span> BigInteger t<span class="opt">){</span>
+      <span class="kwa">this</span><span class="opt">.</span>q <span class="opt">=</span> q<span class="opt">;</span>
+      <span class="kwa">this</span><span class="opt">.</span>r <span class="opt">=</span> r<span class="opt">;</span>
+      <span class="kwa">this</span><span class="opt">.</span>s <span class="opt">=</span> s<span class="opt">;</span>
+      <span class="kwa">this</span><span class="opt">.</span>t <span class="opt">=</span> t<span class="opt">;</span>                  
+      k <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+   <span class="opt">}</span>        
    
-   public Transformation next(){
-      k++;
-      q = BigInteger.valueOf(k);
-      r = BigInteger.valueOf(4 * k + 2);
-      s = BigInteger.valueOf(0);
-      t = BigInteger.valueOf(2 * k + 1); 
-      return this;                 
-   }      
+   <span class="kwa">public</span> Transformation <span class="kwd">next</span><span class="opt">(){</span>
+      k<span class="opt">++;</span>
+      q <span class="opt">=</span> BigInteger<span class="opt">.</span><span class="kwd">valueOf</span><span class="opt">(</span>k<span class="opt">);</span>
+      r <span class="opt">=</span> BigInteger<span class="opt">.</span><span class="kwd">valueOf</span><span class="opt">(</span><span class="num">4</span> <span class="opt">*</span> k <span class="opt">+</span> <span class="num">2</span><span class="opt">);</span>
+      s <span class="opt">=</span> BigInteger<span class="opt">.</span><span class="kwd">valueOf</span><span class="opt">(</span><span class="num">0</span><span class="opt">);</span>
+      t <span class="opt">=</span> BigInteger<span class="opt">.</span><span class="kwd">valueOf</span><span class="opt">(</span><span class="num">2</span> <span class="opt">*</span> k <span class="opt">+</span> <span class="num">1</span><span class="opt">);</span> 
+      <span class="kwa">return this</span><span class="opt">;</span>                 
+   <span class="opt">}</span>      
    
-   public int extract(int j){
-      BigInteger bigj = BigInteger.valueOf(j);
-      BigInteger numerator = (q.multiply(bigj)).add(r);
-      BigInteger denominator = (s.multiply(bigj)).add(t);                  
-      return ( numerator.divide(denominator) ).intValue();                    
-   }     
+   <span class="kwa">public int</span> <span class="kwd">extract</span><span class="opt">(</span><span class="kwa">int</span> j<span class="opt">){</span>
+      BigInteger bigj <span class="opt">=</span> BigInteger<span class="opt">.</span><span class="kwd">valueOf</span><span class="opt">(</span>j<span class="opt">);</span>
+      BigInteger numerator <span class="opt">= (</span>q<span class="opt">.</span><span class="kwd">multiply</span><span class="opt">(</span>bigj<span class="opt">)).</span><span class="kwd">add</span><span class="opt">(</span>r<span class="opt">);</span>
+      BigInteger denominator <span class="opt">= (</span>s<span class="opt">.</span><span class="kwd">multiply</span><span class="opt">(</span>bigj<span class="opt">)).</span><span class="kwd">add</span><span class="opt">(</span>t<span class="opt">);</span>                  
+      <span class="kwa">return</span> <span class="opt">(</span> numerator<span class="opt">.</span><span class="kwd">divide</span><span class="opt">(</span>denominator<span class="opt">) ).</span><span class="kwd">intValue</span><span class="opt">();</span>                    
+   <span class="opt">}</span>     
    
-   public Transformation qrst(int q, int r, int s, int t){
-      this.q = BigInteger.valueOf(q);
-      this.r = BigInteger.valueOf(r);
-      this.s = BigInteger.valueOf(s);
-      this.t = BigInteger.valueOf(t); 
-      k = 0;  
-      return this;                             
-   }         
+   <span class="kwa">public</span> Transformation <span class="kwd">qrst</span><span class="opt">(</span><span class="kwa">int</span> q<span class="opt">,</span> <span class="kwa">int</span> r<span class="opt">,</span> <span class="kwa">int</span> s<span class="opt">,</span> <span class="kwa">int</span> t<span class="opt">){</span>
+      <span class="kwa">this</span><span class="opt">.</span>q <span class="opt">=</span> BigInteger<span class="opt">.</span><span class="kwd">valueOf</span><span class="opt">(</span>q<span class="opt">);</span>
+      <span class="kwa">this</span><span class="opt">.</span>r <span class="opt">=</span> BigInteger<span class="opt">.</span><span class="kwd">valueOf</span><span class="opt">(</span>r<span class="opt">);</span>
+      <span class="kwa">this</span><span class="opt">.</span>s <span class="opt">=</span> BigInteger<span class="opt">.</span><span class="kwd">valueOf</span><span class="opt">(</span>s<span class="opt">);</span>
+      <span class="kwa">this</span><span class="opt">.</span>t <span class="opt">=</span> BigInteger<span class="opt">.</span><span class="kwd">valueOf</span><span class="opt">(</span>t<span class="opt">);</span> 
+      k <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>  
+      <span class="kwa">return this</span><span class="opt">;</span>                             
+   <span class="opt">}</span>         
   
-   public Transformation compose(Transformation a){      
-      return new Transformation(
-         q.multiply(a.q)
-         ,(q.multiply(a.r)).add( (r.multiply(a.t)) ) 
-         ,(s.multiply(a.q)).add( (t.multiply(a.s)) ) 
-         ,(s.multiply(a.r)).add( (t.multiply(a.t)) )                   
-         );                    
-   }          
-}
+   <span class="kwa">public</span> Transformation <span class="kwd">compose</span><span class="opt">(</span>Transformation a<span class="opt">){</span>      
+      <span class="kwa">return new</span> <span class="kwd">Transformation</span><span class="opt">(</span>
+         q<span class="opt">.</span><span class="kwd">multiply</span><span class="opt">(</span>a<span class="opt">.</span>q<span class="opt">)</span>
+         <span class="opt">,(</span>q<span class="opt">.</span><span class="kwd">multiply</span><span class="opt">(</span>a<span class="opt">.</span>r<span class="opt">)).</span><span class="kwd">add</span><span class="opt">( (</span>r<span class="opt">.</span><span class="kwd">multiply</span><span class="opt">(</span>a<span class="opt">.</span>t<span class="opt">)) )</span> 
+         <span class="opt">,(</span>s<span class="opt">.</span><span class="kwd">multiply</span><span class="opt">(</span>a<span class="opt">.</span>q<span class="opt">)).</span><span class="kwd">add</span><span class="opt">( (</span>t<span class="opt">.</span><span class="kwd">multiply</span><span class="opt">(</span>a<span class="opt">.</span>s<span class="opt">)) )</span> 
+         <span class="opt">,(</span>s<span class="opt">.</span><span class="kwd">multiply</span><span class="opt">(</span>a<span class="opt">.</span>r<span class="opt">)).</span><span class="kwd">add</span><span class="opt">( (</span>t<span class="opt">.</span><span class="kwd">multiply</span><span class="opt">(</span>a<span class="opt">.</span>t<span class="opt">)) )</span>                   
+         <span class="opt">);</span>                    
+   <span class="opt">}</span>          
+<span class="opt">}</span>
 
 
   

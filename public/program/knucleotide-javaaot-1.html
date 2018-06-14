@@ -22,187 +22,187 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/* The Computer Language Benchmarks Game
- https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
- 
- contributed by James McIlree
- modified by Tagir Valeev
- */
+<span class="com">/* The Computer Language Benchmarks Game</span>
+<span class="com"> https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"> </span>
+<span class="com"> contributed by James McIlree</span>
+<span class="com"> modified by Tagir Valeev</span>
+<span class="com"> */</span>
 
-import it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap;
+<span class="kwa">import</span> it<span class="opt">.</span>unimi<span class="opt">.</span>dsi<span class="opt">.</span>fastutil<span class="opt">.</span>longs<span class="opt">.</span>Long2IntOpenHashMap<span class="opt">;</span>
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>BufferedReader<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>IOException<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>InputStream<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>InputStreamReader<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>nio<span class="opt">.</span>charset<span class="opt">.</span>StandardCharsets<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>AbstractMap<span class="opt">.</span>SimpleEntry<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>ArrayList<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>Comparator<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>List<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>Locale<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>Map<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>Map<span class="opt">.</span>Entry<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>concurrent<span class="opt">.</span>Callable<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>concurrent<span class="opt">.</span>ExecutorService<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>concurrent<span class="opt">.</span>Executors<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>concurrent<span class="opt">.</span>Future<span class="opt">;</span>
 
-public class knucleotide {
-    static final byte[] codes = { -1, 0, -1, 1, 3, -1, -1, 2 };
-    static final char[] nucleotides = { &apos;A&apos;, &apos;C&apos;, &apos;G&apos;, &apos;T&apos; };
+<span class="kwa">public class</span> knucleotide <span class="opt">{</span>
+    <span class="kwa">static final byte</span><span class="opt">[]</span> codes <span class="opt">= { -</span><span class="num">1</span><span class="opt">,</span> <span class="num">0</span><span class="opt">, -</span><span class="num">1</span><span class="opt">,</span> <span class="num">1</span><span class="opt">,</span> <span class="num">3</span><span class="opt">, -</span><span class="num">1</span><span class="opt">, -</span><span class="num">1</span><span class="opt">,</span> <span class="num">2</span> <span class="opt">};</span>
+    <span class="kwa">static final char</span><span class="opt">[]</span> nucleotides <span class="opt">= {</span> <span class="str">&apos;A&apos;</span><span class="opt">,</span> <span class="str">&apos;C&apos;</span><span class="opt">,</span> <span class="str">&apos;G&apos;</span><span class="opt">,</span> <span class="str">&apos;T&apos;</span> <span class="opt">};</span>
 
-    static class Result {
-        Long2IntOpenHashMap map = new Long2IntOpenHashMap();
-        int keyLength;
+    <span class="kwa">static class</span> Result <span class="opt">{</span>
+        Long2IntOpenHashMap map <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">Long2IntOpenHashMap</span><span class="opt">();</span>
+        <span class="kwa">int</span> keyLength<span class="opt">;</span>
     
-        public Result(int keyLength) {
-            this.keyLength = keyLength;
-        }
-    }
+        <span class="kwa">public</span> <span class="kwd">Result</span><span class="opt">(</span><span class="kwa">int</span> keyLength<span class="opt">) {</span>
+            <span class="kwa">this</span><span class="opt">.</span>keyLength <span class="opt">=</span> keyLength<span class="opt">;</span>
+        <span class="opt">}</span>
+    <span class="opt">}</span>
 
-    static ArrayList&lt;Callable&lt;Result&gt;&gt; createFragmentTasks(final byte[] sequence,
-            int[] fragmentLengths) {
-        ArrayList&lt;Callable&lt;Result&gt;&gt; tasks = new ArrayList&lt;&gt;();
-        for (int fragmentLength : fragmentLengths) {
-            for (int index = 0; index &lt; fragmentLength; index++) {
-                int offset = index;
-                tasks.add(() -&gt; createFragmentMap(sequence, offset, fragmentLength));
-            }
-        }
-        return tasks;
-    }
+    <span class="kwa">static</span> ArrayList<span class="opt">&lt;</span>Callable<span class="opt">&lt;</span>Result<span class="opt">&gt;&gt;</span> <span class="kwd">createFragmentTasks</span><span class="opt">(</span><span class="kwa">final byte</span><span class="opt">[]</span> sequence<span class="opt">,</span>
+            <span class="kwa">int</span><span class="opt">[]</span> fragmentLengths<span class="opt">) {</span>
+        ArrayList<span class="opt">&lt;</span>Callable<span class="opt">&lt;</span>Result<span class="opt">&gt;&gt;</span> tasks <span class="opt">=</span> <span class="kwa">new</span> ArrayList<span class="opt">&lt;&gt;();</span>
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> fragmentLength <span class="opt">:</span> fragmentLengths<span class="opt">) {</span>
+            <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> index <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> index <span class="opt">&lt;</span> fragmentLength<span class="opt">;</span> index<span class="opt">++) {</span>
+                <span class="kwa">int</span> offset <span class="opt">=</span> index<span class="opt">;</span>
+                tasks<span class="opt">.</span><span class="kwd">add</span><span class="opt">(() -&gt;</span> <span class="kwd">createFragmentMap</span><span class="opt">(</span>sequence<span class="opt">,</span> offset<span class="opt">,</span> fragmentLength<span class="opt">));</span>
+            <span class="opt">}</span>
+        <span class="opt">}</span>
+        <span class="kwa">return</span> tasks<span class="opt">;</span>
+    <span class="opt">}</span>
 
-    static Result createFragmentMap(byte[] sequence, int offset, int fragmentLength) {
-        Result res = new Result(fragmentLength);
-        Long2IntOpenHashMap map = res.map;
-        int lastIndex = sequence.length - fragmentLength + 1;
-        for (int index = offset; index &lt; lastIndex; index += fragmentLength) {
-            map.addTo(getKey(sequence, index, fragmentLength), 1);
-        }
+    <span class="kwa">static</span> Result <span class="kwd">createFragmentMap</span><span class="opt">(</span><span class="kwa">byte</span><span class="opt">[]</span> sequence<span class="opt">,</span> <span class="kwa">int</span> offset<span class="opt">,</span> <span class="kwa">int</span> fragmentLength<span class="opt">) {</span>
+        Result res <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">Result</span><span class="opt">(</span>fragmentLength<span class="opt">);</span>
+        Long2IntOpenHashMap map <span class="opt">=</span> res<span class="opt">.</span>map<span class="opt">;</span>
+        <span class="kwa">int</span> lastIndex <span class="opt">=</span> sequence<span class="opt">.</span>length <span class="opt">-</span> fragmentLength <span class="opt">+</span> <span class="num">1</span><span class="opt">;</span>
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> index <span class="opt">=</span> offset<span class="opt">;</span> index <span class="opt">&lt;</span> lastIndex<span class="opt">;</span> index <span class="opt">+=</span> fragmentLength<span class="opt">) {</span>
+            map<span class="opt">.</span><span class="kwd">addTo</span><span class="opt">(</span><span class="kwd">getKey</span><span class="opt">(</span>sequence<span class="opt">,</span> index<span class="opt">,</span> fragmentLength<span class="opt">),</span> <span class="num">1</span><span class="opt">);</span>
+        <span class="opt">}</span>
 
-        return res;
-    }
+        <span class="kwa">return</span> res<span class="opt">;</span>
+    <span class="opt">}</span>
 
-    static Result sumTwoMaps(Result map1, Result map2) {
-        map2.map.forEach((key, value) -&gt; map1.map.addTo(key, value));
-        return map1;
-    }
+    <span class="kwa">static</span> Result <span class="kwd">sumTwoMaps</span><span class="opt">(</span>Result map1<span class="opt">,</span> Result map2<span class="opt">) {</span>
+        map2<span class="opt">.</span>map<span class="opt">.</span><span class="kwd">forEach</span><span class="opt">((</span>key<span class="opt">,</span> value<span class="opt">) -&gt;</span> map1<span class="opt">.</span>map<span class="opt">.</span><span class="kwd">addTo</span><span class="opt">(</span>key<span class="opt">,</span> value<span class="opt">));</span>
+        <span class="kwa">return</span> map1<span class="opt">;</span>
+    <span class="opt">}</span>
 
-    static String writeFrequencies(float totalCount, Result frequencies) {
-        List&lt;Entry&lt;String, Integer&gt;&gt; freq = new ArrayList&lt;&gt;(frequencies.map.size());
-        frequencies.map.forEach((key, cnt) -&gt; freq.add(new SimpleEntry&lt;&gt;(keyToString(key,
-                frequencies.keyLength), cnt)));
-        freq.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-        StringBuilder sb = new StringBuilder();
-        for (Entry&lt;String, Integer&gt; entry : freq) {
-            sb.append(String.format(Locale.ENGLISH, &quot;%s %.3f\n&quot;, entry.getKey(),
-                    entry.getValue() * 100.0f / totalCount));
-        }
-        return sb.append(&apos;\n&apos;).toString();
-    }
+    <span class="kwa">static</span> String <span class="kwd">writeFrequencies</span><span class="opt">(</span><span class="kwa">float</span> totalCount<span class="opt">,</span> Result frequencies<span class="opt">) {</span>
+        List<span class="opt">&lt;</span>Entry<span class="opt">&lt;</span>String<span class="opt">,</span> Integer<span class="opt">&gt;&gt;</span> freq <span class="opt">=</span> <span class="kwa">new</span> ArrayList<span class="opt">&lt;&gt;(</span>frequencies<span class="opt">.</span>map<span class="opt">.</span><span class="kwd">size</span><span class="opt">());</span>
+        frequencies<span class="opt">.</span>map<span class="opt">.</span><span class="kwd">forEach</span><span class="opt">((</span>key<span class="opt">,</span> cnt<span class="opt">) -&gt;</span> freq<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span><span class="kwa">new</span> SimpleEntry<span class="opt">&lt;&gt;(</span><span class="kwd">keyToString</span><span class="opt">(</span>key<span class="opt">,</span>
+                frequencies<span class="opt">.</span>keyLength<span class="opt">),</span> cnt<span class="opt">)));</span>
+        freq<span class="opt">.</span><span class="kwd">sort</span><span class="opt">(</span>Map<span class="opt">.</span>Entry<span class="opt">.</span><span class="kwd">comparingByValue</span><span class="opt">(</span>Comparator<span class="opt">.</span><span class="kwd">reverseOrder</span><span class="opt">()));</span>
+        StringBuilder sb <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">StringBuilder</span><span class="opt">();</span>
+        <span class="kwa">for</span> <span class="opt">(</span>Entry<span class="opt">&lt;</span>String<span class="opt">,</span> Integer<span class="opt">&gt;</span> entry <span class="opt">:</span> freq<span class="opt">) {</span>
+            sb<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span>String<span class="opt">.</span><span class="kwd">format</span><span class="opt">(</span>Locale<span class="opt">.</span>ENGLISH<span class="opt">,</span> <span class="str">&quot;%s %.3f</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">,</span> entry<span class="opt">.</span><span class="kwd">getKey</span><span class="opt">(),</span>
+                    entry<span class="opt">.</span><span class="kwd">getValue</span><span class="opt">() *</span> <span class="num">100.0</span>f <span class="opt">/</span> totalCount<span class="opt">));</span>
+        <span class="opt">}</span>
+        <span class="kwa">return</span> sb<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span><span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">).</span><span class="kwd">toString</span><span class="opt">();</span>
+    <span class="opt">}</span>
 
-    static String writeCount(List&lt;Future&lt;Result&gt;&gt; futures, String nucleotideFragment)
-            throws Exception {
-        byte[] key = toCodes(nucleotideFragment.getBytes(StandardCharsets.ISO_8859_1),
-                nucleotideFragment.length());
-        long k = getKey(key, 0, nucleotideFragment.length());
-        int count = 0;
-        for (Future&lt;Result&gt; future : futures) {
-            Result f = future.get();
-            if (f.keyLength == nucleotideFragment.length()) {
-                count += f.map.get(k);
-            }
-        }
+    <span class="kwa">static</span> String <span class="kwd">writeCount</span><span class="opt">(</span>List<span class="opt">&lt;</span>Future<span class="opt">&lt;</span>Result<span class="opt">&gt;&gt;</span> futures<span class="opt">,</span> String nucleotideFragment<span class="opt">)</span>
+            <span class="kwa">throws</span> Exception <span class="opt">{</span>
+        <span class="kwa">byte</span><span class="opt">[]</span> key <span class="opt">=</span> <span class="kwd">toCodes</span><span class="opt">(</span>nucleotideFragment<span class="opt">.</span><span class="kwd">getBytes</span><span class="opt">(</span>StandardCharsets<span class="opt">.</span>ISO_8859_1<span class="opt">),</span>
+                nucleotideFragment<span class="opt">.</span><span class="kwd">length</span><span class="opt">());</span>
+        <span class="kwa">long</span> k <span class="opt">=</span> <span class="kwd">getKey</span><span class="opt">(</span>key<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> nucleotideFragment<span class="opt">.</span><span class="kwd">length</span><span class="opt">());</span>
+        <span class="kwa">int</span> count <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+        <span class="kwa">for</span> <span class="opt">(</span>Future<span class="opt">&lt;</span>Result<span class="opt">&gt;</span> future <span class="opt">:</span> futures<span class="opt">) {</span>
+            Result f <span class="opt">=</span> future<span class="opt">.</span><span class="kwd">get</span><span class="opt">();</span>
+            <span class="kwa">if</span> <span class="opt">(</span>f<span class="opt">.</span>keyLength <span class="opt">==</span> nucleotideFragment<span class="opt">.</span><span class="kwd">length</span><span class="opt">()) {</span>
+                count <span class="opt">+=</span> f<span class="opt">.</span>map<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>k<span class="opt">);</span>
+            <span class="opt">}</span>
+        <span class="opt">}</span>
 
-        return count + &quot;\t&quot; + nucleotideFragment + &apos;\n&apos;;
-    }
+        <span class="kwa">return</span> count <span class="opt">+</span> <span class="str">&quot;</span><span class="esc">\t</span><span class="str">&quot;</span> <span class="opt">+</span> nucleotideFragment <span class="opt">+</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">;</span>
+    <span class="opt">}</span>
 
-    /**
-     * Convert long key to the nucleotides string
-     */
-    static String keyToString(long key, int length) {
-        char[] res = new char[length];
-        for (int i = 0; i &lt; length; i++) {
-            res[length - i - 1] = nucleotides[(int) (key &amp; 0x3)];
-            key &gt;&gt;= 2;
-        }
-        return new String(res);
-    }
+    <span class="com">/**</span>
+<span class="com">     * Convert long key to the nucleotides string</span>
+<span class="com">     */</span>
+    <span class="kwa">static</span> String <span class="kwd">keyToString</span><span class="opt">(</span><span class="kwa">long</span> key<span class="opt">,</span> <span class="kwa">int</span> length<span class="opt">) {</span>
+        <span class="kwa">char</span><span class="opt">[]</span> res <span class="opt">=</span> <span class="kwa">new char</span><span class="opt">[</span>length<span class="opt">];</span>
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> length<span class="opt">;</span> i<span class="opt">++) {</span>
+            res<span class="opt">[</span>length <span class="opt">-</span> i <span class="opt">-</span> <span class="num">1</span><span class="opt">] =</span> nucleotides<span class="opt">[(</span><span class="kwa">int</span><span class="opt">) (</span>key <span class="opt">&amp;</span> <span class="num">0x3</span><span class="opt">)];</span>
+            key <span class="opt">&gt;&gt;=</span> <span class="num">2</span><span class="opt">;</span>
+        <span class="opt">}</span>
+        <span class="kwa">return new</span> <span class="kwd">String</span><span class="opt">(</span>res<span class="opt">);</span>
+    <span class="opt">}</span>
 
-    /**
-     * Get the long key for given byte array of codes at given offset and length
-     * (length must be less than 32)
-     */
-    static long getKey(byte[] arr, int offset, int length) {
-        long key = 0;
-        for (int i = offset; i &lt; offset + length; i++) {
-            key = key * 4 + arr[i];
-        }
-        return key;
-    }
+    <span class="com">/**</span>
+<span class="com">     * Get the long key for given byte array of codes at given offset and length</span>
+<span class="com">     * (length must be less than 32)</span>
+<span class="com">     */</span>
+    <span class="kwa">static long</span> <span class="kwd">getKey</span><span class="opt">(</span><span class="kwa">byte</span><span class="opt">[]</span> arr<span class="opt">,</span> <span class="kwa">int</span> offset<span class="opt">,</span> <span class="kwa">int</span> length<span class="opt">) {</span>
+        <span class="kwa">long</span> key <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> offset<span class="opt">;</span> i <span class="opt">&lt;</span> offset <span class="opt">+</span> length<span class="opt">;</span> i<span class="opt">++) {</span>
+            key <span class="opt">=</span> key <span class="opt">*</span> <span class="num">4</span> <span class="opt">+</span> arr<span class="opt">[</span>i<span class="opt">];</span>
+        <span class="opt">}</span>
+        <span class="kwa">return</span> key<span class="opt">;</span>
+    <span class="opt">}</span>
 
-    /**
-     * Convert given byte array (limiting to given length) containing acgtACGT
-     * to codes (0 = A, 1 = C, 2 = G, 3 = T) and returns new array
-     */
-    static byte[] toCodes(byte[] sequence, int length) {
-        byte[] result = new byte[length];
-        for (int i = 0; i &lt; length; i++) {
-            result[i] = codes[sequence[i] &amp; 0x7];
-        }
-        return result;
-    }
+    <span class="com">/**</span>
+<span class="com">     * Convert given byte array (limiting to given length) containing acgtACGT</span>
+<span class="com">     * to codes (0 = A, 1 = C, 2 = G, 3 = T) and returns new array</span>
+<span class="com">     */</span>
+    <span class="kwa">static byte</span><span class="opt">[]</span> <span class="kwd">toCodes</span><span class="opt">(</span><span class="kwa">byte</span><span class="opt">[]</span> sequence<span class="opt">,</span> <span class="kwa">int</span> length<span class="opt">) {</span>
+        <span class="kwa">byte</span><span class="opt">[]</span> result <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span>length<span class="opt">];</span>
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> length<span class="opt">;</span> i<span class="opt">++) {</span>
+            result<span class="opt">[</span>i<span class="opt">] =</span> codes<span class="opt">[</span>sequence<span class="opt">[</span>i<span class="opt">] &amp;</span> <span class="num">0x7</span><span class="opt">];</span>
+        <span class="opt">}</span>
+        <span class="kwa">return</span> result<span class="opt">;</span>
+    <span class="opt">}</span>
 
-    static byte[] read(InputStream is) throws IOException {
-        String line;
-        BufferedReader in = new BufferedReader(new InputStreamReader(is,
-                StandardCharsets.ISO_8859_1));
-        while ((line = in.readLine()) != null) {
-            if (line.startsWith(&quot;&gt;THREE&quot;))
-                break;
-        }
+    <span class="kwa">static byte</span><span class="opt">[]</span> <span class="kwd">read</span><span class="opt">(</span>InputStream is<span class="opt">)</span> <span class="kwa">throws</span> IOException <span class="opt">{</span>
+        String line<span class="opt">;</span>
+        BufferedReader in <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">BufferedReader</span><span class="opt">(</span><span class="kwa">new</span> <span class="kwd">InputStreamReader</span><span class="opt">(</span>is<span class="opt">,</span>
+                StandardCharsets<span class="opt">.</span>ISO_8859_1<span class="opt">));</span>
+        <span class="kwa">while</span> <span class="opt">((</span>line <span class="opt">=</span> in<span class="opt">.</span><span class="kwd">readLine</span><span class="opt">()) !=</span> <span class="kwb">null</span><span class="opt">) {</span>
+            <span class="kwa">if</span> <span class="opt">(</span>line<span class="opt">.</span><span class="kwd">startsWith</span><span class="opt">(</span><span class="str">&quot;&gt;THREE&quot;</span><span class="opt">))</span>
+                <span class="kwa">break</span><span class="opt">;</span>
+        <span class="opt">}</span>
     
-        byte[] bytes = new byte[1048576];
-        int position = 0;
-        while ((line = in.readLine()) != null &amp;&amp; line.charAt(0) != &apos;&gt;&apos;) {
-            if (line.length() + position &gt; bytes.length) {
-                byte[] newBytes = new byte[bytes.length * 2];
-                System.arraycopy(bytes, 0, newBytes, 0, position);
-                bytes = newBytes;
-            }
-            for (int i = 0; i &lt; line.length(); i++)
-                bytes[position++] = (byte) line.charAt(i);
-        }
+        <span class="kwa">byte</span><span class="opt">[]</span> bytes <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span><span class="num">1048576</span><span class="opt">];</span>
+        <span class="kwa">int</span> position <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+        <span class="kwa">while</span> <span class="opt">((</span>line <span class="opt">=</span> in<span class="opt">.</span><span class="kwd">readLine</span><span class="opt">()) !=</span> <span class="kwb">null</span> <span class="opt">&amp;&amp;</span> line<span class="opt">.</span><span class="kwd">charAt</span><span class="opt">(</span><span class="num">0</span><span class="opt">) !=</span> <span class="str">&apos;&gt;&apos;</span><span class="opt">) {</span>
+            <span class="kwa">if</span> <span class="opt">(</span>line<span class="opt">.</span><span class="kwd">length</span><span class="opt">() +</span> position <span class="opt">&gt;</span> bytes<span class="opt">.</span>length<span class="opt">) {</span>
+                <span class="kwa">byte</span><span class="opt">[]</span> newBytes <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span>bytes<span class="opt">.</span>length <span class="opt">*</span> <span class="num">2</span><span class="opt">];</span>
+                System<span class="opt">.</span><span class="kwd">arraycopy</span><span class="opt">(</span>bytes<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> newBytes<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> position<span class="opt">);</span>
+                bytes <span class="opt">=</span> newBytes<span class="opt">;</span>
+            <span class="opt">}</span>
+            <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> line<span class="opt">.</span><span class="kwd">length</span><span class="opt">();</span> i<span class="opt">++)</span>
+                bytes<span class="opt">[</span>position<span class="opt">++] = (</span><span class="kwa">byte</span><span class="opt">)</span> line<span class="opt">.</span><span class="kwd">charAt</span><span class="opt">(</span>i<span class="opt">);</span>
+        <span class="opt">}</span>
     
-        return toCodes(bytes, position);
-    }
+        <span class="kwa">return</span> <span class="kwd">toCodes</span><span class="opt">(</span>bytes<span class="opt">,</span> position<span class="opt">);</span>
+    <span class="opt">}</span>
 
-    public static void main(String[] args) throws Exception {
-        byte[] sequence = read(System.in);
+    <span class="kwa">public static void</span> <span class="kwd">main</span><span class="opt">(</span>String<span class="opt">[]</span> args<span class="opt">)</span> <span class="kwa">throws</span> Exception <span class="opt">{</span>
+        <span class="kwa">byte</span><span class="opt">[]</span> sequence <span class="opt">=</span> <span class="kwd">read</span><span class="opt">(</span>System<span class="opt">.</span>in<span class="opt">);</span>
 
-        ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime()
-                .availableProcessors());
-        int[] fragmentLengths = { 1, 2, 3, 4, 6, 12, 18 };
-        List&lt;Future&lt;Result&gt;&gt; futures = pool.invokeAll(createFragmentTasks(sequence,
-                fragmentLengths));
-        pool.shutdown();
+        ExecutorService pool <span class="opt">=</span> Executors<span class="opt">.</span><span class="kwd">newFixedThreadPool</span><span class="opt">(</span>Runtime<span class="opt">.</span><span class="kwd">getRuntime</span><span class="opt">()</span>
+                <span class="opt">.</span><span class="kwd">availableProcessors</span><span class="opt">());</span>
+        <span class="kwa">int</span><span class="opt">[]</span> fragmentLengths <span class="opt">= {</span> <span class="num">1</span><span class="opt">,</span> <span class="num">2</span><span class="opt">,</span> <span class="num">3</span><span class="opt">,</span> <span class="num">4</span><span class="opt">,</span> <span class="num">6</span><span class="opt">,</span> <span class="num">12</span><span class="opt">,</span> <span class="num">18</span> <span class="opt">};</span>
+        List<span class="opt">&lt;</span>Future<span class="opt">&lt;</span>Result<span class="opt">&gt;&gt;</span> futures <span class="opt">=</span> pool<span class="opt">.</span><span class="kwd">invokeAll</span><span class="opt">(</span><span class="kwd">createFragmentTasks</span><span class="opt">(</span>sequence<span class="opt">,</span>
+                fragmentLengths<span class="opt">));</span>
+        pool<span class="opt">.</span><span class="kwd">shutdown</span><span class="opt">();</span>
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">StringBuilder</span><span class="opt">();</span>
 
-        sb.append(writeFrequencies(sequence.length, futures.get(0).get()));
-        sb.append(writeFrequencies(sequence.length - 1,
-                sumTwoMaps(futures.get(1).get(), futures.get(2).get())));
+        sb<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span><span class="kwd">writeFrequencies</span><span class="opt">(</span>sequence<span class="opt">.</span>length<span class="opt">,</span> futures<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span><span class="num">0</span><span class="opt">).</span><span class="kwd">get</span><span class="opt">()));</span>
+        sb<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span><span class="kwd">writeFrequencies</span><span class="opt">(</span>sequence<span class="opt">.</span>length <span class="opt">-</span> <span class="num">1</span><span class="opt">,</span>
+                <span class="kwd">sumTwoMaps</span><span class="opt">(</span>futures<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span><span class="num">1</span><span class="opt">).</span><span class="kwd">get</span><span class="opt">(),</span> futures<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span><span class="num">2</span><span class="opt">).</span><span class="kwd">get</span><span class="opt">())));</span>
 
-        String[] nucleotideFragments = { &quot;GGT&quot;, &quot;GGTA&quot;, &quot;GGTATT&quot;, &quot;GGTATTTTAATT&quot;,
-                &quot;GGTATTTTAATTTATAGT&quot; };
-        for (String nucleotideFragment : nucleotideFragments) {
-            sb.append(writeCount(futures, nucleotideFragment));
-        }
+        String<span class="opt">[]</span> nucleotideFragments <span class="opt">= {</span> <span class="str">&quot;GGT&quot;</span><span class="opt">,</span> <span class="str">&quot;GGTA&quot;</span><span class="opt">,</span> <span class="str">&quot;GGTATT&quot;</span><span class="opt">,</span> <span class="str">&quot;GGTATTTTAATT&quot;</span><span class="opt">,</span>
+                <span class="str">&quot;GGTATTTTAATTTATAGT&quot;</span> <span class="opt">};</span>
+        <span class="kwa">for</span> <span class="opt">(</span>String nucleotideFragment <span class="opt">:</span> nucleotideFragments<span class="opt">) {</span>
+            sb<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span><span class="kwd">writeCount</span><span class="opt">(</span>futures<span class="opt">,</span> nucleotideFragment<span class="opt">));</span>
+        <span class="opt">}</span>
 
-        System.out.print(sb);
-    }
-}
+        System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">print</span><span class="opt">(</span>sb<span class="opt">);</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
     </pre>
   </section>
   <section>

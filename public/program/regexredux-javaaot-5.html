@@ -22,101 +22,101 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/*
-   The Computer Language Benchmarks Game
-   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+<span class="com">/*</span>
+<span class="com">   The Computer Language Benchmarks Game</span>
+<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"></span>
+<span class="com">   regex-dna program contributed by Michael Stover</span>
+<span class="com">   converted from regex-dna program</span>
+<span class="com"> */</span>
 
-   regex-dna program contributed by Michael Stover
-   converted from regex-dna program
- */
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>BufferedReader<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>IOException<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>InputStreamReader<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>HashMap<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>Map<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>regex<span class="opt">.</span>Matcher<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>regex<span class="opt">.</span>Pattern<span class="opt">;</span>
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+<span class="kwa">public final class</span> regexredux <span class="opt">{</span>
 
-public final class regexredux {
+   <span class="kwa">private static final</span> Map<span class="opt">&lt;</span>String<span class="opt">,</span> String<span class="opt">&gt;</span> replacements <span class="opt">=</span> <span class="kwa">new</span> HashMap<span class="opt">&lt;</span>String<span class="opt">,</span> String<span class="opt">&gt;();</span>
 
-   private static final Map&lt;String, String&gt; replacements = new HashMap&lt;String, String&gt;();
+   <span class="kwa">static</span> <span class="opt">{</span>
+      replacements<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span><span class="str">&quot;tHa[Nt]&quot;</span><span class="opt">,</span> <span class="str">&quot;&lt;4&gt;&quot;</span><span class="opt">);</span>
+      replacements<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span><span class="str">&quot;aND|caN|Ha[DS]|WaS&quot;</span><span class="opt">,</span> <span class="str">&quot;&lt;3&gt;&quot;</span><span class="opt">);</span>
+      replacements<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span><span class="str">&quot;a[NSt]|BY&quot;</span><span class="opt">,</span> <span class="str">&quot;&lt;2&gt;&quot;</span><span class="opt">);</span>
+      replacements<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span><span class="str">&quot;&lt;[^&gt;]*&gt;&quot;</span><span class="opt">,</span> <span class="str">&quot;|&quot;</span><span class="opt">);</span>
+      replacements<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span><span class="str">&quot;</span><span class="esc">\\</span><span class="str">|[^|][^|]*</span><span class="esc">\\</span><span class="str">|&quot;</span><span class="opt">,</span> <span class="str">&quot;-&quot;</span><span class="opt">);</span>
+   <span class="opt">}</span>
 
-   static {
-      replacements.put(&quot;tHa[Nt]&quot;, &quot;&lt;4&gt;&quot;);
-      replacements.put(&quot;aND|caN|Ha[DS]|WaS&quot;, &quot;&lt;3&gt;&quot;);
-      replacements.put(&quot;a[NSt]|BY&quot;, &quot;&lt;2&gt;&quot;);
-      replacements.put(&quot;&lt;[^&gt;]*&gt;&quot;, &quot;|&quot;);
-      replacements.put(&quot;\\|[^|][^|]*\\|&quot;, &quot;-&quot;);
-   }
+   <span class="kwa">public static void</span> <span class="kwd">main</span><span class="opt">(</span>String<span class="opt">[]</span> args<span class="opt">)</span> <span class="kwa">throws</span> IOException <span class="opt">{</span>
+      BufferedReader r <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">BufferedReader</span><span class="opt">(</span><span class="kwa">new</span> <span class="kwd">InputStreamReader</span><span class="opt">(</span>System<span class="opt">.</span>in<span class="opt">,</span>
+            <span class="str">&quot;US-ASCII&quot;</span><span class="opt">));</span>
+      StringBuffer sb <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">StringBuffer</span><span class="opt">();</span>
+      String line<span class="opt">;</span>
+      <span class="kwa">while</span> <span class="opt">((</span>line <span class="opt">=</span> r<span class="opt">.</span><span class="kwd">readLine</span><span class="opt">()) !=</span> <span class="kwb">null</span><span class="opt">) {</span>
+         sb<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span>line<span class="opt">);</span>
+         sb<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span><span class="str">&quot;</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">);</span>
+      <span class="opt">}</span>
 
-   public static void main(String[] args) throws IOException {
-      BufferedReader r = new BufferedReader(new InputStreamReader(System.in,
-            &quot;US-ASCII&quot;));
-      StringBuffer sb = new StringBuffer();
-      String line;
-      while ((line = r.readLine()) != null) {
-         sb.append(line);
-         sb.append(&quot;\n&quot;);
-      }
+      <span class="kwa">int</span> initialLength <span class="opt">=</span> sb<span class="opt">.</span><span class="kwd">length</span><span class="opt">();</span>
 
-      int initialLength = sb.length();
+      <span class="kwa">final</span> String sequence <span class="opt">=</span> sb<span class="opt">.</span><span class="kwd">toString</span><span class="opt">().</span><span class="kwd">replaceAll</span><span class="opt">(</span><span class="str">&quot;&gt;.*</span><span class="esc">\n</span><span class="str">|</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">,</span> <span class="str">&quot;&quot;</span><span class="opt">);</span>
 
-      final String sequence = sb.toString().replaceAll(&quot;&gt;.*\n|\n&quot;, &quot;&quot;);
+      <span class="kwa">int</span> codeLength <span class="opt">=</span> sequence<span class="opt">.</span><span class="kwd">length</span><span class="opt">();</span>
 
-      int codeLength = sequence.length();
+      String<span class="opt">[]</span> variants <span class="opt">= {</span> <span class="str">&quot;agggtaaa|tttaccct&quot;</span><span class="opt">,</span> <span class="str">&quot;[cgt]gggtaaa|tttaccc[acg]&quot;</span><span class="opt">,</span>
+            <span class="str">&quot;a[act]ggtaaa|tttacc[agt]t&quot;</span><span class="opt">,</span> <span class="str">&quot;ag[act]gtaaa|tttac[agt]ct&quot;</span><span class="opt">,</span>
+            <span class="str">&quot;agg[act]taaa|ttta[agt]cct&quot;</span><span class="opt">,</span> <span class="str">&quot;aggg[acg]aaa|ttt[cgt]ccct&quot;</span><span class="opt">,</span>
+            <span class="str">&quot;agggt[cgt]aa|tt[acg]accct&quot;</span><span class="opt">,</span> <span class="str">&quot;agggta[cgt]a|t[acg]taccct&quot;</span><span class="opt">,</span>
+            <span class="str">&quot;agggtaa[cgt]|[acg]ttaccct&quot;</span> <span class="opt">};</span>
 
-      String[] variants = { &quot;agggtaaa|tttaccct&quot;, &quot;[cgt]gggtaaa|tttaccc[acg]&quot;,
-            &quot;a[act]ggtaaa|tttacc[agt]t&quot;, &quot;ag[act]gtaaa|tttac[agt]ct&quot;,
-            &quot;agg[act]taaa|ttta[agt]cct&quot;, &quot;aggg[acg]aaa|ttt[cgt]ccct&quot;,
-            &quot;agggt[cgt]aa|tt[acg]accct&quot;, &quot;agggta[cgt]a|t[acg]taccct&quot;,
-            &quot;agggtaa[cgt]|[acg]ttaccct&quot; };
+      <span class="kwa">final</span> Map<span class="opt">&lt;</span>String<span class="opt">,</span> Integer<span class="opt">&gt;</span> results <span class="opt">=</span> <span class="kwa">new</span> HashMap<span class="opt">&lt;</span>String<span class="opt">,</span> Integer<span class="opt">&gt;();</span>
+      ThreadGroup tg <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">ThreadGroup</span><span class="opt">(</span><span class="str">&quot;regexWork&quot;</span><span class="opt">);</span>
+      <span class="kwa">for</span> <span class="opt">(</span>String v <span class="opt">:</span> variants<span class="opt">) {</span>
+         <span class="kwa">final</span> String variant <span class="opt">=</span> v<span class="opt">;</span>
+         <span class="kwa">new</span> <span class="kwd">Thread</span><span class="opt">(</span>tg<span class="opt">,</span> v<span class="opt">) {</span>
+            <span class="kwc">&#64;Override</span>
+            <span class="kwa">public void</span> <span class="kwd">run</span><span class="opt">() {</span>
+               <span class="kwa">int</span> count <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+               Matcher m <span class="opt">=</span> Pattern<span class="opt">.</span><span class="kwd">compile</span><span class="opt">(</span>variant<span class="opt">).</span><span class="kwd">matcher</span><span class="opt">(</span>sequence<span class="opt">);</span>
+               <span class="kwa">while</span> <span class="opt">(</span>m<span class="opt">.</span><span class="kwd">find</span><span class="opt">()) {</span>
+                  count<span class="opt">++;</span>
+               <span class="opt">}</span>
+               results<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span>variant<span class="opt">,</span> count<span class="opt">);</span>
+            <span class="opt">}</span>
+         <span class="opt">}.</span><span class="kwd">start</span><span class="opt">();</span>
+      <span class="opt">}</span>
+      Thread<span class="opt">[]</span> threads <span class="opt">=</span> <span class="kwa">new</span> Thread<span class="opt">[</span>variants<span class="opt">.</span>length<span class="opt">];</span>
+      tg<span class="opt">.</span><span class="kwd">enumerate</span><span class="opt">(</span>threads<span class="opt">);</span>
+      <span class="kwa">for</span> <span class="opt">(</span>Thread t <span class="opt">:</span> threads<span class="opt">) {</span>
+         <span class="kwa">try</span> <span class="opt">{</span>
+            <span class="kwa">if</span> <span class="opt">(</span>t <span class="opt">!=</span> <span class="kwb">null</span><span class="opt">) {</span>
+               t<span class="opt">.</span><span class="kwd">join</span><span class="opt">();</span>
+            <span class="opt">}</span>
+         <span class="opt">}</span> <span class="kwa">catch</span> <span class="opt">(</span>InterruptedException e<span class="opt">) {</span>
+            <span class="slc">// noop</span>
+         <span class="opt">}</span>
+      <span class="opt">}</span>
+      tg<span class="opt">.</span><span class="kwd">destroy</span><span class="opt">();</span>
+      <span class="kwa">for</span> <span class="opt">(</span>String variant <span class="opt">:</span> variants<span class="opt">) {</span>
+         System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>variant <span class="opt">+</span> <span class="str">&quot; &quot;</span> <span class="opt">+</span> results<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>variant<span class="opt">));</span>
+      <span class="opt">}</span>
+      StringBuffer buf <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">StringBuffer</span><span class="opt">();</span>
+      Matcher m <span class="opt">=</span> Pattern<span class="opt">.</span><span class="kwd">compile</span><span class="opt">(</span><span class="str">&quot;[WYKMSRBDVHN]&quot;</span><span class="opt">).</span><span class="kwd">matcher</span><span class="opt">(</span>sequence<span class="opt">);</span>
+      <span class="kwa">while</span> <span class="opt">(</span>m<span class="opt">.</span><span class="kwd">find</span><span class="opt">()) {</span>
+         m<span class="opt">.</span><span class="kwd">appendReplacement</span><span class="opt">(</span>buf<span class="opt">,</span> <span class="str">&quot;&quot;</span><span class="opt">);</span>
+         buf<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span>replacements<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>m<span class="opt">.</span><span class="kwd">group</span><span class="opt">()));</span>
+      <span class="opt">}</span>
+      m<span class="opt">.</span><span class="kwd">appendTail</span><span class="opt">(</span>buf<span class="opt">);</span>
 
-      final Map&lt;String, Integer&gt; results = new HashMap&lt;String, Integer&gt;();
-      ThreadGroup tg = new ThreadGroup(&quot;regexWork&quot;);
-      for (String v : variants) {
-         final String variant = v;
-         new Thread(tg, v) {
-            &#64;Override
-            public void run() {
-               int count = 0;
-               Matcher m = Pattern.compile(variant).matcher(sequence);
-               while (m.find()) {
-                  count++;
-               }
-               results.put(variant, count);
-            }
-         }.start();
-      }
-      Thread[] threads = new Thread[variants.length];
-      tg.enumerate(threads);
-      for (Thread t : threads) {
-         try {
-            if (t != null) {
-               t.join();
-            }
-         } catch (InterruptedException e) {
-            // noop
-         }
-      }
-      tg.destroy();
-      for (String variant : variants) {
-         System.out.println(variant + &quot; &quot; + results.get(variant));
-      }
-      StringBuffer buf = new StringBuffer();
-      Matcher m = Pattern.compile(&quot;[WYKMSRBDVHN]&quot;).matcher(sequence);
-      while (m.find()) {
-         m.appendReplacement(buf, &quot;&quot;);
-         buf.append(replacements.get(m.group()));
-      }
-      m.appendTail(buf);
-
-      System.out.println();
-      System.out.println(initialLength);
-      System.out.println(codeLength);
-      System.out.println(buf.length());
-   }
-}
+      System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">();</span>
+      System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>initialLength<span class="opt">);</span>
+      System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>codeLength<span class="opt">);</span>
+      System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>buf<span class="opt">.</span><span class="kwd">length</span><span class="opt">());</span>
+   <span class="opt">}</span>
+<span class="opt">}</span>
     </pre>
   </section>
   <section>

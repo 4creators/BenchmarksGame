@@ -22,265 +22,265 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/*
-   The Computer Language Benchmarks Game
-   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
-
-   regex-dna program contributed by The Anh Tran
-   converted from regex-dna program
- */
-
-
-import java.io.*;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.*;
-import java.util.regex.*;
-import java.util.*;
+<span class="com">/*</span>
+<span class="com">   The Computer Language Benchmarks Game</span>
+<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"></span>
+<span class="com">   regex-dna program contributed by The Anh Tran</span>
+<span class="com">   converted from regex-dna program</span>
+<span class="com"> */</span>
 
 
-public class regexredux
-{
-    // source data is duplicated into 2 arrays
-    static ArrayList&lt;StringBuilder&gt; source_as_segments = new ArrayList&lt;StringBuilder&gt;();;
-    static ArrayList&lt;StringBuilder&gt; source_as_lines = new ArrayList&lt;StringBuilder&gt;();;
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.*;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>concurrent<span class="opt">.*;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>concurrent<span class="opt">.</span>atomic<span class="opt">.*;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>regex<span class="opt">.*;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.*;</span>
+
+
+<span class="kwa">public class</span> regexredux
+<span class="opt">{</span>
+    <span class="slc">// source data is duplicated into 2 arrays</span>
+    <span class="kwa">static</span> ArrayList<span class="opt">&lt;</span>StringBuilder<span class="opt">&gt;</span> source_as_segments <span class="opt">=</span> <span class="kwa">new</span> ArrayList<span class="opt">&lt;</span>StringBuilder<span class="opt">&gt;();;</span>
+    <span class="kwa">static</span> ArrayList<span class="opt">&lt;</span>StringBuilder<span class="opt">&gt;</span> source_as_lines <span class="opt">=</span> <span class="kwa">new</span> ArrayList<span class="opt">&lt;</span>StringBuilder<span class="opt">&gt;();;</span>
     
-    // read data from stdin to StringBuilder
-    // return initial data size
-    private static int ReadInput(StringBuilder sb)
-    {
-        try
-        {
-            BufferedReader reader = new BufferedReader (new InputStreamReader (System.in, &quot;US-ASCII&quot;));
+    <span class="slc">// read data from stdin to StringBuilder</span>
+    <span class="slc">// return initial data size</span>
+    <span class="kwa">private static int</span> <span class="kwd">ReadInput</span><span class="opt">(</span>StringBuilder sb<span class="opt">)</span>
+    <span class="opt">{</span>
+        <span class="kwa">try</span>
+        <span class="opt">{</span>
+            BufferedReader reader <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">BufferedReader</span> <span class="opt">(</span><span class="kwa">new</span> <span class="kwd">InputStreamReader</span> <span class="opt">(</span>System<span class="opt">.</span>in<span class="opt">,</span> <span class="str">&quot;US-ASCII&quot;</span><span class="opt">));</span>
             
-            char[] buf = new char[64 *1024];
-            int read = 0, total = 0;
+            <span class="kwa">char</span><span class="opt">[]</span> buf <span class="opt">=</span> <span class="kwa">new char</span><span class="opt">[</span><span class="num">64</span> <span class="opt">*</span><span class="num">1024</span><span class="opt">];</span>
+            <span class="kwa">int</span> read <span class="opt">=</span> <span class="num">0</span><span class="opt">,</span> total <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
             
-            while ((read = reader.read (buf)) != -1)
-            {
-                total += read;
-                sb.append (buf, 0, read);
-            }
+            <span class="kwa">while</span> <span class="opt">((</span>read <span class="opt">=</span> reader<span class="opt">.</span><span class="kwd">read</span> <span class="opt">(</span>buf<span class="opt">)) != -</span><span class="num">1</span><span class="opt">)</span>
+            <span class="opt">{</span>
+                total <span class="opt">+=</span> read<span class="opt">;</span>
+                sb<span class="opt">.</span><span class="kwd">append</span> <span class="opt">(</span>buf<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> read<span class="opt">);</span>
+            <span class="opt">}</span>
 
-            return total;
-        }
-        catch (IOException ie)
-        {
-            ie.printStackTrace ();
-        }
+            <span class="kwa">return</span> total<span class="opt">;</span>
+        <span class="opt">}</span>
+        <span class="kwa">catch</span> <span class="opt">(</span>IOException ie<span class="opt">)</span>
+        <span class="opt">{</span>
+            ie<span class="opt">.</span><span class="kwd">printStackTrace</span> <span class="opt">();</span>
+        <span class="opt">}</span>
         
-        return 0;
-    }
+        <span class="kwa">return</span> <span class="num">0</span><span class="opt">;</span>
+    <span class="opt">}</span>
     
-    // strip header and newline
-    // duplicate each data line into 2 arrays
-    private static int StripHeader(StringBuilder sb)
-    {
-        Pattern pat = Pattern.compile(&quot;(&gt;.*\n)|\n&quot;);
-        Matcher mt = pat.matcher(sb);   // scan all data
+    <span class="slc">// strip header and newline</span>
+    <span class="slc">// duplicate each data line into 2 arrays</span>
+    <span class="kwa">private static int</span> <span class="kwd">StripHeader</span><span class="opt">(</span>StringBuilder sb<span class="opt">)</span>
+    <span class="opt">{</span>
+        Pattern pat <span class="opt">=</span> Pattern<span class="opt">.</span><span class="kwd">compile</span><span class="opt">(</span><span class="str">&quot;(&gt;.*</span><span class="esc">\n</span><span class="str">)|</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">);</span>
+        Matcher mt <span class="opt">=</span> pat<span class="opt">.</span><span class="kwd">matcher</span><span class="opt">(</span>sb<span class="opt">);</span>   <span class="slc">// scan all data</span>
         
-        StringBuilder desti = null;
-        StringBuffer tmp = new StringBuffer();
+        StringBuilder desti <span class="opt">=</span> <span class="kwb">null</span><span class="opt">;</span>
+        StringBuffer tmp <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">StringBuffer</span><span class="opt">();</span>
         
-        while (mt.find())
-        {
-            mt.appendReplacement(tmp, &quot;&quot;);
+        <span class="kwa">while</span> <span class="opt">(</span>mt<span class="opt">.</span><span class="kwd">find</span><span class="opt">())</span>
+        <span class="opt">{</span>
+            mt<span class="opt">.</span><span class="kwd">appendReplacement</span><span class="opt">(</span>tmp<span class="opt">,</span> <span class="str">&quot;&quot;</span><span class="opt">);</span>
 
-            if (mt.start(1) &gt;= 0)   // this is header line
-            {
-                desti = new StringBuilder();    // alloc new dna sequence
-                source_as_segments.add(desti);
-            }
+            <span class="kwa">if</span> <span class="opt">(</span>mt<span class="opt">.</span><span class="kwd">start</span><span class="opt">(</span><span class="num">1</span><span class="opt">) &gt;=</span> <span class="num">0</span><span class="opt">)</span>   <span class="slc">// this is header line</span>
+            <span class="opt">{</span>
+                desti <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">StringBuilder</span><span class="opt">();</span>    <span class="slc">// alloc new dna sequence</span>
+                source_as_segments<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span>desti<span class="opt">);</span>
+            <span class="opt">}</span>
 
-            desti.append(tmp);  // append this line to current dna sequence
-            source_as_lines.add(new StringBuilder(tmp));    // also append this line to 2nd array
+            desti<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span>tmp<span class="opt">);</span>  <span class="slc">// append this line to current dna sequence</span>
+            source_as_lines<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span><span class="kwa">new</span> <span class="kwd">StringBuilder</span><span class="opt">(</span>tmp<span class="opt">));</span>    <span class="slc">// also append this line to 2nd array</span>
 
-            // reset buffer len, re-use in next match
-            tmp.setLength(0);
-        }
+            <span class="slc">// reset buffer len, re-use in next match</span>
+            tmp<span class="opt">.</span><span class="kwd">setLength</span><span class="opt">(</span><span class="num">0</span><span class="opt">);</span>
+        <span class="opt">}</span>
 
-        int strip_len = 0;
-        for (StringBuilder b : source_as_segments)
-            strip_len += b.length();
+        <span class="kwa">int</span> strip_len <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+        <span class="kwa">for</span> <span class="opt">(</span>StringBuilder b <span class="opt">:</span> source_as_segments<span class="opt">)</span>
+            strip_len <span class="opt">+=</span> b<span class="opt">.</span><span class="kwd">length</span><span class="opt">();</span>
         
-        return strip_len;
-    }
+        <span class="kwa">return</span> strip_len<span class="opt">;</span>
+    <span class="opt">}</span>
     
-    private static void CountMatch()
-    {
-        final String[] patterns = 
-        {   &quot;agggtaaa|tttaccct&quot; ,
-            &quot;[cgt]gggtaaa|tttaccc[acg]&quot;,
-            &quot;a[act]ggtaaa|tttacc[agt]t&quot;,
-            &quot;ag[act]gtaaa|tttac[agt]ct&quot;,
-            &quot;agg[act]taaa|ttta[agt]cct&quot;,
-            &quot;aggg[acg]aaa|ttt[cgt]ccct&quot;,
-            &quot;agggt[cgt]aa|tt[acg]accct&quot;,
-            &quot;agggta[cgt]a|t[acg]taccct&quot;,
-            &quot;agggtaa[cgt]|[acg]ttaccct&quot;
-        };
+    <span class="kwa">private static void</span> <span class="kwd">CountMatch</span><span class="opt">()</span>
+    <span class="opt">{</span>
+        <span class="kwa">final</span> String<span class="opt">[]</span> patterns <span class="opt">=</span> 
+        <span class="opt">{</span>   <span class="str">&quot;agggtaaa|tttaccct&quot;</span> <span class="opt">,</span>
+            <span class="str">&quot;[cgt]gggtaaa|tttaccc[acg]&quot;</span><span class="opt">,</span>
+            <span class="str">&quot;a[act]ggtaaa|tttacc[agt]t&quot;</span><span class="opt">,</span>
+            <span class="str">&quot;ag[act]gtaaa|tttac[agt]ct&quot;</span><span class="opt">,</span>
+            <span class="str">&quot;agg[act]taaa|ttta[agt]cct&quot;</span><span class="opt">,</span>
+            <span class="str">&quot;aggg[acg]aaa|ttt[cgt]ccct&quot;</span><span class="opt">,</span>
+            <span class="str">&quot;agggt[cgt]aa|tt[acg]accct&quot;</span><span class="opt">,</span>
+            <span class="str">&quot;agggta[cgt]a|t[acg]taccct&quot;</span><span class="opt">,</span>
+            <span class="str">&quot;agggtaa[cgt]|[acg]ttaccct&quot;</span>
+        <span class="opt">};</span>
     
-        final AtomicIntegerArray results = new AtomicIntegerArray(patterns.length);
-        final AtomicIntegerArray tasks = new AtomicIntegerArray(patterns.length);
+        <span class="kwa">final</span> AtomicIntegerArray results <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">AtomicIntegerArray</span><span class="opt">(</span>patterns<span class="opt">.</span>length<span class="opt">);</span>
+        <span class="kwa">final</span> AtomicIntegerArray tasks <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">AtomicIntegerArray</span><span class="opt">(</span>patterns<span class="opt">.</span>length<span class="opt">);</span>
         
-        Thread[] pool = new Thread[Runtime.getRuntime().availableProcessors()];
-        for (int i = 0; i &lt; pool.length; i++)
-        {
-            pool[i] = new Thread()
-            {
-                public void run()
-                {
-                    // for each search pattern
-                    for (int pt = 0; pt &lt; patterns.length; pt++)
-                    {
-                        Pattern expression = Pattern.compile(patterns[pt]);
+        Thread<span class="opt">[]</span> pool <span class="opt">=</span> <span class="kwa">new</span> Thread<span class="opt">[</span>Runtime<span class="opt">.</span><span class="kwd">getRuntime</span><span class="opt">().</span><span class="kwd">availableProcessors</span><span class="opt">()];</span>
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> pool<span class="opt">.</span>length<span class="opt">;</span> i<span class="opt">++)</span>
+        <span class="opt">{</span>
+            pool<span class="opt">[</span>i<span class="opt">] =</span> <span class="kwa">new</span> <span class="kwd">Thread</span><span class="opt">()</span>
+            <span class="opt">{</span>
+                <span class="kwa">public void</span> <span class="kwd">run</span><span class="opt">()</span>
+                <span class="opt">{</span>
+                    <span class="slc">// for each search pattern</span>
+                    <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> pt <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> pt <span class="opt">&lt;</span> patterns<span class="opt">.</span>length<span class="opt">;</span> pt<span class="opt">++)</span>
+                    <span class="opt">{</span>
+                        Pattern expression <span class="opt">=</span> Pattern<span class="opt">.</span><span class="kwd">compile</span><span class="opt">(</span>patterns<span class="opt">[</span>pt<span class="opt">]);</span>
 
-                        int total_seg = source_as_segments.size();
-                        int seq;
-                        Matcher mt = expression.matcher(&quot;&quot;);
+                        <span class="kwa">int</span> total_seg <span class="opt">=</span> source_as_segments<span class="opt">.</span><span class="kwd">size</span><span class="opt">();</span>
+                        <span class="kwa">int</span> seq<span class="opt">;</span>
+                        Matcher mt <span class="opt">=</span> expression<span class="opt">.</span><span class="kwd">matcher</span><span class="opt">(</span><span class="str">&quot;&quot;</span><span class="opt">);</span>
                         
-                        // fetch not-yet-processed sequence
-                        while ((seq = tasks.getAndIncrement(pt)) &lt; total_seg)
-                        {
-                            mt.reset(source_as_segments.get(seq));
+                        <span class="slc">// fetch not-yet-processed sequence</span>
+                        <span class="kwa">while</span> <span class="opt">((</span>seq <span class="opt">=</span> tasks<span class="opt">.</span><span class="kwd">getAndIncrement</span><span class="opt">(</span>pt<span class="opt">)) &lt;</span> total_seg<span class="opt">)</span>
+                        <span class="opt">{</span>
+                            mt<span class="opt">.</span><span class="kwd">reset</span><span class="opt">(</span>source_as_segments<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>seq<span class="opt">));</span>
 
-                            while (mt.find())
-                                results.incrementAndGet(pt);
-                        }
-                    }
-                }
-            };
-            pool[i].start();
-        }
+                            <span class="kwa">while</span> <span class="opt">(</span>mt<span class="opt">.</span><span class="kwd">find</span><span class="opt">())</span>
+                                results<span class="opt">.</span><span class="kwd">incrementAndGet</span><span class="opt">(</span>pt<span class="opt">);</span>
+                        <span class="opt">}</span>
+                    <span class="opt">}</span>
+                <span class="opt">}</span>
+            <span class="opt">};</span>
+            pool<span class="opt">[</span>i<span class="opt">].</span><span class="kwd">start</span><span class="opt">();</span>
+        <span class="opt">}</span>
         
-        // wait for result
-        for (Thread t : pool)
-        {
-            try
-            {
-                t.join();
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-        }
+        <span class="slc">// wait for result</span>
+        <span class="kwa">for</span> <span class="opt">(</span>Thread t <span class="opt">:</span> pool<span class="opt">)</span>
+        <span class="opt">{</span>
+            <span class="kwa">try</span>
+            <span class="opt">{</span>
+                t<span class="opt">.</span><span class="kwd">join</span><span class="opt">();</span>
+            <span class="opt">}</span>
+            <span class="kwa">catch</span> <span class="opt">(</span>InterruptedException e<span class="opt">)</span>
+            <span class="opt">{</span>
+                e<span class="opt">.</span><span class="kwd">printStackTrace</span><span class="opt">();</span>
+            <span class="opt">}</span>
+        <span class="opt">}</span>
         
-        for (int i = 0; i&lt; patterns.length; i++)
-        {
-            System.out.format(&quot;%s %d\n&quot;, patterns[i], results.get(i));
-        }
-    }
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i<span class="opt">&lt;</span> patterns<span class="opt">.</span>length<span class="opt">;</span> i<span class="opt">++)</span>
+        <span class="opt">{</span>
+            System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">format</span><span class="opt">(</span><span class="str">&quot;%s %d</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">,</span> patterns<span class="opt">[</span>i<span class="opt">],</span> results<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>i<span class="opt">));</span>
+        <span class="opt">}</span>
+    <span class="opt">}</span>
     
-    private static int Replace()
-    {
-        final String[] pat_search = 
-        {
-            &quot;tHa[Nt]&quot;, &quot;aND|caN|Ha[DS]|WaS&quot;, &quot;a[NSt]|BY&quot;, 
-            &quot;&lt;[^&gt;]*&gt;&quot;, &quot;\\|[^|][^|]*\\|&quot;
-        };
-        final String[] pat_replace = 
-        {
-            &quot;&lt;4&gt;&quot;, &quot;&lt;3&gt;&quot;, &quot;&lt;2&gt;&quot;,
-            &quot;|&quot;, &quot;-&quot;
-        };
+    <span class="kwa">private static int</span> <span class="kwd">Replace</span><span class="opt">()</span>
+    <span class="opt">{</span>
+        <span class="kwa">final</span> String<span class="opt">[]</span> pat_search <span class="opt">=</span> 
+        <span class="opt">{</span>
+            <span class="str">&quot;tHa[Nt]&quot;</span><span class="opt">,</span> <span class="str">&quot;aND|caN|Ha[DS]|WaS&quot;</span><span class="opt">,</span> <span class="str">&quot;a[NSt]|BY&quot;</span><span class="opt">,</span> 
+            <span class="str">&quot;&lt;[^&gt;]*&gt;&quot;</span><span class="opt">,</span> <span class="str">&quot;</span><span class="esc">\\</span><span class="str">|[^|][^|]*</span><span class="esc">\\</span><span class="str">|&quot;</span>
+        <span class="opt">};</span>
+        <span class="kwa">final</span> String<span class="opt">[]</span> pat_replace <span class="opt">=</span> 
+        <span class="opt">{</span>
+            <span class="str">&quot;&lt;4&gt;&quot;</span><span class="opt">,</span> <span class="str">&quot;&lt;3&gt;&quot;</span><span class="opt">,</span> <span class="str">&quot;&lt;2&gt;&quot;</span><span class="opt">,</span>
+            <span class="str">&quot;|&quot;</span><span class="opt">,</span> <span class="str">&quot;-&quot;</span>
+        <span class="opt">};</span>
         
-        final AtomicIntegerArray tasks = new AtomicIntegerArray(pat_search.length);
-        final AtomicIntegerArray result = new AtomicIntegerArray(pat_search.length);
+        <span class="kwa">final</span> AtomicIntegerArray tasks <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">AtomicIntegerArray</span><span class="opt">(</span>pat_search<span class="opt">.</span>length<span class="opt">);</span>
+        <span class="kwa">final</span> AtomicIntegerArray result <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">AtomicIntegerArray</span><span class="opt">(</span>pat_search<span class="opt">.</span>length<span class="opt">);</span>
         
-        Thread[] pool = new Thread[Runtime.getRuntime().availableProcessors()];
-        final CyclicBarrier barrier = new CyclicBarrier(pool.length);
+        Thread<span class="opt">[]</span> pool <span class="opt">=</span> <span class="kwa">new</span> Thread<span class="opt">[</span>Runtime<span class="opt">.</span><span class="kwd">getRuntime</span><span class="opt">().</span><span class="kwd">availableProcessors</span><span class="opt">()];</span>
+        <span class="kwa">final</span> CyclicBarrier barrier <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">CyclicBarrier</span><span class="opt">(</span>pool<span class="opt">.</span>length<span class="opt">);</span>
 
-        for (int i = 0; i &lt; pool.length; i++)
-        {
-            pool[i] = new Thread()
-            {
-                public void run()
-                {
-                    StringBuffer des_buf = new StringBuffer();
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> pool<span class="opt">.</span>length<span class="opt">;</span> i<span class="opt">++)</span>
+        <span class="opt">{</span>
+            pool<span class="opt">[</span>i<span class="opt">] =</span> <span class="kwa">new</span> <span class="kwd">Thread</span><span class="opt">()</span>
+            <span class="opt">{</span>
+                <span class="kwa">public void</span> <span class="kwd">run</span><span class="opt">()</span>
+                <span class="opt">{</span>
+                    StringBuffer des_buf <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">StringBuffer</span><span class="opt">();</span>
                     
-                    for (int pt = 0; pt &lt; pat_search.length; pt++)
-                    {
-                        Pattern pattern = Pattern.compile(pat_search[pt]);
-                        Matcher m = pattern.matcher(&quot;&quot;);
+                    <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> pt <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> pt <span class="opt">&lt;</span> pat_search<span class="opt">.</span>length<span class="opt">;</span> pt<span class="opt">++)</span>
+                    <span class="opt">{</span>
+                        Pattern pattern <span class="opt">=</span> Pattern<span class="opt">.</span><span class="kwd">compile</span><span class="opt">(</span>pat_search<span class="opt">[</span>pt<span class="opt">]);</span>
+                        Matcher m <span class="opt">=</span> pattern<span class="opt">.</span><span class="kwd">matcher</span><span class="opt">(</span><span class="str">&quot;&quot;</span><span class="opt">);</span>
 
-                        int total_line = source_as_lines.size();
-                        int line;
+                        <span class="kwa">int</span> total_line <span class="opt">=</span> source_as_lines<span class="opt">.</span><span class="kwd">size</span><span class="opt">();</span>
+                        <span class="kwa">int</span> line<span class="opt">;</span>
 
-                        while ((line = tasks.getAndIncrement(pt)) &lt; total_line)
-                        {
-                            StringBuilder src_buf = source_as_lines.get(line);
-                            m.reset(src_buf);
-                            boolean change = false;
+                        <span class="kwa">while</span> <span class="opt">((</span>line <span class="opt">=</span> tasks<span class="opt">.</span><span class="kwd">getAndIncrement</span><span class="opt">(</span>pt<span class="opt">)) &lt;</span> total_line<span class="opt">)</span>
+                        <span class="opt">{</span>
+                            StringBuilder src_buf <span class="opt">=</span> source_as_lines<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>line<span class="opt">);</span>
+                            m<span class="opt">.</span><span class="kwd">reset</span><span class="opt">(</span>src_buf<span class="opt">);</span>
+                            <span class="kwa">boolean</span> change <span class="opt">=</span> <span class="kwb">false</span><span class="opt">;</span>
 
-                            while (m.find())
-                            {
-                                m.appendReplacement(des_buf, pat_replace[pt]);
-                                change = true;
-                            }
+                            <span class="kwa">while</span> <span class="opt">(</span>m<span class="opt">.</span><span class="kwd">find</span><span class="opt">())</span>
+                            <span class="opt">{</span>
+                                m<span class="opt">.</span><span class="kwd">appendReplacement</span><span class="opt">(</span>des_buf<span class="opt">,</span> pat_replace<span class="opt">[</span>pt<span class="opt">]);</span>
+                                change <span class="opt">=</span> <span class="kwb">true</span><span class="opt">;</span>
+                            <span class="opt">}</span>
 
-                            if (change)
-                            {
-                                m.appendTail(des_buf);
-                                src_buf.setLength(0);
-                                src_buf.append(des_buf);
-                            }
+                            <span class="kwa">if</span> <span class="opt">(</span>change<span class="opt">)</span>
+                            <span class="opt">{</span>
+                                m<span class="opt">.</span><span class="kwd">appendTail</span><span class="opt">(</span>des_buf<span class="opt">);</span>
+                                src_buf<span class="opt">.</span><span class="kwd">setLength</span><span class="opt">(</span><span class="num">0</span><span class="opt">);</span>
+                                src_buf<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span>des_buf<span class="opt">);</span>
+                            <span class="opt">}</span>
 
-                            if (pt == (pat_search.length -1))
-                                result.addAndGet(pt, src_buf.length());
+                            <span class="kwa">if</span> <span class="opt">(</span>pt <span class="opt">== (</span>pat_search<span class="opt">.</span>length <span class="opt">-</span><span class="num">1</span><span class="opt">))</span>
+                                result<span class="opt">.</span><span class="kwd">addAndGet</span><span class="opt">(</span>pt<span class="opt">,</span> src_buf<span class="opt">.</span><span class="kwd">length</span><span class="opt">());</span>
                             
-                            des_buf.setLength(0);
-                        }
+                            des_buf<span class="opt">.</span><span class="kwd">setLength</span><span class="opt">(</span><span class="num">0</span><span class="opt">);</span>
+                        <span class="opt">}</span>
                         
-                        try
-                        {
-                            barrier.await();
-                        }
-                        catch (Exception ie)
-                        {
-                            ie.printStackTrace();
-                        }
-                    }
-                }
-            };
+                        <span class="kwa">try</span>
+                        <span class="opt">{</span>
+                            barrier<span class="opt">.</span><span class="kwd">await</span><span class="opt">();</span>
+                        <span class="opt">}</span>
+                        <span class="kwa">catch</span> <span class="opt">(</span>Exception ie<span class="opt">)</span>
+                        <span class="opt">{</span>
+                            ie<span class="opt">.</span><span class="kwd">printStackTrace</span><span class="opt">();</span>
+                        <span class="opt">}</span>
+                    <span class="opt">}</span>
+                <span class="opt">}</span>
+            <span class="opt">};</span>
             
-            pool[i].start();
-        }
+            pool<span class="opt">[</span>i<span class="opt">].</span><span class="kwd">start</span><span class="opt">();</span>
+        <span class="opt">}</span>
         
-        for (Thread t : pool)
-        {
-            try
-            {
-                t.join();
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-        }
+        <span class="kwa">for</span> <span class="opt">(</span>Thread t <span class="opt">:</span> pool<span class="opt">)</span>
+        <span class="opt">{</span>
+            <span class="kwa">try</span>
+            <span class="opt">{</span>
+                t<span class="opt">.</span><span class="kwd">join</span><span class="opt">();</span>
+            <span class="opt">}</span>
+            <span class="kwa">catch</span> <span class="opt">(</span>InterruptedException e<span class="opt">)</span>
+            <span class="opt">{</span>
+                e<span class="opt">.</span><span class="kwd">printStackTrace</span><span class="opt">();</span>
+            <span class="opt">}</span>
+        <span class="opt">}</span>
         
-        int replace_len = 0;
-        for (int i = 0; i &lt; result.length(); i++)
-            replace_len += result.get(i);
-        return replace_len;
-    }
+        <span class="kwa">int</span> replace_len <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> result<span class="opt">.</span><span class="kwd">length</span><span class="opt">();</span> i<span class="opt">++)</span>
+            replace_len <span class="opt">+=</span> result<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>i<span class="opt">);</span>
+        <span class="kwa">return</span> replace_len<span class="opt">;</span>
+    <span class="opt">}</span>
     
-    public static void main (String[] args)
-    {
-        StringBuilder sb = new StringBuilder ();
-        int init_len = ReadInput(sb);
+    <span class="kwa">public static void</span> <span class="kwd">main</span> <span class="opt">(</span>String<span class="opt">[]</span> args<span class="opt">)</span>
+    <span class="opt">{</span>
+        StringBuilder sb <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">StringBuilder</span> <span class="opt">();</span>
+        <span class="kwa">int</span> init_len <span class="opt">=</span> <span class="kwd">ReadInput</span><span class="opt">(</span>sb<span class="opt">);</span>
         
-        int strip_len = StripHeader(sb);
-        sb = null;
+        <span class="kwa">int</span> strip_len <span class="opt">=</span> <span class="kwd">StripHeader</span><span class="opt">(</span>sb<span class="opt">);</span>
+        sb <span class="opt">=</span> <span class="kwb">null</span><span class="opt">;</span>
         
-        CountMatch();
-        source_as_segments = null;
+        <span class="kwd">CountMatch</span><span class="opt">();</span>
+        source_as_segments <span class="opt">=</span> <span class="kwb">null</span><span class="opt">;</span>
         
-        int replace_len = Replace();
-        source_as_lines = null;
+        <span class="kwa">int</span> replace_len <span class="opt">=</span> <span class="kwd">Replace</span><span class="opt">();</span>
+        source_as_lines <span class="opt">=</span> <span class="kwb">null</span><span class="opt">;</span>
         
-        System.out.format(&quot;\n%d\n%d\n%d\n&quot;, init_len, strip_len, replace_len);
-    }
-}
+        System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">format</span><span class="opt">(</span><span class="str">&quot;</span><span class="esc">\n</span><span class="str">%d</span><span class="esc">\n</span><span class="str">%d</span><span class="esc">\n</span><span class="str">%d</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">,</span> init_len<span class="opt">,</span> strip_len<span class="opt">,</span> replace_len<span class="opt">);</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
     </pre>
   </section>
   <section>

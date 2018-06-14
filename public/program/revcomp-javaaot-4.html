@@ -22,72 +22,72 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/*
- * The Computer Language Benchmarks Game
- * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
- * contributed by Anthony Donnefort
- * slightly modified to read 82 bytes at a time by Razii
- */
+<span class="com">/*</span>
+<span class="com"> * The Computer Language Benchmarks Game</span>
+<span class="com"> * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"> * contributed by Anthony Donnefort</span>
+<span class="com"> * slightly modified to read 82 bytes at a time by Razii</span>
+<span class="com"> */</span>
 
-import java.io.*;
-public class revcomp {
-   static final byte[] cmp = new byte[128];
-   static {
-      for (int i = 0; i &lt; cmp.length; i++) cmp[i] = (byte) i;
-      cmp[&apos;t&apos;] = cmp[&apos;T&apos;] = &apos;A&apos;;
-      cmp[&apos;a&apos;] = cmp[&apos;A&apos;] = &apos;T&apos;;
-      cmp[&apos;g&apos;] = cmp[&apos;G&apos;] = &apos;C&apos;;
-      cmp[&apos;c&apos;] = cmp[&apos;C&apos;] = &apos;G&apos;;
-      cmp[&apos;v&apos;] = cmp[&apos;V&apos;] = &apos;B&apos;;
-      cmp[&apos;h&apos;] = cmp[&apos;H&apos;] = &apos;D&apos;;
-      cmp[&apos;r&apos;] = cmp[&apos;R&apos;] = &apos;Y&apos;;
-      cmp[&apos;m&apos;] = cmp[&apos;M&apos;] = &apos;K&apos;;
-      cmp[&apos;y&apos;] = cmp[&apos;Y&apos;] = &apos;R&apos;;
-      cmp[&apos;k&apos;] = cmp[&apos;K&apos;] = &apos;M&apos;;
-      cmp[&apos;b&apos;] = cmp[&apos;B&apos;] = &apos;V&apos;;
-      cmp[&apos;d&apos;] = cmp[&apos;D&apos;] = &apos;H&apos;;
-      cmp[&apos;u&apos;] = cmp[&apos;U&apos;] = &apos;A&apos;;
-   }
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.*;</span>
+<span class="kwa">public class</span> revcomp <span class="opt">{</span>
+   <span class="kwa">static final byte</span><span class="opt">[]</span> cmp <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span><span class="num">128</span><span class="opt">];</span>
+   <span class="kwa">static</span> <span class="opt">{</span>
+      <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> cmp<span class="opt">.</span>length<span class="opt">;</span> i<span class="opt">++)</span> cmp<span class="opt">[</span>i<span class="opt">] = (</span><span class="kwa">byte</span><span class="opt">)</span> i<span class="opt">;</span>
+      cmp<span class="opt">[</span><span class="str">&apos;t&apos;</span><span class="opt">] =</span> cmp<span class="opt">[</span><span class="str">&apos;T&apos;</span><span class="opt">] =</span> <span class="str">&apos;A&apos;</span><span class="opt">;</span>
+      cmp<span class="opt">[</span><span class="str">&apos;a&apos;</span><span class="opt">] =</span> cmp<span class="opt">[</span><span class="str">&apos;A&apos;</span><span class="opt">] =</span> <span class="str">&apos;T&apos;</span><span class="opt">;</span>
+      cmp<span class="opt">[</span><span class="str">&apos;g&apos;</span><span class="opt">] =</span> cmp<span class="opt">[</span><span class="str">&apos;G&apos;</span><span class="opt">] =</span> <span class="str">&apos;C&apos;</span><span class="opt">;</span>
+      cmp<span class="opt">[</span><span class="str">&apos;c&apos;</span><span class="opt">] =</span> cmp<span class="opt">[</span><span class="str">&apos;C&apos;</span><span class="opt">] =</span> <span class="str">&apos;G&apos;</span><span class="opt">;</span>
+      cmp<span class="opt">[</span><span class="str">&apos;v&apos;</span><span class="opt">] =</span> cmp<span class="opt">[</span><span class="str">&apos;V&apos;</span><span class="opt">] =</span> <span class="str">&apos;B&apos;</span><span class="opt">;</span>
+      cmp<span class="opt">[</span><span class="str">&apos;h&apos;</span><span class="opt">] =</span> cmp<span class="opt">[</span><span class="str">&apos;H&apos;</span><span class="opt">] =</span> <span class="str">&apos;D&apos;</span><span class="opt">;</span>
+      cmp<span class="opt">[</span><span class="str">&apos;r&apos;</span><span class="opt">] =</span> cmp<span class="opt">[</span><span class="str">&apos;R&apos;</span><span class="opt">] =</span> <span class="str">&apos;Y&apos;</span><span class="opt">;</span>
+      cmp<span class="opt">[</span><span class="str">&apos;m&apos;</span><span class="opt">] =</span> cmp<span class="opt">[</span><span class="str">&apos;M&apos;</span><span class="opt">] =</span> <span class="str">&apos;K&apos;</span><span class="opt">;</span>
+      cmp<span class="opt">[</span><span class="str">&apos;y&apos;</span><span class="opt">] =</span> cmp<span class="opt">[</span><span class="str">&apos;Y&apos;</span><span class="opt">] =</span> <span class="str">&apos;R&apos;</span><span class="opt">;</span>
+      cmp<span class="opt">[</span><span class="str">&apos;k&apos;</span><span class="opt">] =</span> cmp<span class="opt">[</span><span class="str">&apos;K&apos;</span><span class="opt">] =</span> <span class="str">&apos;M&apos;</span><span class="opt">;</span>
+      cmp<span class="opt">[</span><span class="str">&apos;b&apos;</span><span class="opt">] =</span> cmp<span class="opt">[</span><span class="str">&apos;B&apos;</span><span class="opt">] =</span> <span class="str">&apos;V&apos;</span><span class="opt">;</span>
+      cmp<span class="opt">[</span><span class="str">&apos;d&apos;</span><span class="opt">] =</span> cmp<span class="opt">[</span><span class="str">&apos;D&apos;</span><span class="opt">] =</span> <span class="str">&apos;H&apos;</span><span class="opt">;</span>
+      cmp<span class="opt">[</span><span class="str">&apos;u&apos;</span><span class="opt">] =</span> cmp<span class="opt">[</span><span class="str">&apos;U&apos;</span><span class="opt">] =</span> <span class="str">&apos;A&apos;</span><span class="opt">;</span>
+   <span class="opt">}</span>
 
-   static class ReversibleByteArray extends java.io.ByteArrayOutputStream {
-      void reverse() throws Exception {
-         if (count &gt; 0) {
-            int begin = 0, end = count - 1;
-            while (buf[begin++] != &apos;\n&apos;);
-            while (begin &lt;= end) {
-               if (buf[begin] == &apos;\n&apos;) begin++;
-               if (buf[end] == &apos;\n&apos;) end--;
-               if (begin &lt;= end) {
-                  byte tmp = buf[begin];
-                  buf[begin++] = cmp[buf[end]];
-                  buf[end--] = cmp[tmp];
-               }
-            }
-            System.out.write(buf, 0, count);
-         }
-      }
-   }
+   <span class="kwa">static class</span> ReversibleByteArray <span class="kwa">extends</span> java<span class="opt">.</span>io<span class="opt">.</span>ByteArrayOutputStream <span class="opt">{</span>
+      <span class="kwa">void</span> <span class="kwd">reverse</span><span class="opt">()</span> <span class="kwa">throws</span> Exception <span class="opt">{</span>
+         <span class="kwa">if</span> <span class="opt">(</span>count <span class="opt">&gt;</span> <span class="num">0</span><span class="opt">) {</span>
+            <span class="kwa">int</span> begin <span class="opt">=</span> <span class="num">0</span><span class="opt">,</span> end <span class="opt">=</span> count <span class="opt">-</span> <span class="num">1</span><span class="opt">;</span>
+            <span class="kwa">while</span> <span class="opt">(</span>buf<span class="opt">[</span>begin<span class="opt">++] !=</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">);</span>
+            <span class="kwa">while</span> <span class="opt">(</span>begin <span class="opt">&lt;=</span> end<span class="opt">) {</span>
+               <span class="kwa">if</span> <span class="opt">(</span>buf<span class="opt">[</span>begin<span class="opt">] ==</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">)</span> begin<span class="opt">++;</span>
+               <span class="kwa">if</span> <span class="opt">(</span>buf<span class="opt">[</span>end<span class="opt">] ==</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">)</span> end<span class="opt">--;</span>
+               <span class="kwa">if</span> <span class="opt">(</span>begin <span class="opt">&lt;=</span> end<span class="opt">) {</span>
+                  <span class="kwa">byte</span> tmp <span class="opt">=</span> buf<span class="opt">[</span>begin<span class="opt">];</span>
+                  buf<span class="opt">[</span>begin<span class="opt">++] =</span> cmp<span class="opt">[</span>buf<span class="opt">[</span>end<span class="opt">]];</span>
+                  buf<span class="opt">[</span>end<span class="opt">--] =</span> cmp<span class="opt">[</span>tmp<span class="opt">];</span>
+               <span class="opt">}</span>
+            <span class="opt">}</span>
+            System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>buf<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> count<span class="opt">);</span>
+         <span class="opt">}</span>
+      <span class="opt">}</span>
+   <span class="opt">}</span>
 
-   public static void main(String[] args) throws Exception {
-      byte[] line = new byte[82];
-      int read;
-      ReversibleByteArray buf = new ReversibleByteArray();
-      while ((read = System.in.read(line)) != -1) {
-         int i = 0, last = 0;
-         while (i &lt; read) {
-            if (line[i] == &apos;&gt;&apos;) {
-               buf.write(line, last, i - last);
-               buf.reverse();
-               buf.reset();
-               last = i;
-            }
-            i++;
-         }
-         buf.write(line, last, read - last);
-      }
-      buf.reverse();
-   }
-}
+   <span class="kwa">public static void</span> <span class="kwd">main</span><span class="opt">(</span>String<span class="opt">[]</span> args<span class="opt">)</span> <span class="kwa">throws</span> Exception <span class="opt">{</span>
+      <span class="kwa">byte</span><span class="opt">[]</span> line <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span><span class="num">82</span><span class="opt">];</span>
+      <span class="kwa">int</span> read<span class="opt">;</span>
+      ReversibleByteArray buf <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">ReversibleByteArray</span><span class="opt">();</span>
+      <span class="kwa">while</span> <span class="opt">((</span>read <span class="opt">=</span> System<span class="opt">.</span>in<span class="opt">.</span><span class="kwd">read</span><span class="opt">(</span>line<span class="opt">)) != -</span><span class="num">1</span><span class="opt">) {</span>
+         <span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">,</span> last <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+         <span class="kwa">while</span> <span class="opt">(</span>i <span class="opt">&lt;</span> read<span class="opt">) {</span>
+            <span class="kwa">if</span> <span class="opt">(</span>line<span class="opt">[</span>i<span class="opt">] ==</span> <span class="str">&apos;&gt;&apos;</span><span class="opt">) {</span>
+               buf<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>line<span class="opt">,</span> last<span class="opt">,</span> i <span class="opt">-</span> last<span class="opt">);</span>
+               buf<span class="opt">.</span><span class="kwd">reverse</span><span class="opt">();</span>
+               buf<span class="opt">.</span><span class="kwd">reset</span><span class="opt">();</span>
+               last <span class="opt">=</span> i<span class="opt">;</span>
+            <span class="opt">}</span>
+            i<span class="opt">++;</span>
+         <span class="opt">}</span>
+         buf<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>line<span class="opt">,</span> last<span class="opt">,</span> read <span class="opt">-</span> last<span class="opt">);</span>
+      <span class="opt">}</span>
+      buf<span class="opt">.</span><span class="kwd">reverse</span><span class="opt">();</span>
+   <span class="opt">}</span>
+<span class="opt">}</span>
 
   
     </pre>

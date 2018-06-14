@@ -22,70 +22,70 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/* The Computer Language Benchmarks Game
-   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
- 
-   contributed by Jarkko Miettinen
-   *reset*
-*/
+<span class="com">/* The Computer Language Benchmarks Game</span>
+<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"> </span>
+<span class="com">   contributed by Jarkko Miettinen</span>
+<span class="com">   *reset*</span>
+<span class="com">*/</span>
 
-public class binarytrees {
+<span class="kwa">public class</span> binarytrees <span class="opt">{</span>
 
-   private final static int minDepth = 4;
+   <span class="kwa">private final static int</span> minDepth <span class="opt">=</span> <span class="num">4</span><span class="opt">;</span>
    
-   public static void main(String[] args){
-      int n = 0;
-      if (args.length &gt; 0) n = Integer.parseInt(args[0]);
+   <span class="kwa">public static void</span> <span class="kwd">main</span><span class="opt">(</span>String<span class="opt">[]</span> args<span class="opt">){</span>
+      <span class="kwa">int</span> n <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+      <span class="kwa">if</span> <span class="opt">(</span>args<span class="opt">.</span>length <span class="opt">&gt;</span> <span class="num">0</span><span class="opt">)</span> n <span class="opt">=</span> Integer<span class="opt">.</span><span class="kwd">parseInt</span><span class="opt">(</span>args<span class="opt">[</span><span class="num">0</span><span class="opt">]);</span>
       
-      int maxDepth = (minDepth + 2 &gt; n) ? minDepth + 2 : n;
-      int stretchDepth = maxDepth + 1;
+      <span class="kwa">int</span> maxDepth <span class="opt">= (</span>minDepth <span class="opt">+</span> <span class="num">2</span> <span class="opt">&gt;</span> n<span class="opt">)</span> ? minDepth <span class="opt">+</span> <span class="num">2</span> <span class="opt">:</span> n<span class="opt">;</span>
+      <span class="kwa">int</span> stretchDepth <span class="opt">=</span> maxDepth <span class="opt">+</span> <span class="num">1</span><span class="opt">;</span>
       
-      int check = (TreeNode.bottomUpTree(stretchDepth)).itemCheck();
-      System.out.println(&quot;stretch tree of depth &quot;+stretchDepth+&quot;\t check: &quot; + check);
+      <span class="kwa">int</span> check <span class="opt">= (</span>TreeNode<span class="opt">.</span><span class="kwd">bottomUpTree</span><span class="opt">(</span>stretchDepth<span class="opt">)).</span><span class="kwd">itemCheck</span><span class="opt">();</span>
+      System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span><span class="str">&quot;stretch tree of depth &quot;</span><span class="opt">+</span>stretchDepth<span class="opt">+</span><span class="str">&quot;</span><span class="esc">\t</span> <span class="str">check: &quot;</span> <span class="opt">+</span> check<span class="opt">);</span>
       
-      TreeNode longLivedTree = TreeNode.bottomUpTree(maxDepth);
+      TreeNode longLivedTree <span class="opt">=</span> TreeNode<span class="opt">.</span><span class="kwd">bottomUpTree</span><span class="opt">(</span>maxDepth<span class="opt">);</span>
       
-      for (int depth=minDepth; depth&lt;=maxDepth; depth+=2){
-         int iterations = 1 &lt;&lt; (maxDepth - depth + minDepth);
-         check = 0;
+      <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> depth<span class="opt">=</span>minDepth<span class="opt">;</span> depth<span class="opt">&lt;=</span>maxDepth<span class="opt">;</span> depth<span class="opt">+=</span><span class="num">2</span><span class="opt">){</span>
+         <span class="kwa">int</span> iterations <span class="opt">=</span> <span class="num">1</span> <span class="opt">&lt;&lt; (</span>maxDepth <span class="opt">-</span> depth <span class="opt">+</span> minDepth<span class="opt">);</span>
+         check <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
          
-         for (int i=1; i&lt;=iterations; i++){
-            check += (TreeNode.bottomUpTree(depth)).itemCheck();
-         }
-         System.out.println(iterations + &quot;\t trees of depth &quot; + depth + &quot;\t check: &quot; + check);
-      }   
-      System.out.println(&quot;long lived tree of depth &quot; + maxDepth + &quot;\t check: &quot;+ longLivedTree.itemCheck());
-   }
+         <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">1</span><span class="opt">;</span> i<span class="opt">&lt;=</span>iterations<span class="opt">;</span> i<span class="opt">++){</span>
+            check <span class="opt">+= (</span>TreeNode<span class="opt">.</span><span class="kwd">bottomUpTree</span><span class="opt">(</span>depth<span class="opt">)).</span><span class="kwd">itemCheck</span><span class="opt">();</span>
+         <span class="opt">}</span>
+         System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>iterations <span class="opt">+</span> <span class="str">&quot;</span><span class="esc">\t</span> <span class="str">trees of depth &quot;</span> <span class="opt">+</span> depth <span class="opt">+</span> <span class="str">&quot;</span><span class="esc">\t</span> <span class="str">check: &quot;</span> <span class="opt">+</span> check<span class="opt">);</span>
+      <span class="opt">}</span>   
+      System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span><span class="str">&quot;long lived tree of depth &quot;</span> <span class="opt">+</span> maxDepth <span class="opt">+</span> <span class="str">&quot;</span><span class="esc">\t</span> <span class="str">check: &quot;</span><span class="opt">+</span> longLivedTree<span class="opt">.</span><span class="kwd">itemCheck</span><span class="opt">());</span>
+   <span class="opt">}</span>
    
    
-   private static class TreeNode
-   {
-      private TreeNode left, right;
+   <span class="kwa">private static class</span> TreeNode
+   <span class="opt">{</span>
+      <span class="kwa">private</span> TreeNode left<span class="opt">,</span> right<span class="opt">;</span>
       
-      private static TreeNode bottomUpTree(int depth){
-         if (depth&gt;0){
-            return new TreeNode(
-                  bottomUpTree(depth-1)
-                  , bottomUpTree(depth-1)
-            );
-         }
-         else {
-            return new TreeNode(null,null);
-         }
-      }
+      <span class="kwa">private static</span> TreeNode <span class="kwd">bottomUpTree</span><span class="opt">(</span><span class="kwa">int</span> depth<span class="opt">){</span>
+         <span class="kwa">if</span> <span class="opt">(</span>depth<span class="opt">&gt;</span><span class="num">0</span><span class="opt">){</span>
+            <span class="kwa">return new</span> <span class="kwd">TreeNode</span><span class="opt">(</span>
+                  <span class="kwd">bottomUpTree</span><span class="opt">(</span>depth<span class="opt">-</span><span class="num">1</span><span class="opt">)</span>
+                  <span class="opt">,</span> <span class="kwd">bottomUpTree</span><span class="opt">(</span>depth<span class="opt">-</span><span class="num">1</span><span class="opt">)</span>
+            <span class="opt">);</span>
+         <span class="opt">}</span>
+         <span class="kwa">else</span> <span class="opt">{</span>
+            <span class="kwa">return new</span> <span class="kwd">TreeNode</span><span class="opt">(</span><span class="kwb">null</span><span class="opt">,</span><span class="kwb">null</span><span class="opt">);</span>
+         <span class="opt">}</span>
+      <span class="opt">}</span>
       
-      TreeNode(TreeNode left, TreeNode right){
-         this.left = left;
-         this.right = right;
-      }
+      <span class="kwd">TreeNode</span><span class="opt">(</span>TreeNode left<span class="opt">,</span> TreeNode right<span class="opt">){</span>
+         <span class="kwa">this</span><span class="opt">.</span>left <span class="opt">=</span> left<span class="opt">;</span>
+         <span class="kwa">this</span><span class="opt">.</span>right <span class="opt">=</span> right<span class="opt">;</span>
+      <span class="opt">}</span>
       
-      private int itemCheck(){
-         // if necessary deallocate here
-         if (left==null) return 1;
-         else return 1 + left.itemCheck() + right.itemCheck();
-      }
-   }
-}
+      <span class="kwa">private int</span> <span class="kwd">itemCheck</span><span class="opt">(){</span>
+         <span class="slc">// if necessary deallocate here</span>
+         <span class="kwa">if</span> <span class="opt">(</span>left<span class="opt">==</span><span class="kwb">null</span><span class="opt">)</span> <span class="kwa">return</span> <span class="num">1</span><span class="opt">;</span>
+         <span class="kwa">else return</span> <span class="num">1</span> <span class="opt">+</span> left<span class="opt">.</span><span class="kwd">itemCheck</span><span class="opt">() +</span> right<span class="opt">.</span><span class="kwd">itemCheck</span><span class="opt">();</span>
+      <span class="opt">}</span>
+   <span class="opt">}</span>
+<span class="opt">}</span>
     </pre>
   </section>
   <section>

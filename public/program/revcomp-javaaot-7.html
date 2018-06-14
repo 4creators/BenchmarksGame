@@ -22,225 +22,225 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/* The Computer Language Benchmarks Game
- * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+<span class="com">/* The Computer Language Benchmarks Game</span>
+<span class="com"> * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"></span>
+<span class="com"> * contributed by Sassa NF</span>
+<span class="com"> * fork-join + NIO</span>
+<span class="com"> *</span>
+<span class="com"> * very little left from original contribution by</span>
+<span class="com"> * Jon Edvardsson which in turn is based on</span>
+<span class="com"> * the original program by Anthony Donnefort and Enotus.</span>
+<span class="com"> */</span>
 
- * contributed by Sassa NF
- * fork-join + NIO
- *
- * very little left from original contribution by
- * Jon Edvardsson which in turn is based on
- * the original program by Anthony Donnefort and Enotus.
- */
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.*;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>nio<span class="opt">.*;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>nio<span class="opt">.</span>channels<span class="opt">.*;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>ArrayList<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>concurrent<span class="opt">.*;</span>
 
-import java.io.*;
-import java.nio.*;
-import java.nio.channels.*;
-import java.util.ArrayList;
-import java.util.concurrent.*;
+<span class="kwa">public class</span> revcomp <span class="kwa">extends</span> RecursiveTask<span class="opt">&lt;</span>ArrayList<span class="opt">&lt;</span>revcomp<span class="opt">&gt;&gt; {</span>
+  <span class="kwa">private static final byte</span><span class="opt">[]</span> map <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span><span class="num">128</span><span class="opt">];</span>
+  <span class="kwa">private static final</span> ByteBuffer bytes<span class="opt">;</span>
+  <span class="kwa">private static final</span> Semaphore processed <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">Semaphore</span><span class="opt">(</span><span class="num">0</span><span class="opt">);</span>
+  <span class="kwa">private static final int</span> THRESHOLD <span class="opt">=</span> <span class="num">1024</span><span class="opt">*</span><span class="num">1024</span><span class="opt">;</span>
+  <span class="kwa">private static final</span> ForkJoinPool jobs <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">ForkJoinPool</span><span class="opt">();</span>
 
-public class revcomp extends RecursiveTask&lt;ArrayList&lt;revcomp&gt;&gt; {
-  private static final byte[] map = new byte[128];
-  private static final ByteBuffer bytes;
-  private static final Semaphore processed = new Semaphore(0);
-  private static final int THRESHOLD = 1024*1024;
-  private static final ForkJoinPool jobs = new ForkJoinPool();
+  <span class="kwa">private static int</span> tails <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
 
-  private static int tails = 0;
+  <span class="kwa">static</span> <span class="opt">{</span>
+    ByteBuffer b <span class="opt">=</span> <span class="kwb">null</span><span class="opt">;</span>
+    <span class="kwa">try</span> <span class="opt">{</span>
+      b <span class="opt">=</span> ByteBuffer<span class="opt">.</span><span class="kwd">allocateDirect</span><span class="opt">(</span>System<span class="opt">.</span>in<span class="opt">.</span><span class="kwd">available</span><span class="opt">());</span>
+    <span class="opt">}</span> <span class="kwa">catch</span><span class="opt">(</span>Exception ioe<span class="opt">) {</span>
+    <span class="opt">}</span>
+    bytes <span class="opt">=</span> b<span class="opt">;</span>
+    String<span class="opt">[]</span> mm <span class="opt">= {</span> <span class="str">&quot;ACBDGHK</span><span class="esc">\n</span><span class="str">MNSRUTWVYacbdghkmnsrutwvy&quot;</span><span class="opt">,</span>
+                    <span class="str">&quot;TGVHCDM</span><span class="esc">\n</span><span class="str">KNSYAAWBRTGVHCDMKNSYAAWBR&quot;</span> <span class="opt">};</span>
+    <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> mm<span class="opt">[</span><span class="num">0</span><span class="opt">].</span><span class="kwd">length</span><span class="opt">();</span> i<span class="opt">++)</span>
+      map<span class="opt">[</span>mm<span class="opt">[</span><span class="num">0</span><span class="opt">].</span><span class="kwd">charAt</span><span class="opt">(</span>i<span class="opt">)] = (</span><span class="kwa">byte</span><span class="opt">)</span> mm<span class="opt">[</span><span class="num">1</span><span class="opt">].</span><span class="kwd">charAt</span><span class="opt">(</span>i<span class="opt">);</span>
+  <span class="opt">}</span>
 
-  static {
-    ByteBuffer b = null;
-    try {
-      b = ByteBuffer.allocateDirect(System.in.available());
-    } catch(Exception ioe) {
-    }
-    bytes = b;
-    String[] mm = { &quot;ACBDGHK\nMNSRUTWVYacbdghkmnsrutwvy&quot;,
-                    &quot;TGVHCDM\nKNSYAAWBRTGVHCDMKNSYAAWBR&quot; };
-    for (int i = 0; i &lt; mm[0].length(); i++)
-      map[mm[0].charAt(i)] = (byte) mm[1].charAt(i);
-  }
+  <span class="kwa">private static void</span> <span class="kwd">reverse</span><span class="opt">(</span>ByteBuffer bytes<span class="opt">,</span> <span class="kwa">int</span> f<span class="opt">,</span> <span class="kwa">int</span> t<span class="opt">) {</span>
+    <span class="kwa">if</span> <span class="opt">(</span> f <span class="opt">&gt;=</span> t <span class="opt">)</span> <span class="kwa">return</span><span class="opt">;</span>
+    <span class="kwa">for</span><span class="opt">(;;) {</span>
+      <span class="kwa">int</span> b <span class="opt">=</span> bytes<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>f<span class="opt">);</span>
+      <span class="kwa">if</span> <span class="opt">(</span>b <span class="opt">==</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">)</span> b <span class="opt">=</span> bytes<span class="opt">.</span><span class="kwd">get</span><span class="opt">(++</span>f<span class="opt">);</span>
+      <span class="kwa">int</span> e <span class="opt">=</span> bytes<span class="opt">.</span><span class="kwd">get</span><span class="opt">(--</span>t<span class="opt">);</span>
+      <span class="kwa">if</span> <span class="opt">(</span>e <span class="opt">==</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">)</span> e <span class="opt">=</span> bytes<span class="opt">.</span><span class="kwd">get</span><span class="opt">(--</span>t<span class="opt">);</span>
 
-  private static void reverse(ByteBuffer bytes, int f, int t) {
-    if ( f &gt;= t ) return;
-    for(;;) {
-      int b = bytes.get(f);
-      if (b == &apos;\n&apos;) b = bytes.get(++f);
-      int e = bytes.get(--t);
-      if (e == &apos;\n&apos;) e = bytes.get(--t);
+      <span class="kwa">if</span> <span class="opt">(</span>f <span class="opt">&gt;</span> t<span class="opt">)</span> <span class="kwa">break</span><span class="opt">;</span>
+      bytes<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span>f<span class="opt">++,</span> map<span class="opt">[</span>e<span class="opt">]);</span>
+      bytes<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span>t<span class="opt">,</span> map<span class="opt">[</span>b<span class="opt">]);</span>
+    <span class="opt">}</span>
+  <span class="opt">}</span>
 
-      if (f &gt; t) break;
-      bytes.put(f++, map[e]);
-      bytes.put(t, map[b]);
-    }
-  }
+  <span class="kwa">private static void</span> <span class="kwd">reverse</span><span class="opt">(</span>ByteBuffer<span class="opt">[]</span> bbs<span class="opt">) {</span>
+    <span class="kwa">int</span> head <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+    <span class="kwa">int</span> tail <span class="opt">=</span> bbs<span class="opt">.</span>length<span class="opt">;</span>
+    <span class="kwa">if</span> <span class="opt">(</span> tail <span class="opt">==</span> <span class="num">0</span> <span class="opt">)</span> <span class="kwa">return</span><span class="opt">;</span>
+    ByteBuffer bh <span class="opt">=</span> bbs<span class="opt">[</span>head<span class="opt">++];</span>
+    ByteBuffer bt <span class="opt">=</span> bbs<span class="opt">[--</span>tail<span class="opt">];</span>
+    <span class="kwa">int</span> f <span class="opt">=</span> bh<span class="opt">.</span><span class="kwd">position</span><span class="opt">();</span>
+    <span class="kwa">int</span> t <span class="opt">=</span> bt<span class="opt">.</span><span class="kwd">limit</span><span class="opt">()-</span><span class="num">1</span><span class="opt">;</span>
+    <span class="kwa">while</span><span class="opt">(</span> bh <span class="opt">!=</span> bt <span class="opt">) {</span>
+      <span class="kwa">if</span> <span class="opt">(</span> f <span class="opt">==</span> bh<span class="opt">.</span><span class="kwd">limit</span><span class="opt">() ) {</span>
+        bh <span class="opt">=</span> bbs<span class="opt">[</span>head<span class="opt">++];</span>
+        f <span class="opt">=</span> bh<span class="opt">.</span><span class="kwd">position</span><span class="opt">();</span>
+        <span class="kwa">continue</span><span class="opt">;</span>
+      <span class="opt">}</span>
 
-  private static void reverse(ByteBuffer[] bbs) {
-    int head = 0;
-    int tail = bbs.length;
-    if ( tail == 0 ) return;
-    ByteBuffer bh = bbs[head++];
-    ByteBuffer bt = bbs[--tail];
-    int f = bh.position();
-    int t = bt.limit()-1;
-    while( bh != bt ) {
-      if ( f == bh.limit() ) {
-        bh = bbs[head++];
-        f = bh.position();
-        continue;
-      }
+      <span class="kwa">if</span> <span class="opt">(</span> t <span class="opt">&lt;</span> bt<span class="opt">.</span><span class="kwd">position</span><span class="opt">() ) {</span>
+        bt <span class="opt">=</span> bbs<span class="opt">[--</span>tail<span class="opt">];</span>
+        t <span class="opt">=</span> bt<span class="opt">.</span><span class="kwd">limit</span><span class="opt">()-</span><span class="num">1</span><span class="opt">;</span>
+        <span class="kwa">continue</span><span class="opt">;</span>
+      <span class="opt">}</span>
 
-      if ( t &lt; bt.position() ) {
-        bt = bbs[--tail];
-        t = bt.limit()-1;
-        continue;
-      }
+      <span class="kwa">int</span> b <span class="opt">=</span> bh<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>f<span class="opt">);</span>
+      <span class="kwa">if</span> <span class="opt">(</span>b <span class="opt">==</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span> <span class="opt">) {</span>
+        f<span class="opt">++;</span>
+        <span class="kwa">continue</span><span class="opt">;</span>
+      <span class="opt">}</span>
 
-      int b = bh.get(f);
-      if (b == &apos;\n&apos; ) {
-        f++;
-        continue;
-      }
+      <span class="kwa">int</span> e <span class="opt">=</span> bt<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>t<span class="opt">);</span>
+      <span class="kwa">if</span> <span class="opt">(</span>e <span class="opt">==</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span> <span class="opt">) {</span>
+        t<span class="opt">--;</span>
+        <span class="kwa">continue</span><span class="opt">;</span>
+      <span class="opt">}</span>
 
-      int e = bt.get(t);
-      if (e == &apos;\n&apos; ) {
-        t--;
-        continue;
-      }
+       bh<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span>f<span class="opt">++,</span> map<span class="opt">[</span>e<span class="opt">]);</span>
+       bt<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span>t<span class="opt">--,</span> map<span class="opt">[</span>b<span class="opt">]);</span>
+    <span class="opt">}</span>
 
-       bh.put(f++, map[e]);
-       bt.put(t--, map[b]);
-    }
+    <span class="kwd">reverse</span><span class="opt">(</span>bh<span class="opt">,</span> f<span class="opt">,</span> t<span class="opt">+</span><span class="num">1</span><span class="opt">);</span>
+  <span class="opt">}</span>
 
-    reverse(bh, f, t+1);
-  }
+  <span class="kwa">public static void</span> <span class="kwd">main</span><span class="opt">(</span>String <span class="opt">[]</span> args<span class="opt">)</span> <span class="kwa">throws</span> Exception <span class="opt">{</span>
+    <span class="kwa">long</span> t0 <span class="opt">=</span> System<span class="opt">.</span><span class="kwd">nanoTime</span><span class="opt">();</span>
+    FileChannel in <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">FileInputStream</span><span class="opt">(</span>FileDescriptor<span class="opt">.</span>in<span class="opt">).</span><span class="kwd">getChannel</span><span class="opt">();</span>
+    <span class="kwa">while</span><span class="opt">(</span>bytes<span class="opt">.</span><span class="kwd">hasRemaining</span><span class="opt">()) {</span>
+      in<span class="opt">.</span><span class="kwd">read</span><span class="opt">(</span>bytes<span class="opt">);</span>
+    <span class="opt">}</span>
+    bytes<span class="opt">.</span><span class="kwd">flip</span><span class="opt">();</span>
 
-  public static void main(String [] args) throws Exception {
-    long t0 = System.nanoTime();
-    FileChannel in = new FileInputStream(FileDescriptor.in).getChannel();
-    while(bytes.hasRemaining()) {
-      in.read(bytes);
-    }
-    bytes.flip();
+    revcomp t <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">revcomp</span><span class="opt">(</span>bytes<span class="opt">);</span>
+    jobs<span class="opt">.</span><span class="kwd">execute</span><span class="opt">(</span>t<span class="opt">);</span>
 
-    revcomp t = new revcomp(bytes);
-    jobs.execute(t);
+    ArrayList<span class="opt">&lt;</span>revcomp<span class="opt">&gt;</span> bs <span class="opt">=</span> t<span class="opt">.</span><span class="kwd">flatten</span><span class="opt">();</span>
+    ArrayList<span class="opt">&lt;</span>ByteBuffer<span class="opt">&gt;</span> head <span class="opt">=</span> <span class="kwa">new</span> ArrayList<span class="opt">&lt;</span>ByteBuffer<span class="opt">&gt;(</span>bs<span class="opt">.</span><span class="kwd">size</span><span class="opt">()*</span><span class="num">2</span><span class="opt">);</span>
+    ArrayList<span class="opt">&lt;</span>ByteBuffer<span class="opt">&gt;</span> tail <span class="opt">=</span> <span class="kwa">new</span> ArrayList<span class="opt">&lt;</span>ByteBuffer<span class="opt">&gt;(</span>bs<span class="opt">.</span><span class="kwd">size</span><span class="opt">()*</span><span class="num">2</span><span class="opt">);</span>
+    <span class="kwa">for</span><span class="opt">(</span> revcomp b<span class="opt">:</span> bs <span class="opt">)</span> b<span class="opt">.</span><span class="kwd">foldl</span><span class="opt">(</span> head<span class="opt">,</span> tail <span class="opt">);</span>
 
-    ArrayList&lt;revcomp&gt; bs = t.flatten();
-    ArrayList&lt;ByteBuffer&gt; head = new ArrayList&lt;ByteBuffer&gt;(bs.size()*2);
-    ArrayList&lt;ByteBuffer&gt; tail = new ArrayList&lt;ByteBuffer&gt;(bs.size()*2);
-    for( revcomp b: bs ) b.foldl( head, tail );
+    <span class="kwd">reverse</span><span class="opt">(</span>tail<span class="opt">.</span><span class="kwd">toArray</span><span class="opt">(</span><span class="kwa">new</span> ByteBuffer<span class="opt">[</span><span class="num">0</span><span class="opt">]));</span>
 
-    reverse(tail.toArray(new ByteBuffer[0]));
+    head<span class="opt">.</span><span class="kwd">addAll</span><span class="opt">(</span>tail<span class="opt">);</span>
+    ByteBuffer<span class="opt">[]</span> toWrite <span class="opt">=</span> head<span class="opt">.</span><span class="kwd">toArray</span><span class="opt">(</span><span class="kwa">new</span> ByteBuffer<span class="opt">[</span><span class="num">0</span><span class="opt">]);</span>
 
-    head.addAll(tail);
-    ByteBuffer[] toWrite = head.toArray(new ByteBuffer[0]);
+    processed<span class="opt">.</span><span class="kwd">acquire</span><span class="opt">(</span>tails<span class="opt">);</span>
 
-    processed.acquire(tails);
+    FileChannel out <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">FileOutputStream</span><span class="opt">(</span>FileDescriptor<span class="opt">.</span>out<span class="opt">).</span><span class="kwd">getChannel</span><span class="opt">();</span>
 
-    FileChannel out = new FileOutputStream(FileDescriptor.out).getChannel();
+    <span class="kwa">long</span> sz<span class="opt">=</span><span class="num">0</span><span class="opt">;</span>
+    <span class="kwa">while</span><span class="opt">((</span> sz <span class="opt">+=</span> out<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>toWrite<span class="opt">) ) &lt;</span> bytes<span class="opt">.</span><span class="kwd">capacity</span><span class="opt">());</span>
+    out<span class="opt">.</span><span class="kwd">force</span><span class="opt">(</span><span class="kwb">true</span><span class="opt">);</span>
 
-    long sz=0;
-    while(( sz += out.write(toWrite) ) &lt; bytes.capacity());
-    out.force(true);
+    System<span class="opt">.</span>err<span class="opt">.</span><span class="kwd">println</span><span class="opt">( (</span> System<span class="opt">.</span><span class="kwd">nanoTime</span><span class="opt">() -</span> t0 <span class="opt">) /</span> <span class="num">1</span>e9 <span class="opt">);</span>
+  <span class="opt">}</span>
 
-    System.err.println( ( System.nanoTime() - t0 ) / 1e9 );
-  }
+  ByteBuffer<span class="opt">[]</span> bufs<span class="opt">;</span>
+  ByteBuffer buf<span class="opt">;</span>
+  <span class="kwa">int</span> firstt<span class="opt">;</span>
+  <span class="kwa">int</span> lastf<span class="opt">;</span>
 
-  ByteBuffer[] bufs;
-  ByteBuffer buf;
-  int firstt;
-  int lastf;
+  <span class="kwa">public</span> <span class="kwd">revcomp</span><span class="opt">(</span>ByteBuffer b<span class="opt">) {</span>
+    buf <span class="opt">=</span> b<span class="opt">;</span>
+  <span class="opt">}</span>
 
-  public revcomp(ByteBuffer b) {
-    buf = b;
-  }
+  <span class="kwa">public</span> <span class="kwd">revcomp</span><span class="opt">(</span>ByteBuffer<span class="opt">[]</span> bs<span class="opt">) {</span>
+    bufs <span class="opt">=</span> bs<span class="opt">;</span>
+  <span class="opt">}</span>
 
-  public revcomp(ByteBuffer[] bs) {
-    bufs = bs;
-  }
+  <span class="kwa">protected</span> ArrayList<span class="opt">&lt;</span>revcomp<span class="opt">&gt;</span> <span class="kwd">compute</span><span class="opt">() {</span>
+    <span class="kwa">if</span> <span class="opt">(</span>bufs <span class="opt">!=</span> <span class="kwb">null</span><span class="opt">) {</span>
+      <span class="kwd">reverse</span><span class="opt">(</span>bufs<span class="opt">);</span>
+      processed<span class="opt">.</span><span class="kwd">release</span><span class="opt">(</span><span class="num">1</span><span class="opt">);</span>
+      <span class="kwa">return</span> <span class="kwb">null</span><span class="opt">;</span>
+    <span class="opt">}</span>
 
-  protected ArrayList&lt;revcomp&gt; compute() {
-    if (bufs != null) {
-      reverse(bufs);
-      processed.release(1);
-      return null;
-    }
+    ArrayList<span class="opt">&lt;</span>revcomp<span class="opt">&gt;</span> al <span class="opt">=</span> <span class="kwa">new</span> ArrayList<span class="opt">&lt;</span>revcomp<span class="opt">&gt;();</span>
 
-    ArrayList&lt;revcomp&gt; al = new ArrayList&lt;revcomp&gt;();
+    <span class="kwa">while</span><span class="opt">(</span> buf<span class="opt">.</span><span class="kwd">remaining</span><span class="opt">() &gt;</span> THRESHOLD <span class="opt">) {</span>
+      <span class="kwa">int</span> next <span class="opt">= (</span>buf<span class="opt">.</span><span class="kwd">position</span><span class="opt">() +</span> buf<span class="opt">.</span><span class="kwd">limit</span><span class="opt">()) /</span> <span class="num">2</span><span class="opt">;</span>
+         <span class="slc">// assuming well-formed input, the buffer must contain</span>
+         <span class="slc">// at least one CRLF in THRESHOLD bytes</span>
+      <span class="kwa">while</span><span class="opt">(</span> buf<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>next<span class="opt">) !=</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span> <span class="opt">)</span> next<span class="opt">--;</span> 
+      ByteBuffer b <span class="opt">=</span> buf<span class="opt">.</span><span class="kwd">slice</span><span class="opt">();</span>
+      b<span class="opt">.</span><span class="kwd">limit</span><span class="opt">(</span>next<span class="opt">+</span><span class="num">1</span><span class="opt">-</span>buf<span class="opt">.</span><span class="kwd">position</span><span class="opt">());</span>
+      buf<span class="opt">.</span><span class="kwd">position</span><span class="opt">(</span>next<span class="opt">+</span><span class="num">1</span><span class="opt">);</span>
+      revcomp t <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">revcomp</span><span class="opt">(</span>b<span class="opt">);</span>
+      jobs<span class="opt">.</span><span class="kwd">execute</span><span class="opt">(</span>t<span class="opt">);</span>
+      al<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span>t<span class="opt">);</span>
+    <span class="opt">}</span>
 
-    while( buf.remaining() &gt; THRESHOLD ) {
-      int next = (buf.position() + buf.limit()) / 2;
-         // assuming well-formed input, the buffer must contain
-         // at least one CRLF in THRESHOLD bytes
-      while( buf.get(next) != &apos;\n&apos; ) next--; 
-      ByteBuffer b = buf.slice();
-      b.limit(next+1-buf.position());
-      buf.position(next+1);
-      revcomp t = new revcomp(b);
-      jobs.execute(t);
-      al.add(t);
-    }
+    <span class="kwa">int</span> f <span class="opt">=</span> buf<span class="opt">.</span><span class="kwd">position</span><span class="opt">();</span>
+    <span class="kwa">int</span> t <span class="opt">=</span> f<span class="opt">;</span>
+    <span class="kwa">while</span><span class="opt">(</span>t <span class="opt">&lt;</span> buf<span class="opt">.</span><span class="kwd">limit</span><span class="opt">() &amp;&amp;</span> buf<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>t<span class="opt">) !=</span> <span class="str">&apos;&gt;&apos;</span><span class="opt">)</span> t<span class="opt">++;</span>
+    lastf <span class="opt">=</span> f<span class="opt">;</span>
+    firstt <span class="opt">=</span> t<span class="opt">;</span> 
+       <span class="slc">// this is where the first entry ends; </span>
+       <span class="slc">// it must go before the last entry of the previous job</span>
+    <span class="kwa">for</span><span class="opt">(;;) {</span>
+         <span class="slc">// we don&apos;t reverse the first entry, </span>
+         <span class="slc">// and we don&apos;t reverse the last entry</span>
+      <span class="kwa">while</span><span class="opt">(</span>t <span class="opt">&lt;</span> buf<span class="opt">.</span><span class="kwd">limit</span><span class="opt">() &amp;&amp;</span> buf<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>t<span class="opt">) !=</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">)</span> t<span class="opt">++;</span>
+      <span class="kwa">if</span> <span class="opt">(</span> t <span class="opt">==</span> buf<span class="opt">.</span><span class="kwd">limit</span><span class="opt">() )</span> <span class="kwa">break</span><span class="opt">;</span>
+      f <span class="opt">=</span> t<span class="opt">+</span><span class="num">1</span><span class="opt">;</span>
+      lastf <span class="opt">=</span> f<span class="opt">;</span>
 
-    int f = buf.position();
-    int t = f;
-    while(t &lt; buf.limit() &amp;&amp; buf.get(t) != &apos;&gt;&apos;) t++;
-    lastf = f;
-    firstt = t; 
-       // this is where the first entry ends; 
-       // it must go before the last entry of the previous job
-    for(;;) {
-         // we don&apos;t reverse the first entry, 
-         // and we don&apos;t reverse the last entry
-      while(t &lt; buf.limit() &amp;&amp; buf.get(t) != &apos;\n&apos;) t++;
-      if ( t == buf.limit() ) break;
-      f = t+1;
-      lastf = f;
+      <span class="kwa">while</span><span class="opt">(</span>t <span class="opt">&lt;</span> buf<span class="opt">.</span><span class="kwd">limit</span><span class="opt">() &amp;&amp;</span> buf<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>t<span class="opt">) !=</span> <span class="str">&apos;&gt;&apos;</span><span class="opt">)</span> t<span class="opt">++;</span>
+      <span class="kwa">if</span> <span class="opt">(</span> t <span class="opt">==</span> buf<span class="opt">.</span><span class="kwd">limit</span><span class="opt">() )</span> <span class="kwa">break</span><span class="opt">;</span>
 
-      while(t &lt; buf.limit() &amp;&amp; buf.get(t) != &apos;&gt;&apos;) t++;
-      if ( t == buf.limit() ) break;
+      <span class="kwd">reverse</span><span class="opt">(</span> buf<span class="opt">,</span> f<span class="opt">,</span> t <span class="opt">);</span>
+    <span class="opt">}</span>
 
-      reverse( buf, f, t );
-    }
+    <span class="kwa">return</span> al<span class="opt">;</span>
+  <span class="opt">}</span>
 
-    return al;
-  }
+  <span class="kwa">public</span> ArrayList<span class="opt">&lt;</span>revcomp<span class="opt">&gt;</span> <span class="kwd">flatten</span><span class="opt">()</span> <span class="kwa">throws</span> InterruptedException<span class="opt">,</span> ExecutionException <span class="opt">{</span>
+    ArrayList<span class="opt">&lt;</span>revcomp<span class="opt">&gt;</span> pre <span class="opt">=</span> <span class="kwd">get</span><span class="opt">();</span>
+    ArrayList<span class="opt">&lt;</span>revcomp<span class="opt">&gt;</span> r <span class="opt">=</span> pre<span class="opt">.</span><span class="kwd">isEmpty</span><span class="opt">()</span> ? pre<span class="opt">:</span> <span class="kwa">new</span> ArrayList<span class="opt">&lt;</span>revcomp<span class="opt">&gt;();</span>
+    <span class="kwa">for</span><span class="opt">(</span> revcomp p<span class="opt">:</span> pre <span class="opt">)</span> r<span class="opt">.</span><span class="kwd">addAll</span><span class="opt">(</span> p<span class="opt">.</span><span class="kwd">flatten</span><span class="opt">() );</span>
+    r<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span><span class="kwa">this</span><span class="opt">);</span>
+    <span class="kwa">return</span> r<span class="opt">;</span>
+  <span class="opt">}</span>
 
-  public ArrayList&lt;revcomp&gt; flatten() throws InterruptedException, ExecutionException {
-    ArrayList&lt;revcomp&gt; pre = get();
-    ArrayList&lt;revcomp&gt; r = pre.isEmpty() ? pre: new ArrayList&lt;revcomp&gt;();
-    for( revcomp p: pre ) r.addAll( p.flatten() );
-    r.add(this);
-    return r;
-  }
+  <span class="kwa">public void</span> <span class="kwd">foldl</span><span class="opt">(</span>ArrayList<span class="opt">&lt;</span>ByteBuffer<span class="opt">&gt;</span> head<span class="opt">,</span> ArrayList<span class="opt">&lt;</span>ByteBuffer<span class="opt">&gt;</span> tail<span class="opt">) {</span>
+    <span class="kwa">if</span> <span class="opt">(</span> lastf <span class="opt">&lt;=</span> firstt <span class="opt">) {</span> 
+         <span class="slc">// all in one chunk - add all to head</span>
+      tail<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span>buf<span class="opt">);</span>
+      <span class="kwa">return</span><span class="opt">;</span>
+    <span class="opt">}</span>
+    <span class="kwa">if</span> <span class="opt">(</span>firstt <span class="opt">&gt;</span> buf<span class="opt">.</span><span class="kwd">position</span><span class="opt">()) {</span>
+      ByteBuffer first <span class="opt">=</span> buf<span class="opt">.</span><span class="kwd">slice</span><span class="opt">();</span>
+      first<span class="opt">.</span><span class="kwd">limit</span><span class="opt">(</span>firstt <span class="opt">-</span> buf<span class="opt">.</span><span class="kwd">position</span><span class="opt">());</span>
 
-  public void foldl(ArrayList&lt;ByteBuffer&gt; head, ArrayList&lt;ByteBuffer&gt; tail) {
-    if ( lastf &lt;= firstt ) { 
-         // all in one chunk - add all to head
-      tail.add(buf);
-      return;
-    }
-    if (firstt &gt; buf.position()) {
-      ByteBuffer first = buf.slice();
-      first.limit(firstt - buf.position());
+      tail<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span>first<span class="opt">);</span>
+    <span class="opt">}</span>
+    jobs<span class="opt">.</span><span class="kwd">execute</span><span class="opt">(</span><span class="kwa">new</span> <span class="kwd">revcomp</span><span class="opt">(</span>tail<span class="opt">.</span><span class="kwd">toArray</span><span class="opt">(</span><span class="kwa">new</span> ByteBuffer<span class="opt">[</span><span class="num">0</span><span class="opt">])));</span>
+    tails<span class="opt">++;</span>
+    head<span class="opt">.</span><span class="kwd">addAll</span><span class="opt">(</span>tail<span class="opt">);</span>
+    head<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span>buf<span class="opt">);</span>
 
-      tail.add(first);
-    }
-    jobs.execute(new revcomp(tail.toArray(new ByteBuffer[0])));
-    tails++;
-    head.addAll(tail);
-    head.add(buf);
+    tail<span class="opt">.</span><span class="kwd">clear</span><span class="opt">();</span>
 
-    tail.clear();
+    ByteBuffer last <span class="opt">=</span> buf<span class="opt">.</span><span class="kwd">slice</span><span class="opt">();</span>
+    last<span class="opt">.</span><span class="kwd">position</span><span class="opt">(</span>lastf <span class="opt">-</span> buf<span class="opt">.</span><span class="kwd">position</span><span class="opt">());</span>
+    buf<span class="opt">.</span><span class="kwd">limit</span><span class="opt">(</span>lastf<span class="opt">);</span>
+    tail<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span>last<span class="opt">);</span>
 
-    ByteBuffer last = buf.slice();
-    last.position(lastf - buf.position());
-    buf.limit(lastf);
-    tail.add(last);
-
-    buf.position(firstt);
-  }
-}
+    buf<span class="opt">.</span><span class="kwd">position</span><span class="opt">(</span>firstt<span class="opt">);</span>
+  <span class="opt">}</span>
+<span class="opt">}</span>
     </pre>
   </section>
   <section>

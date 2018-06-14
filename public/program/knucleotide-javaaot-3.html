@@ -22,171 +22,171 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/* The Computer Language Benchmarks Game
- https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+<span class="com">/* The Computer Language Benchmarks Game</span>
+<span class="com"> https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"></span>
+<span class="com"> contributed by James McIlree</span>
+<span class="com"> ByteString code thanks to Matthieu Bentot and The Anh Tran</span>
+<span class="com"> modified by Andy Fingerhut </span>
+<span class="com"> */</span>
 
- contributed by James McIlree
- ByteString code thanks to Matthieu Bentot and The Anh Tran
- modified by Andy Fingerhut 
- */
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.*;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.*;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>concurrent<span class="opt">.*;</span>
 
-import java.util.*;
-import java.io.*;
-import java.util.concurrent.*;
+<span class="kwa">public class</span> knucleotide <span class="opt">{</span>
+    <span class="kwa">static</span> ArrayList<span class="opt">&lt;</span>Callable<span class="opt">&lt;</span> Map<span class="opt">&lt;</span>ByteString<span class="opt">,</span> ByteString<span class="opt">&gt; &gt; &gt;</span> <span class="kwd">createFragmentTasks</span><span class="opt">(</span><span class="kwa">final byte</span><span class="opt">[]</span> sequence<span class="opt">,</span> <span class="kwa">int</span><span class="opt">[]</span> fragmentLengths<span class="opt">) {</span>
+	ArrayList<span class="opt">&lt;</span>Callable<span class="opt">&lt;</span>Map<span class="opt">&lt;</span>ByteString<span class="opt">,</span> ByteString<span class="opt">&gt;&gt;&gt;</span> tasks <span class="opt">=</span> <span class="kwa">new</span> ArrayList<span class="opt">&lt;</span>Callable<span class="opt">&lt;</span>Map<span class="opt">&lt;</span>ByteString<span class="opt">,</span> ByteString<span class="opt">&gt;&gt;&gt;();</span>
+	<span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> fragmentLength <span class="opt">:</span> fragmentLengths<span class="opt">) {</span>
+	    <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> index<span class="opt">=</span><span class="num">0</span><span class="opt">;</span> index<span class="opt">&lt;</span>fragmentLength<span class="opt">;</span> index<span class="opt">++) {</span>
+		<span class="kwa">final int</span> offset <span class="opt">=</span> index<span class="opt">;</span>
+		<span class="kwa">final int</span> finalFragmentLength <span class="opt">=</span> fragmentLength<span class="opt">;</span>
+		tasks<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span><span class="kwa">new</span> Callable<span class="opt">&lt;</span>Map<span class="opt">&lt;</span>ByteString<span class="opt">,</span> ByteString<span class="opt">&gt;&gt;() {</span>
+		    <span class="kwa">public</span> Map<span class="opt">&lt;</span>ByteString<span class="opt">,</span> ByteString<span class="opt">&gt;</span> <span class="kwd">call</span><span class="opt">() {</span>
+			<span class="kwa">return</span> <span class="kwd">createFragmentMap</span><span class="opt">(</span>sequence<span class="opt">,</span> offset<span class="opt">,</span> finalFragmentLength<span class="opt">);</span>
+		    <span class="opt">}</span>
+		<span class="opt">});</span>
+	    <span class="opt">}</span>
+	<span class="opt">}</span>
+	<span class="kwa">return</span> tasks<span class="opt">;</span>
+    <span class="opt">}</span>
 
-public class knucleotide {
-    static ArrayList&lt;Callable&lt; Map&lt;ByteString, ByteString&gt; &gt; &gt; createFragmentTasks(final byte[] sequence, int[] fragmentLengths) {
-	ArrayList&lt;Callable&lt;Map&lt;ByteString, ByteString&gt;&gt;&gt; tasks = new ArrayList&lt;Callable&lt;Map&lt;ByteString, ByteString&gt;&gt;&gt;();
-	for (int fragmentLength : fragmentLengths) {
-	    for (int index=0; index&lt;fragmentLength; index++) {
-		final int offset = index;
-		final int finalFragmentLength = fragmentLength;
-		tasks.add(new Callable&lt;Map&lt;ByteString, ByteString&gt;&gt;() {
-		    public Map&lt;ByteString, ByteString&gt; call() {
-			return createFragmentMap(sequence, offset, finalFragmentLength);
-		    }
-		});
-	    }
-	}
-	return tasks;
-    }
+    <span class="kwa">static</span> Map<span class="opt">&lt;</span>ByteString<span class="opt">,</span> ByteString<span class="opt">&gt;</span> <span class="kwd">createFragmentMap</span><span class="opt">(</span><span class="kwa">byte</span><span class="opt">[]</span> sequence<span class="opt">,</span> <span class="kwa">int</span> offset<span class="opt">,</span> <span class="kwa">int</span> fragmentLength<span class="opt">) {</span>
+	HashMap<span class="opt">&lt;</span>ByteString<span class="opt">,</span> ByteString<span class="opt">&gt;</span> map <span class="opt">=</span> <span class="kwa">new</span> HashMap<span class="opt">&lt;</span>ByteString<span class="opt">,</span> ByteString<span class="opt">&gt;();</span>
+	<span class="kwa">int</span> lastIndex <span class="opt">=</span> sequence<span class="opt">.</span>length <span class="opt">-</span> fragmentLength <span class="opt">+</span> <span class="num">1</span><span class="opt">;</span>
+	ByteString key <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">ByteString</span><span class="opt">(</span>fragmentLength<span class="opt">);</span>
+	<span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> index<span class="opt">=</span>offset<span class="opt">;</span> index<span class="opt">&lt;</span>lastIndex<span class="opt">;</span> index<span class="opt">+=</span>fragmentLength<span class="opt">) {</span>
+	    key<span class="opt">.</span><span class="kwd">calculateHash</span><span class="opt">(</span>sequence<span class="opt">,</span> index<span class="opt">);</span>
+	    ByteString fragment <span class="opt">=</span> map<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>key<span class="opt">);</span>
+	    <span class="kwa">if</span> <span class="opt">(</span>fragment <span class="opt">!=</span> <span class="kwb">null</span><span class="opt">) {</span>
+		fragment<span class="opt">.</span>count<span class="opt">++;</span>
+	    <span class="opt">}</span> <span class="kwa">else</span> <span class="opt">{</span>
+		map<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span>key<span class="opt">,</span> key<span class="opt">);</span>
+		key <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">ByteString</span><span class="opt">(</span>fragmentLength<span class="opt">);</span>
+	    <span class="opt">}</span>
+	<span class="opt">}</span>
 
-    static Map&lt;ByteString, ByteString&gt; createFragmentMap(byte[] sequence, int offset, int fragmentLength) {
-	HashMap&lt;ByteString, ByteString&gt; map = new HashMap&lt;ByteString, ByteString&gt;();
-	int lastIndex = sequence.length - fragmentLength + 1;
-	ByteString key = new ByteString(fragmentLength);
-	for (int index=offset; index&lt;lastIndex; index+=fragmentLength) {
-	    key.calculateHash(sequence, index);
-	    ByteString fragment = map.get(key);
-	    if (fragment != null) {
-		fragment.count++;
-	    } else {
-		map.put(key, key);
-		key = new ByteString(fragmentLength);
-	    }
-	}
+	<span class="kwa">return</span> map<span class="opt">;</span>
+    <span class="opt">}</span>
 
-	return map;
-    }
+    <span class="slc">// Destructive!</span>
+    <span class="kwa">static</span> Map<span class="opt">&lt;</span>ByteString<span class="opt">,</span> ByteString<span class="opt">&gt;</span> <span class="kwd">sumTwoMaps</span><span class="opt">(</span>Map<span class="opt">&lt;</span>ByteString<span class="opt">,</span> ByteString<span class="opt">&gt;</span> map1<span class="opt">,</span> Map<span class="opt">&lt;</span>ByteString<span class="opt">,</span> ByteString<span class="opt">&gt;</span> map2<span class="opt">) {</span>
+	<span class="kwa">for</span> <span class="opt">(</span>Map<span class="opt">.</span>Entry<span class="opt">&lt;</span>ByteString<span class="opt">,</span> ByteString<span class="opt">&gt;</span> entry <span class="opt">:</span> map2<span class="opt">.</span><span class="kwd">entrySet</span><span class="opt">()) {</span>
+	    ByteString sum <span class="opt">=</span> map1<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>entry<span class="opt">.</span><span class="kwd">getKey</span><span class="opt">());</span>
+	    <span class="kwa">if</span> <span class="opt">(</span>sum <span class="opt">!=</span> <span class="kwb">null</span><span class="opt">)</span>
+		sum<span class="opt">.</span>count <span class="opt">+=</span> entry<span class="opt">.</span><span class="kwd">getValue</span><span class="opt">().</span>count<span class="opt">;</span>
+	    <span class="kwa">else</span>
+		map1<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span>entry<span class="opt">.</span><span class="kwd">getKey</span><span class="opt">(),</span> entry<span class="opt">.</span><span class="kwd">getValue</span><span class="opt">());</span>
+	<span class="opt">}</span>
+	<span class="kwa">return</span> map1<span class="opt">;</span>
+    <span class="opt">}</span>
 
-    // Destructive!
-    static Map&lt;ByteString, ByteString&gt; sumTwoMaps(Map&lt;ByteString, ByteString&gt; map1, Map&lt;ByteString, ByteString&gt; map2) {
-	for (Map.Entry&lt;ByteString, ByteString&gt; entry : map2.entrySet()) {
-	    ByteString sum = map1.get(entry.getKey());
-	    if (sum != null)
-		sum.count += entry.getValue().count;
-	    else
-		map1.put(entry.getKey(), entry.getValue());
-	}
-	return map1;
-    }
+    <span class="kwa">static</span> String <span class="kwd">writeFrequencies</span><span class="opt">(</span><span class="kwa">float</span> totalCount<span class="opt">,</span> Map<span class="opt">&lt;</span>ByteString<span class="opt">,</span> ByteString<span class="opt">&gt;</span> frequencies<span class="opt">) {</span>
+	SortedSet<span class="opt">&lt;</span>ByteString<span class="opt">&gt;</span> list <span class="opt">=</span> <span class="kwa">new</span> TreeSet<span class="opt">&lt;</span>ByteString<span class="opt">&gt;(</span>frequencies<span class="opt">.</span><span class="kwd">values</span><span class="opt">());</span>
+	StringBuilder sb <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">StringBuilder</span><span class="opt">();</span>
+	<span class="kwa">for</span> <span class="opt">(</span>ByteString k <span class="opt">:</span> list<span class="opt">)</span>
+	    sb<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span>String<span class="opt">.</span><span class="kwd">format</span><span class="opt">(</span><span class="str">&quot;%s %.3f</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">,</span> k<span class="opt">.</span><span class="kwd">toString</span><span class="opt">().</span><span class="kwd">toUpperCase</span><span class="opt">(), (</span><span class="kwa">float</span><span class="opt">)(</span>k<span class="opt">.</span>count<span class="opt">) *</span> <span class="num">100.0</span>f <span class="opt">/</span> totalCount<span class="opt">));</span>
 
-    static String writeFrequencies(float totalCount, Map&lt;ByteString, ByteString&gt; frequencies) {
-	SortedSet&lt;ByteString&gt; list = new TreeSet&lt;ByteString&gt;(frequencies.values());
-	StringBuilder sb = new StringBuilder();
-	for (ByteString k : list)
-	    sb.append(String.format(&quot;%s %.3f\n&quot;, k.toString().toUpperCase(), (float)(k.count) * 100.0f / totalCount));
+	<span class="kwa">return</span> sb<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span><span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">).</span><span class="kwd">toString</span><span class="opt">();</span>
+    <span class="opt">}</span>
 
-	return sb.append(&apos;\n&apos;).toString();
-    }
+    <span class="kwa">static</span> String <span class="kwd">writeCount</span><span class="opt">(</span>List<span class="opt">&lt;</span>Future<span class="opt">&lt;</span>Map<span class="opt">&lt;</span>ByteString<span class="opt">,</span> ByteString<span class="opt">&gt;&gt;&gt;</span> futures<span class="opt">,</span> String nucleotideFragment<span class="opt">)</span> <span class="kwa">throws</span> Exception <span class="opt">{</span>
+	ByteString key <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">ByteString</span><span class="opt">(</span>nucleotideFragment<span class="opt">.</span><span class="kwd">length</span><span class="opt">());</span>
+	key<span class="opt">.</span><span class="kwd">calculateHash</span><span class="opt">(</span>nucleotideFragment<span class="opt">.</span><span class="kwd">getBytes</span><span class="opt">(),</span> <span class="num">0</span><span class="opt">);</span>
 
-    static String writeCount(List&lt;Future&lt;Map&lt;ByteString, ByteString&gt;&gt;&gt; futures, String nucleotideFragment) throws Exception {
-	ByteString key = new ByteString(nucleotideFragment.length());
-	key.calculateHash(nucleotideFragment.getBytes(), 0);
+	<span class="kwa">int</span> count <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+	<span class="kwa">for</span> <span class="opt">(</span>Future<span class="opt">&lt;</span>Map<span class="opt">&lt;</span>ByteString<span class="opt">,</span> ByteString<span class="opt">&gt;&gt;</span> future <span class="opt">:</span> futures<span class="opt">) {</span>
+	    ByteString temp <span class="opt">=</span> future<span class="opt">.</span><span class="kwd">get</span><span class="opt">().</span><span class="kwd">get</span><span class="opt">(</span>key<span class="opt">);</span>
+	    <span class="kwa">if</span> <span class="opt">(</span>temp <span class="opt">!=</span> <span class="kwb">null</span><span class="opt">)</span> count <span class="opt">+=</span> temp<span class="opt">.</span>count<span class="opt">;</span>
+	<span class="opt">}</span>
 
-	int count = 0;
-	for (Future&lt;Map&lt;ByteString, ByteString&gt;&gt; future : futures) {
-	    ByteString temp = future.get().get(key);
-	    if (temp != null) count += temp.count;
-	}
+	<span class="kwa">return</span> count <span class="opt">+</span> <span class="str">&quot;</span><span class="esc">\t</span><span class="str">&quot;</span> <span class="opt">+</span> nucleotideFragment<span class="opt">.</span><span class="kwd">toUpperCase</span><span class="opt">() +</span> <span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">;</span>
+    <span class="opt">}</span>
 
-	return count + &quot;\t&quot; + nucleotideFragment.toUpperCase() + &apos;\n&apos;;
-    }
+    <span class="kwa">public static void</span> <span class="kwd">main</span> <span class="opt">(</span>String<span class="opt">[]</span> args<span class="opt">)</span> <span class="kwa">throws</span> Exception <span class="opt">{</span>
+	String line<span class="opt">;</span>
+	BufferedReader in <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">BufferedReader</span><span class="opt">(</span><span class="kwa">new</span> <span class="kwd">InputStreamReader</span><span class="opt">(</span>System<span class="opt">.</span>in<span class="opt">));</span>
+	<span class="kwa">while</span> <span class="opt">((</span>line <span class="opt">=</span> in<span class="opt">.</span><span class="kwd">readLine</span><span class="opt">()) !=</span> <span class="kwb">null</span><span class="opt">) {</span>
+	    <span class="kwa">if</span> <span class="opt">(</span>line<span class="opt">.</span><span class="kwd">startsWith</span><span class="opt">(</span><span class="str">&quot;&gt;THREE&quot;</span><span class="opt">))</span> <span class="kwa">break</span><span class="opt">;</span>
+	<span class="opt">}</span>
 
-    public static void main (String[] args) throws Exception {
-	String line;
-	BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-	while ((line = in.readLine()) != null) {
-	    if (line.startsWith(&quot;&gt;THREE&quot;)) break;
-	}
+	ByteArrayOutputStream baos <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">ByteArrayOutputStream</span><span class="opt">();</span>
+        <span class="kwa">byte</span> bytes<span class="opt">[] =</span> <span class="kwa">new byte</span><span class="opt">[</span><span class="num">100</span><span class="opt">];</span>
+        <span class="kwa">while</span><span class="opt">((</span>line <span class="opt">=</span> in<span class="opt">.</span><span class="kwd">readLine</span><span class="opt">()) !=</span> <span class="kwb">null</span><span class="opt">) {</span>
+	    <span class="kwa">if</span> <span class="opt">(</span>line<span class="opt">.</span><span class="kwd">length</span><span class="opt">() &gt;</span> bytes<span class="opt">.</span>length<span class="opt">)</span>
+		bytes <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span>line<span class="opt">.</span><span class="kwd">length</span><span class="opt">()];</span>
 
-	ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte bytes[] = new byte[100];
-        while((line = in.readLine()) != null) {
-	    if (line.length() &gt; bytes.length)
-		bytes = new byte[line.length()];
+	    <span class="kwa">int</span> i<span class="opt">;</span>
+	    <span class="kwa">for</span><span class="opt">(</span>i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span> i<span class="opt">&lt;</span>line<span class="opt">.</span><span class="kwd">length</span><span class="opt">();</span> i<span class="opt">++)</span>
+		bytes<span class="opt">[</span>i<span class="opt">] = (</span><span class="kwa">byte</span><span class="opt">)</span>line<span class="opt">.</span><span class="kwd">charAt</span><span class="opt">(</span>i<span class="opt">);</span>
+	    baos<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>bytes<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> i<span class="opt">);</span>
+        <span class="opt">}</span>
 
-	    int i;
-	    for(i=0; i&lt;line.length(); i++)
-		bytes[i] = (byte)line.charAt(i);
-	    baos.write(bytes, 0, i);
-        }
+	<span class="kwa">byte</span><span class="opt">[]</span> sequence <span class="opt">=</span> baos<span class="opt">.</span><span class="kwd">toByteArray</span><span class="opt">();</span>
 
-	byte[] sequence = baos.toByteArray();
+	ExecutorService pool <span class="opt">=</span> Executors<span class="opt">.</span><span class="kwd">newFixedThreadPool</span><span class="opt">(</span>Runtime<span class="opt">.</span><span class="kwd">getRuntime</span><span class="opt">().</span><span class="kwd">availableProcessors</span><span class="opt">());</span>
+	<span class="kwa">int</span><span class="opt">[]</span> fragmentLengths <span class="opt">= {</span> <span class="num">1</span><span class="opt">,</span> <span class="num">2</span><span class="opt">,</span> <span class="num">3</span><span class="opt">,</span> <span class="num">4</span><span class="opt">,</span> <span class="num">6</span><span class="opt">,</span> <span class="num">12</span><span class="opt">,</span> <span class="num">18</span> <span class="opt">};</span>
+	List<span class="opt">&lt;</span>Future<span class="opt">&lt;</span>Map<span class="opt">&lt;</span>ByteString<span class="opt">,</span> ByteString<span class="opt">&gt;&gt;&gt;</span> futures <span class="opt">=</span> pool<span class="opt">.</span><span class="kwd">invokeAll</span><span class="opt">(</span><span class="kwd">createFragmentTasks</span><span class="opt">(</span>sequence<span class="opt">,</span> fragmentLengths<span class="opt">));</span>
+	pool<span class="opt">.</span><span class="kwd">shutdown</span><span class="opt">();</span>
 
-	ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-	int[] fragmentLengths = { 1, 2, 3, 4, 6, 12, 18 };
-	List&lt;Future&lt;Map&lt;ByteString, ByteString&gt;&gt;&gt; futures = pool.invokeAll(createFragmentTasks(sequence, fragmentLengths));
-	pool.shutdown();
+	StringBuilder sb <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">StringBuilder</span><span class="opt">();</span>
 
-	StringBuilder sb = new StringBuilder();
+	sb<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span><span class="kwd">writeFrequencies</span><span class="opt">(</span>sequence<span class="opt">.</span>length<span class="opt">,</span> futures<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span><span class="num">0</span><span class="opt">).</span><span class="kwd">get</span><span class="opt">()));</span>
+	sb<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span><span class="kwd">writeFrequencies</span><span class="opt">(</span>sequence<span class="opt">.</span>length <span class="opt">-</span> <span class="num">1</span><span class="opt">,</span> <span class="kwd">sumTwoMaps</span><span class="opt">(</span>futures<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span><span class="num">1</span><span class="opt">).</span><span class="kwd">get</span><span class="opt">(),</span> futures<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span><span class="num">2</span><span class="opt">).</span><span class="kwd">get</span><span class="opt">())));</span>
 
-	sb.append(writeFrequencies(sequence.length, futures.get(0).get()));
-	sb.append(writeFrequencies(sequence.length - 1, sumTwoMaps(futures.get(1).get(), futures.get(2).get())));
+	String<span class="opt">[]</span> nucleotideFragments <span class="opt">= {</span> <span class="str">&quot;ggt&quot;</span><span class="opt">,</span> <span class="str">&quot;ggta&quot;</span><span class="opt">,</span> <span class="str">&quot;ggtatt&quot;</span><span class="opt">,</span> <span class="str">&quot;ggtattttaatt&quot;</span><span class="opt">,</span> <span class="str">&quot;ggtattttaatttatagt&quot;</span> <span class="opt">};</span>
+	<span class="kwa">for</span> <span class="opt">(</span>String nucleotideFragment <span class="opt">:</span> nucleotideFragments<span class="opt">) {</span>
+	    sb<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span><span class="kwd">writeCount</span><span class="opt">(</span>futures<span class="opt">,</span> nucleotideFragment<span class="opt">));</span>
+	<span class="opt">}</span>
 
-	String[] nucleotideFragments = { &quot;ggt&quot;, &quot;ggta&quot;, &quot;ggtatt&quot;, &quot;ggtattttaatt&quot;, &quot;ggtattttaatttatagt&quot; };
-	for (String nucleotideFragment : nucleotideFragments) {
-	    sb.append(writeCount(futures, nucleotideFragment));
-	}
+	System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">print</span><span class="opt">(</span>sb<span class="opt">.</span><span class="kwd">toString</span><span class="opt">());</span>
+    <span class="opt">}</span>
 
-	System.out.print(sb.toString());
-    }
+    <span class="kwa">static final class</span> ByteString <span class="kwa">implements</span> Comparable<span class="opt">&lt;</span>ByteString<span class="opt">&gt; {</span>
+        <span class="kwa">public int</span> hash<span class="opt">,</span> count<span class="opt">=</span><span class="num">1</span><span class="opt">;</span>
+        <span class="kwa">public final byte</span> bytes<span class="opt">[];</span>
 
-    static final class ByteString implements Comparable&lt;ByteString&gt; {
-        public int hash, count=1;
-        public final byte bytes[];
+        <span class="kwa">public</span> <span class="kwd">ByteString</span><span class="opt">(</span><span class="kwa">int</span> size<span class="opt">) {</span>
+            bytes <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span>size<span class="opt">];</span>
+        <span class="opt">}</span>
 
-        public ByteString(int size) {
-            bytes = new byte[size];
-        }
+        <span class="kwa">public void</span> <span class="kwd">calculateHash</span><span class="opt">(</span><span class="kwa">byte</span> k<span class="opt">[],</span> <span class="kwa">int</span> offset<span class="opt">) {</span>
+	    <span class="kwa">int</span> temp <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+            <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span> i<span class="opt">&lt;</span>bytes<span class="opt">.</span>length<span class="opt">;</span> i<span class="opt">++) {</span>
+		<span class="kwa">byte</span> b <span class="opt">=</span> k<span class="opt">[</span>offset<span class="opt">+</span>i<span class="opt">];</span>
+                bytes<span class="opt">[</span>i<span class="opt">] =</span> b<span class="opt">;</span>
+                temp <span class="opt">=</span> temp <span class="opt">*</span> <span class="num">31</span> <span class="opt">+</span> b<span class="opt">;</span>
+            <span class="opt">}</span>
+	    hash <span class="opt">=</span> temp<span class="opt">;</span>
+        <span class="opt">}</span>
 
-        public void calculateHash(byte k[], int offset) {
-	    int temp = 0;
-            for (int i=0; i&lt;bytes.length; i++) {
-		byte b = k[offset+i];
-                bytes[i] = b;
-                temp = temp * 31 + b;
-            }
-	    hash = temp;
-        }
+        <span class="kwa">public int</span> <span class="kwd">hashCode</span><span class="opt">() {</span>
+            <span class="kwa">return</span> hash<span class="opt">;</span>
+        <span class="opt">}</span>
 
-        public int hashCode() {
-            return hash;
-        }
+        <span class="kwa">public boolean</span> <span class="kwd">equals</span><span class="opt">(</span>Object obj<span class="opt">) {</span>
+	    <span class="kwa">return</span> Arrays<span class="opt">.</span><span class="kwd">equals</span><span class="opt">(</span>bytes<span class="opt">, ((</span>ByteString<span class="opt">)</span>obj<span class="opt">).</span>bytes<span class="opt">);</span>
+        <span class="opt">}</span>
 
-        public boolean equals(Object obj) {
-	    return Arrays.equals(bytes, ((ByteString)obj).bytes);
-        }
+        <span class="kwa">public int</span> <span class="kwd">compareTo</span><span class="opt">(</span>ByteString other<span class="opt">) {</span>
+	    <span class="kwa">if</span> <span class="opt">(</span>other<span class="opt">.</span>count <span class="opt">!=</span> count<span class="opt">) {</span>
+		<span class="kwa">return</span> other<span class="opt">.</span>count <span class="opt">-</span> count<span class="opt">;</span>
+	    <span class="opt">}</span> <span class="kwa">else</span> <span class="opt">{</span>
+		<span class="slc">// Without this case, if there are two or more strings</span>
+		<span class="slc">// with exactly the same count in a Map, then the</span>
+		<span class="slc">// TreeSet constructor called in writeFrequencies will</span>
+		<span class="slc">// only add the first one, and the rest will not</span>
+		<span class="slc">// appear in the output.  Also this is required to</span>
+		<span class="slc">// satisfy the rules of the k-nucleotide problem.</span>
+		<span class="kwa">return</span> <span class="kwd">toString</span><span class="opt">().</span><span class="kwd">compareTo</span><span class="opt">(</span>other<span class="opt">.</span><span class="kwd">toString</span><span class="opt">());</span>
+	    <span class="opt">}</span>
+        <span class="opt">}</span>
 
-        public int compareTo(ByteString other) {
-	    if (other.count != count) {
-		return other.count - count;
-	    } else {
-		// Without this case, if there are two or more strings
-		// with exactly the same count in a Map, then the
-		// TreeSet constructor called in writeFrequencies will
-		// only add the first one, and the rest will not
-		// appear in the output.  Also this is required to
-		// satisfy the rules of the k-nucleotide problem.
-		return toString().compareTo(other.toString());
-	    }
-        }
-
-	public String toString() {
-	    return new String(bytes);
-	}
-    }
-}
+	<span class="kwa">public</span> String <span class="kwd">toString</span><span class="opt">() {</span>
+	    <span class="kwa">return new</span> <span class="kwd">String</span><span class="opt">(</span>bytes<span class="opt">);</span>
+	<span class="opt">}</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
     </pre>
   </section>
   <section>

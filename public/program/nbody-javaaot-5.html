@@ -22,187 +22,187 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/* The Computer Language Benchmarks Game
-   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+<span class="com">/* The Computer Language Benchmarks Game</span>
+<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"></span>
+<span class="com">   contributed by Mark C. Lewis</span>
+<span class="com">   double[] instead of Object[] by Han Kai</span>
+<span class="com">*/</span>
 
-   contributed by Mark C. Lewis
-   double[] instead of Object[] by Han Kai
-*/
+<span class="kwa">public final class</span> nbody <span class="opt">{</span>
+   <span class="kwa">public static void</span> <span class="kwd">main</span><span class="opt">(</span>String<span class="opt">[]</span> args<span class="opt">) {</span>
+      <span class="kwa">int</span> n <span class="opt">=</span> Integer<span class="opt">.</span><span class="kwd">parseInt</span><span class="opt">(</span>args<span class="opt">[</span><span class="num">0</span><span class="opt">]);</span>
 
-public final class nbody {
-   public static void main(String[] args) {
-      int n = Integer.parseInt(args[0]);
+      NBodySystem bodies <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">NBodySystem</span><span class="opt">();</span>
+      System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">printf</span><span class="opt">(</span><span class="str">&quot;%.9f</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">,</span> bodies<span class="opt">.</span><span class="kwd">energy</span><span class="opt">());</span>
+      <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> n<span class="opt">; ++</span>i<span class="opt">)</span>
+         bodies<span class="opt">.</span><span class="kwd">advance</span><span class="opt">(</span><span class="num">0.01</span><span class="opt">);</span>
+      System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">printf</span><span class="opt">(</span><span class="str">&quot;%.9f</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">,</span> bodies<span class="opt">.</span><span class="kwd">energy</span><span class="opt">());</span>
+   <span class="opt">}</span>
 
-      NBodySystem bodies = new NBodySystem();
-      System.out.printf(&quot;%.9f\n&quot;, bodies.energy());
-      for (int i = 0; i &lt; n; ++i)
-         bodies.advance(0.01);
-      System.out.printf(&quot;%.9f\n&quot;, bodies.energy());
-   }
+   <span class="kwa">final static class</span> NBodySystem <span class="opt">{</span>
+      <span class="kwa">private static final double</span> PI <span class="opt">=</span> <span class="num">3.141592653589793</span><span class="opt">;</span>
+      <span class="kwa">private static final double</span> SOLAR_MASS <span class="opt">=</span> <span class="num">4</span> <span class="opt">*</span> PI <span class="opt">*</span> PI<span class="opt">;</span>
+      <span class="kwa">private static final double</span> DAYS_PER_YEAR <span class="opt">=</span> <span class="num">365.24</span><span class="opt">;</span>
+      <span class="kwa">private static final int</span> BODY_SIZE <span class="opt">=</span> <span class="num">8</span><span class="opt">;</span>
+      <span class="kwa">private static final int</span> BODY_COUNT <span class="opt">=</span> <span class="num">5</span><span class="opt">;</span>
 
-   final static class NBodySystem {
-      private static final double PI = 3.141592653589793;
-      private static final double SOLAR_MASS = 4 * PI * PI;
-      private static final double DAYS_PER_YEAR = 365.24;
-      private static final int BODY_SIZE = 8;
-      private static final int BODY_COUNT = 5;
+      <span class="kwa">private static final int</span> x <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+      <span class="kwa">private static final int</span> y <span class="opt">=</span> <span class="num">1</span><span class="opt">;</span>
+      <span class="kwa">private static final int</span> z <span class="opt">=</span> <span class="num">2</span><span class="opt">;</span>
+      <span class="kwa">private static final int</span> vx <span class="opt">=</span> <span class="num">3</span><span class="opt">;</span>
+      <span class="kwa">private static final int</span> vy <span class="opt">=</span> <span class="num">4</span><span class="opt">;</span>
+      <span class="kwa">private static final int</span> vz <span class="opt">=</span> <span class="num">5</span><span class="opt">;</span>
+      <span class="kwa">private static final int</span> mass <span class="opt">=</span> <span class="num">6</span><span class="opt">;</span>
 
-      private static final int x = 0;
-      private static final int y = 1;
-      private static final int z = 2;
-      private static final int vx = 3;
-      private static final int vy = 4;
-      private static final int vz = 5;
-      private static final int mass = 6;
+      <span class="kwa">private final double</span><span class="opt">[]</span> _bodies <span class="opt">= {</span>
+            <span class="slc">//sun begin</span>
+            <span class="num">0</span><span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> SOLAR_MASS<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span>
+            <span class="slc">//sun end</span>
 
-      private final double[] _bodies = {
-            //sun begin
-            0, 0, 0, 0, 0, 0, SOLAR_MASS, 0,
-            //sun end
+            <span class="slc">//jupiter begin</span>
+            <span class="num">4.84143144246472090e+00</span><span class="opt">,</span><span class="slc">//</span>
+            <span class="opt">-</span><span class="num">1.16032004402742839e+00</span><span class="opt">,</span><span class="slc">//</span>
+            <span class="opt">-</span><span class="num">1.03622044471123109e-01</span><span class="opt">,</span><span class="slc">//</span>
+            <span class="num">1.66007664274403694e-03</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span><span class="slc">//</span>
+            <span class="num">7.69901118419740425e-03</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span><span class="slc">//</span>
+            <span class="opt">-</span><span class="num">6.90460016972063023e-05</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span><span class="slc">//</span>
+            <span class="num">9.54791938424326609e-04</span> <span class="opt">*</span> SOLAR_MASS<span class="opt">,</span><span class="slc">//</span>
+            <span class="num">0</span><span class="opt">,</span>
+            <span class="slc">//jupiter end</span>
 
-            //jupiter begin
-            4.84143144246472090e+00,//
-            -1.16032004402742839e+00,//
-            -1.03622044471123109e-01,//
-            1.66007664274403694e-03 * DAYS_PER_YEAR,//
-            7.69901118419740425e-03 * DAYS_PER_YEAR,//
-            -6.90460016972063023e-05 * DAYS_PER_YEAR,//
-            9.54791938424326609e-04 * SOLAR_MASS,//
-            0,
-            //jupiter end
+            <span class="slc">//saturn begin</span>
+            <span class="num">8.34336671824457987e+00</span><span class="opt">,</span><span class="slc">//</span>
+            <span class="num">4.12479856412430479e+00</span><span class="opt">,</span><span class="slc">//</span>
+            <span class="opt">-</span><span class="num">4.03523417114321381e-01</span><span class="opt">,</span><span class="slc">//</span>
+            <span class="opt">-</span><span class="num">2.76742510726862411e-03</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span><span class="slc">//</span>
+            <span class="num">4.99852801234917238e-03</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span><span class="slc">//</span>
+            <span class="num">2.30417297573763929e-05</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span><span class="slc">//</span>
+            <span class="num">2.85885980666130812e-04</span> <span class="opt">*</span> SOLAR_MASS<span class="opt">,</span><span class="slc">//</span>
+            <span class="num">0</span><span class="opt">,</span>
+            <span class="slc">//saturn end</span>
 
-            //saturn begin
-            8.34336671824457987e+00,//
-            4.12479856412430479e+00,//
-            -4.03523417114321381e-01,//
-            -2.76742510726862411e-03 * DAYS_PER_YEAR,//
-            4.99852801234917238e-03 * DAYS_PER_YEAR,//
-            2.30417297573763929e-05 * DAYS_PER_YEAR,//
-            2.85885980666130812e-04 * SOLAR_MASS,//
-            0,
-            //saturn end
+            <span class="slc">//uranus begin</span>
+            <span class="num">1.28943695621391310e+01</span><span class="opt">,</span><span class="slc">//</span>
+            <span class="opt">-</span><span class="num">1.51111514016986312e+01</span><span class="opt">,</span><span class="slc">//</span>
+            <span class="opt">-</span><span class="num">2.23307578892655734e-01</span><span class="opt">,</span><span class="slc">//</span>
+            <span class="num">2.96460137564761618e-03</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span><span class="slc">//</span>
+            <span class="num">2.37847173959480950e-03</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span><span class="slc">//</span>
+            <span class="opt">-</span><span class="num">2.96589568540237556e-05</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span><span class="slc">//</span>
+            <span class="num">4.36624404335156298e-05</span> <span class="opt">*</span> SOLAR_MASS<span class="opt">,</span><span class="slc">//</span>
+            <span class="num">0</span><span class="opt">,</span>
+            <span class="slc">//uranus end</span>
 
-            //uranus begin
-            1.28943695621391310e+01,//
-            -1.51111514016986312e+01,//
-            -2.23307578892655734e-01,//
-            2.96460137564761618e-03 * DAYS_PER_YEAR,//
-            2.37847173959480950e-03 * DAYS_PER_YEAR,//
-            -2.96589568540237556e-05 * DAYS_PER_YEAR,//
-            4.36624404335156298e-05 * SOLAR_MASS,//
-            0,
-            //uranus end
+            <span class="slc">//neptune begin</span>
+            <span class="num">1.53796971148509165e+01</span><span class="opt">,</span><span class="slc">//</span>
+            <span class="opt">-</span><span class="num">2.59193146099879641e+01</span><span class="opt">,</span><span class="slc">//</span>
+            <span class="num">1.79258772950371181e-01</span><span class="opt">,</span><span class="slc">//</span>
+            <span class="num">2.68067772490389322e-03</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span><span class="slc">//</span>
+            <span class="num">1.62824170038242295e-03</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span><span class="slc">//</span>
+            <span class="opt">-</span><span class="num">9.51592254519715870e-05</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span><span class="slc">//</span>
+            <span class="num">5.15138902046611451e-05</span> <span class="opt">*</span> SOLAR_MASS<span class="opt">,</span> <span class="slc">//</span>
+            <span class="num">0</span>
+            <span class="slc">//neptune end</span>
+      <span class="opt">};</span>
 
-            //neptune begin
-            1.53796971148509165e+01,//
-            -2.59193146099879641e+01,//
-            1.79258772950371181e-01,//
-            2.68067772490389322e-03 * DAYS_PER_YEAR,//
-            1.62824170038242295e-03 * DAYS_PER_YEAR,//
-            -9.51592254519715870e-05 * DAYS_PER_YEAR,//
-            5.15138902046611451e-05 * SOLAR_MASS, //
-            0
-            //neptune end
-      };
+      <span class="kwa">public</span> <span class="kwd">NBodySystem</span><span class="opt">() {</span>
+         <span class="kwa">double</span> px <span class="opt">=</span> <span class="num">0.0</span><span class="opt">;</span>
+         <span class="kwa">double</span> py <span class="opt">=</span> <span class="num">0.0</span><span class="opt">;</span>
+         <span class="kwa">double</span> pz <span class="opt">=</span> <span class="num">0.0</span><span class="opt">;</span>
 
-      public NBodySystem() {
-         double px = 0.0;
-         double py = 0.0;
-         double pz = 0.0;
+         <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> BODY_COUNT<span class="opt">; ++</span>i<span class="opt">) {</span>
+            <span class="kwa">final int</span> ioffset <span class="opt">=</span> BODY_SIZE <span class="opt">*</span> i<span class="opt">;</span>
+            <span class="kwa">double</span> imass <span class="opt">=</span> _bodies<span class="opt">[</span>ioffset <span class="opt">+</span> mass<span class="opt">];</span>
 
-         for (int i = 0; i &lt; BODY_COUNT; ++i) {
-            final int ioffset = BODY_SIZE * i;
-            double imass = _bodies[ioffset + mass];
+            px <span class="opt">+=</span> _bodies<span class="opt">[</span>ioffset <span class="opt">+</span> vx<span class="opt">] *</span> imass<span class="opt">;</span>
+            py <span class="opt">+=</span> _bodies<span class="opt">[</span>ioffset <span class="opt">+</span> vy<span class="opt">] *</span> imass<span class="opt">;</span>
+            pz <span class="opt">+=</span> _bodies<span class="opt">[</span>ioffset <span class="opt">+</span> vz<span class="opt">] *</span> imass<span class="opt">;</span>
+         <span class="opt">}</span>
 
-            px += _bodies[ioffset + vx] * imass;
-            py += _bodies[ioffset + vy] * imass;
-            pz += _bodies[ioffset + vz] * imass;
-         }
+         _bodies<span class="opt">[</span>vx<span class="opt">] = -</span>px <span class="opt">/</span> SOLAR_MASS<span class="opt">;</span>
+         _bodies<span class="opt">[</span>vy<span class="opt">] = -</span>py <span class="opt">/</span> SOLAR_MASS<span class="opt">;</span>
+         _bodies<span class="opt">[</span>vz<span class="opt">] = -</span>pz <span class="opt">/</span> SOLAR_MASS<span class="opt">;</span>
+      <span class="opt">}</span>
 
-         _bodies[vx] = -px / SOLAR_MASS;
-         _bodies[vy] = -py / SOLAR_MASS;
-         _bodies[vz] = -pz / SOLAR_MASS;
-      }
+      <span class="kwa">public void</span> <span class="kwd">advance</span><span class="opt">(</span><span class="kwa">double</span> dt<span class="opt">) {</span>
+         <span class="kwa">final double</span><span class="opt">[]</span> bodies <span class="opt">=</span> _bodies<span class="opt">;</span>
 
-      public void advance(double dt) {
-         final double[] bodies = _bodies;
+         <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> BODY_COUNT<span class="opt">; ++</span>i<span class="opt">) {</span>
+            <span class="kwa">final int</span> offset <span class="opt">=</span> BODY_SIZE <span class="opt">*</span> i<span class="opt">;</span>
 
-         for (int i = 0; i &lt; BODY_COUNT; ++i) {
-            final int offset = BODY_SIZE * i;
+            <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> j <span class="opt">=</span> i <span class="opt">+</span> <span class="num">1</span><span class="opt">;</span> j <span class="opt">&lt;</span> BODY_COUNT<span class="opt">; ++</span>j<span class="opt">) {</span>
+               <span class="kwa">final int</span> ioffset <span class="opt">=</span> offset<span class="opt">;</span>
+               <span class="kwa">final int</span> joffset <span class="opt">=</span> BODY_SIZE <span class="opt">*</span> j<span class="opt">;</span>
 
-            for (int j = i + 1; j &lt; BODY_COUNT; ++j) {
-               final int ioffset = offset;
-               final int joffset = BODY_SIZE * j;
+               <span class="kwa">final double</span> dx <span class="opt">=</span> bodies<span class="opt">[</span>ioffset <span class="opt">+</span> x<span class="opt">] -</span> bodies<span class="opt">[</span>joffset <span class="opt">+</span> x<span class="opt">];</span>
+               <span class="kwa">final double</span> dy <span class="opt">=</span> bodies<span class="opt">[</span>ioffset <span class="opt">+</span> y<span class="opt">] -</span> bodies<span class="opt">[</span>joffset <span class="opt">+</span> y<span class="opt">];</span>
+               <span class="kwa">final double</span> dz <span class="opt">=</span> bodies<span class="opt">[</span>ioffset <span class="opt">+</span> z<span class="opt">] -</span> bodies<span class="opt">[</span>joffset <span class="opt">+</span> z<span class="opt">];</span>
 
-               final double dx = bodies[ioffset + x] - bodies[joffset + x];
-               final double dy = bodies[ioffset + y] - bodies[joffset + y];
-               final double dz = bodies[ioffset + z] - bodies[joffset + z];
+               <span class="kwa">final double</span> dSquared <span class="opt">=</span> dx <span class="opt">*</span> dx <span class="opt">+</span> dy <span class="opt">*</span> dy <span class="opt">+</span> dz <span class="opt">*</span> dz<span class="opt">;</span>
+               <span class="kwa">final double</span> distance <span class="opt">=</span> Math<span class="opt">.</span><span class="kwd">sqrt</span><span class="opt">(</span>dSquared<span class="opt">);</span>
+               <span class="kwa">final double</span> mag <span class="opt">=</span> dt <span class="opt">/ (</span>dSquared <span class="opt">*</span> distance<span class="opt">);</span>
 
-               final double dSquared = dx * dx + dy * dy + dz * dz;
-               final double distance = Math.sqrt(dSquared);
-               final double mag = dt / (dSquared * distance);
+               <span class="kwa">final double</span> jmass <span class="opt">=</span> bodies<span class="opt">[</span>joffset <span class="opt">+</span> mass<span class="opt">];</span>
 
-               final double jmass = bodies[joffset + mass];
+               bodies<span class="opt">[</span>ioffset <span class="opt">+</span> vx<span class="opt">] -=</span> dx <span class="opt">*</span> jmass <span class="opt">*</span> mag<span class="opt">;</span>
+               bodies<span class="opt">[</span>ioffset <span class="opt">+</span> vy<span class="opt">] -=</span> dy <span class="opt">*</span> jmass <span class="opt">*</span> mag<span class="opt">;</span>
+               bodies<span class="opt">[</span>ioffset <span class="opt">+</span> vz<span class="opt">] -=</span> dz <span class="opt">*</span> jmass <span class="opt">*</span> mag<span class="opt">;</span>
 
-               bodies[ioffset + vx] -= dx * jmass * mag;
-               bodies[ioffset + vy] -= dy * jmass * mag;
-               bodies[ioffset + vz] -= dz * jmass * mag;
+               <span class="kwa">final double</span> imass <span class="opt">=</span> bodies<span class="opt">[</span>ioffset <span class="opt">+</span> mass<span class="opt">];</span>
+               bodies<span class="opt">[</span>joffset <span class="opt">+</span> vx<span class="opt">] +=</span> dx <span class="opt">*</span> imass <span class="opt">*</span> mag<span class="opt">;</span>
+               bodies<span class="opt">[</span>joffset <span class="opt">+</span> vy<span class="opt">] +=</span> dy <span class="opt">*</span> imass <span class="opt">*</span> mag<span class="opt">;</span>
+               bodies<span class="opt">[</span>joffset <span class="opt">+</span> vz<span class="opt">] +=</span> dz <span class="opt">*</span> imass <span class="opt">*</span> mag<span class="opt">;</span>
+            <span class="opt">}</span>
+         <span class="opt">}</span>
 
-               final double imass = bodies[ioffset + mass];
-               bodies[joffset + vx] += dx * imass * mag;
-               bodies[joffset + vy] += dy * imass * mag;
-               bodies[joffset + vz] += dz * imass * mag;
-            }
-         }
+         <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> BODY_COUNT<span class="opt">; ++</span>i<span class="opt">) {</span>
+            <span class="kwa">final int</span> ioffset <span class="opt">=</span> BODY_SIZE <span class="opt">*</span> i<span class="opt">;</span>
 
-         for (int i = 0; i &lt; BODY_COUNT; ++i) {
-            final int ioffset = BODY_SIZE * i;
+            bodies<span class="opt">[</span>ioffset <span class="opt">+</span> x<span class="opt">] +=</span> dt <span class="opt">*</span> bodies<span class="opt">[</span>ioffset <span class="opt">+</span> vx<span class="opt">];</span>
+            bodies<span class="opt">[</span>ioffset <span class="opt">+</span> y<span class="opt">] +=</span> dt <span class="opt">*</span> bodies<span class="opt">[</span>ioffset <span class="opt">+</span> vy<span class="opt">];</span>
+            bodies<span class="opt">[</span>ioffset <span class="opt">+</span> z<span class="opt">] +=</span> dt <span class="opt">*</span> bodies<span class="opt">[</span>ioffset <span class="opt">+</span> vz<span class="opt">];</span>
+         <span class="opt">}</span>
+      <span class="opt">}</span>
 
-            bodies[ioffset + x] += dt * bodies[ioffset + vx];
-            bodies[ioffset + y] += dt * bodies[ioffset + vy];
-            bodies[ioffset + z] += dt * bodies[ioffset + vz];
-         }
-      }
+      <span class="kwa">public double</span> <span class="kwd">energy</span><span class="opt">() {</span>
+         <span class="kwa">final double</span><span class="opt">[]</span> bodies <span class="opt">=</span> _bodies<span class="opt">;</span>
 
-      public double energy() {
-         final double[] bodies = _bodies;
+         <span class="kwa">double</span> dx<span class="opt">,</span> dy<span class="opt">,</span> dz<span class="opt">,</span> distance<span class="opt">;</span>
+         <span class="kwa">double</span> e <span class="opt">=</span> <span class="num">0.0</span><span class="opt">;</span>
 
-         double dx, dy, dz, distance;
-         double e = 0.0;
+         <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> BODY_COUNT<span class="opt">; ++</span>i<span class="opt">) {</span>
+            <span class="kwa">final int</span> offset <span class="opt">=</span> BODY_SIZE <span class="opt">*</span> i<span class="opt">;</span>
 
-         for (int i = 0; i &lt; BODY_COUNT; ++i) {
-            final int offset = BODY_SIZE * i;
+            <span class="kwa">final double</span> ivx <span class="opt">=</span> bodies<span class="opt">[</span>offset <span class="opt">+</span> vx<span class="opt">];</span>
+            <span class="kwa">final double</span> ivy <span class="opt">=</span> bodies<span class="opt">[</span>offset <span class="opt">+</span> vy<span class="opt">];</span>
+            <span class="kwa">final double</span> ivz <span class="opt">=</span> bodies<span class="opt">[</span>offset <span class="opt">+</span> vz<span class="opt">];</span>
+            <span class="kwa">final double</span> imass <span class="opt">=</span> bodies<span class="opt">[</span>offset <span class="opt">+</span> mass<span class="opt">];</span>
 
-            final double ivx = bodies[offset + vx];
-            final double ivy = bodies[offset + vy];
-            final double ivz = bodies[offset + vz];
-            final double imass = bodies[offset + mass];
+            e <span class="opt">+=</span> <span class="num">0.5</span> <span class="opt">*</span> imass <span class="opt">* (</span>ivx <span class="opt">*</span> ivx <span class="opt">+</span> ivy <span class="opt">*</span> ivy <span class="opt">+</span> ivz <span class="opt">*</span> ivz<span class="opt">);</span>
 
-            e += 0.5 * imass * (ivx * ivx + ivy * ivy + ivz * ivz);
+            <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> j <span class="opt">=</span> i <span class="opt">+</span> <span class="num">1</span><span class="opt">;</span> j <span class="opt">&lt;</span> BODY_COUNT<span class="opt">; ++</span>j<span class="opt">) {</span>
+               <span class="kwa">final int</span> ioffset <span class="opt">=</span> offset<span class="opt">;</span>
+               <span class="kwa">final int</span> joffset <span class="opt">=</span> BODY_SIZE <span class="opt">*</span> j<span class="opt">;</span>
 
-            for (int j = i + 1; j &lt; BODY_COUNT; ++j) {
-               final int ioffset = offset;
-               final int joffset = BODY_SIZE * j;
+               <span class="kwa">final double</span> ix <span class="opt">=</span> bodies<span class="opt">[</span>ioffset <span class="opt">+</span> x<span class="opt">];</span>
+               <span class="kwa">final double</span> iy <span class="opt">=</span> bodies<span class="opt">[</span>ioffset <span class="opt">+</span> y<span class="opt">];</span>
+               <span class="kwa">final double</span> iz <span class="opt">=</span> bodies<span class="opt">[</span>ioffset <span class="opt">+</span> z<span class="opt">];</span>
 
-               final double ix = bodies[ioffset + x];
-               final double iy = bodies[ioffset + y];
-               final double iz = bodies[ioffset + z];
+               dx <span class="opt">=</span> ix <span class="opt">-</span> bodies<span class="opt">[</span>joffset <span class="opt">+</span> x<span class="opt">];</span>
+               dy <span class="opt">=</span> iy <span class="opt">-</span> bodies<span class="opt">[</span>joffset <span class="opt">+</span> y<span class="opt">];</span>
+               dz <span class="opt">=</span> iz <span class="opt">-</span> bodies<span class="opt">[</span>joffset <span class="opt">+</span> z<span class="opt">];</span>
 
-               dx = ix - bodies[joffset + x];
-               dy = iy - bodies[joffset + y];
-               dz = iz - bodies[joffset + z];
+               distance <span class="opt">=</span> Math<span class="opt">.</span><span class="kwd">sqrt</span><span class="opt">(</span>dx <span class="opt">*</span> dx <span class="opt">+</span> dy <span class="opt">*</span> dy <span class="opt">+</span> dz <span class="opt">*</span> dz<span class="opt">);</span>
+               e <span class="opt">-= (</span>imass <span class="opt">*</span> bodies<span class="opt">[</span>joffset <span class="opt">+</span> mass<span class="opt">]) /</span> distance<span class="opt">;</span>
+            <span class="opt">}</span>
+         <span class="opt">}</span>
 
-               distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-               e -= (imass * bodies[joffset + mass]) / distance;
-            }
-         }
+         <span class="kwa">return</span> e<span class="opt">;</span>
+      <span class="opt">}</span>
 
-         return e;
-      }
+   <span class="opt">}</span>
 
-   }
-
-}
+<span class="opt">}</span>
     </pre>
   </section>
   <section>

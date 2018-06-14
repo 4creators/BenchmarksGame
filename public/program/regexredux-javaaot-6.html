@@ -22,74 +22,74 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/*
-   The Computer Language Benchmarks Game
-   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+<span class="com">/*</span>
+<span class="com">   The Computer Language Benchmarks Game</span>
+<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"></span>
+<span class="com">   contributed by Francois Green</span>
+<span class="com">*/</span>
 
-   contributed by Francois Green
-*/
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.*;</span>
 
-import java.io.*;
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>concurrent<span class="opt">.</span>CompletableFuture<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>List<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>Map<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>regex<span class="opt">.</span>Pattern<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>stream<span class="opt">.*;</span>
 
-import java.util.concurrent.CompletableFuture;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.stream.*;
+<span class="kwa">public class</span> regexredux <span class="opt">{</span>
 
-public class regexredux {
+    <span class="kwa">public static void</span> <span class="kwd">main</span><span class="opt">(</span>String<span class="opt">[]</span> args<span class="opt">)</span> <span class="kwa">throws</span> IOException <span class="opt">{</span>
 
-    public static void main(String[] args) throws IOException {
+    var baos <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">ByteArrayOutputStream</span><span class="opt">();</span>
+    <span class="opt">{</span>
+        <span class="kwa">byte</span><span class="opt">[]</span> buf <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span><span class="num">65536</span><span class="opt">];</span>
+        <span class="kwa">int</span> count<span class="opt">;</span>
+        <span class="kwa">while</span> <span class="opt">((</span>count <span class="opt">=</span> System<span class="opt">.</span>in<span class="opt">.</span><span class="kwd">read</span><span class="opt">(</span>buf<span class="opt">)) &gt;</span> <span class="num">0</span><span class="opt">) {</span>
+        baos<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>buf<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> count<span class="opt">);</span>
+        <span class="opt">}</span>
+    <span class="opt">}</span>
+    <span class="kwa">final</span> var input <span class="opt">=</span> baos<span class="opt">.</span><span class="kwd">toString</span><span class="opt">(</span><span class="str">&quot;US-ASCII&quot;</span><span class="opt">);</span>
 
-    var baos = new ByteArrayOutputStream();
-    {
-        byte[] buf = new byte[65536];
-        int count;
-        while ((count = System.in.read(buf)) &gt; 0) {
-        baos.write(buf, 0, count);
-        }
-    }
-    final var input = baos.toString(&quot;US-ASCII&quot;);
+    <span class="kwa">final</span> var sequence <span class="opt">=</span> Pattern<span class="opt">.</span><span class="kwd">compile</span><span class="opt">(</span><span class="str">&quot;&gt;.*</span><span class="esc">\n</span><span class="str">|</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">)</span>
+                                   <span class="opt">.</span><span class="kwd">matcher</span><span class="opt">(</span>input<span class="opt">).</span><span class="kwd">replaceAll</span><span class="opt">(</span><span class="str">&quot;&quot;</span><span class="opt">);</span>
 
-    final var sequence = Pattern.compile(&quot;&gt;.*\n|\n&quot;)
-                                   .matcher(input).replaceAll(&quot;&quot;);
+    <span class="kwa">final</span> var replacements <span class="opt">=</span> CompletableFuture<span class="opt">.</span><span class="kwd">supplyAsync</span><span class="opt">(() -&gt;</span>
+        Stream<span class="opt">.</span><span class="kwd">of</span><span class="opt">(</span>
+            Map<span class="opt">.</span><span class="kwd">entry</span><span class="opt">(</span><span class="str">&quot;tHa[Nt]&quot;</span><span class="opt">,</span> <span class="str">&quot;&lt;4&gt;&quot;</span><span class="opt">),</span>
+            Map<span class="opt">.</span><span class="kwd">entry</span><span class="opt">(</span><span class="str">&quot;aND|caN|Ha[DS]|WaS&quot;</span><span class="opt">,</span> <span class="str">&quot;&lt;3&gt;&quot;</span><span class="opt">),</span>
+            Map<span class="opt">.</span><span class="kwd">entry</span><span class="opt">(</span><span class="str">&quot;a[NSt]|BY&quot;</span><span class="opt">,</span> <span class="str">&quot;&lt;2&gt;&quot;</span><span class="opt">),</span>
+            Map<span class="opt">.</span><span class="kwd">entry</span><span class="opt">(</span><span class="str">&quot;&lt;[^&gt;]*&gt;&quot;</span><span class="opt">,</span> <span class="str">&quot;|&quot;</span><span class="opt">),</span>
+            Map<span class="opt">.</span><span class="kwd">entry</span><span class="opt">(</span><span class="str">&quot;</span><span class="esc">\\</span><span class="str">|[^|][^|]*</span><span class="esc">\\</span><span class="str">|&quot;</span><span class="opt">,</span> <span class="str">&quot;-&quot;</span><span class="opt">)</span>
+        <span class="opt">).</span><span class="kwd">reduce</span><span class="opt">(</span>sequence<span class="opt">,</span>
+            <span class="opt">(</span>buffer<span class="opt">,</span> e<span class="opt">) -&gt;</span> Pattern<span class="opt">.</span><span class="kwd">compile</span><span class="opt">(</span>e<span class="opt">.</span><span class="kwd">getKey</span><span class="opt">())</span>
+                                     <span class="opt">.</span><span class="kwd">matcher</span><span class="opt">(</span>buffer<span class="opt">).</span><span class="kwd">replaceAll</span><span class="opt">(</span>e<span class="opt">.</span><span class="kwd">getValue</span><span class="opt">()),</span>
+            <span class="opt">(</span>a<span class="opt">,</span> __<span class="opt">) -&gt;</span> a<span class="opt">));</span>
 
-    final var replacements = CompletableFuture.supplyAsync(() -&gt;
-        Stream.of(
-            Map.entry(&quot;tHa[Nt]&quot;, &quot;&lt;4&gt;&quot;),
-            Map.entry(&quot;aND|caN|Ha[DS]|WaS&quot;, &quot;&lt;3&gt;&quot;),
-            Map.entry(&quot;a[NSt]|BY&quot;, &quot;&lt;2&gt;&quot;),
-            Map.entry(&quot;&lt;[^&gt;]*&gt;&quot;, &quot;|&quot;),
-            Map.entry(&quot;\\|[^|][^|]*\\|&quot;, &quot;-&quot;)
-        ).reduce(sequence,
-            (buffer, e) -&gt; Pattern.compile(e.getKey())
-                                     .matcher(buffer).replaceAll(e.getValue()),
-            (a, __) -&gt; a));
+    <span class="kwa">final</span> var variants <span class="opt">=</span> List<span class="opt">.</span><span class="kwd">of</span><span class="opt">(</span>
+        <span class="str">&quot;agggtaaa|tttaccct&quot;</span><span class="opt">,</span>
+        <span class="str">&quot;[cgt]gggtaaa|tttaccc[acg]&quot;</span><span class="opt">,</span>
+        <span class="str">&quot;a[act]ggtaaa|tttacc[agt]t&quot;</span><span class="opt">,</span>
+        <span class="str">&quot;ag[act]gtaaa|tttac[agt]ct&quot;</span><span class="opt">,</span>
+        <span class="str">&quot;agg[act]taaa|ttta[agt]cct&quot;</span><span class="opt">,</span>
+        <span class="str">&quot;aggg[acg]aaa|ttt[cgt]ccct&quot;</span><span class="opt">,</span>
+        <span class="str">&quot;agggt[cgt]aa|tt[acg]accct&quot;</span><span class="opt">,</span>
+        <span class="str">&quot;agggta[cgt]a|t[acg]taccct&quot;</span><span class="opt">,</span>
+        <span class="str">&quot;agggtaa[cgt]|[acg]ttaccct&quot;</span>
+    <span class="opt">);</span>
 
-    final var variants = List.of(
-        &quot;agggtaaa|tttaccct&quot;,
-        &quot;[cgt]gggtaaa|tttaccc[acg]&quot;,
-        &quot;a[act]ggtaaa|tttacc[agt]t&quot;,
-        &quot;ag[act]gtaaa|tttac[agt]ct&quot;,
-        &quot;agg[act]taaa|ttta[agt]cct&quot;,
-        &quot;aggg[acg]aaa|ttt[cgt]ccct&quot;,
-        &quot;agggt[cgt]aa|tt[acg]accct&quot;,
-        &quot;agggta[cgt]a|t[acg]taccct&quot;,
-        &quot;agggtaa[cgt]|[acg]ttaccct&quot;
-    );
+    <span class="kwa">final</span> var results <span class="opt">=</span> variants<span class="opt">.</span><span class="kwd">parallelStream</span><span class="opt">()</span>
+        <span class="opt">.</span><span class="kwd">collect</span><span class="opt">(</span>Collectors<span class="opt">.</span><span class="kwd">toMap</span><span class="opt">(</span>v <span class="opt">-&gt;</span> v<span class="opt">,</span> v <span class="opt">-&gt;</span> Pattern
+           <span class="opt">.</span><span class="kwd">compile</span><span class="opt">(</span>v<span class="opt">).</span><span class="kwd">matcher</span><span class="opt">(</span>sequence<span class="opt">).</span><span class="kwd">results</span><span class="opt">().</span><span class="kwd">count</span><span class="opt">()));</span>
 
-    final var results = variants.parallelStream()
-        .collect(Collectors.toMap(v -&gt; v, v -&gt; Pattern
-           .compile(v).matcher(sequence).results().count()));
+    variants<span class="opt">.</span><span class="kwd">forEach</span><span class="opt">(</span>v <span class="opt">-&gt;</span> System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>v <span class="opt">+</span> <span class="str">&quot; &quot;</span> <span class="opt">+</span> results<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>v<span class="opt">)));</span>
 
-    variants.forEach(v -&gt; System.out.println(v + &quot; &quot; + results.get(v)));
-
-    System.out.println();
-    System.out.println(input.length());
-    System.out.println(sequence.length());
-    System.out.println(replacements.join().length());
-    }
-}
+    System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">();</span>
+    System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>input<span class="opt">.</span><span class="kwd">length</span><span class="opt">());</span>
+    System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>sequence<span class="opt">.</span><span class="kwd">length</span><span class="opt">());</span>
+    System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>replacements<span class="opt">.</span><span class="kwd">join</span><span class="opt">().</span><span class="kwd">length</span><span class="opt">());</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
     </pre>
   </section>
   <section>

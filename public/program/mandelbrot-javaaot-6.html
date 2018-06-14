@@ -22,85 +22,85 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/* The Computer Language Benchmarks Game
- * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
- * 
- * contributed by Stefan Krause
- * slightly modified by Chad Whipkey
- * parallelized by Colin D Bennett 2008-10-04
- * reduce synchronization cost by The Anh Tran
- * optimizations and refactoring by Enotus 2010-11-11
- */
+<span class="com">/* The Computer Language Benchmarks Game</span>
+<span class="com"> * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"> * </span>
+<span class="com"> * contributed by Stefan Krause</span>
+<span class="com"> * slightly modified by Chad Whipkey</span>
+<span class="com"> * parallelized by Colin D Bennett 2008-10-04</span>
+<span class="com"> * reduce synchronization cost by The Anh Tran</span>
+<span class="com"> * optimizations and refactoring by Enotus 2010-11-11</span>
+<span class="com"> */</span>
  
 
-import java.io.*;
-import java.util.concurrent.atomic.AtomicInteger;
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.*;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>concurrent<span class="opt">.</span>atomic<span class="opt">.</span>AtomicInteger<span class="opt">;</span>
 
-public final class mandelbrot {
-    static byte[][] out;
-    static AtomicInteger yCt;
-    static double[] Crb;
-    static double[] Cib;
+<span class="kwa">public final class</span> mandelbrot <span class="opt">{</span>
+    <span class="kwa">static byte</span><span class="opt">[][]</span> out<span class="opt">;</span>
+    <span class="kwa">static</span> AtomicInteger yCt<span class="opt">;</span>
+    <span class="kwa">static double</span><span class="opt">[]</span> Crb<span class="opt">;</span>
+    <span class="kwa">static double</span><span class="opt">[]</span> Cib<span class="opt">;</span>
 
-    static int getByte(int x, int y){
-        double Ci=Cib[y];
-        int res=0;
-        for(int i=0;i&lt;8;i+=2){
-            double Zr1=Crb[x+i];
-            double Zi1=Cib[y];
+    <span class="kwa">static int</span> <span class="kwd">getByte</span><span class="opt">(</span><span class="kwa">int</span> x<span class="opt">,</span> <span class="kwa">int</span> y<span class="opt">){</span>
+        <span class="kwa">double</span> Ci<span class="opt">=</span>Cib<span class="opt">[</span>y<span class="opt">];</span>
+        <span class="kwa">int</span> res<span class="opt">=</span><span class="num">0</span><span class="opt">;</span>
+        <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span>i<span class="opt">&lt;</span><span class="num">8</span><span class="opt">;</span>i<span class="opt">+=</span><span class="num">2</span><span class="opt">){</span>
+            <span class="kwa">double</span> Zr1<span class="opt">=</span>Crb<span class="opt">[</span>x<span class="opt">+</span>i<span class="opt">];</span>
+            <span class="kwa">double</span> Zi1<span class="opt">=</span>Cib<span class="opt">[</span>y<span class="opt">];</span>
 
-            double Zr2=Crb[x+i+1];
-            double Zi2=Cib[y];
+            <span class="kwa">double</span> Zr2<span class="opt">=</span>Crb<span class="opt">[</span>x<span class="opt">+</span>i<span class="opt">+</span><span class="num">1</span><span class="opt">];</span>
+            <span class="kwa">double</span> Zi2<span class="opt">=</span>Cib<span class="opt">[</span>y<span class="opt">];</span>
 
-            int b=0;
-            int j=49;do{
-                double nZr1=Zr1*Zr1-Zi1*Zi1+Crb[x+i];
-                double nZi1=Zr1*Zi1+Zr1*Zi1+Cib[y];
-                Zr1=nZr1;Zi1=nZi1;
+            <span class="kwa">int</span> b<span class="opt">=</span><span class="num">0</span><span class="opt">;</span>
+            <span class="kwa">int</span> j<span class="opt">=</span><span class="num">49</span><span class="opt">;</span><span class="kwa">do</span><span class="opt">{</span>
+                <span class="kwa">double</span> nZr1<span class="opt">=</span>Zr1<span class="opt">*</span>Zr1<span class="opt">-</span>Zi1<span class="opt">*</span>Zi1<span class="opt">+</span>Crb<span class="opt">[</span>x<span class="opt">+</span>i<span class="opt">];</span>
+                <span class="kwa">double</span> nZi1<span class="opt">=</span>Zr1<span class="opt">*</span>Zi1<span class="opt">+</span>Zr1<span class="opt">*</span>Zi1<span class="opt">+</span>Cib<span class="opt">[</span>y<span class="opt">];</span>
+                Zr1<span class="opt">=</span>nZr1<span class="opt">;</span>Zi1<span class="opt">=</span>nZi1<span class="opt">;</span>
 
-                double nZr2=Zr2*Zr2-Zi2*Zi2+Crb[x+i+1];
-                double nZi2=Zr2*Zi2+Zr2*Zi2+Cib[y];
-                Zr2=nZr2;Zi2=nZi2;
+                <span class="kwa">double</span> nZr2<span class="opt">=</span>Zr2<span class="opt">*</span>Zr2<span class="opt">-</span>Zi2<span class="opt">*</span>Zi2<span class="opt">+</span>Crb<span class="opt">[</span>x<span class="opt">+</span>i<span class="opt">+</span><span class="num">1</span><span class="opt">];</span>
+                <span class="kwa">double</span> nZi2<span class="opt">=</span>Zr2<span class="opt">*</span>Zi2<span class="opt">+</span>Zr2<span class="opt">*</span>Zi2<span class="opt">+</span>Cib<span class="opt">[</span>y<span class="opt">];</span>
+                Zr2<span class="opt">=</span>nZr2<span class="opt">;</span>Zi2<span class="opt">=</span>nZi2<span class="opt">;</span>
 
-                if(Zr1*Zr1+Zi1*Zi1&gt;4) b|=2;
-                if(Zr2*Zr2+Zi2*Zi2&gt;4) b|=1;
-                if(b==3) break;
-            }while(--j&gt;0);
-            res=(res&lt;&lt;2)+b;
-        }
-        return res^-1;
-    }
+                <span class="kwa">if</span><span class="opt">(</span>Zr1<span class="opt">*</span>Zr1<span class="opt">+</span>Zi1<span class="opt">*</span>Zi1<span class="opt">&gt;</span><span class="num">4</span><span class="opt">)</span> b<span class="opt">|=</span><span class="num">2</span><span class="opt">;</span>
+                <span class="kwa">if</span><span class="opt">(</span>Zr2<span class="opt">*</span>Zr2<span class="opt">+</span>Zi2<span class="opt">*</span>Zi2<span class="opt">&gt;</span><span class="num">4</span><span class="opt">)</span> b<span class="opt">|=</span><span class="num">1</span><span class="opt">;</span>
+                <span class="kwa">if</span><span class="opt">(</span>b<span class="opt">==</span><span class="num">3</span><span class="opt">)</span> <span class="kwa">break</span><span class="opt">;</span>
+            <span class="opt">}</span><span class="kwa">while</span><span class="opt">(--</span>j<span class="opt">&gt;</span><span class="num">0</span><span class="opt">);</span>
+            res<span class="opt">=(</span>res<span class="opt">&lt;&lt;</span><span class="num">2</span><span class="opt">)+</span>b<span class="opt">;</span>
+        <span class="opt">}</span>
+        <span class="kwa">return</span> res^<span class="opt">-</span><span class="num">1</span><span class="opt">;</span>
+    <span class="opt">}</span>
     
-    static void putLine(int y, byte[] line){
-        for (int xb=0; xb&lt;line.length; xb++)
-            line[xb]=(byte)getByte(xb*8,y);
-    }
+    <span class="kwa">static void</span> <span class="kwd">putLine</span><span class="opt">(</span><span class="kwa">int</span> y<span class="opt">,</span> <span class="kwa">byte</span><span class="opt">[]</span> line<span class="opt">){</span>
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> xb<span class="opt">=</span><span class="num">0</span><span class="opt">;</span> xb<span class="opt">&lt;</span>line<span class="opt">.</span>length<span class="opt">;</span> xb<span class="opt">++)</span>
+            line<span class="opt">[</span>xb<span class="opt">]=(</span><span class="kwa">byte</span><span class="opt">)</span><span class="kwd">getByte</span><span class="opt">(</span>xb<span class="opt">*</span><span class="num">8</span><span class="opt">,</span>y<span class="opt">);</span>
+    <span class="opt">}</span>
  
-    public static void main(String[] args) throws Exception {
-        int N=6000;
-        if (args.length&gt;=1) N=Integer.parseInt(args[0]);
+    <span class="kwa">public static void</span> <span class="kwd">main</span><span class="opt">(</span>String<span class="opt">[]</span> args<span class="opt">)</span> <span class="kwa">throws</span> Exception <span class="opt">{</span>
+        <span class="kwa">int</span> N<span class="opt">=</span><span class="num">6000</span><span class="opt">;</span>
+        <span class="kwa">if</span> <span class="opt">(</span>args<span class="opt">.</span>length<span class="opt">&gt;=</span><span class="num">1</span><span class="opt">)</span> N<span class="opt">=</span>Integer<span class="opt">.</span><span class="kwd">parseInt</span><span class="opt">(</span>args<span class="opt">[</span><span class="num">0</span><span class="opt">]);</span>
 
-        Crb=new double[N+7]; Cib=new double[N+7];
-        double invN=2.0/N; for(int i=0;i&lt;N;i++){ Cib[i]=i*invN-1.0; Crb[i]=i*invN-1.5; }
-        yCt=new AtomicInteger();
-        out=new byte[N][(N+7)/8];
+        Crb<span class="opt">=</span><span class="kwa">new double</span><span class="opt">[</span>N<span class="opt">+</span><span class="num">7</span><span class="opt">];</span> Cib<span class="opt">=</span><span class="kwa">new double</span><span class="opt">[</span>N<span class="opt">+</span><span class="num">7</span><span class="opt">];</span>
+        <span class="kwa">double</span> invN<span class="opt">=</span><span class="num">2.0</span><span class="opt">/</span>N<span class="opt">;</span> <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span>i<span class="opt">&lt;</span>N<span class="opt">;</span>i<span class="opt">++){</span> Cib<span class="opt">[</span>i<span class="opt">]=</span>i<span class="opt">*</span>invN<span class="opt">-</span><span class="num">1.0</span><span class="opt">;</span> Crb<span class="opt">[</span>i<span class="opt">]=</span>i<span class="opt">*</span>invN<span class="opt">-</span><span class="num">1.5</span><span class="opt">; }</span>
+        yCt<span class="opt">=</span><span class="kwa">new</span> <span class="kwd">AtomicInteger</span><span class="opt">();</span>
+        out<span class="opt">=</span><span class="kwa">new byte</span><span class="opt">[</span>N<span class="opt">][(</span>N<span class="opt">+</span><span class="num">7</span><span class="opt">)/</span><span class="num">8</span><span class="opt">];</span>
 
-        Thread[] pool=new Thread[2*Runtime.getRuntime().availableProcessors()];
-        for (int i=0;i&lt;pool.length;i++)
-            pool[i]=new Thread(){
-                public void run() {
-                     int y; while((y=yCt.getAndIncrement())&lt;out.length) putLine(y,out[y]);
-                }
-            };
-        for (Thread t:pool) t.start();
-        for (Thread t:pool) t.join();
+        Thread<span class="opt">[]</span> pool<span class="opt">=</span><span class="kwa">new</span> Thread<span class="opt">[</span><span class="num">2</span><span class="opt">*</span>Runtime<span class="opt">.</span><span class="kwd">getRuntime</span><span class="opt">().</span><span class="kwd">availableProcessors</span><span class="opt">()];</span>
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span>i<span class="opt">&lt;</span>pool<span class="opt">.</span>length<span class="opt">;</span>i<span class="opt">++)</span>
+            pool<span class="opt">[</span>i<span class="opt">]=</span><span class="kwa">new</span> <span class="kwd">Thread</span><span class="opt">(){</span>
+                <span class="kwa">public void</span> <span class="kwd">run</span><span class="opt">() {</span>
+                     <span class="kwa">int</span> y<span class="opt">;</span> <span class="kwa">while</span><span class="opt">((</span>y<span class="opt">=</span>yCt<span class="opt">.</span><span class="kwd">getAndIncrement</span><span class="opt">())&lt;</span>out<span class="opt">.</span>length<span class="opt">)</span> <span class="kwd">putLine</span><span class="opt">(</span>y<span class="opt">,</span>out<span class="opt">[</span>y<span class="opt">]);</span>
+                <span class="opt">}</span>
+            <span class="opt">};</span>
+        <span class="kwa">for</span> <span class="opt">(</span>Thread t<span class="opt">:</span>pool<span class="opt">)</span> t<span class="opt">.</span><span class="kwd">start</span><span class="opt">();</span>
+        <span class="kwa">for</span> <span class="opt">(</span>Thread t<span class="opt">:</span>pool<span class="opt">)</span> t<span class="opt">.</span><span class="kwd">join</span><span class="opt">();</span>
 
-        OutputStream stream = new BufferedOutputStream(System.out);
-        stream.write((&quot;P4\n&quot;+N+&quot; &quot;+N+&quot;\n&quot;).getBytes());
-        for(int i=0;i&lt;N;i++) stream.write(out[i]);
-        stream.close();
-    }
-}
+        OutputStream stream <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">BufferedOutputStream</span><span class="opt">(</span>System<span class="opt">.</span>out<span class="opt">);</span>
+        stream<span class="opt">.</span><span class="kwd">write</span><span class="opt">((</span><span class="str">&quot;P4</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">+</span>N<span class="opt">+</span><span class="str">&quot; &quot;</span><span class="opt">+</span>N<span class="opt">+</span><span class="str">&quot;</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">).</span><span class="kwd">getBytes</span><span class="opt">());</span>
+        <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span>i<span class="opt">&lt;</span>N<span class="opt">;</span>i<span class="opt">++)</span> stream<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>out<span class="opt">[</span>i<span class="opt">]);</span>
+        stream<span class="opt">.</span><span class="kwd">close</span><span class="opt">();</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
 
     </pre>
   </section>

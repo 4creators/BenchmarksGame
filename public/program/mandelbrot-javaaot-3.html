@@ -22,123 +22,123 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/* The Computer Language Benchmarks Game
-   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
- 
-   contributed by Stefan Krause
-   slightly modified by Chad Whipkey
-   parallelized by Colin D Bennett 2008-10-04
-   reduce synchronization cost by The Anh Tran
-  */
+<span class="com">/* The Computer Language Benchmarks Game</span>
+<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"> </span>
+<span class="com">   contributed by Stefan Krause</span>
+<span class="com">   slightly modified by Chad Whipkey</span>
+<span class="com">   parallelized by Colin D Bennett 2008-10-04</span>
+<span class="com">   reduce synchronization cost by The Anh Tran</span>
+<span class="com">  */</span>
 
-//package mandelbrot;
+<span class="slc">//package mandelbrot;</span>
 
-import java.io.*;
-import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.*;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.</span>IOException<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>concurrent<span class="opt">.</span>atomic<span class="opt">.</span>AtomicInteger<span class="opt">;</span>
 
-public final class mandelbrot
-{
-    public static void main(String[] args) throws Exception
-    {
-        int size = 200;
-        if (args.length &gt;= 1)
-            size = Integer.parseInt(args[0]);
+<span class="kwa">public final class</span> mandelbrot
+<span class="opt">{</span>
+    <span class="kwa">public static void</span> <span class="kwd">main</span><span class="opt">(</span>String<span class="opt">[]</span> args<span class="opt">)</span> <span class="kwa">throws</span> Exception
+    <span class="opt">{</span>
+        <span class="kwa">int</span> size <span class="opt">=</span> <span class="num">200</span><span class="opt">;</span>
+        <span class="kwa">if</span> <span class="opt">(</span>args<span class="opt">.</span>length <span class="opt">&gt;=</span> <span class="num">1</span><span class="opt">)</span>
+            size <span class="opt">=</span> Integer<span class="opt">.</span><span class="kwd">parseInt</span><span class="opt">(</span>args<span class="opt">[</span><span class="num">0</span><span class="opt">]);</span>
         
-        System.out.format(&quot;P4\n%d %d\n&quot;, size, size);
+        System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">format</span><span class="opt">(</span><span class="str">&quot;P4</span><span class="esc">\n</span><span class="str">%d %d</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">,</span> size<span class="opt">,</span> size<span class="opt">);</span>
         
-        int width_bytes = size /8 +1;
-        byte[][] output_data = new byte[size][width_bytes];
-        int[] bytes_per_line = new int[size];
+        <span class="kwa">int</span> width_bytes <span class="opt">=</span> size <span class="opt">/</span><span class="num">8</span> <span class="opt">+</span><span class="num">1</span><span class="opt">;</span>
+        <span class="kwa">byte</span><span class="opt">[][]</span> output_data <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span>size<span class="opt">][</span>width_bytes<span class="opt">];</span>
+        <span class="kwa">int</span><span class="opt">[]</span> bytes_per_line <span class="opt">=</span> <span class="kwa">new int</span><span class="opt">[</span>size<span class="opt">];</span>
         
-        Compute(size, output_data, bytes_per_line);
+        <span class="kwd">Compute</span><span class="opt">(</span>size<span class="opt">,</span> output_data<span class="opt">,</span> bytes_per_line<span class="opt">);</span>
         
-        BufferedOutputStream ostream = new BufferedOutputStream(System.out);
-        for (int i = 0; i &lt; size; i++)
-            ostream.write(output_data[i], 0, bytes_per_line[i]);
-        ostream.close();
-    }
+        BufferedOutputStream ostream <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">BufferedOutputStream</span><span class="opt">(</span>System<span class="opt">.</span>out<span class="opt">);</span>
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> size<span class="opt">;</span> i<span class="opt">++)</span>
+            ostream<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>output_data<span class="opt">[</span>i<span class="opt">],</span> <span class="num">0</span><span class="opt">,</span> bytes_per_line<span class="opt">[</span>i<span class="opt">]);</span>
+        ostream<span class="opt">.</span><span class="kwd">close</span><span class="opt">();</span>
+    <span class="opt">}</span>
     
-    private static final void Compute(final int N, final byte[][] output, final int[] bytes_per_line)
-    {
-        final double inverse_N = 2.0 / N;
-        final AtomicInteger current_line = new AtomicInteger(0);
+    <span class="kwa">private static final void</span> <span class="kwd">Compute</span><span class="opt">(</span><span class="kwa">final int</span> N<span class="opt">,</span> <span class="kwa">final byte</span><span class="opt">[][]</span> output<span class="opt">,</span> <span class="kwa">final int</span><span class="opt">[]</span> bytes_per_line<span class="opt">)</span>
+    <span class="opt">{</span>
+        <span class="kwa">final double</span> inverse_N <span class="opt">=</span> <span class="num">2.0</span> <span class="opt">/</span> N<span class="opt">;</span>
+        <span class="kwa">final</span> AtomicInteger current_line <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">AtomicInteger</span><span class="opt">(</span><span class="num">0</span><span class="opt">);</span>
         
-        final Thread[] pool = new Thread[Runtime.getRuntime().availableProcessors()];
-        for (int i = 0; i &lt; pool.length; i++)
-        {
-            pool[i] = new Thread()
-            {
-                public void run()
-                {
-                    int y;
-                    while ((y = current_line.getAndIncrement()) &lt; N)
-                    {
-                        byte[] pdata = output[y];
+        <span class="kwa">final</span> Thread<span class="opt">[]</span> pool <span class="opt">=</span> <span class="kwa">new</span> Thread<span class="opt">[</span>Runtime<span class="opt">.</span><span class="kwd">getRuntime</span><span class="opt">().</span><span class="kwd">availableProcessors</span><span class="opt">()];</span>
+        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> pool<span class="opt">.</span>length<span class="opt">;</span> i<span class="opt">++)</span>
+        <span class="opt">{</span>
+            pool<span class="opt">[</span>i<span class="opt">] =</span> <span class="kwa">new</span> <span class="kwd">Thread</span><span class="opt">()</span>
+            <span class="opt">{</span>
+                <span class="kwa">public void</span> <span class="kwd">run</span><span class="opt">()</span>
+                <span class="opt">{</span>
+                    <span class="kwa">int</span> y<span class="opt">;</span>
+                    <span class="kwa">while</span> <span class="opt">((</span>y <span class="opt">=</span> current_line<span class="opt">.</span><span class="kwd">getAndIncrement</span><span class="opt">()) &lt;</span> N<span class="opt">)</span>
+                    <span class="opt">{</span>
+                        <span class="kwa">byte</span><span class="opt">[]</span> pdata <span class="opt">=</span> output<span class="opt">[</span>y<span class="opt">];</span>
                         
-                        int bit_num = 0;
-                        int byte_count = 0;
-                        int byte_accumulate = 0;
+                        <span class="kwa">int</span> bit_num <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+                        <span class="kwa">int</span> byte_count <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+                        <span class="kwa">int</span> byte_accumulate <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
                         
-                        double Civ = (double)y * inverse_N - 1.0;
-                        for (int x = 0; x &lt; N; x++)
-                        {
-                            double Crv = (double)x * inverse_N - 1.5;
+                        <span class="kwa">double</span> Civ <span class="opt">= (</span><span class="kwa">double</span><span class="opt">)</span>y <span class="opt">*</span> inverse_N <span class="opt">-</span> <span class="num">1.0</span><span class="opt">;</span>
+                        <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> x <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> x <span class="opt">&lt;</span> N<span class="opt">;</span> x<span class="opt">++)</span>
+                        <span class="opt">{</span>
+                            <span class="kwa">double</span> Crv <span class="opt">= (</span><span class="kwa">double</span><span class="opt">)</span>x <span class="opt">*</span> inverse_N <span class="opt">-</span> <span class="num">1.5</span><span class="opt">;</span>
                             
-                            double Zrv = Crv;
-                            double Ziv = Civ;
+                            <span class="kwa">double</span> Zrv <span class="opt">=</span> Crv<span class="opt">;</span>
+                            <span class="kwa">double</span> Ziv <span class="opt">=</span> Civ<span class="opt">;</span>
                             
-                            double Trv = Crv * Crv;
-                            double Tiv = Civ * Civ;
+                            <span class="kwa">double</span> Trv <span class="opt">=</span> Crv <span class="opt">*</span> Crv<span class="opt">;</span>
+                            <span class="kwa">double</span> Tiv <span class="opt">=</span> Civ <span class="opt">*</span> Civ<span class="opt">;</span>
                             
-                            int i = 49;
-                            do
-                            {
-                                Ziv = (Zrv * Ziv) + (Zrv * Ziv) + Civ;
-                                Zrv = Trv - Tiv + Crv;
+                            <span class="kwa">int</span> i <span class="opt">=</span> <span class="num">49</span><span class="opt">;</span>
+                            <span class="kwa">do</span>
+                            <span class="opt">{</span>
+                                Ziv <span class="opt">= (</span>Zrv <span class="opt">*</span> Ziv<span class="opt">) + (</span>Zrv <span class="opt">*</span> Ziv<span class="opt">) +</span> Civ<span class="opt">;</span>
+                                Zrv <span class="opt">=</span> Trv <span class="opt">-</span> Tiv <span class="opt">+</span> Crv<span class="opt">;</span>
                                 
-                                Trv = Zrv * Zrv;
-                                Tiv = Ziv * Ziv;
-                            } while ( ((Trv + Tiv) &lt;= 4.0) &amp;&amp; (--i &gt; 0));
+                                Trv <span class="opt">=</span> Zrv <span class="opt">*</span> Zrv<span class="opt">;</span>
+                                Tiv <span class="opt">=</span> Ziv <span class="opt">*</span> Ziv<span class="opt">;</span>
+                            <span class="opt">}</span> <span class="kwa">while</span> <span class="opt">( ((</span>Trv <span class="opt">+</span> Tiv<span class="opt">) &lt;=</span> <span class="num">4.0</span><span class="opt">) &amp;&amp; (--</span>i <span class="opt">&gt;</span> <span class="num">0</span><span class="opt">));</span>
 
-                            byte_accumulate &lt;&lt;= 1;
-                            if (i == 0)
-                                byte_accumulate++;
+                            byte_accumulate <span class="opt">&lt;&lt;=</span> <span class="num">1</span><span class="opt">;</span>
+                            <span class="kwa">if</span> <span class="opt">(</span>i <span class="opt">==</span> <span class="num">0</span><span class="opt">)</span>
+                                byte_accumulate<span class="opt">++;</span>
                             
-                            if (++bit_num == 8)
-                            {
-                                pdata[ byte_count++ ] = (byte)byte_accumulate;
-                                bit_num = byte_accumulate = 0;
-                            }
-                        } // end foreach column
+                            <span class="kwa">if</span> <span class="opt">(++</span>bit_num <span class="opt">==</span> <span class="num">8</span><span class="opt">)</span>
+                            <span class="opt">{</span>
+                                pdata<span class="opt">[</span> byte_count<span class="opt">++ ] = (</span><span class="kwa">byte</span><span class="opt">)</span>byte_accumulate<span class="opt">;</span>
+                                bit_num <span class="opt">=</span> byte_accumulate <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+                            <span class="opt">}</span>
+                        <span class="opt">}</span> <span class="slc">// end foreach column</span>
                         
-                        if (bit_num != 0)
-                        {
-                            byte_accumulate &lt;&lt;= (8 - (N &amp; 7));
-                            pdata[ byte_count++ ] = (byte)byte_accumulate;
-                        }
+                        <span class="kwa">if</span> <span class="opt">(</span>bit_num <span class="opt">!=</span> <span class="num">0</span><span class="opt">)</span>
+                        <span class="opt">{</span>
+                            byte_accumulate <span class="opt">&lt;&lt;= (</span><span class="num">8</span> <span class="opt">- (</span>N <span class="opt">&amp;</span> <span class="num">7</span><span class="opt">));</span>
+                            pdata<span class="opt">[</span> byte_count<span class="opt">++ ] = (</span><span class="kwa">byte</span><span class="opt">)</span>byte_accumulate<span class="opt">;</span>
+                        <span class="opt">}</span>
                         
-                        bytes_per_line[y] = byte_count;
-                    } // end while (y &lt; N)
-                } // end void run()
-            }; // end inner class definition
+                        bytes_per_line<span class="opt">[</span>y<span class="opt">] =</span> byte_count<span class="opt">;</span>
+                    <span class="opt">}</span> <span class="slc">// end while (y &lt; N)</span>
+                <span class="opt">}</span> <span class="slc">// end void run()</span>
+            <span class="opt">};</span> <span class="slc">// end inner class definition</span>
             
-            pool[i].start();
-        }
+            pool<span class="opt">[</span>i<span class="opt">].</span><span class="kwd">start</span><span class="opt">();</span>
+        <span class="opt">}</span>
         
-        for (Thread t : pool)
-        {
-            try
-            {
-                t.join();
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }
-}
+        <span class="kwa">for</span> <span class="opt">(</span>Thread t <span class="opt">:</span> pool<span class="opt">)</span>
+        <span class="opt">{</span>
+            <span class="kwa">try</span>
+            <span class="opt">{</span>
+                t<span class="opt">.</span><span class="kwd">join</span><span class="opt">();</span>
+            <span class="opt">}</span>
+            <span class="kwa">catch</span> <span class="opt">(</span>InterruptedException e<span class="opt">)</span>
+            <span class="opt">{</span>
+                e<span class="opt">.</span><span class="kwd">printStackTrace</span><span class="opt">();</span>
+            <span class="opt">}</span>
+        <span class="opt">}</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
     </pre>
   </section>
   <section>

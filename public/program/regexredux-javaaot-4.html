@@ -22,118 +22,118 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/*
-   The Computer Language Benchmarks Game
-   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+<span class="com">/*</span>
+<span class="com">   The Computer Language Benchmarks Game</span>
+<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"></span>
+<span class="com">   regex-dna program contributed by Razii, </span>
+<span class="com">      idea taken from Elliott Hughes and Roger Millington</span>
+<span class="com">   converted from regex-dna program</span>
+<span class="com">*/</span>
 
-   regex-dna program contributed by Razii, 
-      idea taken from Elliott Hughes and Roger Millington
-   converted from regex-dna program
-*/
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.*;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>regex<span class="opt">.*;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.*;</span>
 
-import java.io.*;
-import java.util.regex.*;
-import java.util.*;
+<span class="kwa">public final class</span> regexredux <span class="opt">{</span>
 
-public final class regexredux {
+   <span class="kwa">private static final</span> Map<span class="opt">&lt;</span>String<span class="opt">,</span> String<span class="opt">&gt;</span> replacements <span class="opt">=</span> <span class="kwa">new</span> HashMap<span class="opt">&lt;</span>String<span class="opt">,</span> String<span class="opt">&gt;();</span>
 
-   private static final Map&lt;String, String&gt; replacements = new HashMap&lt;String, String&gt;();
+   <span class="kwa">static</span> <span class="opt">{</span>
 
-   static {
+      replacements<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span><span class="str">&quot;tHa[Nt]&quot;</span><span class="opt">,</span> <span class="str">&quot;&lt;4&gt;&quot;</span><span class="opt">);</span>
+      replacements<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span><span class="str">&quot;aND|caN|Ha[DS]|WaS&quot;</span><span class="opt">,</span> <span class="str">&quot;&lt;3&gt;&quot;</span><span class="opt">);</span>
+      replacements<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span><span class="str">&quot;a[NSt]|BY&quot;</span><span class="opt">,</span> <span class="str">&quot;&lt;2&gt;&quot;</span><span class="opt">);</span>
+      replacements<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span><span class="str">&quot;&lt;[^&gt;]*&gt;&quot;</span><span class="opt">,</span> <span class="str">&quot;|&quot;</span><span class="opt">);</span>
+      replacements<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span><span class="str">&quot;</span><span class="esc">\\</span><span class="str">|[^|][^|]*</span><span class="esc">\\</span><span class="str">|&quot;</span><span class="opt">,</span> <span class="str">&quot;-&quot;</span><span class="opt">);</span>
+   <span class="opt">}</span>
 
-      replacements.put(&quot;tHa[Nt]&quot;, &quot;&lt;4&gt;&quot;);
-      replacements.put(&quot;aND|caN|Ha[DS]|WaS&quot;, &quot;&lt;3&gt;&quot;);
-      replacements.put(&quot;a[NSt]|BY&quot;, &quot;&lt;2&gt;&quot;);
-      replacements.put(&quot;&lt;[^&gt;]*&gt;&quot;, &quot;|&quot;);
-      replacements.put(&quot;\\|[^|][^|]*\\|&quot;, &quot;-&quot;);
-   }
+   <span class="kwa">static abstract class</span> Rewriter <span class="opt">{</span>
+      <span class="kwa">private</span> Pattern pattern<span class="opt">;</span>
+      <span class="kwa">private</span> Matcher matcher<span class="opt">;</span>
 
-   static abstract class Rewriter {
-      private Pattern pattern;
-      private Matcher matcher;
+      <span class="kwa">public</span> <span class="kwd">Rewriter</span><span class="opt">(</span>String regularExpression<span class="opt">) {</span>
 
-      public Rewriter(String regularExpression) {
+         <span class="kwa">this</span><span class="opt">.</span>pattern <span class="opt">=</span> Pattern<span class="opt">.</span><span class="kwd">compile</span><span class="opt">(</span>regularExpression<span class="opt">);</span>
+      <span class="opt">}</span>
 
-         this.pattern = Pattern.compile(regularExpression);
-      }
+      <span class="kwa">public</span> String <span class="kwd">group</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">) {</span>
+         <span class="kwa">return</span> matcher<span class="opt">.</span><span class="kwd">group</span><span class="opt">(</span>i<span class="opt">);</span>
+      <span class="opt">}</span>
 
-      public String group(int i) {
-         return matcher.group(i);
-      }
+      <span class="kwa">public abstract</span> String <span class="kwd">replacement</span><span class="opt">();</span>
 
-      public abstract String replacement();
+      <span class="kwa">public</span> String <span class="kwd">rewrite</span><span class="opt">(</span>CharSequence original<span class="opt">) {</span>
+         <span class="kwa">return</span> <span class="kwd">rewrite</span><span class="opt">(</span>original<span class="opt">,</span> <span class="kwa">new</span> <span class="kwd">StringBuffer</span><span class="opt">(</span>original<span class="opt">.</span><span class="kwd">length</span><span class="opt">())).</span><span class="kwd">toString</span><span class="opt">();</span>
+      <span class="opt">}</span>
 
-      public String rewrite(CharSequence original) {
-         return rewrite(original, new StringBuffer(original.length())).toString();
-      }
+      <span class="kwa">public</span> StringBuffer <span class="kwd">rewrite</span><span class="opt">(</span>CharSequence original<span class="opt">,</span> StringBuffer destination<span class="opt">) {</span>
+         <span class="kwa">this</span><span class="opt">.</span>matcher <span class="opt">=</span> pattern<span class="opt">.</span><span class="kwd">matcher</span><span class="opt">(</span>original<span class="opt">);</span>
+         <span class="kwa">while</span> <span class="opt">(</span>matcher<span class="opt">.</span><span class="kwd">find</span><span class="opt">()) {</span>
+            matcher<span class="opt">.</span><span class="kwd">appendReplacement</span><span class="opt">(</span>destination<span class="opt">,</span> <span class="str">&quot;&quot;</span><span class="opt">);</span>
+            destination<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span><span class="kwd">replacement</span><span class="opt">());</span>
+         <span class="opt">}</span>
+         matcher<span class="opt">.</span><span class="kwd">appendTail</span><span class="opt">(</span>destination<span class="opt">);</span>
+         <span class="kwa">return</span> destination<span class="opt">;</span>
+      <span class="opt">}</span>
+   <span class="opt">}</span>
 
-      public StringBuffer rewrite(CharSequence original, StringBuffer destination) {
-         this.matcher = pattern.matcher(original);
-         while (matcher.find()) {
-            matcher.appendReplacement(destination, &quot;&quot;);
-            destination.append(replacement());
-         }
-         matcher.appendTail(destination);
-         return destination;
-      }
-   }
+   <span class="kwa">public static void</span> <span class="kwd">main</span><span class="opt">(</span>String<span class="opt">[]</span> args<span class="opt">)</span>
+   <span class="kwa">throws</span> IOException <span class="opt">{</span>
 
-   public static void main(String[] args)
-   throws IOException {
+      Reader r <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">InputStreamReader</span><span class="opt">(</span>System<span class="opt">.</span>in<span class="opt">,</span> <span class="str">&quot;ISO-8859-1&quot;</span><span class="opt">);</span>
+      StringBuilder sb <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">StringBuilder</span><span class="opt">(</span><span class="num">5100000</span><span class="opt">);</span>
+      <span class="kwa">char</span><span class="opt">[]</span> cbuf <span class="opt">=</span> <span class="kwa">new char</span><span class="opt">[</span><span class="num">16384</span><span class="opt">];</span>
+      <span class="kwa">int</span> charsRead<span class="opt">;</span>
+      <span class="kwa">while</span> <span class="opt">((</span>charsRead <span class="opt">=</span> r<span class="opt">.</span><span class="kwd">read</span><span class="opt">(</span>cbuf<span class="opt">)) != -</span><span class="num">1</span><span class="opt">)</span>
+         sb<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span>cbuf<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> charsRead<span class="opt">);</span>
 
-      Reader r = new InputStreamReader(System.in, &quot;ISO-8859-1&quot;);
-      StringBuilder sb = new StringBuilder(5100000);
-      char[] cbuf = new char[16384];
-      int charsRead;
-      while ((charsRead = r.read(cbuf)) != -1)
-         sb.append(cbuf, 0, charsRead);
+      <span class="kwa">int</span> initialLength <span class="opt">=</span> sb<span class="opt">.</span><span class="kwd">length</span><span class="opt">();</span>
 
-      int initialLength = sb.length();
+      String sequence <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">Rewriter</span><span class="opt">(</span><span class="str">&quot;&gt;.*</span><span class="esc">\n</span><span class="str">|</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">) {</span>
 
-      String sequence = new Rewriter(&quot;&gt;.*\n|\n&quot;) {
-
-         public String replacement() {
-            return &quot;&quot;;
-         }
-      }.rewrite(sb);
+         <span class="kwa">public</span> String <span class="kwd">replacement</span><span class="opt">() {</span>
+            <span class="kwa">return</span> <span class="str">&quot;&quot;</span><span class="opt">;</span>
+         <span class="opt">}</span>
+      <span class="opt">}.</span><span class="kwd">rewrite</span><span class="opt">(</span>sb<span class="opt">);</span>
 
 
-      int codeLength = sequence.length();
+      <span class="kwa">int</span> codeLength <span class="opt">=</span> sequence<span class="opt">.</span><span class="kwd">length</span><span class="opt">();</span>
 
-      String[] variants = { &quot;agggtaaa|tttaccct&quot; ,
-                       &quot;[cgt]gggtaaa|tttaccc[acg]&quot;,
-                       &quot;a[act]ggtaaa|tttacc[agt]t&quot;,
-                       &quot;ag[act]gtaaa|tttac[agt]ct&quot;,
-                       &quot;agg[act]taaa|ttta[agt]cct&quot;,
-                       &quot;aggg[acg]aaa|ttt[cgt]ccct&quot;,
-                       &quot;agggt[cgt]aa|tt[acg]accct&quot;,
-                       &quot;agggta[cgt]a|t[acg]taccct&quot;,
-                       &quot;agggtaa[cgt]|[acg]ttaccct&quot;
-                     };
+      String<span class="opt">[]</span> variants <span class="opt">= {</span> <span class="str">&quot;agggtaaa|tttaccct&quot;</span> <span class="opt">,</span>
+                       <span class="str">&quot;[cgt]gggtaaa|tttaccc[acg]&quot;</span><span class="opt">,</span>
+                       <span class="str">&quot;a[act]ggtaaa|tttacc[agt]t&quot;</span><span class="opt">,</span>
+                       <span class="str">&quot;ag[act]gtaaa|tttac[agt]ct&quot;</span><span class="opt">,</span>
+                       <span class="str">&quot;agg[act]taaa|ttta[agt]cct&quot;</span><span class="opt">,</span>
+                       <span class="str">&quot;aggg[acg]aaa|ttt[cgt]ccct&quot;</span><span class="opt">,</span>
+                       <span class="str">&quot;agggt[cgt]aa|tt[acg]accct&quot;</span><span class="opt">,</span>
+                       <span class="str">&quot;agggta[cgt]a|t[acg]taccct&quot;</span><span class="opt">,</span>
+                       <span class="str">&quot;agggtaa[cgt]|[acg]ttaccct&quot;</span>
+                     <span class="opt">};</span>
 
-      for (String variant : variants) {
+      <span class="kwa">for</span> <span class="opt">(</span>String variant <span class="opt">:</span> variants<span class="opt">) {</span>
 
-         int count = 0;
-         Matcher m = Pattern.compile(variant).matcher(sequence);
-         while (m.find())
-            count++;
-         System.out.println(variant + &quot; &quot; + count);
-      }
+         <span class="kwa">int</span> count <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+         Matcher m <span class="opt">=</span> Pattern<span class="opt">.</span><span class="kwd">compile</span><span class="opt">(</span>variant<span class="opt">).</span><span class="kwd">matcher</span><span class="opt">(</span>sequence<span class="opt">);</span>
+         <span class="kwa">while</span> <span class="opt">(</span>m<span class="opt">.</span><span class="kwd">find</span><span class="opt">())</span>
+            count<span class="opt">++;</span>
+         System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>variant <span class="opt">+</span> <span class="str">&quot; &quot;</span> <span class="opt">+</span> count<span class="opt">);</span>
+      <span class="opt">}</span>
 
-      sequence = new Rewriter(&quot;[WYKMSRBDVHN]&quot;) {
+      sequence <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">Rewriter</span><span class="opt">(</span><span class="str">&quot;[WYKMSRBDVHN]&quot;</span><span class="opt">) {</span>
 
-         public String replacement() {
-            return replacements.get(group(0));
-         }
-      }.rewrite(sequence);
+         <span class="kwa">public</span> String <span class="kwd">replacement</span><span class="opt">() {</span>
+            <span class="kwa">return</span> replacements<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span><span class="kwd">group</span><span class="opt">(</span><span class="num">0</span><span class="opt">));</span>
+         <span class="opt">}</span>
+      <span class="opt">}.</span><span class="kwd">rewrite</span><span class="opt">(</span>sequence<span class="opt">);</span>
 
-      System.out.println();
-      System.out.println(initialLength);
-      System.out.println(codeLength);
-      System.out.println(sequence.length());
+      System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">();</span>
+      System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>initialLength<span class="opt">);</span>
+      System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>codeLength<span class="opt">);</span>
+      System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>sequence<span class="opt">.</span><span class="kwd">length</span><span class="opt">());</span>
 
-   }
-}
+   <span class="opt">}</span>
+<span class="opt">}</span>
     </pre>
   </section>
   <section>

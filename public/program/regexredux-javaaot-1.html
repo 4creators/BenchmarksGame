@@ -22,83 +22,83 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-/*
-   The Computer Language Benchmarks Game
-   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+<span class="com">/*</span>
+<span class="com">   The Computer Language Benchmarks Game</span>
+<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"></span>
+<span class="com">   contributed by Francois Green</span>
+<span class="com">*/</span>
 
-   contributed by Francois Green
-*/
+<span class="kwa">import</span> java<span class="opt">.</span>io<span class="opt">.*;</span>
 
-import java.io.*;
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.*;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>Map<span class="opt">.</span>Entry<span class="opt">;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>function<span class="opt">.*;</span>
+<span class="kwa">import</span> java<span class="opt">.</span>util<span class="opt">.</span>regex<span class="opt">.*;</span>
 
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.function.*;
-import java.util.regex.*;
+<span class="kwa">import static</span> java<span class="opt">.</span>util<span class="opt">.</span>stream<span class="opt">.</span>Collectors<span class="opt">.*;</span>
 
-import static java.util.stream.Collectors.*;
+<span class="kwa">public class</span> regexredux <span class="opt">{</span>
 
-public class regexredux {
+  <span class="kwa">public static void</span> <span class="kwd">main</span><span class="opt">(</span>String<span class="opt">[]</span> args<span class="opt">)</span> <span class="kwa">throws</span> IOException <span class="opt">{</span>
+    ByteArrayOutputStream baos <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">ByteArrayOutputStream</span><span class="opt">();</span>
+    <span class="opt">{</span>
+        <span class="kwa">byte</span><span class="opt">[]</span> buf <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span><span class="num">65536</span><span class="opt">];</span>
+        <span class="kwa">int</span> count<span class="opt">;</span>
+        <span class="kwa">while</span> <span class="opt">((</span>count <span class="opt">=</span> System<span class="opt">.</span>in<span class="opt">.</span><span class="kwd">read</span><span class="opt">(</span>buf<span class="opt">)) &gt;</span> <span class="num">0</span><span class="opt">) {</span>
+            baos<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>buf<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> count<span class="opt">);</span>
+        <span class="opt">}</span>
+    <span class="opt">}</span>
+    <span class="kwa">final</span> String input <span class="opt">=</span> baos<span class="opt">.</span><span class="kwd">toString</span><span class="opt">(</span><span class="str">&quot;US-ASCII&quot;</span><span class="opt">);</span>
 
-  public static void main(String[] args) throws IOException {
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    {
-        byte[] buf = new byte[65536];
-        int count;
-        while ((count = System.in.read(buf)) &gt; 0) {
-            baos.write(buf, 0, count);
-        }
-    }
-    final String input = baos.toString(&quot;US-ASCII&quot;);
+    <span class="kwa">final int</span> initialLength <span class="opt">=</span> input<span class="opt">.</span><span class="kwd">length</span><span class="opt">();</span>
 
-    final int initialLength = input.length();
+    <span class="kwa">final</span> String sequence <span class="opt">=</span> input<span class="opt">.</span><span class="kwd">replaceAll</span><span class="opt">(</span><span class="str">&quot;&gt;.*</span><span class="esc">\n</span><span class="str">|</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">,</span> <span class="str">&quot;&quot;</span><span class="opt">);</span>
 
-    final String sequence = input.replaceAll(&quot;&gt;.*\n|\n&quot;, &quot;&quot;);
+    <span class="kwa">final int</span> codeLength <span class="opt">=</span> sequence<span class="opt">.</span><span class="kwd">length</span><span class="opt">();</span>
 
-    final int codeLength = sequence.length();
+    <span class="kwa">final</span> List<span class="opt">&lt;</span>String<span class="opt">&gt;</span> variants <span class="opt">=</span> Arrays<span class="opt">.</span><span class="kwd">asList</span><span class="opt">(</span><span class="str">&quot;agggtaaa|tttaccct&quot;</span><span class="opt">,</span>
+                                                <span class="str">&quot;[cgt]gggtaaa|tttaccc[acg]&quot;</span><span class="opt">,</span>
+                                                <span class="str">&quot;a[act]ggtaaa|tttacc[agt]t&quot;</span><span class="opt">,</span>
+                                                <span class="str">&quot;ag[act]gtaaa|tttac[agt]ct&quot;</span><span class="opt">,</span>
+                                                <span class="str">&quot;agg[act]taaa|ttta[agt]cct&quot;</span><span class="opt">,</span>
+                                                <span class="str">&quot;aggg[acg]aaa|ttt[cgt]ccct&quot;</span><span class="opt">,</span>
+                                                <span class="str">&quot;agggt[cgt]aa|tt[acg]accct&quot;</span><span class="opt">,</span>
+                                                <span class="str">&quot;agggta[cgt]a|t[acg]taccct&quot;</span><span class="opt">,</span>
+                                                <span class="str">&quot;agggtaa[cgt]|[acg]ttaccct&quot;</span><span class="opt">);</span>
 
-    final List&lt;String&gt; variants = Arrays.asList(&quot;agggtaaa|tttaccct&quot;,
-                                                &quot;[cgt]gggtaaa|tttaccc[acg]&quot;,
-                                                &quot;a[act]ggtaaa|tttacc[agt]t&quot;,
-                                                &quot;ag[act]gtaaa|tttac[agt]ct&quot;,
-                                                &quot;agg[act]taaa|ttta[agt]cct&quot;,
-                                                &quot;aggg[acg]aaa|ttt[cgt]ccct&quot;,
-                                                &quot;agggt[cgt]aa|tt[acg]accct&quot;,
-                                                &quot;agggta[cgt]a|t[acg]taccct&quot;,
-                                                &quot;agggtaa[cgt]|[acg]ttaccct&quot;);
+    BiFunction<span class="opt">&lt;</span>String<span class="opt">,</span> String<span class="opt">,</span> Entry<span class="opt">&lt;</span>String<span class="opt">,</span> Long<span class="opt">&gt;&gt;</span> counts <span class="opt">= (</span>v<span class="opt">,</span> s<span class="opt">) -&gt; {</span>
+       <span class="slc">//Java 9 Matcher.results isn&apos;t off by one</span>
+      Long count <span class="opt">=</span> Pattern<span class="opt">.</span><span class="kwd">compile</span><span class="opt">(</span>v<span class="opt">).</span><span class="kwd">splitAsStream</span><span class="opt">(</span>s<span class="opt">).</span><span class="kwd">count</span><span class="opt">() -</span> <span class="num">1</span><span class="opt">;</span>
+      <span class="kwa">return new</span> AbstractMap<span class="opt">.</span>SimpleEntry<span class="opt">&lt;&gt;(</span>v<span class="opt">,</span> count<span class="opt">);</span>
+    <span class="opt">};</span>
 
-    BiFunction&lt;String, String, Entry&lt;String, Long&gt;&gt; counts = (v, s) -&gt; {
-       //Java 9 Matcher.results isn&apos;t off by one
-      Long count = Pattern.compile(v).splitAsStream(s).count() - 1;
-      return new AbstractMap.SimpleEntry&lt;&gt;(v, count);
-    };
+    <span class="kwa">final</span> Map<span class="opt">&lt;</span>String<span class="opt">,</span> Long<span class="opt">&gt;</span> results <span class="opt">=</span> variants<span class="opt">.</span><span class="kwd">parallelStream</span><span class="opt">()</span>
+                                              <span class="opt">.</span><span class="kwd">map</span><span class="opt">(</span>variant <span class="opt">-&gt;</span> counts<span class="opt">.</span><span class="kwd">apply</span><span class="opt">(</span>variant<span class="opt">,</span> sequence<span class="opt">))</span>
+                                              <span class="opt">.</span><span class="kwd">collect</span><span class="opt">(</span><span class="kwd">toMap</span><span class="opt">(</span>Map<span class="opt">.</span>Entry<span class="opt">::</span>getKey<span class="opt">,</span> Map<span class="opt">.</span>Entry<span class="opt">::</span>getValue<span class="opt">));</span>
 
-    final Map&lt;String, Long&gt; results = variants.parallelStream()
-                                              .map(variant -&gt; counts.apply(variant, sequence))
-                                              .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+    variants<span class="opt">.</span><span class="kwd">forEach</span><span class="opt">(</span>variant <span class="opt">-&gt;</span> System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>variant <span class="opt">+</span> <span class="str">&quot; &quot;</span> <span class="opt">+</span> results<span class="opt">.</span><span class="kwd">get</span><span class="opt">(</span>variant<span class="opt">)));</span>
 
-    variants.forEach(variant -&gt; System.out.println(variant + &quot; &quot; + results.get(variant)));
+    <span class="kwa">final</span> Map<span class="opt">&lt;</span>String<span class="opt">,</span> String<span class="opt">&gt;</span> replacements <span class="opt">=</span> <span class="kwa">new</span> LinkedHashMap<span class="opt">&lt;&gt;();</span><span class="slc">//Only works with LinkedHashMap</span>
+    <span class="opt">{</span>
+      replacements<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span><span class="str">&quot;tHa[Nt]&quot;</span><span class="opt">,</span> <span class="str">&quot;&lt;4&gt;&quot;</span><span class="opt">);</span>
+      replacements<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span><span class="str">&quot;aND|caN|Ha[DS]|WaS&quot;</span><span class="opt">,</span> <span class="str">&quot;&lt;3&gt;&quot;</span><span class="opt">);</span>
+      replacements<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span><span class="str">&quot;a[NSt]|BY&quot;</span><span class="opt">,</span> <span class="str">&quot;&lt;2&gt;&quot;</span><span class="opt">);</span>
+      replacements<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span><span class="str">&quot;&lt;[^&gt;]*&gt;&quot;</span><span class="opt">,</span> <span class="str">&quot;|&quot;</span><span class="opt">);</span>
+      replacements<span class="opt">.</span><span class="kwd">put</span><span class="opt">(</span><span class="str">&quot;</span><span class="esc">\\</span><span class="str">|[^|][^|]*</span><span class="esc">\\</span><span class="str">|&quot;</span><span class="opt">,</span> <span class="str">&quot;-&quot;</span><span class="opt">);</span>
+    <span class="opt">}</span>
 
-    final Map&lt;String, String&gt; replacements = new LinkedHashMap&lt;&gt;();//Only works with LinkedHashMap
-    {
-      replacements.put(&quot;tHa[Nt]&quot;, &quot;&lt;4&gt;&quot;);
-      replacements.put(&quot;aND|caN|Ha[DS]|WaS&quot;, &quot;&lt;3&gt;&quot;);
-      replacements.put(&quot;a[NSt]|BY&quot;, &quot;&lt;2&gt;&quot;);
-      replacements.put(&quot;&lt;[^&gt;]*&gt;&quot;, &quot;|&quot;);
-      replacements.put(&quot;\\|[^|][^|]*\\|&quot;, &quot;-&quot;);
-    }
+    String buf <span class="opt">=</span> sequence<span class="opt">;</span>
+    <span class="kwa">for</span> <span class="opt">(</span>Map<span class="opt">.</span>Entry<span class="opt">&lt;</span>String<span class="opt">,</span> String<span class="opt">&gt;</span> entry <span class="opt">:</span> replacements<span class="opt">.</span><span class="kwd">entrySet</span><span class="opt">()) {</span>
+        buf <span class="opt">=</span> Pattern<span class="opt">.</span><span class="kwd">compile</span><span class="opt">(</span>entry<span class="opt">.</span><span class="kwd">getKey</span><span class="opt">()).</span><span class="kwd">matcher</span><span class="opt">(</span>buf<span class="opt">).</span><span class="kwd">replaceAll</span><span class="opt">(</span>entry<span class="opt">.</span><span class="kwd">getValue</span><span class="opt">());</span>
+    <span class="opt">}</span>
 
-    String buf = sequence;
-    for (Map.Entry&lt;String, String&gt; entry : replacements.entrySet()) {
-        buf = Pattern.compile(entry.getKey()).matcher(buf).replaceAll(entry.getValue());
-    }
-
-    System.out.println();
-    System.out.println(initialLength);
-    System.out.println(codeLength);
-    System.out.println(buf.length());
-  }
-}
+    System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">();</span>
+    System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>initialLength<span class="opt">);</span>
+    System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>codeLength<span class="opt">);</span>
+    System<span class="opt">.</span>out<span class="opt">.</span><span class="kwd">println</span><span class="opt">(</span>buf<span class="opt">.</span><span class="kwd">length</span><span class="opt">());</span>
+  <span class="opt">}</span>
+<span class="opt">}</span>
     </pre>
   </section>
   <section>

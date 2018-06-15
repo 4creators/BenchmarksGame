@@ -200,31 +200,31 @@ OpenJDK Runtime Environment (build 1.8.0_171-11)
 GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
 
 
-Wed, 13 Jun 2018 20:25:43 GMT
+Fri, 15 Jun 2018 00:27:17 GMT
 
 MAKE:
 mv spectralnorm.javaaot-2.javaaot spectralnorm.java
 /opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  spectralnorm.java
-/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image spectralnorm
-Build on Server(pid: 1896, port: 42381)
-   classlist:     126.44 ms
-       (cap):   1,524.31 ms
-       setup:   1,806.74 ms
-  (typeflow):   2,681.21 ms
-   (objects):   1,645.44 ms
-  (features):      32.15 ms
-    analysis:   4,436.76 ms
-    universe:     127.29 ms
-     (parse):     513.79 ms
-    (inline):   1,029.44 ms
-   (compile):   3,035.83 ms
-     compile:   4,830.06 ms
-       image:     534.13 ms
-       write:     182.88 ms
-     [total]:  12,067.93 ms
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image  spectralnorm
+Build on Server(pid: 21517, port: 44021)
+   classlist:     277.96 ms
+       (cap):   1,627.98 ms
+       setup:   1,904.92 ms
+  (typeflow):   2,877.82 ms
+   (objects):   1,277.23 ms
+  (features):      30.50 ms
+    analysis:   4,264.20 ms
+    universe:     133.93 ms
+     (parse):     785.76 ms
+    (inline):     787.61 ms
+   (compile):   4,229.95 ms
+     compile:   6,053.75 ms
+       image:     510.86 ms
+       write:     246.42 ms
+     [total]:  13,415.16 ms
 mv spectralnorm spectralnorm.javaaot-2.javaaot_run
 
-14.23s to complete and log all make actions
+15.41s to complete and log all make actions
 
 COMMAND LINE:
 ./spectralnorm.javaaot-2.javaaot_run 5500

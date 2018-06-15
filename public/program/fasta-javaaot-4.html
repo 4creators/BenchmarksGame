@@ -247,31 +247,31 @@ OpenJDK Runtime Environment (build 1.8.0_171-11)
 GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
 
 
-Wed, 13 Jun 2018 19:15:13 GMT
+Thu, 14 Jun 2018 23:15:24 GMT
 
 MAKE:
 mv fasta.javaaot-4.javaaot fasta.java
 /opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  fasta.java
-/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image fasta
-Build on Server(pid: 1896, port: 42381)
-   classlist:     174.95 ms
-       (cap):   1,541.33 ms
-       setup:   1,877.57 ms
-  (typeflow):   3,038.71 ms
-   (objects):   1,390.85 ms
-  (features):      33.63 ms
-    analysis:   4,545.51 ms
-    universe:     148.75 ms
-     (parse):     730.36 ms
-    (inline):   1,054.92 ms
-   (compile):   3,913.72 ms
-     compile:   5,948.76 ms
-       image:     564.61 ms
-       write:     188.91 ms
-     [total]:  13,475.94 ms
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image  fasta
+Build on Server(pid: 21517, port: 44021)
+   classlist:     147.83 ms
+       (cap):   1,530.55 ms
+       setup:   1,825.38 ms
+  (typeflow):   2,717.65 ms
+   (objects):   1,470.16 ms
+  (features):      35.01 ms
+    analysis:   4,308.82 ms
+    universe:     149.77 ms
+     (parse):     613.95 ms
+    (inline):   1,098.99 ms
+   (compile):   4,042.23 ms
+     compile:   6,025.41 ms
+       image:     515.17 ms
+       write:     193.69 ms
+     [total]:  13,191.82 ms
 mv fasta fasta.javaaot-4.javaaot_run
 
-15.69s to complete and log all make actions
+15.22s to complete and log all make actions
 
 COMMAND LINE:
 ./fasta.javaaot-4.javaaot_run 25000000

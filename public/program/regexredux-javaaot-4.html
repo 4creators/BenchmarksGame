@@ -146,31 +146,31 @@ OpenJDK Runtime Environment (build 1.8.0_171-11)
 GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
 
 
-Wed, 13 Jun 2018 20:09:31 GMT
+Fri, 15 Jun 2018 00:09:35 GMT
 
 MAKE:
 mv regexredux.javaaot-4.javaaot regexredux.java
 /opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  regexredux.java
-/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image regexredux
-Build on Server(pid: 1896, port: 42381)
-   classlist:     286.52 ms
-       (cap):   1,535.99 ms
-       setup:   1,819.27 ms
-  (typeflow):   2,673.39 ms
-   (objects):   1,409.57 ms
-  (features):      32.23 ms
-    analysis:   4,193.43 ms
-    universe:     345.08 ms
-     (parse):     511.82 ms
-    (inline):     876.42 ms
-   (compile):   2,906.51 ms
-     compile:   4,542.28 ms
-       image:     500.31 ms
-       write:     183.11 ms
-     [total]:  11,894.09 ms
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image  regexredux
+Build on Server(pid: 21517, port: 44021)
+   classlist:     136.24 ms
+       (cap):   4,836.21 ms
+       setup:   5,286.23 ms
+  (typeflow):   2,963.32 ms
+   (objects):   1,274.97 ms
+  (features):      30.83 ms
+    analysis:   4,347.44 ms
+    universe:     134.88 ms
+     (parse):     715.65 ms
+    (inline):   1,125.29 ms
+   (compile):   3,653.80 ms
+     compile:   5,743.13 ms
+       image:     538.52 ms
+       write:     316.85 ms
+     [total]:  16,526.53 ms
 mv regexredux regexredux.javaaot-4.javaaot_run
 
-13.80s to complete and log all make actions
+25.77s to complete and log all make actions
 
 COMMAND LINE:
 ./regexredux.javaaot-4.javaaot_run 0 &lt; regexredux-input50000.txt

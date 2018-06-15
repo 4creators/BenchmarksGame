@@ -160,31 +160,32 @@ OpenJDK Runtime Environment (build 1.8.0_171-11)
 GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
 
 
-Wed, 13 Jun 2018 20:02:13 GMT
+Fri, 15 Jun 2018 00:02:10 GMT
 
 MAKE:
 mv pidigits.javaaot pidigits.java
 /opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  pidigits.java
-/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image pidigits
-Build on Server(pid: 1896, port: 42381)
-   classlist:     296.10 ms
-       (cap):   1,515.45 ms
-       setup:   1,797.26 ms
-  (typeflow):   2,811.80 ms
-   (objects):   1,529.09 ms
-  (features):      32.09 ms
-    analysis:   4,453.52 ms
-    universe:     128.13 ms
-     (parse):     511.57 ms
-    (inline):     887.06 ms
-   (compile):   2,967.97 ms
-     compile:   4,611.97 ms
-       image:     514.77 ms
-       write:     185.14 ms
-     [total]:  12,010.59 ms
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image -Djava.library.path=Include/java pidigits
+Shutdown Server(pid: 21145, port: 38285)
+Build on Server(pid: 24719, port: 39511)*
+   classlist:   2,098.93 ms
+       (cap):   2,452.87 ms
+       setup:   4,796.19 ms
+  (typeflow):  11,223.51 ms
+   (objects):   5,305.99 ms
+  (features):      76.91 ms
+    analysis:  16,804.50 ms
+    universe:     586.11 ms
+     (parse):   4,439.53 ms
+    (inline):   3,558.32 ms
+   (compile):  19,467.40 ms
+     compile:  28,281.62 ms
+       image:   2,053.51 ms
+       write:     382.38 ms
+     [total]:  55,120.20 ms
 mv pidigits pidigits.javaaot_run
 
-13.79s to complete and log all make actions
+59.20s to complete and log all make actions
 
 COMMAND LINE:
 ./pidigits.javaaot_run 10000

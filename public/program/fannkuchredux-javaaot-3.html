@@ -217,31 +217,31 @@ OpenJDK Runtime Environment (build 1.8.0_171-11)
 GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
 
 
-Wed, 13 Jun 2018 19:04:19 GMT
+Thu, 14 Jun 2018 23:03:48 GMT
 
 MAKE:
 mv fannkuchredux.javaaot-3.javaaot fannkuchredux.java
 /opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  fannkuchredux.java
-/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image fannkuchredux
-Build on Server(pid: 1896, port: 42381)
-   classlist:     302.35 ms
-       (cap):   1,540.53 ms
-       setup:   1,876.71 ms
-  (typeflow):   2,967.58 ms
-   (objects):   1,386.38 ms
-  (features):      36.13 ms
-    analysis:   4,475.83 ms
-    universe:     159.88 ms
-     (parse):     642.01 ms
-    (inline):     896.25 ms
-   (compile):   3,443.35 ms
-     compile:   5,236.69 ms
-       image:     541.02 ms
-       write:     188.24 ms
-     [total]:  12,811.44 ms
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image  fannkuchredux
+Build on Server(pid: 21517, port: 44021)
+   classlist:     216.20 ms
+       (cap):   1,566.27 ms
+       setup:   1,871.77 ms
+  (typeflow):   3,092.00 ms
+   (objects):   1,263.86 ms
+  (features):      31.19 ms
+    analysis:   4,468.21 ms
+    universe:     162.45 ms
+     (parse):     735.68 ms
+    (inline):     939.01 ms
+   (compile):   3,814.76 ms
+     compile:   5,796.00 ms
+       image:     496.60 ms
+       write:     187.67 ms
+     [total]:  13,235.50 ms
 mv fannkuchredux fannkuchredux.javaaot-3.javaaot_run
 
-14.92s to complete and log all make actions
+15.81s to complete and log all make actions
 
 COMMAND LINE:
 ./fannkuchredux.javaaot-3.javaaot_run 12

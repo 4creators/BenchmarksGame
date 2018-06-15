@@ -215,17 +215,17 @@ OpenJDK Runtime Environment (build 1.8.0_171-11)
 GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
 
 
-Wed, 13 Jun 2018 19:18:19 GMT
+Thu, 14 Jun 2018 23:20:04 GMT
 
 MAKE:
 mv knucleotide.javaaot knucleotide.java
 /opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d . -cp .:/opt/src/java-libs/fastutil-8.1.0.jar knucleotide.java
-/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image knucleotide
-Build on Server(pid: 1896, port: 42381)
-   classlist:     149.99 ms
-       (cap):   1,537.07 ms
-       setup:   1,828.27 ms
-    analysis:   4,448.79 ms
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image  knucleotide
+Build on Server(pid: 21517, port: 44021)
+   classlist:     149.10 ms
+       (cap):   1,726.22 ms
+       setup:   2,015.27 ms
+    analysis:   3,986.39 ms
 error: unsupported features in 4 methods
 Detailed message:
 Error: Bytecode parsing error: java.lang.NoClassDefFoundError
@@ -234,7 +234,7 @@ Trace:
 Call path from entry point to knucleotide.createFragmentMap(byte[], int, int): 
 	at knucleotide.createFragmentMap(knucleotide.java:53)
 	at knucleotide.lambda$createFragmentTasks$0(knucleotide.java:46)
-	at knucleotide$$Lambda$461/1649257774.call(Unknown Source)
+	at knucleotide$$Lambda$471/365233919.call(Unknown Source)
 	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
 	at com.oracle.svm.core.jdk.RuntimeSupport.executeHooks(RuntimeSupport.java:112)
 	at com.oracle.svm.core.jdk.RuntimeSupport.executeStartupHooks(RuntimeSupport.java:85)
@@ -443,7 +443,7 @@ mv: cannot stat 'knucleotide': No such file or directory
 /home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:727: recipe for target 'knucleotide.javaaot_run' failed
 make: [knucleotide.javaaot_run] Error 1 (ignored)
 
-8.43s to complete and log all make actions
+8.47s to complete and log all make actions
 
 COMMAND LINE:
 ./knucleotide.javaaot_run 0 &lt; knucleotide-input250000.txt

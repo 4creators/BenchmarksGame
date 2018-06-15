@@ -253,31 +253,31 @@ OpenJDK Runtime Environment (build 1.8.0_171-11)
 GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
 
 
-Wed, 13 Jun 2018 20:17:29 GMT
+Fri, 15 Jun 2018 00:25:06 GMT
 
 MAKE:
 mv revcomp.javaaot-7.javaaot revcomp.java
 /opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  revcomp.java
-/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image revcomp
-Build on Server(pid: 1896, port: 42381)
-   classlist:     142.34 ms
-       (cap):   4,887.37 ms
-       setup:   5,299.70 ms
-  (typeflow):   2,830.97 ms
-   (objects):   1,658.70 ms
-  (features):      32.23 ms
-    analysis:   4,601.61 ms
-    universe:     135.87 ms
-     (parse):     715.81 ms
-    (inline):     962.70 ms
-   (compile):   2,919.55 ms
-     compile:   4,846.09 ms
-       image:     537.22 ms
-       write:     318.94 ms
-     [total]:  15,905.11 ms
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image  revcomp
+Build on Server(pid: 21517, port: 44021)
+   classlist:     954.72 ms
+       (cap):   3,724.82 ms
+       setup:   4,138.48 ms
+  (typeflow):   3,154.45 ms
+   (objects):   1,305.65 ms
+  (features):      31.80 ms
+    analysis:   4,572.98 ms
+    universe:     140.07 ms
+     (parse):     743.41 ms
+    (inline):     792.98 ms
+   (compile):   4,150.13 ms
+     compile:   5,965.08 ms
+       image:     525.14 ms
+       write:     289.73 ms
+     [total]:  16,609.91 ms
 mv revcomp revcomp.javaaot-7.javaaot_run
 
-24.45s to complete and log all make actions
+24.72s to complete and log all make actions
 
 COMMAND LINE:
 ./revcomp.javaaot-7.javaaot_run 0 &lt; revcomp-input250000.txt
@@ -41959,7 +41959,7 @@ UNEXPECTED OUTPUT
 
 PROGRAM OUTPUT:
 
-0.03412626
+0.030723676
     </pre>
   </section>
 </article>

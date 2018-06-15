@@ -213,31 +213,31 @@ OpenJDK Runtime Environment (build 1.8.0_171-11)
 GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
 
 
-Wed, 13 Jun 2018 19:58:55 GMT
+Thu, 14 Jun 2018 23:58:09 GMT
 
 MAKE:
 mv nbody.javaaot-4.javaaot nbody.java
 /opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  nbody.java
-/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image nbody
-Build on Server(pid: 1896, port: 42381)
-   classlist:     283.77 ms
-       (cap):   1,522.85 ms
-       setup:   1,805.66 ms
-  (typeflow):   2,882.56 ms
-   (objects):   1,409.95 ms
-  (features):      31.47 ms
-    analysis:   4,400.21 ms
-    universe:     126.59 ms
-     (parse):     512.25 ms
-    (inline):   1,079.38 ms
-   (compile):   4,040.87 ms
-     compile:   5,895.91 ms
-       image:     510.86 ms
-       write:     181.89 ms
-     [total]:  13,228.26 ms
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image  nbody
+Build on Server(pid: 21517, port: 44021)
+   classlist:     294.03 ms
+       (cap):   1,521.49 ms
+       setup:   1,799.00 ms
+  (typeflow):   2,899.27 ms
+   (objects):   1,263.35 ms
+  (features):      30.73 ms
+    analysis:   4,271.40 ms
+    universe:     132.33 ms
+     (parse):     708.99 ms
+    (inline):     716.85 ms
+   (compile):   2,942.71 ms
+     compile:   4,614.64 ms
+       image:     507.66 ms
+       write:     181.67 ms
+     [total]:  11,824.72 ms
 mv nbody nbody.javaaot-4.javaaot_run
 
-14.87s to complete and log all make actions
+13.97s to complete and log all make actions
 
 COMMAND LINE:
 ./nbody.javaaot-4.javaaot_run 50000000

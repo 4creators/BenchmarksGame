@@ -97,31 +97,31 @@ OpenJDK Runtime Environment (build 1.8.0_171-11)
 GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
 
 
-Wed, 13 Jun 2018 18:35:37 GMT
+Thu, 14 Jun 2018 22:40:04 GMT
 
 MAKE:
 mv binarytrees.javaaot-6.javaaot binarytrees.java
 /opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  binarytrees.java
-/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image binarytrees
-Build on Server(pid: 1896, port: 42381)
-   classlist:     318.90 ms
-       (cap):   1,694.65 ms
-       setup:   2,158.55 ms
-  (typeflow):   4,258.30 ms
-   (objects):   2,239.10 ms
-  (features):      45.47 ms
-    analysis:   6,669.83 ms
-    universe:     257.10 ms
-     (parse):   1,232.07 ms
-    (inline):   1,689.26 ms
-   (compile):   5,462.60 ms
-     compile:   8,875.42 ms
-       image:     889.01 ms
-       write:     226.27 ms
-     [total]:  19,438.24 ms
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image  binarytrees
+Build on Server(pid: 21517, port: 44021)
+   classlist:     273.38 ms
+       (cap):   1,657.44 ms
+       setup:   2,058.88 ms
+  (typeflow):   4,049.42 ms
+   (objects):   1,360.71 ms
+  (features):      37.08 ms
+    analysis:   5,550.59 ms
+    universe:     199.58 ms
+     (parse):     989.49 ms
+    (inline):   1,155.86 ms
+   (compile):   4,939.64 ms
+     compile:   7,403.78 ms
+       image:     588.42 ms
+       write:     252.97 ms
+     [total]:  16,586.61 ms
 mv binarytrees binarytrees.javaaot-6.javaaot_run
 
-21.92s to complete and log all make actions
+18.77s to complete and log all make actions
 
 COMMAND LINE:
 ./binarytrees.javaaot-6.javaaot_run 21

@@ -199,31 +199,31 @@ OpenJDK Runtime Environment (build 1.8.0_171-11)
 GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
 
 
-Wed, 13 Jun 2018 19:24:58 GMT
+Thu, 14 Jun 2018 23:17:54 GMT
 
 MAKE:
 mv knucleotide.javaaot-3.javaaot knucleotide.java
 /opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d . -cp .:/opt/src/java-libs/fastutil-8.1.0.jar knucleotide.java
-/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image knucleotide
-Build on Server(pid: 1896, port: 42381)
-   classlist:     155.82 ms
-       (cap):   1,517.02 ms
-       setup:   1,819.07 ms
-  (typeflow):   2,662.50 ms
-   (objects):   1,487.80 ms
-  (features):      34.38 ms
-    analysis:   4,265.31 ms
-    universe:     144.78 ms
-     (parse):     855.18 ms
-    (inline):     886.66 ms
-   (compile):   3,060.78 ms
-     compile:   5,058.66 ms
-       image:     522.31 ms
-       write:     198.47 ms
-     [total]:  12,192.84 ms
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image  knucleotide
+Build on Server(pid: 21517, port: 44021)
+   classlist:     134.40 ms
+       (cap):   1,540.90 ms
+       setup:   1,824.42 ms
+  (typeflow):   2,617.80 ms
+   (objects):   1,425.50 ms
+  (features):      31.90 ms
+    analysis:   4,155.63 ms
+    universe:     143.00 ms
+     (parse):     737.25 ms
+    (inline):   1,175.95 ms
+   (compile):   4,103.01 ms
+     compile:   6,289.84 ms
+       image:     531.20 ms
+       write:     189.33 ms
+     [total]:  13,295.83 ms
 mv knucleotide knucleotide.javaaot-3.javaaot_run
 
-14.35s to complete and log all make actions
+15.59s to complete and log all make actions
 
 COMMAND LINE:
 ./knucleotide.javaaot-3.javaaot_run 0 &lt; knucleotide-input25000000.txt

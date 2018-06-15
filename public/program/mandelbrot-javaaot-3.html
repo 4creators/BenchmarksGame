@@ -151,31 +151,31 @@ OpenJDK Runtime Environment (build 1.8.0_171-11)
 GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
 
 
-Wed, 13 Jun 2018 19:43:37 GMT
+Thu, 14 Jun 2018 23:42:55 GMT
 
 MAKE:
 mv mandelbrot.javaaot-3.javaaot mandelbrot.java
 /opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  mandelbrot.java
-/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image mandelbrot
-Build on Server(pid: 1896, port: 42381)
-   classlist:     152.86 ms
-       (cap):   1,540.79 ms
-       setup:   1,821.61 ms
-  (typeflow):   2,506.43 ms
-   (objects):   1,742.83 ms
-  (features):      32.17 ms
-    analysis:   4,359.26 ms
-    universe:     132.08 ms
-     (parse):     511.35 ms
-    (inline):   1,072.46 ms
-   (compile):   3,542.74 ms
-     compile:   5,370.47 ms
-       image:     508.82 ms
-       write:     181.63 ms
-     [total]:  12,551.71 ms
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image  mandelbrot
+Build on Server(pid: 21517, port: 44021)
+   classlist:     138.76 ms
+       (cap):   1,527.04 ms
+       setup:   1,809.42 ms
+  (typeflow):   2,793.20 ms
+   (objects):   1,391.00 ms
+  (features):      30.83 ms
+    analysis:   4,293.40 ms
+    universe:     134.31 ms
+     (parse):     704.50 ms
+    (inline):     715.51 ms
+   (compile):   3,032.34 ms
+     compile:   4,700.14 ms
+       image:     508.32 ms
+       write:     181.94 ms
+     [total]:  11,790.20 ms
 mv mandelbrot mandelbrot.javaaot-3.javaaot_run
 
-14.48s to complete and log all make actions
+13.73s to complete and log all make actions
 
 COMMAND LINE:
 ./mandelbrot.javaaot-3.javaaot_run 16000

@@ -129,31 +129,31 @@ OpenJDK Runtime Environment (build 1.8.0_171-11)
 GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
 
 
-Wed, 13 Jun 2018 20:09:17 GMT
+Fri, 15 Jun 2018 00:05:40 GMT
 
 MAKE:
 mv regexredux.javaaot-5.javaaot regexredux.java
 /opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  regexredux.java
-/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image regexredux
-Build on Server(pid: 1896, port: 42381)
-   classlist:     147.24 ms
-       (cap):   1,556.61 ms
-       setup:   1,843.99 ms
-  (typeflow):   2,630.64 ms
-   (objects):   1,675.82 ms
-  (features):      32.29 ms
-    analysis:   4,417.41 ms
-    universe:     129.23 ms
-     (parse):     511.67 ms
-    (inline):   1,173.78 ms
-   (compile):   3,633.28 ms
-     compile:   5,565.27 ms
-       image:     531.98 ms
-       write:     185.95 ms
-     [total]:  12,844.58 ms
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image  regexredux
+Build on Server(pid: 21517, port: 44021)
+   classlist:     158.24 ms
+       (cap):   1,564.13 ms
+       setup:   1,847.88 ms
+  (typeflow):   3,358.29 ms
+   (objects):   1,372.74 ms
+  (features):      32.18 ms
+    analysis:   4,845.02 ms
+    universe:     152.54 ms
+     (parse):     713.66 ms
+    (inline):     978.89 ms
+   (compile):   3,955.46 ms
+     compile:   5,902.93 ms
+       image:     529.09 ms
+       write:     180.99 ms
+     [total]:  13,642.37 ms
 mv regexredux regexredux.javaaot-5.javaaot_run
 
-14.95s to complete and log all make actions
+16.21s to complete and log all make actions
 
 COMMAND LINE:
 ./regexredux.javaaot-5.javaaot_run 0 &lt; regexredux-input50000.txt
@@ -182,7 +182,7 @@ Exception in thread &quot;main&quot; java.lang.reflect.InvocationTargetException
 	at java.lang.Exception.&lt;init&gt;(Exception.java:102)
 	at java.lang.ReflectiveOperationException.&lt;init&gt;(ReflectiveOperationException.java:89)
 	at java.lang.reflect.InvocationTargetException.&lt;init&gt;(InvocationTargetException.java:72)
-	at com.oracle.svm.reflect.proxies.Proxy_33_regexredux_main.invoke(Unknown Source)
+	at com.oracle.svm.reflect.proxies.Proxy_27_regexredux_main.invoke(Unknown Source)
 	at java.lang.reflect.Method.invoke(Method.java:498)
 	at com.oracle.svm.core.JavaMainWrapper.run(JavaMainWrapper.java:173)
 Caused by: java.lang.IllegalThreadStateException

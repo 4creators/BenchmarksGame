@@ -112,17 +112,17 @@ OpenJDK Runtime Environment (build 1.8.0_171-11)
 GraalVM 1.0.0-rc2 (build 25.71-b01-internal-jvmci-0.43, mixed mode)
 
 
-Wed, 13 Jun 2018 20:08:48 GMT
+Fri, 15 Jun 2018 00:09:46 GMT
 
 MAKE:
 mv regexredux.javaaot-3.javaaot regexredux.java
 /opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/javac -d .  regexredux.java
-/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image regexredux
-Build on Server(pid: 1896, port: 42381)
-   classlist:     148.92 ms
-       (cap):   4,068.62 ms
-       setup:   4,415.87 ms
-    analysis:   3,697.44 ms
+/opt/src/graalvm-ce-1.0.0-rc2-linux-amd64/graalvm-ce-1.0.0-rc2/bin/native-image  regexredux
+Build on Server(pid: 21517, port: 44021)
+   classlist:     133.68 ms
+       (cap):   1,527.02 ms
+       setup:   1,806.71 ms
+    analysis:   3,634.10 ms
 error: unsupported features in 2 methods
 Detailed message:
 Error: Detected a started Thread in the image heap. This is not supported. The object was reached from a static initializer. All static class initialization is done during native image construction, thus a static initializer cannot contain code that captures state dependent on the build machine. Write your own initialization methods and call them explicitly from your main entry point.
@@ -158,7 +158,7 @@ mv: cannot stat 'regexredux': No such file or directory
 /home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:727: recipe for target 'regexredux.javaaot-3.javaaot_run' failed
 make: [regexredux.javaaot-3.javaaot_run] Error 1 (ignored)
 
-14.86s to complete and log all make actions
+7.55s to complete and log all make actions
 
 COMMAND LINE:
 ./regexredux.javaaot-3.javaaot_run 0 &lt; regexredux-input50000.txt

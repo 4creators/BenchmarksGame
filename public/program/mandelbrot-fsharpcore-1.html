@@ -99,7 +99,7 @@ sdk/2.1.300
 "System.GC.Server": true
 
 
-Wed, 30 May 2018 23:14:40 GMT
+Mon, 18 Jun 2018 15:45:47 GMT
 
 MAKE:
 cp mandelbrot.fsharpcore Program.fs
@@ -113,31 +113,20 @@ cp Include/fsharpcore/tmp.fsproj.nuget.g.targets ./obj
 Microsoft (R) Build Engine version 15.7.179.6572 for .NET Core
 Copyright (C) Microsoft Corporation. All rights reserved.
 
-/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/Program.fs(17,29): error FS0039: The value, namespace, type or module 'Unsafe' is not defined. Maybe you want one of the following:   UnsafeValueTypeAttribute [/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/tmp.fsproj]
-/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/Program.fs(18,31): error FS0039: The value, namespace, type or module 'Unsafe' is not defined. Maybe you want one of the following:   UnsafeValueTypeAttribute [/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/tmp.fsproj]
+  tmp -&gt; /home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/bin/Release/netcoreapp2.1/tmp.dll
 
-Build FAILED.
-
-/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/Program.fs(17,29): error FS0039: The value, namespace, type or module 'Unsafe' is not defined. Maybe you want one of the following:   UnsafeValueTypeAttribute [/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/tmp.fsproj]
-/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/Program.fs(18,31): error FS0039: The value, namespace, type or module 'Unsafe' is not defined. Maybe you want one of the following:   UnsafeValueTypeAttribute [/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/tmp.fsproj]
+Build succeeded.
     0 Warning(s)
-    2 Error(s)
+    0 Error(s)
 
-Time Elapsed 00:00:04.48
-/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:200: recipe for target 'mandelbrot.fsharpcore_run' failed
-make: [mandelbrot.fsharpcore_run] Error 1 (ignored)
+Time Elapsed 00:00:05.72
 
-5.08s to complete and log all make actions
+6.33s to complete and log all make actions
 
 COMMAND LINE:
-/usr/bin/dotnet ./bin/Release/netcoreapp2.1/tmp.dll 1000
-
-PROGRAM FAILED 
-
+/usr/bin/dotnet ./bin/Release/netcoreapp2.1/tmp.dll 16000
 
 (BINARY) PROGRAM OUTPUT NOT SHOWN
-
-No executable found matching command &quot;dotnet-./bin/Release/netcoreapp2.1/tmp.dll&quot;
     </pre>
   </section>
 </article>

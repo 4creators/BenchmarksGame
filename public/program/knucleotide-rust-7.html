@@ -34,13 +34,13 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 <span class="ppc">#![allow(non_snake_case)]</span>
 
 <span class="kwa">extern crate</span> rayon<span class="opt">;</span>
-<span class="kwa">extern crate</span> ordermap<span class="opt">;</span>
+<span class="kwa">extern crate</span> indexmap<span class="opt">;</span>
 
 <span class="kwa">use</span> std<span class="opt">::</span>sync<span class="opt">::</span>Arc<span class="opt">;</span>
 <span class="kwa">use</span> std<span class="opt">::</span>hash<span class="opt">::{</span>Hasher<span class="opt">,</span> BuildHasherDefault<span class="opt">};</span>
 <span class="kwa">use</span> rayon<span class="opt">::</span>prelude<span class="opt">::*;</span>
 <span class="kwa">use</span> Item<span class="opt">::*;</span>
-<span class="kwa">use</span> ordermap<span class="opt">::</span>OrderMap<span class="opt">;</span>
+<span class="kwa">use</span> indexmap<span class="opt">::</span>IndexMap<span class="opt">;</span>
 
 <span class="kwa">struct</span> <span class="kwd">NaiveHasher</span><span class="opt">(</span><span class="kwb">u64</span><span class="opt">);</span>
 <span class="kwa">impl</span> Default <span class="kwa">for</span> NaiveHasher <span class="opt">{</span>
@@ -60,7 +60,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <span class="opt">}</span>
 <span class="opt">}</span>
 <span class="kwa">type</span> NaiveBuildHasher <span class="opt">=</span> BuildHasherDefault<span class="opt">&lt;</span>NaiveHasher<span class="opt">&gt;;</span>
-<span class="kwa">type</span> NaiveHashMap<span class="opt">&lt;</span>K<span class="opt">,</span> V<span class="opt">&gt; =</span> OrderMap<span class="opt">&lt;</span>K<span class="opt">,</span> V<span class="opt">,</span> NaiveBuildHasher<span class="opt">&gt;;</span>
+<span class="kwa">type</span> NaiveHashMap<span class="opt">&lt;</span>K<span class="opt">,</span> V<span class="opt">&gt; =</span> IndexMap<span class="opt">&lt;</span>K<span class="opt">,</span> V<span class="opt">,</span> NaiveBuildHasher<span class="opt">&gt;;</span>
 <span class="kwa">type</span> Map <span class="opt">=</span> NaiveHashMap<span class="opt">&lt;</span>Code<span class="opt">,</span> <span class="kwb">u32</span><span class="opt">&gt;;</span>
 
 <span class="ppc">#[derive(Hash, PartialEq, PartialOrd, Ord, Eq, Clone, Copy)]</span>
@@ -214,15 +214,15 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-rustc 1.26.0 (a77568041 2018-05-07)
+rustc 1.27.0 (3eda71b00 2018-06-19)
 
 
-Thu, 10 May 2018 21:26:38 GMT
+Thu, 21 Jun 2018 20:22:47 GMT
 
 MAKE:
-/opt/src/rust-1.26.0/bin/rustc -C opt-level=3 -C target-cpu=core2 -C lto -C codegen-units=1 -L /opt/src/rust-libs knucleotide.rs -o knucleotide.rust-7.rust_run
+/opt/src/rust-1.27.0/bin/rustc -C opt-level=3 -C target-cpu=core2 -C lto -C codegen-units=1 -L /opt/src/rust-libs knucleotide.rs -o knucleotide.rust-7.rust_run
 
-12.17s to complete and log all make actions
+11.98s to complete and log all make actions
 
 COMMAND LINE:
 ./knucleotide.rust-7.rust_run 0 &lt; knucleotide-input25000000.txt

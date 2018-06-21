@@ -31,6 +31,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 <span class="kwa">extern crate</span> regex<span class="opt">;</span>
 
 <span class="kwa">use</span> rayon<span class="opt">::</span>prelude<span class="opt">::*;</span>
+<span class="kwa">use</span> std<span class="opt">::</span>collections<span class="opt">::</span>HashMap<span class="opt">;</span>
 <span class="kwa">use</span> std<span class="opt">::</span>io<span class="opt">::{</span><span class="kwa">self</span><span class="opt">,</span> Read<span class="opt">};</span>
 <span class="kwa">use</span> std<span class="opt">::</span>thread<span class="opt">;</span>
 
@@ -43,9 +44,9 @@ macro_rules<span class="opt">!</span> regex <span class="opt">{ (</span>$re<span
 
     <span class="kwa">let</span> sequence <span class="opt">=</span> regex<span class="opt">!(</span><span class="str">&quot;&gt;[^</span><span class="esc">\</span><span class="str">n]*</span><span class="esc">\</span><span class="str">n|</span><span class="esc">\</span><span class="str">n&quot;</span><span class="opt">).</span><span class="kwd">replace_all</span><span class="opt">(&amp;</span>input<span class="opt">, &amp;</span>b<span class="str">&quot;&quot;</span><span class="opt">[..])</span><span class="num">.i</span>nto<span class="num">_</span>owned<span class="opt">();</span>
 
-    <span class="kwa">let</span> seq_copy <span class="opt">=</span> sequence<span class="opt">.</span><span class="kwd">clone</span><span class="opt">();</span>
+    <span class="kwa">let</span> sequence_c <span class="opt">=</span> sequence<span class="opt">.</span><span class="kwd">clone</span><span class="opt">();</span>
 
-    <span class="kwa">let</span> result <span class="opt">=</span> thread<span class="opt">::</span><span class="kwd">spawn</span><span class="opt">(</span><span class="kwa">move</span> <span class="opt">|| {</span>
+    <span class="kwa">let</span> result <span class="opt">=</span> thread<span class="opt">::</span><span class="kwd">spawn</span><span class="opt">(</span><span class="kwa">move</span><span class="opt">|| {</span>
         vec<span class="opt">![</span>
             <span class="opt">(</span><span class="str">&quot;tHa[Nt]&quot;</span><span class="opt">, &amp;</span>b<span class="str">&quot;&lt;4&gt;&quot;</span><span class="opt">[..]),</span>
             <span class="opt">(</span><span class="str">&quot;aND|caN|Ha[DS]|WaS&quot;</span><span class="opt">, &amp;</span>b<span class="str">&quot;&lt;3&gt;&quot;</span><span class="opt">[..]),</span>
@@ -53,12 +54,12 @@ macro_rules<span class="opt">!</span> regex <span class="opt">{ (</span>$re<span
             <span class="opt">(</span><span class="str">&quot;&lt;[^&gt;]*&gt;&quot;</span><span class="opt">, &amp;</span>b<span class="str">&quot;|&quot;</span><span class="opt">[..]),</span>
             <span class="opt">(</span><span class="str">&quot;</span><span class="esc">\\</span><span class="str">|[^|][^|]*</span><span class="esc">\\</span><span class="str">|&quot;</span><span class="opt">, &amp;</span>b<span class="str">&quot;-&quot;</span><span class="opt">[..]),</span>
         <span class="opt">]</span><span class="num">.i</span>ter<span class="opt">()</span>
-         <span class="num">.f</span>old<span class="opt">(</span>seq_copy<span class="opt">, |</span><span class="kwa">mut</span> buf<span class="opt">, &amp;(</span>re<span class="opt">,</span> replacement<span class="opt">)| {</span>
-             regex<span class="opt">!(</span>re<span class="opt">).</span><span class="kwd">replace_all</span><span class="opt">(&amp;</span><span class="kwa">mut</span> buf<span class="opt">,</span> replacement<span class="opt">)</span><span class="num">.i</span>nto<span class="num">_</span>owned<span class="opt">()</span>
+         <span class="num">.f</span>old<span class="opt">(</span>sequence_c<span class="opt">, |</span><span class="kwa">mut</span> buffer<span class="opt">, &amp;(</span>pattern<span class="opt">,</span> replacement<span class="opt">)| {</span>
+             regex<span class="opt">!(</span>pattern<span class="opt">).</span><span class="kwd">replace_all</span><span class="opt">(&amp;</span><span class="kwa">mut</span> buffer<span class="opt">,</span> replacement<span class="opt">)</span><span class="num">.i</span>nto<span class="num">_</span>owned<span class="opt">()</span>
          <span class="opt">})</span>
     <span class="opt">});</span>
 
-    vec<span class="opt">![</span>
+    <span class="kwa">let</span> variants <span class="opt">=</span> vec<span class="opt">![</span>
         <span class="str">&quot;agggtaaa|tttaccct&quot;</span><span class="opt">,</span>
         <span class="str">&quot;[cgt]gggtaaa|tttaccc[acg]&quot;</span><span class="opt">,</span>
         <span class="str">&quot;a[act]ggtaaa|tttacc[agt]t&quot;</span><span class="opt">,</span>
@@ -68,8 +69,15 @@ macro_rules<span class="opt">!</span> regex <span class="opt">{ (</span>$re<span
         <span class="str">&quot;agggt[cgt]aa|tt[acg]accct&quot;</span><span class="opt">,</span>
         <span class="str">&quot;agggta[cgt]a|t[acg]taccct&quot;</span><span class="opt">,</span>
         <span class="str">&quot;agggtaa[cgt]|[acg]ttaccct&quot;</span><span class="opt">,</span>
-    <span class="opt">].</span><span class="kwd">par_iter</span><span class="opt">()</span>
-     <span class="num">.f</span>or<span class="num">_</span>each<span class="opt">(|</span>v<span class="opt">|</span> println<span class="opt">!(</span><span class="str">&quot;{} {}&quot;</span><span class="opt">,</span> v<span class="opt">.</span><span class="kwd">to_string</span><span class="opt">(),</span> regex<span class="opt">!(</span>v<span class="opt">)</span><span class="num">.fi</span>nd<span class="num">_i</span>ter<span class="opt">(&amp;</span>sequence<span class="opt">).</span><span class="kwd">count</span><span class="opt">()));</span>
+    <span class="opt">];</span>
+    
+    <span class="kwa">let</span> results<span class="opt">:</span> HashMap<span class="opt">&lt;&amp;</span><span class="kwb">str</span><span class="opt">,</span> <span class="kwb">usize</span><span class="opt">&gt; =</span> variants<span class="opt">.</span><span class="kwd">par_iter</span><span class="opt">()</span>
+        <span class="opt">.</span><span class="kwd">map</span><span class="opt">(|</span>v<span class="opt">| (&amp;**</span>v<span class="opt">,</span> regex<span class="opt">!(</span>v<span class="opt">)</span><span class="num">.fi</span>nd<span class="num">_i</span>ter<span class="opt">(&amp;</span>sequence<span class="opt">).</span><span class="kwd">count</span><span class="opt">()))</span>
+        <span class="opt">.</span><span class="kwd">collect</span><span class="opt">();</span>
+
+    <span class="kwa">for</span> v <span class="kwa">in</span> variants<span class="num">.i</span>ter<span class="opt">() {</span>
+        println<span class="opt">!(</span><span class="str">&quot;{} {}&quot;</span><span class="opt">,</span> v<span class="opt">,</span> results<span class="opt">.</span>get<span class="opt">::&lt;</span><span class="kwb">str</span><span class="opt">&gt;(</span>v<span class="opt">)</span><span class="num">.u</span>nwrap<span class="opt">());</span>
+    <span class="opt">}</span>
 
     println<span class="opt">!(</span><span class="str">&quot;</span><span class="esc">\</span><span class="str">n{}</span> <span class="esc">\</span><span class="str">n{}</span> <span class="esc">\</span><span class="str">n{:?}&quot;</span><span class="opt">,</span> input<span class="opt">.</span><span class="kwd">len</span><span class="opt">(),</span> sequence<span class="opt">.</span><span class="kwd">len</span><span class="opt">(),</span> result<span class="opt">.</span><span class="kwd">join</span><span class="opt">()</span><span class="num">.u</span>nwrap<span class="opt">().</span><span class="kwd">len</span><span class="opt">());</span>
 <span class="opt">}</span>
@@ -80,33 +88,21 @@ macro_rules<span class="opt">!</span> regex <span class="opt">{ (</span>$re<span
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-rustc 1.26.0 (a77568041 2018-05-07)
+rustc 1.27.0 (3eda71b00 2018-06-19)
 
 
-Thu, 10 May 2018 19:52:46 GMT
+Thu, 21 Jun 2018 20:48:25 GMT
 
 MAKE:
-/opt/src/rust-1.26.0/bin/rustc -C opt-level=3 -C target-cpu=core2 -C lto -C codegen-units=1 -L /opt/src/rust-libs regexredux.rs -o regexredux.rust-3.rust_run
+/opt/src/rust-1.27.0/bin/rustc -C opt-level=3 -C target-cpu=core2 -C lto -C codegen-units=1 -L /opt/src/rust-libs regexredux.rs -o regexredux.rust-3.rust_run
 
-26.89s to complete and log all make actions
+28.55s to complete and log all make actions
 
 COMMAND LINE:
 ./regexredux.rust-3.rust_run 0 &lt; regexredux-input50000.txt
 
 UNEXPECTED OUTPUT 
 
-1a2
-&gt; [cgt]gggtaaa|tttaccc[acg] 12
-3d3
-&lt; agg[act]taaa|ttta[agt]cct 58
-5c5
-&lt; [cgt]gggtaaa|tttaccc[acg] 12
----
-&gt; agg[act]taaa|ttta[agt]cct 58
-7d6
-&lt; agggta[cgt]a|t[acg]taccct 18
-8a8
-&gt; agggta[cgt]a|t[acg]taccct 18
 11,12c11,12
 &lt; 508411 
 &lt; 500000 
@@ -116,13 +112,13 @@ UNEXPECTED OUTPUT
 
 PROGRAM OUTPUT:
 agggtaaa|tttaccct 3
-a[act]ggtaaa|tttacc[agt]t 43
-agg[act]taaa|ttta[agt]cct 58
-ag[act]gtaaa|tttac[agt]ct 27
 [cgt]gggtaaa|tttaccc[acg] 12
+a[act]ggtaaa|tttacc[agt]t 43
+ag[act]gtaaa|tttac[agt]ct 27
+agg[act]taaa|ttta[agt]cct 58
 aggg[acg]aaa|ttt[cgt]ccct 16
-agggta[cgt]a|t[acg]taccct 18
 agggt[cgt]aa|tt[acg]accct 15
+agggta[cgt]a|t[acg]taccct 18
 agggtaa[cgt]|[acg]ttaccct 20
 
 508411 

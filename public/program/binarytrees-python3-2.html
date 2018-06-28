@@ -22,49 +22,49 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-<span class="slc"># The Computer Language Benchmarks Game</span>
-<span class="slc"># https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
-<span class="slc">#</span>
-<span class="slc"># contributed by Antoine Pitrou</span>
-<span class="slc"># modified by Dominique Wahli</span>
-<span class="slc"># modified by Heinrich Acker</span>
-<span class="slc"># 2to3</span>
-<span class="slc"># *reset*</span>
+# The Computer Language Benchmarks Game
+# https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+#
+# contributed by Antoine Pitrou
+# modified by Dominique Wahli
+# modified by Heinrich Acker
+# 2to3
+# *reset*
 
-<span class="kwa">import</span> sys
+import sys
 
-<span class="kwa">def</span> <span class="kwd">make_tree</span><span class="opt">(</span>depth<span class="opt">):</span>
-    <span class="kwa">if not</span> depth<span class="opt">:</span> <span class="kwa">return None</span><span class="opt">,</span> <span class="kwa">None</span>
-    depth <span class="opt">-=</span> <span class="num">1</span>
-    <span class="kwa">return</span> <span class="kwd">make_tree</span><span class="opt">(</span>depth<span class="opt">),</span> <span class="kwd">make_tree</span><span class="opt">(</span>depth<span class="opt">)</span>
+def make_tree(depth):
+    if not depth: return None, None
+    depth -= 1
+    return make_tree(depth), make_tree(depth)
 
-<span class="kwa">def</span> <span class="kwd">check_tree</span><span class="opt">(</span>node<span class="opt">):</span>
-    <span class="opt">(</span>left<span class="opt">,</span> right<span class="opt">) =</span> node
-    <span class="kwa">if not</span> left<span class="opt">:</span> <span class="kwa">return</span> <span class="num">1</span>
-    <span class="kwa">return</span> <span class="num">1</span> <span class="opt">+</span> <span class="kwd">check_tree</span><span class="opt">(</span>left<span class="opt">) +</span> <span class="kwd">check_tree</span><span class="opt">(</span>right<span class="opt">)</span>
+def check_tree(node):
+    (left, right) = node
+    if not left: return 1
+    return 1 + check_tree(left) + check_tree(right)
 
-min_depth <span class="opt">=</span> <span class="num">4</span>
-max_depth <span class="opt">=</span> <span class="kwb">max</span><span class="opt">(</span>min_depth <span class="opt">+</span> <span class="num">2</span><span class="opt">,</span> <span class="kwb">int</span><span class="opt">(</span>sys<span class="opt">.</span>argv<span class="opt">[</span><span class="num">1</span><span class="opt">]))</span>
-stretch_depth <span class="opt">=</span> max_depth <span class="opt">+</span> <span class="num">1</span>
+min_depth = 4
+max_depth = max(min_depth + 2, int(sys.argv[1]))
+stretch_depth = max_depth + 1
 
-<span class="kwa">print</span><span class="opt">(</span><span class="str">&quot;stretch tree of depth</span> <span class="ipl">%d</span><span class="str"></span><span class="esc">\t</span> <span class="str">check:&quot;</span> <span class="opt">%</span> 
-    stretch_depth<span class="opt">,</span> <span class="kwd">check_tree</span><span class="opt">(</span><span class="kwd">make_tree</span><span class="opt">(</span>stretch_depth<span class="opt">)))</span>
+print(&quot;stretch tree of depth %d\t check:&quot; % 
+    stretch_depth, check_tree(make_tree(stretch_depth)))
 
-long_lived_tree <span class="opt">=</span> <span class="kwd">make_tree</span><span class="opt">(</span>max_depth<span class="opt">)</span>
+long_lived_tree = make_tree(max_depth)
 
-iterations <span class="opt">=</span> <span class="num">2</span><span class="opt">**</span>max_depth
+iterations = 2**max_depth
 
-<span class="kwa">for</span> depth <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span>min_depth<span class="opt">,</span> stretch_depth<span class="opt">,</span> <span class="num">2</span><span class="opt">):</span>
+for depth in range(min_depth, stretch_depth, 2):
 
-    check <span class="opt">=</span> <span class="num">0</span>
-    <span class="kwa">for</span> i <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span><span class="num">1</span><span class="opt">,</span> iterations <span class="opt">+</span> <span class="num">1</span><span class="opt">):</span>
-        check <span class="opt">+=</span> <span class="kwd">check_tree</span><span class="opt">(</span><span class="kwd">make_tree</span><span class="opt">(</span>depth<span class="opt">))</span>
+    check = 0
+    for i in range(1, iterations + 1):
+        check += check_tree(make_tree(depth))
 
-    <span class="kwa">print</span><span class="opt">(</span><span class="str">&quot;</span><span class="ipl">%d</span><span class="str"></span><span class="esc">\t</span> <span class="str">trees of depth</span> <span class="ipl">%d</span><span class="str"></span><span class="esc">\t</span> <span class="str">check:&quot;</span> <span class="opt">% (</span>iterations<span class="opt">,</span> depth<span class="opt">),</span> check<span class="opt">)</span>
-    iterations <span class="opt">//=</span> <span class="num">4</span>
+    print(&quot;%d\t trees of depth %d\t check:&quot; % (iterations, depth), check)
+    iterations //= 4
 
-<span class="kwa">print</span><span class="opt">(</span><span class="str">&quot;long lived tree of depth</span> <span class="ipl">%d</span><span class="str"></span><span class="esc">\t</span> <span class="str">check:&quot;</span> <span class="opt">%</span> 
-    max_depth<span class="opt">,</span> <span class="kwd">check_tree</span><span class="opt">(</span>long_lived_tree<span class="opt">))</span>
+print(&quot;long lived tree of depth %d\t check:&quot; % 
+    max_depth, check_tree(long_lived_tree))
 
     </pre>
   </section>
@@ -73,18 +73,18 @@ iterations <span class="opt">=</span> <span class="num">2</span><span class="opt
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Python 3.6.3
+Python 3.7.0
 
 
-Fri, 17 Nov 2017 19:49:13 GMT
+Thu, 28 Jun 2018 17:32:48 GMT
 
 MAKE:
 mv binarytrees.python3-2.python3 binarytrees.python3-2.py
 
-0.05s to complete and log all make actions
+0.04s to complete and log all make actions
 
 COMMAND LINE:
-/usr/bin/python3 -OO binarytrees.python3-2.py 21
+/opt/src/Python-3.7.0/bin/python3 -OO binarytrees.python3-2.py 21
 
 PROGRAM OUTPUT:
 stretch tree of depth 22	 check: 8388607

@@ -22,39 +22,39 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-<span class="slc"># The Computer Language Benchmarks Game</span>
-<span class="slc"># https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
-<span class="slc">#</span>
-<span class="slc"># contributed by Jacob Lee, Steven Bethard, et al</span>
-<span class="slc"># 2to3, fixed by Daniele Varrazzo</span>
-<span class="slc"># modified by Daniel Nanz</span>
+# The Computer Language Benchmarks Game
+# https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+#
+# contributed by Jacob Lee, Steven Bethard, et al
+# 2to3, fixed by Daniele Varrazzo
+# modified by Daniel Nanz
 
-<span class="kwa">import</span> sys
+import sys
 
 
-<span class="kwa">def</span> <span class="kwd">show</span><span class="opt">(</span>seq<span class="opt">,</span> table<span class="opt">=</span>bytes<span class="opt">.</span><span class="kwd">maketrans</span><span class="opt">(</span>b<span class="str">&apos;ACBDGHKMNSRUTWVYacbdghkmnsrutwvy&apos;</span><span class="opt">,</span>
-                                    b<span class="str">&apos;TGVHCDMKNSYAAWBRTGVHCDMKNSYAAWBR&apos;</span><span class="opt">),</span>
-         write<span class="opt">=</span>sys<span class="opt">.</span>stdout<span class="opt">.</span><span class="kwb">buffer</span><span class="opt">.</span>write<span class="opt">,</span> nl<span class="opt">=</span>b<span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">):</span>
+def show(seq, table=bytes.maketrans(b&apos;ACBDGHKMNSRUTWVYacbdghkmnsrutwvy&apos;,
+                                    b&apos;TGVHCDMKNSYAAWBRTGVHCDMKNSYAAWBR&apos;),
+         write=sys.stdout.buffer.write, nl=b&apos;\n&apos;):
     
-    <span class="opt">[</span>header<span class="opt">,</span> s<span class="opt">] =</span> seq<span class="opt">.</span><span class="kwd">split</span><span class="opt">(</span>nl<span class="opt">,</span> <span class="num">1</span><span class="opt">)</span>
-    s <span class="opt">=</span> s<span class="opt">.</span><span class="kwd">translate</span><span class="opt">(</span>table<span class="opt">,</span> nl<span class="opt">)[: : -</span><span class="num">1</span><span class="opt">]</span>
+    [header, s] = seq.split(nl, 1)
+    s = s.translate(table, nl)[: : -1]
     
-    <span class="kwd">write</span><span class="opt">(</span>b<span class="str">&apos;&gt;&apos;</span> <span class="opt">+</span> header <span class="opt">+</span> nl<span class="opt">)</span>
-    <span class="kwa">for</span> i <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span><span class="num">0</span><span class="opt">,</span> <span class="kwb">len</span><span class="opt">(</span>s<span class="opt">),</span> <span class="num">60</span><span class="opt">):</span>
-        <span class="kwd">write</span><span class="opt">(</span>s<span class="opt">[</span>i <span class="opt">:</span> i <span class="opt">+</span> <span class="num">60</span><span class="opt">] +</span> nl<span class="opt">)</span>
+    write(b&apos;&gt;&apos; + header + nl)
+    for i in range(0, len(s), 60):
+        write(s[i : i + 60] + nl)
 
 
 
-<span class="kwa">def</span> <span class="kwd">main</span><span class="opt">():</span>
+def main():
     
-    sys<span class="opt">.</span>stdin <span class="opt">=</span> sys<span class="opt">.</span>stdin<span class="opt">.</span><span class="kwd">detach</span><span class="opt">()</span>
-    seqs <span class="opt">=</span> b<span class="str">&apos;&apos;</span><span class="opt">.</span><span class="kwd">join</span><span class="opt">([</span>line <span class="kwa">for</span> line <span class="kwa">in</span> sys<span class="opt">.</span>stdin<span class="opt">]).</span><span class="kwd">split</span><span class="opt">(</span>b<span class="str">&apos;&gt;&apos;</span><span class="opt">)[</span><span class="num">1</span> <span class="opt">: ]</span>
+    sys.stdin = sys.stdin.detach()
+    seqs = b&apos;&apos;.join([line for line in sys.stdin]).split(b&apos;&gt;&apos;)[1 : ]
     
-    <span class="kwa">for</span> seq <span class="kwa">in</span> seqs<span class="opt">:</span>
-        <span class="kwd">show</span><span class="opt">(</span>seq<span class="opt">)</span>        
+    for seq in seqs:
+        show(seq)        
 
 
-<span class="kwd">main</span><span class="opt">()</span>
+main()
     </pre>
   </section>
   <section>
@@ -62,18 +62,18 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Python 3.6.3
+Python 3.7.0
 
 
-Mon, 26 Mar 2018 21:55:39 GMT
+Thu, 28 Jun 2018 20:49:52 GMT
 
 MAKE:
 mv revcomp.python3-4.python3 revcomp.python3-4.py
 
-0.31s to complete and log all make actions
+0.36s to complete and log all make actions
 
 COMMAND LINE:
-/usr/bin/python3 -OO revcomp.python3-4.py 0 &lt; revcomp-input100000000.txt
+/opt/src/Python-3.7.0/bin/python3 -OO revcomp.python3-4.py 0 &lt; revcomp-input100000000.txt
 
 (TRUNCATED) PROGRAM OUTPUT:
 &gt;ONE Homo sapiens alu

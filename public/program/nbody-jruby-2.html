@@ -29,7 +29,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 <span class="slc"># From version ported by Michael Neumann from the C gcc version, </span>
 <span class="slc"># which was written by Christoph Bauer. </span>
 
-SOLAR_MASS <span class="opt">=</span> <span class="num">4</span> <span class="opt">*</span> Math<span class="opt">:</span><span class="kwc">:PI</span><span class="opt">**</span><span class="num">2</span>
+SOLAR_MASS <span class="opt">=</span> <span class="num">4</span> <span class="opt">*</span> Math<span class="kwc">::PI</span><span class="opt">**</span><span class="num">2</span>
 DAYS_PER_YEAR <span class="opt">=</span> <span class="num">365.24</span>
 
 <span class="kwa">class</span> Planet
@@ -174,10 +174,10 @@ puts <span class="str">&quot;%.9f&quot;</span> <span class="opt">%</span> <span 
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-jruby 9.1.16.0 (2.3.3) 2018-02-21 8f3f95a Java HotSpot(TM) 64-Bit Server VM 10+46 on 10+46 +jit [linux-x86_64]
+jruby 9.2.0.0 (2.5.0) 2018-05-24 81156a8 Java HotSpot(TM) 64-Bit Server VM 10.0.1+10 on 10.0.1+10 +jit [linux-x86_64]
 
 
-Thu, 22 Mar 2018 03:11:49 GMT
+Wed, 04 Jul 2018 19:20:28 GMT
 
 MAKE:
 mv nbody.jruby-2.jruby nbody.rb
@@ -185,7 +185,7 @@ mv nbody.jruby-2.jruby nbody.rb
 0.01s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/jruby-9.1.16.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms2048m -J-Xmx2048m nbody.rb 50000000
+/opt/src/jruby-9.2.0.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms2048m -J-Xmx2048m nbody.rb 50000000
 
 PROGRAM OUTPUT:
 -0.169075164

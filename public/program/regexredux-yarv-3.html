@@ -68,8 +68,8 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 
   <span class="kwa">def</span> <span class="kwd">pattern_count</span><span class="opt">(</span>regex<span class="opt">)</span>
     count <span class="opt">=</span> <span class="num">0</span>
-    <span class="kwb">&#64;seq</span><span class="opt">.</span><span class="kwd">scan</span><span class="opt">(</span>regex<span class="opt">)</span> { count += 1 }
-    <span class="str">&quot;</span><span class="ipl">#{regex.source}</span> <span class="str"></span><span class="ipl">#{count}</span><span class="str">&quot;</span>
+    <span class="kwb">&#64;seq</span><span class="opt">.</span><span class="kwd">scan</span><span class="opt">(</span>regex<span class="opt">) {</span> count <span class="opt">+=</span> <span class="num">1</span> <span class="opt">}</span>
+    <span class="str">&quot;#{regex.source} #{count}&quot;</span>
   <span class="kwa">end</span> 
 
   <span class="kwa">def</span> <span class="kwd">forked_pattern_count</span><span class="opt">(</span>regex<span class="opt">)</span>
@@ -103,11 +103,11 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <span class="kwa">end</span>
     <span class="kwa">end</span>
     threads<span class="opt">.</span><span class="kwd">each</span><span class="opt">(&amp;</span><span class="kwc">:join</span><span class="opt">)</span>
-    threads<span class="opt">.</span>map { |t| t[:result] }
+    threads<span class="opt">.</span>map <span class="opt">{ |</span>t<span class="opt">|</span> t<span class="opt">[</span><span class="kwc">:result</span><span class="opt">] }</span>
   <span class="kwa">end</span>
 
   <span class="kwa">def</span> final_transform<span class="opt">!</span>
-    FINAL_TRANSFORM<span class="opt">.</span>each { |f,r| &#64;seq.gsub!(f,r) }
+    FINAL_TRANSFORM<span class="opt">.</span>each <span class="opt">{ |</span>f<span class="opt">,</span>r<span class="opt">|</span> <span class="kwb">&#64;seq</span><span class="opt">.</span>gsub<span class="opt">!(</span>f<span class="opt">,</span>r<span class="opt">) }</span>
     <span class="kwb">&#64;seq</span><span class="opt">.</span>size
   <span class="kwa">end</span>
 
@@ -124,13 +124,13 @@ puts regex_redux<span class="opt">.</span>to_s
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-linux]
+ruby 2.6.0preview2 (2018-05-31 trunk 63539) [x86_64-linux]
 
 
-Mon, 23 Apr 2018 20:37:59 GMT
+Thu, 05 Jul 2018 02:33:29 GMT
 
 COMMAND LINE:
-/opt/src/ruby-2.5.1/bin/ruby -W0 regexredux.yarv-3.yarv 0 &lt; regexredux-input5000000.txt
+/opt/src/ruby-2.6.0-preview2/bin/ruby --jit -W0 regexredux.yarv-3.yarv 0 &lt; regexredux-input5000000.txt
 
 PROGRAM OUTPUT:
 agggtaaa|tttaccct 356

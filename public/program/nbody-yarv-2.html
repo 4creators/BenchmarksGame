@@ -29,7 +29,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 <span class="slc"># From version ported by Michael Neumann from the C gcc version, </span>
 <span class="slc"># which was written by Christoph Bauer. </span>
 
-SOLAR_MASS <span class="opt">=</span> <span class="num">4</span> <span class="opt">*</span> Math<span class="opt">:</span><span class="kwc">:PI</span><span class="opt">**</span><span class="num">2</span>
+SOLAR_MASS <span class="opt">=</span> <span class="num">4</span> <span class="opt">*</span> Math<span class="kwc">::PI</span><span class="opt">**</span><span class="num">2</span>
 DAYS_PER_YEAR <span class="opt">=</span> <span class="num">365.24</span>
 
 <span class="kwa">class</span> Planet
@@ -174,13 +174,13 @@ puts <span class="str">&quot;%.9f&quot;</span> <span class="opt">%</span> <span 
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-linux]
+ruby 2.6.0preview2 (2018-05-31 trunk 63539) [x86_64-linux]
 
 
-Tue, 02 Jan 2018 03:26:33 GMT
+Thu, 05 Jul 2018 02:17:26 GMT
 
 COMMAND LINE:
-/opt/src/ruby-2.5.0/bin/ruby -W0 nbody.yarv-2.yarv 50000000
+/opt/src/ruby-2.6.0-preview2/bin/ruby --jit -W0 nbody.yarv-2.yarv 50000000
 
 PROGRAM OUTPUT:
 -0.169075164

@@ -70,7 +70,7 @@ HOMOSAPIENS <span class="opt">= [</span>
   <span class="kwa">end</span>
 
   <span class="kwa">def</span> <span class="kwd">render</span><span class="opt">(</span>label<span class="opt">)</span>
-    puts <span class="str">&quot;&gt;</span><span class="ipl">#{label}</span><span class="str">&quot;</span>
+    puts <span class="str">&quot;&gt;#{label}&quot;</span>
     full_row_count<span class="opt">,</span> last_row_size <span class="opt">=</span> <span class="kwb">&#64;size</span><span class="opt">.</span><span class="kwd">divmod</span><span class="opt">(</span><span class="num">60</span><span class="opt">)</span>
     <span class="kwa">while</span> <span class="opt">(</span>full_row_count <span class="opt">&gt;</span> <span class="num">0</span><span class="opt">)</span>
       puts <span class="kwd">output_row</span><span class="opt">(</span><span class="num">60</span><span class="opt">)</span>
@@ -89,7 +89,7 @@ HOMOSAPIENS <span class="opt">= [</span>
       accum_percentage <span class="opt">+=</span> percentage
       conditions <span class="opt">&lt;&lt; %[(</span>value <span class="opt">&lt;=</span> <span class="slc">#{accum_percentage} ? #{letter.ord} : ]</span>
     <span class="kwa">end</span>
-    conditions<span class="opt">[-</span><span class="num">1</span><span class="opt">] =</span> <span class="str">&quot;</span><span class="ipl">#{map.last.first.ord}</span><span class="str">&quot;</span> <span class="slc"># Substitute last condition for fixed value</span>
+    conditions<span class="opt">[-</span><span class="num">1</span><span class="opt">] =</span> <span class="str">&quot;#{map.last.first.ord}&quot;</span> <span class="slc"># Substitute last condition for fixed value</span>
     conditions <span class="opt">&lt;&lt;</span> <span class="str">&apos;)&apos;</span> <span class="opt">* (</span>map<span class="opt">.</span>size <span class="opt">-</span> <span class="num">1</span><span class="opt">)</span>
 
     instance_eval <span class="opt">%[</span><span class="kwa">def</span> <span class="kwd">map_value</span><span class="opt">(</span>value<span class="opt">);</span> <span class="slc">#{conditions.join}; end]</span>
@@ -120,7 +120,7 @@ HOMOSAPIENS <span class="opt">= [</span>
   <span class="kwa">end</span>
 
   <span class="kwa">def</span> <span class="kwd">render</span><span class="opt">(</span>label<span class="opt">)</span>
-    puts <span class="str">&quot;&gt;</span><span class="ipl">#{label}</span><span class="str">&quot;</span>
+    puts <span class="str">&quot;&gt;#{label}&quot;</span>
     seq_size <span class="opt">=</span> <span class="kwb">&#64;sequence</span><span class="opt">.</span>size <span class="opt">-</span> <span class="num">1</span>
     <span class="num">0</span><span class="opt">.</span><span class="kwd">step</span><span class="opt">(</span>seq_size<span class="opt">,</span> <span class="num">60</span><span class="opt">)</span> <span class="kwa">do</span> <span class="opt">|</span>x<span class="opt">|</span>
       puts <span class="kwb">&#64;sequence</span><span class="opt">[</span>x<span class="opt">,</span> <span class="num">60</span><span class="opt">]</span>
@@ -146,13 +146,13 @@ three<span class="opt">.</span><span class="kwd">render</span><span class="opt">
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-linux]
+ruby 2.6.0preview2 (2018-05-31 trunk 63539) [x86_64-linux]
 
 
-Tue, 02 Jan 2018 02:26:58 GMT
+Wed, 04 Jul 2018 23:48:01 GMT
 
 COMMAND LINE:
-/opt/src/ruby-2.5.0/bin/ruby -W0 fasta.yarv-3.yarv 25000000
+/opt/src/ruby-2.6.0-preview2/bin/ruby --jit -W0 fasta.yarv-3.yarv 25000000
 
 (TRUNCATED) PROGRAM OUTPUT:
 &gt;ONE Homo sapiens alu

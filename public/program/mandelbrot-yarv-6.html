@@ -32,7 +32,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 WORKER_COUNT <span class="opt">=</span> <span class="kwa">begin</span>
   cpu_count <span class="opt">=</span> <span class="kwa">if</span> File<span class="opt">.</span>readable<span class="opt">?(</span><span class="str">&apos;/proc/cpuinfo&apos;</span><span class="opt">)</span> <span class="slc"># Linux</span>
     <span class="str">%x(cat /proc/cpuinfo | grep -c processor).chomp.to_i</span>
-<span class="str">  elsif File.executable?(&apos;/usr/sbin/sysctl&apos;)</span>  <span class="ipl">#</span><span class="str">OS/X</span>
+<span class="str">  elsif File.executable?(&apos;/usr/sbin/sysctl&apos;)  #OS/X</span>
 <span class="str">    %x(/usr/sbin/sysctl -n hw.ncpu).chomp.to_i</span>
 <span class="str">  else</span>
 <span class="str">    1</span>
@@ -63,7 +63,7 @@ WORKER_COUNT <span class="opt">=</span> <span class="kwa">begin</span>
 <span class="str"></span>
 <span class="str">  def shutdown</span>
 <span class="str">    &#64;pool.size.times do</span>
-<span class="str">      schedule</span> <span class="ipl">{ throw :exit }</span>
+<span class="str">      schedule { throw :exit }</span>
 <span class="str">    end</span>
 <span class="str">    &#64;pool.each do |t|</span>
 <span class="str">      t.join</span>
@@ -79,7 +79,7 @@ WORKER_COUNT <span class="opt">=</span> <span class="kwa">begin</span>
 <span class="str">  def self.render(size)</span>
 <span class="str">    m = Mandel.new(size)</span>
 <span class="str">    m.process</span>
-<span class="str">    print &quot;</span><span class="ipl">#{m.header}</span><span class="str"></span><span class="esc">\n</span><span class="str"></span><span class="ipl">#{m.output.join}</span><span class="str">&quot;</span>
+<span class="str">    print &quot;#{m.header}</span><span class="esc">\n</span><span class="str">#{m.output.join}&quot;</span>
 <span class="str">  end</span>
 <span class="str"></span>
 <span class="str">  def initialize(size)</span>
@@ -89,7 +89,7 @@ WORKER_COUNT <span class="opt">=</span> <span class="kwa">begin</span>
 <span class="str">  end</span>
 <span class="str"></span>
 <span class="str">  def process</span>
-<span class="str">    workers = WorkerPool.new</span>  <span class="ipl">#</span> <span class="str">Using a thread pool to manage processes</span>
+<span class="str">    workers = WorkerPool.new  # Using a thread pool to manage processes</span>
 <span class="str">    &#64;size.times do |row|</span>
 <span class="str">      workers.schedule(row) do |y|</span>
 <span class="str">        read, write = IO.pipe</span>
@@ -107,7 +107,7 @@ WORKER_COUNT <span class="opt">=</span> <span class="kwa">begin</span>
 <span class="str">  end</span>
 <span class="str"></span>
 <span class="str">  def header</span>
-<span class="str">    &quot;P4</span><span class="esc">\n</span><span class="str"></span><span class="ipl">#{&#64;size}</span> <span class="str"></span><span class="ipl">#{&#64;size}</span><span class="str">&quot;</span>
+<span class="str">    &quot;P4</span><span class="esc">\n</span><span class="str">#{&#64;size} #{&#64;size}&quot;</span>
 <span class="str">  end</span>
 <span class="str"></span>
 <span class="str">  private</span>
@@ -162,13 +162,13 @@ WORKER_COUNT <span class="opt">=</span> <span class="kwa">begin</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-linux]
+ruby 2.6.0preview2 (2018-05-31 trunk 63539) [x86_64-linux]
 
 
-Tue, 02 Jan 2018 02:56:02 GMT
+Thu, 05 Jul 2018 00:07:29 GMT
 
 COMMAND LINE:
-/opt/src/ruby-2.5.0/bin/ruby -W0 mandelbrot.yarv-6.yarv 16000
+/opt/src/ruby-2.6.0-preview2/bin/ruby --jit -W0 mandelbrot.yarv-6.yarv 16000
 
 (BINARY) PROGRAM OUTPUT NOT SHOWN
     </pre>

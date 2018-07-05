@@ -37,7 +37,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <span class="str">&apos;WSTAACGRYMKVHDBNTAACGRYMKVHDBN&apos;</span>
   <span class="opt">)</span>
 
-  results <span class="opt">= [</span><span class="str">&quot;&gt;</span><span class="ipl">#{header}</span><span class="str">&quot;</span><span class="opt">]</span>
+  results <span class="opt">= [</span><span class="str">&quot;&gt;#{header}&quot;</span><span class="opt">]</span>
 
   idx <span class="opt">=</span> <span class="num">0</span>
   length <span class="opt">=</span> sequence<span class="opt">.</span>length
@@ -78,7 +78,7 @@ threads <span class="opt">= []</span>
   <span class="kwa">next if</span> segment<span class="opt">.</span>length <span class="opt">&lt;</span> <span class="num">2</span>
 
   threads <span class="opt">&lt;&lt;</span> Thread<span class="opt">.</span>new <span class="kwa">do</span>
-    <span class="kwa">if</span> <span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&apos;java&apos;</span>
+    <span class="kwa">if</span> <span class="opt">(</span><span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&apos;java&apos;</span><span class="opt">)</span> <span class="kwa">or</span> <span class="opt">(</span>RUBY_ENGINE <span class="opt">==</span> <span class="str">&apos;truffleruby&apos;</span><span class="opt">)</span>
       Thread<span class="opt">.</span>current<span class="opt">[</span><span class="kwc">:output</span><span class="opt">] =</span> <span class="kwd">process_segment</span><span class="opt">(</span>segment<span class="opt">)</span>
     <span class="kwa">else</span>
       Thread<span class="opt">.</span>current<span class="opt">[</span><span class="kwc">:output</span><span class="opt">] =</span> <span class="kwd">forking_worker</span><span class="opt">(</span>segment<span class="opt">)</span>
@@ -97,13 +97,13 @@ threads<span class="opt">.</span>each <span class="kwa">do</span> <span class="o
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-linux]
+ruby 2.6.0preview2 (2018-05-31 trunk 63539) [x86_64-linux]
 
 
-Mon, 23 Apr 2018 18:40:56 GMT
+Thu, 05 Jul 2018 02:34:55 GMT
 
 COMMAND LINE:
-/opt/src/ruby-2.5.1/bin/ruby -W0 revcomp.yarv-3.yarv 0 &lt; revcomp-input100000000.txt
+/opt/src/ruby-2.6.0-preview2/bin/ruby --jit -W0 revcomp.yarv-3.yarv 0 &lt; revcomp-input100000000.txt
 
 (TRUNCATED) PROGRAM OUTPUT:
 &gt;ONE Homo sapiens alu

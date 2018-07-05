@@ -30,33 +30,33 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 <span class="kwa">require</span> <span class="str">&apos;gmp&apos;</span>
 
 <span class="slc"># Helpers that improve readability</span>
-<span class="kwa">class</span> GMP<span class="opt">:</span><span class="kwc">:Z</span>
+<span class="kwa">class</span> GMP<span class="kwc">::Z</span>
   <span class="kwa">def</span> mul<span class="opt">!(</span>a<span class="opt">,</span>b<span class="opt">)</span>
-    GMP<span class="opt">:</span><span class="kwc">:Z</span><span class="opt">.</span><span class="kwd">mul</span><span class="opt">(</span><span class="kwa">self</span><span class="opt">,</span> a<span class="opt">,</span> b<span class="opt">)</span>
+    GMP<span class="kwc">::Z</span><span class="opt">.</span><span class="kwd">mul</span><span class="opt">(</span><span class="kwa">self</span><span class="opt">,</span> a<span class="opt">,</span> b<span class="opt">)</span>
   <span class="kwa">end</span>
 
   <span class="kwa">def</span> times<span class="opt">!(</span>a<span class="opt">)</span>
-    GMP<span class="opt">:</span><span class="kwc">:Z</span><span class="opt">.</span><span class="kwd">mul</span><span class="opt">(</span><span class="kwa">self</span><span class="opt">,</span> <span class="kwa">self</span><span class="opt">,</span> a<span class="opt">)</span>
+    GMP<span class="kwc">::Z</span><span class="opt">.</span><span class="kwd">mul</span><span class="opt">(</span><span class="kwa">self</span><span class="opt">,</span> <span class="kwa">self</span><span class="opt">,</span> a<span class="opt">)</span>
   <span class="kwa">end</span>
 <span class="kwa">end</span>
 
 <span class="slc"># Constants to reduce object instantiation and casting</span>
-ZERO <span class="opt">=</span> GMP<span class="opt">:</span><span class="kwc">:Z</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span>
-ONE <span class="opt">=</span> GMP<span class="opt">:</span><span class="kwc">:Z</span><span class="opt">(</span><span class="num">1</span><span class="opt">)</span>
-TWO <span class="opt">=</span> GMP<span class="opt">:</span><span class="kwc">:Z</span><span class="opt">(</span><span class="num">2</span><span class="opt">)</span>
-THREE <span class="opt">=</span> GMP<span class="opt">:</span><span class="kwc">:Z</span><span class="opt">(</span><span class="num">3</span><span class="opt">)</span>
-TEN <span class="opt">=</span> GMP<span class="opt">:</span><span class="kwc">:Z</span><span class="opt">(</span><span class="num">10</span><span class="opt">)</span>
+ZERO <span class="opt">=</span> GMP<span class="kwc">::Z</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span>
+ONE <span class="opt">=</span> GMP<span class="kwc">::Z</span><span class="opt">(</span><span class="num">1</span><span class="opt">)</span>
+TWO <span class="opt">=</span> GMP<span class="kwc">::Z</span><span class="opt">(</span><span class="num">2</span><span class="opt">)</span>
+THREE <span class="opt">=</span> GMP<span class="kwc">::Z</span><span class="opt">(</span><span class="num">3</span><span class="opt">)</span>
+TEN <span class="opt">=</span> GMP<span class="kwc">::Z</span><span class="opt">(</span><span class="num">10</span><span class="opt">)</span>
 
 <span class="slc"># Allocate these expensive objects once</span>
-<span class="kwb">&#64;display_chunk</span> <span class="opt">=</span> GMP<span class="opt">:</span><span class="kwc">:Z</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span>
-<span class="kwb">&#64;k</span> <span class="opt">=</span> GMP<span class="opt">:</span><span class="kwc">:Z</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span>
-<span class="kwb">&#64;a</span> <span class="opt">=</span> GMP<span class="opt">:</span><span class="kwc">:Z</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span>
-<span class="kwb">&#64;t</span> <span class="opt">=</span> GMP<span class="opt">:</span><span class="kwc">:Z</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span>
-<span class="kwb">&#64;u</span> <span class="opt">=</span> GMP<span class="opt">:</span><span class="kwc">:Z</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span>
-<span class="kwb">&#64;k1</span> <span class="opt">=</span> GMP<span class="opt">:</span><span class="kwc">:Z</span><span class="opt">(</span><span class="num">1</span><span class="opt">)</span>
-<span class="kwb">&#64;n</span> <span class="opt">=</span> GMP<span class="opt">:</span><span class="kwc">:Z</span><span class="opt">(</span><span class="num">1</span><span class="opt">)</span>
-<span class="kwb">&#64;d</span> <span class="opt">=</span> GMP<span class="opt">:</span><span class="kwc">:Z</span><span class="opt">(</span><span class="num">1</span><span class="opt">)</span>
-<span class="kwb">&#64;tmp</span> <span class="opt">=</span> GMP<span class="opt">:</span><span class="kwc">:Z</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span>
+<span class="kwb">&#64;display_chunk</span> <span class="opt">=</span> GMP<span class="kwc">::Z</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span>
+<span class="kwb">&#64;k</span> <span class="opt">=</span> GMP<span class="kwc">::Z</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span>
+<span class="kwb">&#64;a</span> <span class="opt">=</span> GMP<span class="kwc">::Z</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span>
+<span class="kwb">&#64;t</span> <span class="opt">=</span> GMP<span class="kwc">::Z</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span>
+<span class="kwb">&#64;u</span> <span class="opt">=</span> GMP<span class="kwc">::Z</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span>
+<span class="kwb">&#64;k1</span> <span class="opt">=</span> GMP<span class="kwc">::Z</span><span class="opt">(</span><span class="num">1</span><span class="opt">)</span>
+<span class="kwb">&#64;n</span> <span class="opt">=</span> GMP<span class="kwc">::Z</span><span class="opt">(</span><span class="num">1</span><span class="opt">)</span>
+<span class="kwb">&#64;d</span> <span class="opt">=</span> GMP<span class="kwc">::Z</span><span class="opt">(</span><span class="num">1</span><span class="opt">)</span>
+<span class="kwb">&#64;tmp</span> <span class="opt">=</span> GMP<span class="kwc">::Z</span><span class="opt">(</span><span class="num">0</span><span class="opt">)</span>
 
 <span class="kwa">def</span> next_chunk
   <span class="kwb">&#64;tmp</span><span class="opt">.</span>mul<span class="opt">!(</span><span class="kwb">&#64;d</span><span class="opt">,</span> <span class="kwb">&#64;t</span><span class="opt">)</span>
@@ -114,10 +114,10 @@ count <span class="opt">=</span> <span class="num">0</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-jruby 9.1.16.0 (2.3.3) 2018-02-21 8f3f95a Java HotSpot(TM) 64-Bit Server VM 10+46 on 10+46 +jit [linux-x86_64]
+jruby 9.2.0.0 (2.5.0) 2018-05-24 81156a8 Java HotSpot(TM) 64-Bit Server VM 10.0.1+10 on 10.0.1+10 +jit [linux-x86_64]
 
 
-Thu, 22 Mar 2018 03:21:20 GMT
+Wed, 04 Jul 2018 19:30:29 GMT
 
 MAKE:
 mv pidigits.jruby-5.jruby pidigits.rb
@@ -125,7 +125,7 @@ mv pidigits.jruby-5.jruby pidigits.rb
 0.01s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/jruby-9.1.16.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms2048m -J-Xmx2048m pidigits.rb 2000
+/opt/src/jruby-9.2.0.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms2048m -J-Xmx2048m pidigits.rb 2000
 
 PROGRAM FAILED 
 
@@ -138,8 +138,8 @@ WARNING: Please consider reporting this to the maintainers of jnr.posix.JavaLibC
 WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
 WARNING: All illegal access operations will be denied in a future release
 LoadError: no such file to load -- gmp
-  require at org/jruby/RubyKernel.java:956
-  require at /opt/src/jruby-9.1.16.0/lib/ruby/stdlib/rubygems/core_ext/kernel_require.rb:55
+  require at org/jruby/RubyKernel.java:970
+  require at /opt/src/jruby-9.2.0.0/lib/ruby/stdlib/rubygems/core_ext/kernel_require.rb:59
    &lt;main&gt; at pidigits.rb:6
     </pre>
   </section>

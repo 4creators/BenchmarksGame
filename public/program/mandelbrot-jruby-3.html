@@ -33,7 +33,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 
 size <span class="opt">=</span> <span class="kwc">ARGV</span><span class="opt">.</span>shift<span class="opt">.</span>to_i
 
-puts <span class="str">&quot;P4</span><span class="esc">\n</span><span class="str"></span><span class="ipl">#{size}</span> <span class="str"></span><span class="ipl">#{size}</span><span class="str">&quot;</span>
+puts <span class="str">&quot;P4</span><span class="esc">\n</span><span class="str">#{size} #{size}&quot;</span>
 
 byte_acc <span class="opt">=</span> <span class="num">0</span>
 bit_num <span class="opt">=</span> <span class="num">0</span>
@@ -91,18 +91,18 @@ y <span class="opt">=</span> <span class="num">0</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-jruby 9.1.16.0 (2.3.3) 2018-02-21 8f3f95a Java HotSpot(TM) 64-Bit Server VM 10+46 on 10+46 +jit [linux-x86_64]
+jruby 9.2.0.0 (2.5.0) 2018-05-24 81156a8 Java HotSpot(TM) 64-Bit Server VM 10.0.1+10 on 10.0.1+10 +jit [linux-x86_64]
 
 
-Thu, 22 Mar 2018 01:28:04 GMT
+Wed, 04 Jul 2018 18:37:48 GMT
 
 MAKE:
 mv mandelbrot.jruby-3.jruby mandelbrot.rb
 
-0.03s to complete and log all make actions
+0.01s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/jruby-9.1.16.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms2048m -J-Xmx2048m mandelbrot.rb 16000
+/opt/src/jruby-9.2.0.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms2048m -J-Xmx2048m mandelbrot.rb 16000
 
 (BINARY) PROGRAM OUTPUT NOT SHOWN
     </pre>

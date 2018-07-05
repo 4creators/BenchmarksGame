@@ -30,7 +30,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 WORKER_COUNT <span class="opt">=</span> <span class="kwa">begin</span>
   cpu_count <span class="opt">=</span> <span class="kwa">if</span> File<span class="opt">.</span>readable<span class="opt">?(</span><span class="str">&apos;/proc/cpuinfo&apos;</span><span class="opt">)</span> <span class="slc"># Linux</span>
     <span class="str">%x(cat /proc/cpuinfo | grep -c processor).chomp.to_i</span>
-<span class="str">  elsif File.executable?(&apos;/usr/sbin/sysctl&apos;)</span>  <span class="ipl">#</span><span class="str">OS/X</span>
+<span class="str">  elsif File.executable?(&apos;/usr/sbin/sysctl&apos;)  #OS/X</span>
 <span class="str">    %x(/usr/sbin/sysctl -n hw.ncpu).chomp.to_i</span>
 <span class="str">  else</span>
 <span class="str">    1</span>
@@ -63,7 +63,7 @@ WORKER_COUNT <span class="opt">=</span> <span class="kwa">begin</span>
 <span class="str"></span>
 <span class="str">  def shutdown</span>
 <span class="str">    &#64;pool.size.times do</span>
-<span class="str">      schedule</span> <span class="ipl">{ throw :exit }</span>
+<span class="str">      schedule { throw :exit }</span>
 <span class="str">    end</span>
 <span class="str">    &#64;pool.each do |t|</span>
 <span class="str">      t.join</span>
@@ -115,7 +115,7 @@ WORKER_COUNT <span class="opt">=</span> <span class="kwa">begin</span>
 <span class="str">  end</span>
 <span class="str"></span>
 <span class="str">  def header</span>
-<span class="str">    &quot;P4</span><span class="esc">\n</span><span class="str"></span><span class="ipl">#{&#64;size}</span> <span class="str"></span><span class="ipl">#{&#64;size}</span><span class="str">&quot;</span>
+<span class="str">    &quot;P4</span><span class="esc">\n</span><span class="str">#{&#64;size} #{&#64;size}&quot;</span>
 <span class="str">  end</span>
 <span class="str"></span>
 <span class="str">  private</span>
@@ -166,7 +166,7 @@ WORKER_COUNT <span class="opt">=</span> <span class="kwa">begin</span>
 <span class="str">size = ARGV.shift || 1000</span>
 <span class="str">m = Mandel.new(size)</span>
 <span class="str">m.process</span>
-<span class="str">print &quot;</span><span class="ipl">#{m.header}</span><span class="str"></span><span class="esc">\n</span><span class="str"></span><span class="ipl">#{m.output.join}</span><span class="str">&quot;</span>
+<span class="str">print &quot;#{m.header}</span><span class="esc">\n</span><span class="str">#{m.output.join}&quot;</span>
     </pre>
   </section>
   <section>
@@ -174,10 +174,10 @@ WORKER_COUNT <span class="opt">=</span> <span class="kwa">begin</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-jruby 9.1.16.0 (2.3.3) 2018-02-21 8f3f95a Java HotSpot(TM) 64-Bit Server VM 10+46 on 10+46 +jit [linux-x86_64]
+jruby 9.2.0.0 (2.5.0) 2018-05-24 81156a8 Java HotSpot(TM) 64-Bit Server VM 10.0.1+10 on 10.0.1+10 +jit [linux-x86_64]
 
 
-Thu, 22 Mar 2018 02:54:12 GMT
+Wed, 04 Jul 2018 18:21:28 GMT
 
 MAKE:
 mv mandelbrot.jruby-7.jruby mandelbrot.rb
@@ -185,7 +185,7 @@ mv mandelbrot.jruby-7.jruby mandelbrot.rb
 0.01s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/jruby-9.1.16.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms2048m -J-Xmx2048m mandelbrot.rb 16000
+/opt/src/jruby-9.2.0.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms2048m -J-Xmx2048m mandelbrot.rb 16000
 
 (BINARY) PROGRAM OUTPUT NOT SHOWN
     </pre>

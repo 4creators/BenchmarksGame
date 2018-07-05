@@ -68,7 +68,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
         workers<span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span>worker<span class="opt">|</span>
             threads <span class="opt">&lt;&lt;</span> Thread<span class="opt">.</span>new <span class="kwa">do</span>
                 <span class="kwa">loop do</span>
-                    Thread<span class="opt">.</span>exclusive{ index += 1 }
+                    Thread<span class="opt">.</span>exclusive<span class="opt">{</span> index <span class="opt">+=</span> <span class="num">1</span> <span class="opt">}</span>
                     <span class="kwa">break if</span> index <span class="opt">&gt;=</span> array<span class="opt">.</span>size
                     results<span class="opt">[</span>index<span class="opt">] =</span> worker<span class="opt">.</span><span class="kwd">work</span><span class="opt">(</span>index<span class="opt">)</span>
                 <span class="kwa">end</span>
@@ -131,7 +131,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
         <span class="kwb">&#64;sum</span> <span class="opt">=</span> <span class="kwb">&#64;maxflips</span> <span class="opt">=</span> <span class="num">0</span>
         <span class="kwb">&#64;max_perms</span> <span class="opt">=</span> max_perms
         <span class="kwb">&#64;perm_count</span> <span class="opt">= -</span>start
-        start<span class="opt">.</span>times{permute}
+        start<span class="opt">.</span>times<span class="opt">{</span>permute<span class="opt">}</span>
     <span class="kwa">end</span>
 
     <span class="kwa">def</span> flip
@@ -189,7 +189,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <span class="kwa">end</span>
 <span class="kwa">end</span>
 
-abort <span class="str">&quot;Usage:</span> <span class="ipl">#{__FILE__}</span> <span class="str">n</span><span class="esc">\n</span><span class="str">(n &gt; 6)&quot;</span> <span class="kwa">if</span> <span class="opt">(</span>n <span class="opt">=</span> <span class="kwc">ARGV</span><span class="opt">[</span><span class="num">0</span><span class="opt">].</span>to_i<span class="opt">) &lt;</span> <span class="num">6</span>
+abort <span class="str">&quot;Usage: #{__FILE__} n</span><span class="esc">\n</span><span class="str">(n &gt; 6)&quot;</span> <span class="kwa">if</span> <span class="opt">(</span>n <span class="opt">=</span> <span class="kwc">ARGV</span><span class="opt">[</span><span class="num">0</span><span class="opt">].</span>to_i<span class="opt">) &lt;</span> <span class="num">6</span>
 
 core_count <span class="opt">=</span> MiniParallel<span class="opt">.</span>core_count
 chunk_size <span class="opt">= (</span><span class="num">1</span><span class="opt">..</span>n<span class="opt">).</span><span class="kwd">reduce</span><span class="opt">(:*) /</span> core_count
@@ -202,7 +202,7 @@ sum<span class="opt">,</span> flips <span class="opt">=</span>
                       <span class="opt">(</span>core_count<span class="opt">/</span><span class="num">2</span><span class="opt">).</span>times <span class="kwa">do</span> <span class="opt">|</span>i<span class="opt">|</span>
                           weights <span class="opt">&lt;&lt;</span> i <span class="opt">*</span> <span class="num">0.1</span> <span class="opt">+</span> <span class="num">0.05</span>
                       <span class="kwa">end</span>
-                      weights <span class="opt">=</span> weights<span class="opt">.</span>reverse <span class="opt">+</span> weights<span class="opt">.</span>map{|i|-i}
+                      weights <span class="opt">=</span> weights<span class="opt">.</span>reverse <span class="opt">+</span> weights<span class="opt">.</span>map<span class="opt">{|</span>i<span class="opt">|-</span>i<span class="opt">}</span>
                   <span class="kwa">else</span>
                       <span class="opt">[</span><span class="num">0</span><span class="opt">]</span>
                   <span class="kwa">end</span>
@@ -246,10 +246,10 @@ printf <span class="str">&quot;%d</span><span class="esc">\n</span><span class="
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-jruby 9.1.16.0 (2.3.3) 2018-02-21 8f3f95a Java HotSpot(TM) 64-Bit Server VM 10+46 on 10+46 +jit [linux-x86_64]
+jruby 9.2.0.0 (2.5.0) 2018-05-24 81156a8 Java HotSpot(TM) 64-Bit Server VM 10.0.1+10 on 10.0.1+10 +jit [linux-x86_64]
 
 
-Thu, 22 Mar 2018 00:56:38 GMT
+Wed, 04 Jul 2018 17:22:59 GMT
 
 MAKE:
 mv fannkuchredux.jruby-2.jruby fannkuchredux.rb
@@ -257,7 +257,7 @@ mv fannkuchredux.jruby-2.jruby fannkuchredux.rb
 0.01s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/jruby-9.1.16.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms2048m -J-Xmx2048m fannkuchredux.rb 12
+/opt/src/jruby-9.2.0.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms2048m -J-Xmx2048m fannkuchredux.rb 12
 
 PROGRAM OUTPUT:
 3968050

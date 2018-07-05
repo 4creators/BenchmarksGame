@@ -103,11 +103,11 @@ digits <span class="opt">=</span> PiDigitSpigot<span class="opt">.</span>new
 
 <span class="kwa">while</span> n <span class="opt">&gt;</span> <span class="num">0</span>
     <span class="kwa">if</span> n <span class="opt">&gt;=</span> WIDTH
-        WIDTH<span class="opt">.</span>times {print digits.next!}
+        WIDTH<span class="opt">.</span>times <span class="opt">{</span>print digits<span class="opt">.</span><span class="kwa">next</span><span class="opt">!}</span>
         j <span class="opt">+=</span> WIDTH
     <span class="kwa">else</span> 
-        n<span class="opt">.</span>times {print digits.next!}
-        <span class="opt">(</span>WIDTH-n<span class="opt">).</span>times {print &quot; &quot;} 
+        n<span class="opt">.</span>times <span class="opt">{</span>print digits<span class="opt">.</span><span class="kwa">next</span><span class="opt">!}</span>
+        <span class="opt">(</span>WIDTH-n<span class="opt">).</span>times <span class="opt">{</span>print <span class="str">&quot; &quot;</span><span class="opt">}</span> 
         j <span class="opt">+=</span> n
     <span class="kwa">end</span>
     puts <span class="str">&quot;</span><span class="esc">\t</span><span class="str">:&quot;</span><span class="opt">+</span>j<span class="opt">.</span>to_s
@@ -121,13 +121,13 @@ digits <span class="opt">=</span> PiDigitSpigot<span class="opt">.</span>new
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-linux]
+ruby 2.6.0preview2 (2018-05-31 trunk 63539) [x86_64-linux]
 
 
-Tue, 02 Jan 2018 03:37:26 GMT
+Thu, 05 Jul 2018 02:23:30 GMT
 
 COMMAND LINE:
-/opt/src/ruby-2.5.0/bin/ruby -W0 pidigits.yarv 10000
+/opt/src/ruby-2.6.0-preview2/bin/ruby --jit -W0 pidigits.yarv 10000
 
 (TRUNCATED) PROGRAM OUTPUT:
 3141592653	:10

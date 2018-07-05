@@ -70,7 +70,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
         workers<span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span>worker<span class="opt">|</span>
             threads <span class="opt">&lt;&lt;</span> Thread<span class="opt">.</span>new <span class="kwa">do</span>
               <span class="kwa">loop do</span>
-                Thread<span class="opt">.</span>exclusive{ index += 1 }
+                Thread<span class="opt">.</span>exclusive<span class="opt">{</span> index <span class="opt">+=</span> <span class="num">1</span> <span class="opt">}</span>
                 <span class="kwa">break if</span> index <span class="opt">&gt;=</span> array<span class="opt">.</span>size
                 results<span class="opt">[</span>index<span class="opt">] =</span> worker<span class="opt">.</span><span class="kwd">work</span><span class="opt">(</span>index<span class="opt">)</span>
               <span class="kwa">end</span>
@@ -147,7 +147,7 @@ max_depth <span class="opt">= [</span>min_depth <span class="opt">+</span> <span
 stretch_depth <span class="opt">=</span> max_depth <span class="opt">+</span> <span class="num">1</span>
 stretch_tree <span class="opt">=</span> <span class="kwd">bottom_up_tree</span><span class="opt">(</span>stretch_depth<span class="opt">)</span>
 
-puts <span class="str">&quot;stretch tree of depth</span> <span class="ipl">#{stretch_depth}</span><span class="str"></span><span class="esc">\t</span> <span class="str">check:</span> <span class="ipl">#{item_check(*stretch_tree)}</span><span class="str">&quot;</span>
+puts <span class="str">&quot;stretch tree of depth #{stretch_depth}</span><span class="esc">\t</span> <span class="str">check: #{item_check(*stretch_tree)}&quot;</span>
 stretch_tree <span class="opt">=</span> <span class="kwa">nil</span>
 
 long_lived_tree <span class="opt">=</span> <span class="kwd">bottom_up_tree</span><span class="opt">(</span>max_depth<span class="opt">)</span>
@@ -166,11 +166,11 @@ long_lived_tree <span class="opt">=</span> <span class="kwd">bottom_up_tree</spa
                     check <span class="opt">+=</span> <span class="kwd">item_check</span><span class="opt">(*</span><span class="kwd">bottom_up_tree</span><span class="opt">(</span>depth<span class="opt">))</span>
                 <span class="kwa">end</span>
 
-                output<span class="opt">[</span>j<span class="opt">] =</span> <span class="str">&quot;</span><span class="ipl">#{iterations}</span><span class="str"></span><span class="esc">\t</span> <span class="str">trees of depth</span> <span class="ipl">#{depth}</span><span class="str"></span><span class="esc">\t</span> <span class="str">check:</span> <span class="ipl">#{check}</span><span class="str">&quot;</span>
+                output<span class="opt">[</span>j<span class="opt">] =</span> <span class="str">&quot;#{iterations}</span><span class="esc">\t</span> <span class="str">trees of depth #{depth}</span><span class="esc">\t</span> <span class="str">check: #{check}&quot;</span>
             <span class="kwa">end</span>
         <span class="kwa">end</span>
         threads<span class="opt">.</span>all<span class="opt">?(&amp;</span><span class="kwc">:join</span><span class="opt">)</span>
-        output<span class="opt">.</span>each{|l| puts l}
+        output<span class="opt">.</span>each<span class="opt">{|</span>l<span class="opt">|</span> puts l<span class="opt">}</span>
     <span class="kwa">else</span>
         MiniParallel<span class="opt">.</span><span class="kwd">map</span><span class="opt">(</span>min_depth<span class="opt">.</span><span class="kwd">step</span><span class="opt">(</span>max_depth<span class="opt">,</span> <span class="num">2</span><span class="opt">).</span>to_a<span class="opt">)</span> <span class="kwa">do</span> <span class="opt">|</span>depth<span class="opt">|</span>
             iterations <span class="opt">=</span> <span class="num">2</span><span class="opt">**(</span>max_depth <span class="opt">-</span> depth <span class="opt">+</span> min_depth<span class="opt">)</span>
@@ -181,8 +181,8 @@ long_lived_tree <span class="opt">=</span> <span class="kwd">bottom_up_tree</spa
                 check <span class="opt">+=</span> <span class="kwd">item_check</span><span class="opt">(*</span><span class="kwd">bottom_up_tree</span><span class="opt">(</span>depth<span class="opt">))</span>
             <span class="kwa">end</span>
 
-            <span class="str">&quot;</span><span class="ipl">#{iterations}</span><span class="str"></span><span class="esc">\t</span> <span class="str">trees of depth</span> <span class="ipl">#{depth}</span><span class="str"></span><span class="esc">\t</span> <span class="str">check:</span> <span class="ipl">#{check}</span><span class="str">&quot;</span>
-        <span class="kwa">end</span><span class="opt">.</span>each{|l| puts l}
+            <span class="str">&quot;#{iterations}</span><span class="esc">\t</span> <span class="str">trees of depth #{depth}</span><span class="esc">\t</span> <span class="str">check: #{check}&quot;</span>
+        <span class="kwa">end</span><span class="opt">.</span>each<span class="opt">{|</span>l<span class="opt">|</span> puts l<span class="opt">}</span>
     <span class="kwa">end</span>
 <span class="kwa">else</span>
     min_depth<span class="opt">.</span><span class="kwd">step</span><span class="opt">(</span>max_depth<span class="opt">,</span> <span class="num">2</span><span class="opt">).</span>each <span class="kwa">do</span> <span class="opt">|</span>depth<span class="opt">|</span>
@@ -194,11 +194,11 @@ long_lived_tree <span class="opt">=</span> <span class="kwd">bottom_up_tree</spa
             check <span class="opt">+=</span> <span class="kwd">item_check</span><span class="opt">(*</span><span class="kwd">bottom_up_tree</span><span class="opt">(</span>depth<span class="opt">))</span>
         <span class="kwa">end</span>
 
-        puts <span class="str">&quot;</span><span class="ipl">#{iterations}</span><span class="str"></span><span class="esc">\t</span> <span class="str">trees of depth</span> <span class="ipl">#{depth}</span><span class="str"></span><span class="esc">\t</span> <span class="str">check:</span> <span class="ipl">#{check}</span><span class="str">&quot;</span>
+        puts <span class="str">&quot;#{iterations}</span><span class="esc">\t</span> <span class="str">trees of depth #{depth}</span><span class="esc">\t</span> <span class="str">check: #{check}&quot;</span>
     <span class="kwa">end</span>
 <span class="kwa">end</span>
 
-puts <span class="str">&quot;long lived tree of depth</span> <span class="ipl">#{max_depth}</span><span class="str"></span><span class="esc">\t</span> <span class="str">check:</span> <span class="ipl">#{item_check(*long_lived_tree)}</span><span class="str">&quot;</span>
+puts <span class="str">&quot;long lived tree of depth #{max_depth}</span><span class="esc">\t</span> <span class="str">check: #{item_check(*long_lived_tree)}&quot;</span>
     </pre>
   </section>
   <section>
@@ -206,18 +206,18 @@ puts <span class="str">&quot;long lived tree of depth</span> <span class="ipl">#
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-jruby 9.1.16.0 (2.3.3) 2018-02-21 8f3f95a Java HotSpot(TM) 64-Bit Server VM 10+46 on 10+46 +jit [linux-x86_64]
+jruby 9.2.0.0 (2.5.0) 2018-05-24 81156a8 Java HotSpot(TM) 64-Bit Server VM 10.0.1+10 on 10.0.1+10 +jit [linux-x86_64]
 
 
-Thu, 22 Mar 2018 00:20:21 GMT
+Wed, 04 Jul 2018 17:03:16 GMT
 
 MAKE:
 mv binarytrees.jruby-5.jruby binarytrees.rb
 
-0.06s to complete and log all make actions
+0.07s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/jruby-9.1.16.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmx2G binarytrees.rb 21
+/opt/src/jruby-9.2.0.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmx2G binarytrees.rb 21
 
 PROGRAM OUTPUT:
 stretch tree of depth 22	 check: 8388607

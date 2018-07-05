@@ -31,7 +31,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 <span class="slc"># Marshal to read IOs in a blocking manner, which will cause this</span>
 <span class="slc"># script to hang.</span>
 
-IS_THREADED <span class="opt">=</span> <span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&quot;java&quot;</span>
+IS_THREADED <span class="opt">= (</span><span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&apos;java&apos;</span><span class="opt">) || (</span>RUBY_ENGINE <span class="opt">==</span> <span class="str">&apos;truffleruby&apos;</span><span class="opt">)</span>
 
 <span class="kwa">if</span> IS_THREADED
   <span class="kwa">require</span> <span class="str">&quot;fcntl&quot;</span>
@@ -79,7 +79,7 @@ IS_THREADED <span class="opt">=</span> <span class="kwc">RUBY_PLATFORM</span> <s
   
   <span class="kwa">def self</span><span class="opt">.</span><span class="kwd">gather</span><span class="opt">(</span>workers<span class="opt">)</span>
     res <span class="opt">= []</span>
-    ios <span class="opt">=</span> workers<span class="opt">.</span>map { |w| w.reader }
+    ios <span class="opt">=</span> workers<span class="opt">.</span>map <span class="opt">{ |</span>w<span class="opt">|</span> w<span class="opt">.</span>reader <span class="opt">}</span>
 
     <span class="kwa">while</span> ios<span class="opt">.</span>size <span class="opt">&gt;</span> <span class="num">0</span> <span class="kwa">do</span>
       sr<span class="opt">,</span> sw<span class="opt">,</span> se <span class="opt">=</span> IO<span class="opt">.</span><span class="kwd">select</span><span class="opt">(</span>ios<span class="opt">,</span> <span class="kwa">nil</span><span class="opt">,</span> <span class="kwa">nil</span><span class="opt">)</span>
@@ -171,13 +171,13 @@ print <span class="str">&quot;%0.9f&quot;</span> <span class="opt">% (</span>Mat
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-linux]
+ruby 2.6.0preview2 (2018-05-31 trunk 63539) [x86_64-linux]
 
 
-Mon, 23 Apr 2018 21:25:38 GMT
+Thu, 05 Jul 2018 03:08:07 GMT
 
 COMMAND LINE:
-/opt/src/ruby-2.5.1/bin/ruby -W0 spectralnorm.yarv-5.yarv 5500
+/opt/src/ruby-2.6.0-preview2/bin/ruby --jit -W0 spectralnorm.yarv-5.yarv 5500
 
 PROGRAM OUTPUT:
 1.274224153

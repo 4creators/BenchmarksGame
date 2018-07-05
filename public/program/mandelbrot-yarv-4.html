@@ -52,7 +52,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
   
   <span class="kwa">def</span> shutdown
     <span class="kwb">&#64;pool</span><span class="opt">.</span>size<span class="opt">.</span>times <span class="kwa">do</span>
-      schedule { throw :exit }
+      schedule <span class="opt">{</span> <span class="kwa">throw</span> <span class="kwc">:exit</span> <span class="opt">}</span>
     <span class="kwa">end</span>
     <span class="kwb">&#64;pool</span><span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span>t<span class="opt">|</span>
       t<span class="opt">.</span>join
@@ -100,11 +100,11 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
   <span class="kwa">def self</span><span class="opt">.</span><span class="kwd">render</span><span class="opt">(</span>size<span class="opt">)</span>
     m <span class="opt">=</span> Mandel<span class="opt">.</span><span class="kwd">new</span><span class="opt">(</span>size<span class="opt">)</span>
     m<span class="opt">.</span>process
-    print <span class="str">&quot;</span><span class="ipl">#{m.header}</span><span class="str"></span><span class="esc">\n</span><span class="str"></span><span class="ipl">#{m.output.join}</span><span class="str">&quot;</span>
+    print <span class="str">&quot;#{m.header}</span><span class="esc">\n</span><span class="str">#{m.output.join}&quot;</span>
   <span class="kwa">end</span>
   
   <span class="kwa">def</span> header
-    <span class="str">&quot;P4</span><span class="esc">\n</span><span class="str"></span><span class="ipl">#{&#64;size}</span> <span class="str"></span><span class="ipl">#{&#64;size}</span><span class="str">&quot;</span>
+    <span class="str">&quot;P4</span><span class="esc">\n</span><span class="str">#{&#64;size} #{&#64;size}&quot;</span>
   <span class="kwa">end</span>
 
   <span class="kwa">private</span>
@@ -167,13 +167,13 @@ Mandel<span class="opt">.</span><span class="kwd">render</span><span class="opt"
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-linux]
+ruby 2.6.0preview2 (2018-05-31 trunk 63539) [x86_64-linux]
 
 
-Mon, 23 Apr 2018 17:17:31 GMT
+Thu, 05 Jul 2018 01:33:31 GMT
 
 COMMAND LINE:
-/opt/src/ruby-2.5.1/bin/ruby -W0 mandelbrot.yarv-4.yarv 16000
+/opt/src/ruby-2.6.0-preview2/bin/ruby --jit -W0 mandelbrot.yarv-4.yarv 16000
 
 (BINARY) PROGRAM OUTPUT NOT SHOWN
     </pre>

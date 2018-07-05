@@ -71,7 +71,7 @@ homosapiens <span class="opt">= [</span>
   rb <span class="opt">=</span> <span class="str">&quot;lambda do |n|</span> <span class="esc">\n</span><span class="str">&quot;</span>
   
   tbl<span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span>va<span class="opt">,</span> vb<span class="opt">|</span>
-    rb <span class="opt">+=</span> <span class="str">&quot;return</span> <span class="ipl">#{va.inspect}</span> <span class="str">if</span> <span class="ipl">#{vb.inspect}</span> <span class="str">&gt; n</span><span class="esc">\n</span><span class="str">&quot;</span>
+    rb <span class="opt">+=</span> <span class="str">&quot;return #{va.inspect} if #{vb.inspect} &gt; n</span><span class="esc">\n</span><span class="str">&quot;</span>
   <span class="kwa">end</span>
   
   rb <span class="opt">+=</span> <span class="str">&quot;end</span><span class="esc">\n</span><span class="str">&quot;</span>
@@ -80,7 +80,7 @@ homosapiens <span class="opt">= [</span>
 <span class="kwa">end</span>
 
 <span class="kwa">def</span> <span class="kwd">make_repeat_fasta</span><span class="opt">(</span>id<span class="opt">,</span> desc<span class="opt">,</span> src<span class="opt">,</span> n<span class="opt">)</span>
-    puts <span class="str">&quot;&gt;</span><span class="ipl">#{id}</span> <span class="str"></span><span class="ipl">#{desc}</span><span class="str">&quot;</span>
+    puts <span class="str">&quot;&gt;#{id} #{desc}&quot;</span>
     v <span class="opt">=</span> <span class="kwa">nil</span>
     width <span class="opt">=</span> <span class="num">60</span>
     l <span class="opt">=</span> src<span class="opt">.</span>length
@@ -90,19 +90,19 @@ homosapiens <span class="opt">= [</span>
 <span class="kwa">end</span>
 
 <span class="kwa">def</span> <span class="kwd">make_random_fasta</span><span class="opt">(</span>id<span class="opt">,</span> desc<span class="opt">,</span> table<span class="opt">,</span> n<span class="opt">)</span>
-    puts <span class="str">&quot;&gt;</span><span class="ipl">#{id}</span> <span class="str"></span><span class="ipl">#{desc}</span><span class="str">&quot;</span>
+    puts <span class="str">&quot;&gt;#{id} #{desc}&quot;</span>
     rand<span class="opt">,</span> v <span class="opt">=</span> <span class="kwa">nil</span><span class="opt">,</span><span class="kwa">nil</span>
     width <span class="opt">=</span> <span class="num">60</span>
     chunk <span class="opt">=</span> <span class="num">1</span> <span class="opt">*</span> width
     prob <span class="opt">=</span> <span class="num">0.0</span>
     rwidth <span class="opt">= (</span><span class="num">1</span><span class="opt">..</span>width<span class="opt">)</span>
-    table<span class="opt">.</span>each{|v| v[1]= (prob += v[1])}
+    table<span class="opt">.</span>each<span class="opt">{|</span>v<span class="opt">|</span> v<span class="opt">[</span><span class="num">1</span><span class="opt">]= (</span>prob <span class="opt">+=</span> v<span class="opt">[</span><span class="num">1</span><span class="opt">])}</span>
     f <span class="opt">=</span> <span class="kwd">generate_rand_finder</span><span class="opt">(</span>table<span class="opt">)</span>
     
     <span class="kwa">if</span> <span class="kwc">RUBY_PLATFORM</span> <span class="opt">==</span> <span class="str">&quot;java&quot;</span> 
       collector <span class="opt">=</span> lambda <span class="kwa">do</span> <span class="opt">|</span>x<span class="opt">|</span>
         rand <span class="opt">= (</span><span class="kwb">$last</span> <span class="opt">= (</span><span class="kwb">$last</span> <span class="opt">*</span> GR_IA <span class="opt">+</span> GR_IC<span class="opt">) %</span> GR_IM<span class="opt">) /</span> GR_IM
-        table<span class="opt">.</span>find { |va, vb| vb &gt; rand }<span class="opt">[</span><span class="num">0</span><span class="opt">]</span>
+        table<span class="opt">.</span>find <span class="opt">{ |</span>va<span class="opt">,</span> vb<span class="opt">|</span> vb <span class="opt">&gt;</span> rand <span class="opt">}[</span><span class="num">0</span><span class="opt">]</span>
       <span class="kwa">end</span>
     <span class="kwa">else</span>
       collector <span class="opt">=</span> lambda <span class="kwa">do</span> <span class="opt">|</span>x<span class="opt">|</span>
@@ -132,13 +132,13 @@ n <span class="opt">= (</span><span class="kwc">ARGV</span><span class="opt">[</
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-linux]
+ruby 2.6.0preview2 (2018-05-31 trunk 63539) [x86_64-linux]
 
 
-Tue, 02 Jan 2018 02:20:29 GMT
+Wed, 04 Jul 2018 23:41:44 GMT
 
 COMMAND LINE:
-/opt/src/ruby-2.5.0/bin/ruby -W0 fasta.yarv-4.yarv 25000000
+/opt/src/ruby-2.6.0-preview2/bin/ruby --jit -W0 fasta.yarv-4.yarv 25000000
 
 (TRUNCATED) PROGRAM OUTPUT:
 &gt;ONE Homo sapiens alu

@@ -33,7 +33,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 
 size <span class="opt">=</span> <span class="kwc">ARGV</span><span class="opt">.</span>shift<span class="opt">.</span>to_i
 
-puts <span class="str">&quot;P4</span><span class="esc">\n</span><span class="str"></span><span class="ipl">#{size}</span> <span class="str"></span><span class="ipl">#{size}</span><span class="str">&quot;</span>
+puts <span class="str">&quot;P4</span><span class="esc">\n</span><span class="str">#{size} #{size}&quot;</span>
 
 byte_acc <span class="opt">=</span> <span class="num">0</span>
 bit_num <span class="opt">=</span> <span class="num">0</span>
@@ -91,13 +91,13 @@ y <span class="opt">=</span> <span class="num">0</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-linux]
+ruby 2.6.0preview2 (2018-05-31 trunk 63539) [x86_64-linux]
 
 
-Mon, 23 Apr 2018 16:47:35 GMT
+Thu, 05 Jul 2018 01:48:55 GMT
 
 COMMAND LINE:
-/opt/src/ruby-2.5.1/bin/ruby -W0 mandelbrot.yarv-3.yarv 16000
+/opt/src/ruby-2.6.0-preview2/bin/ruby --jit -W0 mandelbrot.yarv-3.yarv 16000
 
 (BINARY) PROGRAM OUTPUT NOT SHOWN
     </pre>

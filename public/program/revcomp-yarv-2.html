@@ -34,7 +34,7 @@ seq<span class="opt">=</span><span class="str">&quot;&quot;</span>
 <span class="kwa">def</span> <span class="kwd">revcomp</span><span class="opt">(</span>seq<span class="opt">)</span>
   seq<span class="opt">.</span>reverse<span class="opt">!.</span>tr<span class="opt">!(</span><span class="str">&apos;wsatugcyrkmbdhvnATUGCYRKMBDHVN&apos;</span><span class="opt">,</span><span class="str">&apos;WSTAACGRYMKVHDBNTAACGRYMKVHDBN&apos;</span><span class="opt">)</span>
   stringlen<span class="opt">=</span>seq<span class="opt">.</span>length-1
-  <span class="num">0</span><span class="opt">.</span><span class="kwd">step</span><span class="opt">(</span>stringlen<span class="opt">,</span><span class="num">60</span><span class="opt">)</span> {|x| print seq[x,60] , &quot;\n&quot;}
+  <span class="num">0</span><span class="opt">.</span><span class="kwd">step</span><span class="opt">(</span>stringlen<span class="opt">,</span><span class="num">60</span><span class="opt">) {|</span>x<span class="opt">|</span> print seq<span class="opt">[</span>x<span class="opt">,</span><span class="num">60</span><span class="opt">] ,</span> <span class="str">&quot;</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">}</span>
 <span class="kwa">end</span>
 
 <span class="kwc">STDIN</span><span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span>line<span class="opt">|</span>
@@ -57,13 +57,13 @@ seq<span class="opt">=</span><span class="str">&quot;&quot;</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-linux]
+ruby 2.6.0preview2 (2018-05-31 trunk 63539) [x86_64-linux]
 
 
-Mon, 26 Mar 2018 20:40:51 GMT
+Thu, 05 Jul 2018 02:52:28 GMT
 
 COMMAND LINE:
-/opt/src/ruby-2.5.0/bin/ruby -W0 revcomp.yarv-2.yarv 0 &lt; revcomp-input100000000.txt
+/opt/src/ruby-2.6.0-preview2/bin/ruby --jit -W0 revcomp.yarv-2.yarv 0 &lt; revcomp-input100000000.txt
 
 (TRUNCATED) PROGRAM OUTPUT:
 &gt;ONE Homo sapiens alu

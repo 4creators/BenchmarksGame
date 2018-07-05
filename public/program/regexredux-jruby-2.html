@@ -50,7 +50,7 @@ MATCHERS <span class="opt">= [</span>
 
 threads <span class="opt">=</span> MATCHERS<span class="opt">.</span>map <span class="kwa">do</span> <span class="opt">|</span>f<span class="opt">|</span>
   Thread<span class="opt">.</span>new <span class="kwa">do</span>
-    Thread<span class="opt">.</span>current<span class="opt">[</span><span class="kwc">:result</span><span class="opt">] =</span> <span class="str">&quot;</span><span class="ipl">#{f.source}</span> <span class="str"></span><span class="ipl">#{seq.scan(f).size}</span><span class="str">&quot;</span>
+    Thread<span class="opt">.</span>current<span class="opt">[</span><span class="kwc">:result</span><span class="opt">] =</span> <span class="str">&quot;#{f.source} #{seq.scan(f).size}&quot;</span>
   <span class="kwa">end</span>
 <span class="kwa">end</span>
 
@@ -68,9 +68,9 @@ match_results <span class="opt">=</span> threads<span class="opt">.</span>map <s
   <span class="kwc">/a[NSt]|BY/</span> <span class="opt">=&gt;</span> <span class="str">&apos;&lt;2&gt;&apos;</span><span class="opt">,</span> 
   <span class="kwc">/&lt;[^&gt;]*&gt;/</span> <span class="opt">=&gt;</span> <span class="str">&apos;|&apos;</span><span class="opt">,</span>
   <span class="kwc">/\|[^|][^|]*\|/</span> <span class="opt">=&gt;</span> <span class="str">&apos;-&apos;</span>
-<span class="opt">}.</span>each { |f,r| seq.gsub!(f,r) }
+<span class="opt">}.</span>each <span class="opt">{ |</span>f<span class="opt">,</span>r<span class="opt">|</span> seq<span class="opt">.</span>gsub<span class="opt">!(</span>f<span class="opt">,</span>r<span class="opt">) }</span>
 
-puts <span class="str">&quot;</span><span class="ipl">#{match_results.join(&quot;\n&quot;)}</span><span class="str"></span><span class="esc">\n\n</span><span class="str"></span><span class="ipl">#{ilen}</span><span class="str"></span><span class="esc">\n</span><span class="str"></span><span class="ipl">#{clen}</span><span class="str"></span><span class="esc">\n</span><span class="str"></span><span class="ipl">#{seq.length}</span><span class="str">&quot;</span>
+puts <span class="str">&quot;#{match_results.join(&quot;</span><span class="esc">\n</span><span class="str">&quot;)}</span><span class="esc">\n\n</span><span class="str">#{ilen}</span><span class="esc">\n</span><span class="str">#{clen}</span><span class="esc">\n</span><span class="str">#{seq.length}&quot;</span>
     </pre>
   </section>
   <section>
@@ -78,10 +78,10 @@ puts <span class="str">&quot;</span><span class="ipl">#{match_results.join(&quot
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-jruby 9.1.16.0 (2.3.3) 2018-02-21 8f3f95a Java HotSpot(TM) 64-Bit Server VM 10+46 on 10+46 +jit [linux-x86_64]
+jruby 9.2.0.0 (2.5.0) 2018-05-24 81156a8 Java HotSpot(TM) 64-Bit Server VM 10.0.1+10 on 10.0.1+10 +jit [linux-x86_64]
 
 
-Thu, 22 Mar 2018 03:21:35 GMT
+Wed, 04 Jul 2018 19:30:44 GMT
 
 MAKE:
 mv regexredux.jruby-2.jruby regexredux.rb
@@ -89,7 +89,7 @@ mv regexredux.jruby-2.jruby regexredux.rb
 0.01s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/jruby-9.1.16.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms2048m -J-Xmx2048m regexredux.rb 0 &lt; regexredux-input5000000.txt
+/opt/src/jruby-9.2.0.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms2048m -J-Xmx2048m regexredux.rb 0 &lt; regexredux-input5000000.txt
 
 PROGRAM OUTPUT:
 agggtaaa|tttaccct 356

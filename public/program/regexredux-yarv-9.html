@@ -45,12 +45,12 @@ clen <span class="opt">=</span> seq<span class="opt">.</span>length
   <span class="kwc">/agggt[cgt]aa|tt[acg]accct/</span>i<span class="opt">,</span>
   <span class="kwc">/agggta[cgt]a|t[acg]taccct/</span>i<span class="opt">,</span>
   <span class="kwc">/agggtaa[cgt]|[acg]ttaccct/</span>i
-<span class="opt">].</span>each {|f| puts &quot;#{f.source} <span class="slc">#{seq.scan(f).size}&quot; }</span>
+<span class="opt">].</span>each <span class="opt">{|</span>f<span class="opt">|</span> puts <span class="str">&quot;#{f.source} #{seq.scan(f).size}&quot;</span> <span class="opt">}</span>
 
 <span class="opt">{</span>
 <span class="kwc">/tHa[Nt]/</span> <span class="opt">=&gt;</span> <span class="str">&apos;&lt;4&gt;&apos;</span><span class="opt">,</span> <span class="kwc">/aND|caN|Ha[DS]|WaS/</span> <span class="opt">=&gt;</span> <span class="str">&apos;&lt;3&gt;&apos;</span><span class="opt">,</span> <span class="kwc">/a[NSt]|BY/</span> <span class="opt">=&gt;</span> <span class="str">&apos;&lt;2&gt;&apos;</span><span class="opt">,</span> 
 <span class="kwc">/&lt;[^&gt;]*&gt;/</span> <span class="opt">=&gt;</span> <span class="str">&apos;|&apos;</span><span class="opt">,</span> <span class="kwc">/\|[^|][^|]*\|/</span> <span class="opt">=&gt;</span> <span class="str">&apos;-&apos;</span>
-<span class="opt">}.</span>each { |f,r| seq.gsub!(f,r) }
+<span class="opt">}.</span>each <span class="opt">{ |</span>f<span class="opt">,</span>r<span class="opt">|</span> seq<span class="opt">.</span>gsub<span class="opt">!(</span>f<span class="opt">,</span>r<span class="opt">) }</span>
 
 puts
 puts ilen
@@ -63,13 +63,13 @@ puts seq<span class="opt">.</span>length
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-linux]
+ruby 2.6.0preview2 (2018-05-31 trunk 63539) [x86_64-linux]
 
 
-Tue, 02 Jan 2018 03:42:54 GMT
+Thu, 05 Jul 2018 02:26:49 GMT
 
 COMMAND LINE:
-/opt/src/ruby-2.5.0/bin/ruby -W0 regexredux.yarv-9.yarv 0 &lt; regexredux-input5000000.txt
+/opt/src/ruby-2.6.0-preview2/bin/ruby --jit -W0 regexredux.yarv-9.yarv 0 &lt; regexredux-input5000000.txt
 
 PROGRAM OUTPUT:
 agggtaaa|tttaccct 356

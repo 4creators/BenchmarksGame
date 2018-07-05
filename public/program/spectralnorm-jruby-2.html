@@ -41,7 +41,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
   <span class="kwa">end</span>
   
   <span class="kwa">def</span> reset_generation
-    <span class="kwb">&#64;generation</span> <span class="opt">=</span> { :waiting =&gt; 0 }    
+    <span class="kwb">&#64;generation</span> <span class="opt">= {</span> <span class="kwc">:waiting</span> <span class="opt">=&gt;</span> <span class="num">0</span> <span class="opt">}</span>    
   <span class="kwa">end</span>
   
   <span class="kwa">def</span> wait
@@ -175,10 +175,10 @@ print <span class="str">&quot;%0.9f&quot;</span> <span class="opt">%</span> Spec
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-jruby 9.1.16.0 (2.3.3) 2018-02-21 8f3f95a Java HotSpot(TM) 64-Bit Server VM 10+46 on 10+46 +jit [linux-x86_64]
+jruby 9.2.0.0 (2.5.0) 2018-05-24 81156a8 Java HotSpot(TM) 64-Bit Server VM 10.0.1+10 on 10.0.1+10 +jit [linux-x86_64]
 
 
-Thu, 22 Mar 2018 03:42:30 GMT
+Wed, 04 Jul 2018 20:07:12 GMT
 
 MAKE:
 mv spectralnorm.jruby-2.jruby spectralnorm.rb
@@ -186,7 +186,7 @@ mv spectralnorm.jruby-2.jruby spectralnorm.rb
 0.01s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/jruby-9.1.16.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms2048m -J-Xmx2048m spectralnorm.rb 5500
+/opt/src/jruby-9.2.0.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms2048m -J-Xmx2048m spectralnorm.rb 5500
 
 PROGRAM OUTPUT:
 1.274224153

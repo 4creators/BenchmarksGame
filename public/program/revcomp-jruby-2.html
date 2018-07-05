@@ -34,7 +34,7 @@ seq<span class="opt">=</span><span class="str">&quot;&quot;</span>
 <span class="kwa">def</span> <span class="kwd">revcomp</span><span class="opt">(</span>seq<span class="opt">)</span>
   seq<span class="opt">.</span>reverse<span class="opt">!.</span>tr<span class="opt">!(</span><span class="str">&apos;wsatugcyrkmbdhvnATUGCYRKMBDHVN&apos;</span><span class="opt">,</span><span class="str">&apos;WSTAACGRYMKVHDBNTAACGRYMKVHDBN&apos;</span><span class="opt">)</span>
   stringlen<span class="opt">=</span>seq<span class="opt">.</span>length-1
-  <span class="num">0</span><span class="opt">.</span><span class="kwd">step</span><span class="opt">(</span>stringlen<span class="opt">,</span><span class="num">60</span><span class="opt">)</span> {|x| print seq[x,60] , &quot;\n&quot;}
+  <span class="num">0</span><span class="opt">.</span><span class="kwd">step</span><span class="opt">(</span>stringlen<span class="opt">,</span><span class="num">60</span><span class="opt">) {|</span>x<span class="opt">|</span> print seq<span class="opt">[</span>x<span class="opt">,</span><span class="num">60</span><span class="opt">] ,</span> <span class="str">&quot;</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">}</span>
 <span class="kwa">end</span>
 
 <span class="kwc">STDIN</span><span class="opt">.</span>each <span class="kwa">do</span> <span class="opt">|</span>line<span class="opt">|</span>
@@ -57,18 +57,18 @@ seq<span class="opt">=</span><span class="str">&quot;&quot;</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-jruby 9.1.16.0 (2.3.3) 2018-02-21 8f3f95a Java HotSpot(TM) 64-Bit Server VM 10+46 on 10+46 +jit [linux-x86_64]
+jruby 9.2.0.0 (2.5.0) 2018-05-24 81156a8 Java HotSpot(TM) 64-Bit Server VM 10.0.1+10 on 10.0.1+10 +jit [linux-x86_64]
 
 
-Wed, 28 Mar 2018 00:41:54 GMT
+Wed, 04 Jul 2018 19:36:44 GMT
 
 MAKE:
 mv revcomp.jruby-2.jruby revcomp.rb
 
-0.02s to complete and log all make actions
+0.24s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/jruby-9.1.16.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms3072m -J-Xmx3072m revcomp.rb 0 &lt; revcomp-input100000000.txt
+/opt/src/jruby-9.2.0.0/bin/jruby -Xcompile.fastest=true -Xcompile.invokedynamic=true -J-server -J-Xmn512m -J-Xms3072m -J-Xmx3072m revcomp.rb 0 &lt; revcomp-input100000000.txt
 
 (TRUNCATED) PROGRAM OUTPUT:
 &gt;ONE Homo sapiens alu

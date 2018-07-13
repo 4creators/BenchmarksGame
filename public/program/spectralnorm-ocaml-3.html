@@ -118,14 +118,14 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-The OCaml native-code compiler, version 4.06.0
+The OCaml native-code compiler, version 4.07.0
 
 
-Sun, 05 Nov 2017 22:28:56 GMT
+Fri, 13 Jul 2018 21:51:30 GMT
 
 MAKE:
 mv spectralnorm.ocaml-3.ocaml spectralnorm.ocaml-3.ml
-/opt/src/ocaml-4.06.0/bin/ocamlopt -noassert -unsafe -fPIC -nodynlink -inline 100 -O3 unix.cmxa bigarray.cmxa spectralnorm.ocaml-3.ml -o spectralnorm.ocaml-3.ocaml_run
+/opt/src/ocaml-4.07.0/bin/ocamlopt -noassert -unsafe -fPIC -nodynlink -inline 100 -O3 unix.cmxa bigarray.cmxa spectralnorm.ocaml-3.ml -o spectralnorm.ocaml-3.ocaml_run
 File &quot;spectralnorm.ocaml-3.ml&quot;, line 66, characters 10-25:
 Warning 3: deprecated: Bigarray.Array1.map_file
 Use [array1_of_genarray (Unix.map_file ...)] instead.
@@ -133,7 +133,7 @@ Note that Bigarray.Array1.map_file raises Sys_error while
 Unix.map_file raises Unix_error.
 rm spectralnorm.ocaml-3.ml
 
-0.26s to complete and log all make actions
+1.34s to complete and log all make actions
 
 COMMAND LINE:
 ./spectralnorm.ocaml-3.ocaml_run 5500

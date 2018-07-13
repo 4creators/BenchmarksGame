@@ -110,25 +110,25 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-The OCaml native-code compiler, version 4.06.0
+The OCaml native-code compiler, version 4.07.0
 
 
-Sun, 05 Nov 2017 22:19:25 GMT
+Fri, 13 Jul 2018 21:35:41 GMT
 
 MAKE:
 mv knucleotide.ocaml knucleotide.ml
-/opt/src/ocaml-4.06.0/bin/ocamlopt -noassert -unsafe -fPIC -nodynlink -inline 100 -O3 unix.cmxa knucleotide.ml -o knucleotide.ocaml_run
+/opt/src/ocaml-4.07.0/bin/ocamlopt -noassert -unsafe -fPIC -nodynlink -inline 100 -O3 unix.cmxa knucleotide.ml -o knucleotide.ocaml_run
 File &quot;knucleotide.ml&quot;, line 32, characters 12-25:
-Warning 3: deprecated: String.create
+Warning 3: deprecated: Stdlib.String.create
 Use Bytes.create instead.
 File &quot;knucleotide.ml&quot;, line 35, characters 28-31:
 Error: This expression has type bytes but an expression was expected of type
          H.key = string
-/home/dunham/benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:417: recipe for target 'knucleotide.ocaml_run' failed
+/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:429: recipe for target 'knucleotide.ocaml_run' failed
 make: [knucleotide.ocaml_run] Error 2 (ignored)
 rm knucleotide.ml
 
-0.04s to complete and log all make actions
+0.03s to complete and log all make actions
 
 COMMAND LINE:
 ./knucleotide.ocaml_run 0 &lt; knucleotide-input250000.txt

@@ -95,26 +95,26 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-The OCaml native-code compiler, version 4.06.0
+The OCaml native-code compiler, version 4.07.0
 
 
-Sun, 05 Nov 2017 22:09:25 GMT
+Fri, 13 Jul 2018 21:22:29 GMT
 
 MAKE:
 mv fannkuchredux.ocaml fannkuchredux.ml
-/opt/src/ocaml-4.06.0/bin/ocamlopt -noassert -unsafe -fPIC -nodynlink -inline 100 -O3 unix.cmxa fannkuchredux.ml -o fannkuchredux.ocaml_run
+/opt/src/ocaml-4.07.0/bin/ocamlopt -noassert -unsafe -fPIC -nodynlink -inline 100 -O3 unix.cmxa fannkuchredux.ml -o fannkuchredux.ocaml_run
 File &quot;fannkuchredux.ml&quot;, line 9, characters 15-27:
-Warning 3: deprecated: Array.create
+Warning 3: deprecated: Stdlib.Array.create
 Use Array.make instead.
 File &quot;fannkuchredux.ml&quot;, line 10, characters 14-26:
-Warning 3: deprecated: Array.create
+Warning 3: deprecated: Stdlib.Array.create
 Use Array.make instead.
 File &quot;fannkuchredux.ml&quot;, line 11, characters 15-27:
-Warning 3: deprecated: Array.create
+Warning 3: deprecated: Stdlib.Array.create
 Use Array.make instead.
 rm fannkuchredux.ml
 
-0.22s to complete and log all make actions
+0.28s to complete and log all make actions
 
 COMMAND LINE:
 ./fannkuchredux.ocaml_run 12

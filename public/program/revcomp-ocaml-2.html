@@ -59,22 +59,22 @@ blit <span class="str">&quot;TVGHEFCDIJMLKNOPQYSAABWXRZ&quot;</span> <span class
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-The OCaml native-code compiler, version 4.06.0
+The OCaml native-code compiler, version 4.07.0
 
 
-Mon, 26 Mar 2018 23:42:56 GMT
+Fri, 13 Jul 2018 21:51:27 GMT
 
 MAKE:
 mv revcomp.ocaml-2.ocaml revcomp.ocaml-2.ml
-/opt/src/ocaml-4.06.0/bin/ocamlopt -noassert -unsafe -fPIC -nodynlink -inline 100 -O3 unix.cmxa revcomp.ocaml-2.ml -o revcomp.ocaml-2.ocaml_run
+/opt/src/ocaml-4.07.0/bin/ocamlopt -noassert -unsafe -fPIC -nodynlink -inline 100 -O3 unix.cmxa revcomp.ocaml-2.ml -o revcomp.ocaml-2.ocaml_run
 File &quot;revcomp.ocaml-2.ml&quot;, line 10, characters 36-37:
 Error: This expression has type string but an expression was expected of type
          bytes
-/home/dunham/benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:429: recipe for target 'revcomp.ocaml-2.ocaml_run' failed
+/home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:429: recipe for target 'revcomp.ocaml-2.ocaml_run' failed
 make: [revcomp.ocaml-2.ocaml_run] Error 2 (ignored)
 rm revcomp.ocaml-2.ml
 
-0.81s to complete and log all make actions
+0.06s to complete and log all make actions
 
 COMMAND LINE:
 ./revcomp.ocaml-2.ocaml_run 0 &lt; revcomp-input250000.txt

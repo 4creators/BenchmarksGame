@@ -112,17 +112,17 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-The OCaml native-code compiler, version 4.06.0
+The OCaml native-code compiler, version 4.07.0
 
 
-Tue, 22 May 2018 16:21:33 GMT
+Fri, 13 Jul 2018 21:38:04 GMT
 
 MAKE:
 mv mandelbrot.ocaml mandelbrot.ml
-/opt/src/ocaml-4.06.0/bin/ocamlopt -noassert -unsafe -fPIC -nodynlink -inline 100 -O3 unix.cmxa mandelbrot.ml -o mandelbrot.ocaml_run
+/opt/src/ocaml-4.07.0/bin/ocamlopt -noassert -unsafe -fPIC -nodynlink -inline 100 -O3 unix.cmxa mandelbrot.ml -o mandelbrot.ocaml_run
 rm mandelbrot.ml
 
-1.06s to complete and log all make actions
+0.30s to complete and log all make actions
 
 COMMAND LINE:
 ./mandelbrot.ocaml_run 16000

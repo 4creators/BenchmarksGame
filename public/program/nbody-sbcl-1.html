@@ -173,7 +173,7 @@ NOTES:
 This is SBCL 1.4.6, an implementation of ANSI Common Lisp.
 
 
-Thu, 05 Apr 2018 21:28:59 GMT
+Sat, 14 Jul 2018 16:07:45 GMT
 
 MAKE:
 cp: 'nbody.sbcl' and './nbody.sbcl' are the same file
@@ -182,7 +182,7 @@ SBCL built with: /opt/src/sbcl-1.4.6/bin/sbcl --userinit /dev/null --batch --eva
 (handler-bind ((sb-ext:defconstant-uneql      (lambda (c) (abort c))))      (require :sb-concurrency)      (load (compile-file &quot;nbody.sbcl&quot; ))) (save-lisp-and-die &quot;sbcl.core&quot; :purify t)
 ### END nbody.sbcl_compile
 
-; compiling file &quot;/home/dunham/benchmarksgame/bench/nbody/nbody.sbcl&quot; (written 24 JAN 2013 01:22:34 PM):
+; compiling file &quot;/home/dunham/8000-benchmarksgame/bench/nbody/nbody.sbcl&quot; (written 26 APR 2018 12:49:01 PM):
 ; compiling (DEFCONSTANT +DAYS-PER-YEAR+ ...)
 ; compiling (DEFCONSTANT +SOLAR-MASS+ ...)
 ; compiling (DEFSTRUCT (BODY # ...) ...)
@@ -201,13 +201,13 @@ SBCL built with: /opt/src/sbcl-1.4.6/bin/sbcl --userinit /dev/null --batch --eva
 ; compiling (DEFUN MAIN ...)
 
 ; /home/dunham/benchmarksgame_quadcore/nbody/tmp/nbody.fasl written
-; compilation finished in 0:00:00.113
+; compilation finished in 0:00:00.272
 ### START nbody.sbcl_run
 (main) (quit)
 ### END nbody.sbcl_run
 
 
-3.04s to complete and log all make actions
+4.75s to complete and log all make actions
 
 COMMAND LINE:
 /opt/src/sbcl-1.4.6/bin/sbcl --dynamic-space-size 500 --noinform --core sbcl.core --userinit /dev/null --load nbody.sbcl_run 50000000

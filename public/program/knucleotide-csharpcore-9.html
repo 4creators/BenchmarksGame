@@ -39,6 +39,8 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 <span class="kwa">using</span> System<span class="opt">.</span>Runtime<span class="opt">.</span>InteropServices<span class="opt">;</span>
 <span class="kwa">using</span> System<span class="opt">.</span>Runtime<span class="opt">.</span>CompilerServices<span class="opt">;</span>
 
+<span class="slc">// Incrementor uses reflection to access methods and data internal to</span>
+<span class="slc">// Dictionary to provide an Increment method.</span>
 <span class="kwa">class</span> Incrementor <span class="opt">:</span> IDisposable
 <span class="opt">{</span>
     <span class="kwa">static</span> FieldInfo bucketsField <span class="opt">=</span> <span class="kwa">typeof</span><span class="opt">(</span>Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span> <span class="kwa">int</span><span class="opt">&gt;).</span><span class="kwd">GetField</span><span class="opt">(</span>
@@ -320,7 +322,7 @@ sdk/2.1.300
 "System.GC.Server": true
 
 
-Tue, 17 Jul 2018 04:31:52 GMT
+Tue, 17 Jul 2018 16:46:33 GMT
 
 MAKE:
 cp knucleotide.csharpcore-9.csharpcore Program.cs
@@ -335,16 +337,16 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 
   Restoring packages for /home/dunham/benchmarksgame_quadcore/knucleotide/tmp/tmp.csproj...
   Generating MSBuild file /home/dunham/benchmarksgame_quadcore/knucleotide/tmp/obj/tmp.csproj.nuget.g.props.
-  Restore completed in 742.29 ms for /home/dunham/benchmarksgame_quadcore/knucleotide/tmp/tmp.csproj.
+  Restore completed in 275.78 ms for /home/dunham/benchmarksgame_quadcore/knucleotide/tmp/tmp.csproj.
   tmp -&gt; /home/dunham/benchmarksgame_quadcore/knucleotide/tmp/bin/Release/netcoreapp2.1/tmp.dll
 
 Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:09.75
+Time Elapsed 00:00:02.39
 
-13.80s to complete and log all make actions
+3.00s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/dotnet ./bin/Release/netcoreapp2.1/tmp.dll 0 &lt; knucleotide-input25000000.txt

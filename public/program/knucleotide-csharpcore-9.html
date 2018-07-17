@@ -22,27 +22,101 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-<span class="com">/* The Computer Language Benchmarks Game</span>
-<span class="com">   https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
-<span class="com"> </span>
-<span class="com">   submitted by Josh Goldfoot</span>
-<span class="com">   Modified to reduce memory and do more in parallel by Anthony Lloyd</span>
-<span class="com"> */</span>
+<span class="slc">// The Computer Language Benchmarks Game</span>
+<span class="slc">// https://benchmarksgame-team.pages.debian.net/benchmarksgame/</span>
+ 
+<span class="slc">// submitted by Josh Goldfoot</span>
+<span class="slc">// Modified to reduce memory and do more in parallel by Anthony Lloyd</span>
+<span class="slc">// Added dictionary incrementor by Anthony Lloyd</span>
 
 <span class="kwa">using</span> System<span class="opt">;</span>
 <span class="kwa">using</span> System<span class="opt">.</span>IO<span class="opt">;</span>
 <span class="kwa">using</span> System<span class="opt">.</span>Text<span class="opt">;</span>
 <span class="kwa">using</span> System<span class="opt">.</span>Linq<span class="opt">;</span>
+<span class="kwa">using</span> System<span class="opt">.</span>Reflection<span class="opt">;</span>
 <span class="kwa">using</span> System<span class="opt">.</span>Collections<span class="opt">.</span>Generic<span class="opt">;</span>
 <span class="kwa">using</span> System<span class="opt">.</span>Threading<span class="opt">.</span>Tasks<span class="opt">;</span>
+<span class="kwa">using</span> System<span class="opt">.</span>Runtime<span class="opt">.</span>InteropServices<span class="opt">;</span>
 <span class="kwa">using</span> System<span class="opt">.</span>Runtime<span class="opt">.</span>CompilerServices<span class="opt">;</span>
 
-<span class="kwa">class</span> Wrapper { public int v=1; }
+<span class="kwa">class</span> Incrementor <span class="opt">:</span> IDisposable
+<span class="opt">{</span>
+    <span class="kwa">static</span> FieldInfo bucketsField <span class="opt">=</span> <span class="kwa">typeof</span><span class="opt">(</span>Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span> <span class="kwa">int</span><span class="opt">&gt;).</span><span class="kwd">GetField</span><span class="opt">(</span>
+        <span class="str">&quot;_buckets&quot;</span><span class="opt">,</span> BindingFlags<span class="opt">.</span>NonPublic <span class="opt">|</span> BindingFlags<span class="opt">.</span>Instance<span class="opt">);</span>
+    <span class="kwa">static</span> FieldInfo entriesField <span class="opt">=</span> <span class="kwa">typeof</span><span class="opt">(</span>Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span> <span class="kwa">int</span><span class="opt">&gt;).</span><span class="kwd">GetField</span><span class="opt">(</span>
+        <span class="str">&quot;_entries&quot;</span><span class="opt">,</span> BindingFlags<span class="opt">.</span>NonPublic <span class="opt">|</span> BindingFlags<span class="opt">.</span>Instance<span class="opt">);</span>
+    <span class="kwa">static</span> FieldInfo countField <span class="opt">=</span> <span class="kwa">typeof</span><span class="opt">(</span>Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span> <span class="kwa">int</span><span class="opt">&gt;).</span><span class="kwd">GetField</span><span class="opt">(</span>
+        <span class="str">&quot;_count&quot;</span><span class="opt">,</span> BindingFlags<span class="opt">.</span>NonPublic <span class="opt">|</span> BindingFlags<span class="opt">.</span>Instance<span class="opt">);</span>
+    <span class="kwa">static</span> MethodInfo resizeMethod <span class="opt">=</span> <span class="kwa">typeof</span><span class="opt">(</span>Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span> <span class="kwa">int</span><span class="opt">&gt;).</span><span class="kwd">GetMethod</span><span class="opt">(</span>
+        <span class="str">&quot;Resize&quot;</span><span class="opt">,</span> BindingFlags<span class="opt">.</span>NonPublic <span class="opt">|</span> BindingFlags<span class="opt">.</span>Instance<span class="opt">,</span>
+        <span class="kwa">null</span><span class="opt">,</span> <span class="kwa">new</span> Type<span class="opt">[</span><span class="num">0</span><span class="opt">],</span> <span class="kwa">null</span><span class="opt">);</span>
+    <span class="kwa">readonly</span> Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span> <span class="kwa">int</span><span class="opt">&gt;</span> dictionary<span class="opt">;</span>
+    <span class="kwa">int</span><span class="opt">[]</span> buckets<span class="opt">;</span>
+    IntPtr entries<span class="opt">;</span>
+    GCHandle handle<span class="opt">;</span>
+    <span class="kwa">int</span> count<span class="opt">;</span>
+
+    <span class="kwa">public</span> <span class="kwd">Incrementor</span><span class="opt">(</span>Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span> <span class="kwa">int</span><span class="opt">&gt;</span> d<span class="opt">)</span>
+    <span class="opt">{</span>
+        dictionary <span class="opt">=</span> d<span class="opt">;</span>
+        <span class="kwd">Sync</span><span class="opt">();</span>
+    <span class="opt">}</span>
+
+    <span class="opt">[</span><span class="kwd">MethodImpl</span><span class="opt">(</span>MethodImplOptions<span class="opt">.</span>AggressiveInlining<span class="opt">)]</span>
+    <span class="kwa">void</span> <span class="kwd">Sync</span><span class="opt">()</span>
+    <span class="opt">{</span>
+        buckets <span class="opt">= (</span><span class="kwa">int</span><span class="opt">[])</span>bucketsField<span class="opt">.</span><span class="kwd">GetValue</span><span class="opt">(</span>dictionary<span class="opt">);</span>
+        handle <span class="opt">=</span> GCHandle<span class="opt">.</span><span class="kwd">Alloc</span><span class="opt">(</span>entriesField<span class="opt">.</span><span class="kwd">GetValue</span><span class="opt">(</span>dictionary<span class="opt">),</span>
+                    GCHandleType<span class="opt">.</span>Pinned<span class="opt">);</span>
+        entries <span class="opt">=</span> handle<span class="opt">.</span><span class="kwd">AddrOfPinnedObject</span><span class="opt">();</span>
+        count <span class="opt">= (</span><span class="kwa">int</span><span class="opt">)</span>countField<span class="opt">.</span><span class="kwd">GetValue</span><span class="opt">(</span>dictionary<span class="opt">);</span>
+    <span class="opt">}</span>
+    
+    <span class="opt">[</span><span class="kwd">MethodImpl</span><span class="opt">(</span>MethodImplOptions<span class="opt">.</span>AggressiveInlining<span class="opt">)]</span>
+    <span class="kwa">public unsafe void</span> <span class="kwd">Increment</span><span class="opt">(</span><span class="kwa">long</span> key<span class="opt">)</span>
+    <span class="opt">{</span>
+        <span class="kwa">int</span> hashCode <span class="opt">=</span> key<span class="opt">.</span><span class="kwd">GetHashCode</span><span class="opt">() &amp;</span> <span class="num">0x7FFFFFFF</span><span class="opt">;</span>
+        <span class="kwa">int</span> <span class="opt">*</span> p<span class="opt">;</span>
+        <span class="kwa">int</span> i<span class="opt">;</span>
+        <span class="kwa">int</span> targetBucket <span class="opt">=</span> hashCode <span class="opt">%</span> buckets<span class="opt">.</span>Length<span class="opt">;</span>
+        <span class="kwa">for</span> <span class="opt">(</span>i <span class="opt">=</span> buckets<span class="opt">[</span>targetBucket<span class="opt">] -</span> <span class="num">1</span><span class="opt">; (</span><span class="kwa">uint</span><span class="opt">)</span>i <span class="opt">&lt; (</span><span class="kwa">uint</span><span class="opt">)</span>buckets<span class="opt">.</span>Length<span class="opt">;</span>
+                i <span class="opt">= *(</span>p<span class="opt">+</span><span class="num">1</span><span class="opt">))</span>
+        <span class="opt">{</span>
+            p <span class="opt">= (</span><span class="kwa">int</span> <span class="opt">*)</span>entries <span class="opt">+</span> i <span class="opt">*</span> <span class="num">6</span><span class="opt">;</span>
+            <span class="kwa">if</span> <span class="opt">(*((</span><span class="kwa">long</span> <span class="opt">*)(</span>p<span class="opt">+</span><span class="num">2</span><span class="opt">)) ==</span> key<span class="opt">)</span>
+            <span class="opt">{</span>
+                <span class="opt">(*(</span>p<span class="opt">+</span><span class="num">4</span><span class="opt">))++;</span>
+                <span class="kwa">return</span><span class="opt">;</span>
+            <span class="opt">}</span>
+        <span class="opt">}</span>
+        <span class="kwa">if</span> <span class="opt">(</span>count <span class="opt">==</span> buckets<span class="opt">.</span>Length<span class="opt">)</span>
+        <span class="opt">{</span>
+            <span class="kwd">Dispose</span><span class="opt">();</span>
+            resizeMethod<span class="opt">.</span><span class="kwd">Invoke</span><span class="opt">(</span>dictionary<span class="opt">,</span> <span class="kwa">null</span><span class="opt">);</span>
+            <span class="kwd">Sync</span><span class="opt">();</span>
+            targetBucket <span class="opt">=</span> hashCode <span class="opt">%</span> buckets<span class="opt">.</span>Length<span class="opt">;</span>
+        <span class="opt">}</span>
+        i <span class="opt">=</span> count<span class="opt">++;</span>
+        p <span class="opt">= (</span><span class="kwa">int</span> <span class="opt">*)</span>entries <span class="opt">+</span> i <span class="opt">*</span> <span class="num">6</span><span class="opt">;</span>
+        <span class="opt">*</span>p <span class="opt">=</span> hashCode<span class="opt">;</span>
+        <span class="opt">*(</span>p<span class="opt">+</span><span class="num">1</span><span class="opt">) =</span> buckets<span class="opt">[</span>targetBucket<span class="opt">] -</span> <span class="num">1</span><span class="opt">;</span>
+        <span class="opt">*((</span><span class="kwa">long</span> <span class="opt">*)(</span>p<span class="opt">+</span><span class="num">2</span><span class="opt">)) =</span> key<span class="opt">;</span>
+        <span class="opt">*(</span>p<span class="opt">+</span><span class="num">4</span><span class="opt">) =</span> <span class="num">1</span><span class="opt">;</span>
+        buckets<span class="opt">[</span>targetBucket<span class="opt">] =</span> i <span class="opt">+</span> <span class="num">1</span><span class="opt">;</span>
+    <span class="opt">}</span>
+
+    <span class="kwa">public void</span> <span class="kwd">Dispose</span><span class="opt">()</span>
+    <span class="opt">{</span>
+        countField<span class="opt">.</span><span class="kwd">SetValue</span><span class="opt">(</span>dictionary<span class="opt">,</span> count<span class="opt">);</span>
+        handle<span class="opt">.</span><span class="kwd">Free</span><span class="opt">();</span>
+    <span class="opt">}</span>
+<span class="opt">}</span>
+
 <span class="kwa">public static class</span> KNucleotide
 <span class="opt">{</span>
     <span class="kwa">const int</span> BLOCK_SIZE <span class="opt">=</span> <span class="num">1024</span> <span class="opt">*</span> <span class="num">1024</span> <span class="opt">*</span> <span class="num">8</span><span class="opt">;</span>
-    <span class="kwa">static</span> List<span class="opt">&lt;</span><span class="kwa">byte</span><span class="opt">[]&gt;</span> threeBlocks <span class="opt">=</span> <span class="kwa">new</span> List<span class="opt">&lt;</span><span class="kwa">byte</span><span class="opt">[]&gt;();</span>
-    <span class="kwa">static int</span> threeStart<span class="opt">,</span> threeEnd<span class="opt">;</span>
+    <span class="kwa">public static</span> List<span class="opt">&lt;</span><span class="kwa">byte</span><span class="opt">[]&gt;</span> threeBlocks <span class="opt">=</span> <span class="kwa">new</span> List<span class="opt">&lt;</span><span class="kwa">byte</span><span class="opt">[]&gt;();</span>
+    <span class="kwa">public static int</span> threeStart<span class="opt">,</span> threeEnd<span class="opt">;</span>
     <span class="kwa">static byte</span><span class="opt">[]</span> tonum <span class="opt">=</span> <span class="kwa">new byte</span><span class="opt">[</span><span class="num">256</span><span class="opt">];</span>
     <span class="kwa">static char</span><span class="opt">[]</span> tochar <span class="opt">=</span> <span class="kwa">new char</span><span class="opt">[]</span> {&apos;A&apos;, &apos;C&apos;, &apos;G&apos;, &apos;T&apos;}<span class="opt">;</span>
 
@@ -78,7 +152,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
         <span class="opt">}</span>
     <span class="opt">}</span>
 
-    <span class="kwa">static void</span> <span class="kwd">loadThreeData</span><span class="opt">()</span>
+    <span class="kwa">public static void</span> <span class="kwd">LoadThreeData</span><span class="opt">()</span>
     <span class="opt">{</span>
         <span class="kwa">var</span> stream <span class="opt">=</span> Console<span class="opt">.</span><span class="kwd">OpenStandardInput</span><span class="opt">();</span>
         
@@ -136,36 +210,14 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <span class="opt">}</span>
 
     <span class="opt">[</span><span class="kwd">MethodImpl</span><span class="opt">(</span>MethodImplOptions<span class="opt">.</span>AggressiveInlining<span class="opt">)]</span>
-    <span class="kwa">static void</span> <span class="kwd">check</span><span class="opt">(</span>Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span> Wrapper<span class="opt">&gt;</span> dict<span class="opt">,</span> <span class="kwa">ref long</span> rollingKey<span class="opt">,</span> <span class="kwa">byte</span> nb<span class="opt">,</span> <span class="kwa">long</span> mask<span class="opt">)</span>
+    <span class="kwa">static void</span> <span class="kwd">check</span><span class="opt">(</span>Incrementor inc<span class="opt">,</span> <span class="kwa">ref long</span> rollingKey<span class="opt">,</span> <span class="kwa">byte</span> nb<span class="opt">,</span> <span class="kwa">long</span> mask<span class="opt">)</span>
     <span class="opt">{</span>
         <span class="kwa">if</span><span class="opt">(</span>nb<span class="opt">==</span><span class="num">255</span><span class="opt">)</span> <span class="kwa">return</span><span class="opt">;</span>
         rollingKey <span class="opt">= ((</span>rollingKey <span class="opt">&amp;</span> mask<span class="opt">) &lt;&lt;</span> <span class="num">2</span><span class="opt">) |</span> nb<span class="opt">;</span>
-        Wrapper w<span class="opt">;</span>
-        <span class="kwa">if</span> <span class="opt">(</span>dict<span class="opt">.</span><span class="kwd">TryGetValue</span><span class="opt">(</span>rollingKey<span class="opt">,</span> <span class="kwa">out</span> w<span class="opt">))</span>
-            w<span class="opt">.</span>v<span class="opt">++;</span>
-        <span class="kwa">else</span>
-            dict<span class="opt">[</span>rollingKey<span class="opt">] =</span> <span class="kwa">new</span> <span class="kwd">Wrapper</span><span class="opt">();</span>
+        inc<span class="opt">.</span><span class="kwd">Increment</span><span class="opt">(</span>rollingKey<span class="opt">);</span>
     <span class="opt">}</span>
 
-    <span class="opt">[</span><span class="kwd">MethodImpl</span><span class="opt">(</span>MethodImplOptions<span class="opt">.</span>AggressiveInlining<span class="opt">)]</span>
-    <span class="kwa">static void</span> <span class="kwd">checkEnding</span><span class="opt">(</span>Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span> Wrapper<span class="opt">&gt;</span> dict<span class="opt">,</span> <span class="kwa">ref long</span> rollingKey<span class="opt">,</span> <span class="kwa">byte</span> b<span class="opt">,</span> <span class="kwa">byte</span> nb<span class="opt">,</span> <span class="kwa">long</span> mask<span class="opt">)</span>
-    <span class="opt">{</span>
-        <span class="kwa">if</span><span class="opt">(</span>nb<span class="opt">==</span>b<span class="opt">)</span>
-        <span class="opt">{</span>
-            Wrapper w<span class="opt">;</span>
-            <span class="kwa">if</span> <span class="opt">(</span>dict<span class="opt">.</span><span class="kwd">TryGetValue</span><span class="opt">(</span>rollingKey<span class="opt">,</span> <span class="kwa">out</span> w<span class="opt">))</span>
-                w<span class="opt">.</span>v<span class="opt">++;</span>
-            <span class="kwa">else</span>
-                dict<span class="opt">[</span>rollingKey<span class="opt">] =</span> <span class="kwa">new</span> <span class="kwd">Wrapper</span><span class="opt">();</span>
-            rollingKey <span class="opt">= ((</span>rollingKey <span class="opt">&lt;&lt;</span> <span class="num">2</span><span class="opt">) |</span> nb<span class="opt">) &amp;</span> mask<span class="opt">;</span>
-        <span class="opt">}</span>
-        <span class="kwa">else if</span><span class="opt">(</span>nb<span class="opt">!=</span><span class="num">255</span><span class="opt">)</span>
-        <span class="opt">{</span>
-            rollingKey <span class="opt">= ((</span>rollingKey <span class="opt">&lt;&lt;</span> <span class="num">2</span><span class="opt">) |</span> nb<span class="opt">) &amp;</span> mask<span class="opt">;</span>
-        <span class="opt">}</span>
-    <span class="opt">}</span>
-
-    <span class="kwa">static</span> Task<span class="opt">&lt;</span><span class="kwa">string</span><span class="opt">&gt;</span> <span class="kwd">count</span><span class="opt">(</span><span class="kwa">int</span> l<span class="opt">,</span> <span class="kwa">long</span> mask<span class="opt">,</span> Func<span class="opt">&lt;</span>Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span>Wrapper<span class="opt">&gt;,</span><span class="kwa">string</span><span class="opt">&gt;</span> summary<span class="opt">)</span>
+    <span class="kwa">static</span> Task<span class="opt">&lt;</span><span class="kwa">string</span><span class="opt">&gt;</span> <span class="kwd">count</span><span class="opt">(</span><span class="kwa">int</span> l<span class="opt">,</span> <span class="kwa">long</span> mask<span class="opt">,</span> Func<span class="opt">&lt;</span>Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span><span class="kwa">int</span><span class="opt">&gt;,</span><span class="kwa">string</span><span class="opt">&gt;</span> summary<span class="opt">)</span>
     <span class="opt">{</span>
         <span class="kwa">return</span> Task<span class="opt">.</span><span class="kwd">Run</span><span class="opt">(() =&gt;</span>
         <span class="opt">{</span>
@@ -173,72 +225,33 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
             <span class="kwa">var</span> firstBlock <span class="opt">=</span> threeBlocks<span class="opt">[</span><span class="num">0</span><span class="opt">];</span>
             <span class="kwa">var</span> start <span class="opt">=</span> threeStart<span class="opt">;</span>
             <span class="kwa">while</span><span class="opt">(--</span>l<span class="opt">&gt;</span><span class="num">0</span><span class="opt">)</span> rollingKey <span class="opt">= (</span>rollingKey<span class="opt">&lt;&lt;</span><span class="num">2</span><span class="opt">) |</span> firstBlock<span class="opt">[</span>start<span class="opt">++];</span>
-            <span class="kwa">var</span> dict <span class="opt">=</span> <span class="kwa">new</span> Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span>Wrapper<span class="opt">&gt;();</span>
-            <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span>start<span class="opt">;</span> i<span class="opt">&lt;</span>firstBlock<span class="opt">.</span>Length<span class="opt">;</span> i<span class="opt">++)</span>
-                <span class="kwd">check</span><span class="opt">(</span>dict<span class="opt">,</span> <span class="kwa">ref</span> rollingKey<span class="opt">,</span> firstBlock<span class="opt">[</span>i<span class="opt">],</span> mask<span class="opt">);</span>
-
-            <span class="kwa">int</span> lastBlockId <span class="opt">=</span> threeBlocks<span class="opt">.</span>Count<span class="opt">-</span><span class="num">1</span><span class="opt">;</span> 
-            <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> bl<span class="opt">=</span><span class="num">1</span><span class="opt">;</span> bl<span class="opt">&lt;</span>lastBlockId<span class="opt">;</span> bl<span class="opt">++)</span>
+            <span class="kwa">var</span> dict <span class="opt">=</span> <span class="kwa">new</span> Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span><span class="kwa">int</span><span class="opt">&gt;(</span><span class="num">1024</span><span class="opt">);</span>
+            <span class="kwa">using</span> <span class="opt">(</span><span class="kwa">var</span> incrementor <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">Incrementor</span><span class="opt">(</span>dict<span class="opt">))</span>
             <span class="opt">{</span>
-                <span class="kwa">var</span> bytes <span class="opt">=</span> threeBlocks<span class="opt">[</span>bl<span class="opt">];</span>
-                <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span> i<span class="opt">&lt;</span>bytes<span class="opt">.</span>Length<span class="opt">;</span> i<span class="opt">++)</span>
-                    <span class="kwd">check</span><span class="opt">(</span>dict<span class="opt">,</span> <span class="kwa">ref</span> rollingKey<span class="opt">,</span> bytes<span class="opt">[</span>i<span class="opt">],</span> mask<span class="opt">);</span>
-            <span class="opt">}</span>
+                <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span>start<span class="opt">;</span> i<span class="opt">&lt;</span>firstBlock<span class="opt">.</span>Length<span class="opt">;</span> i<span class="opt">++)</span>
+                    <span class="kwd">check</span><span class="opt">(</span>incrementor<span class="opt">,</span> <span class="kwa">ref</span> rollingKey<span class="opt">,</span> firstBlock<span class="opt">[</span>i<span class="opt">],</span> mask<span class="opt">);</span>
 
-            <span class="kwa">var</span> lastBlock <span class="opt">=</span> threeBlocks<span class="opt">[</span>lastBlockId<span class="opt">];</span>
-            <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span> i<span class="opt">&lt;</span>threeEnd<span class="opt">;</span> i<span class="opt">++)</span>
-                <span class="kwd">check</span><span class="opt">(</span>dict<span class="opt">,</span> <span class="kwa">ref</span> rollingKey<span class="opt">,</span> lastBlock<span class="opt">[</span>i<span class="opt">],</span> mask<span class="opt">);</span>
+                <span class="kwa">int</span> lastBlockId <span class="opt">=</span> threeBlocks<span class="opt">.</span>Count<span class="opt">-</span><span class="num">1</span><span class="opt">;</span> 
+                <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> bl<span class="opt">=</span><span class="num">1</span><span class="opt">;</span> bl<span class="opt">&lt;</span>lastBlockId<span class="opt">;</span> bl<span class="opt">++)</span>
+                <span class="opt">{</span>
+                    <span class="kwa">var</span> bytes <span class="opt">=</span> threeBlocks<span class="opt">[</span>bl<span class="opt">];</span>
+                    <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span> i<span class="opt">&lt;</span>bytes<span class="opt">.</span>Length<span class="opt">;</span> i<span class="opt">++)</span>
+                        <span class="kwd">check</span><span class="opt">(</span>incrementor<span class="opt">,</span> <span class="kwa">ref</span> rollingKey<span class="opt">,</span> bytes<span class="opt">[</span>i<span class="opt">],</span> mask<span class="opt">);</span>
+                <span class="opt">}</span>
+
+                <span class="kwa">var</span> lastBlock <span class="opt">=</span> threeBlocks<span class="opt">[</span>lastBlockId<span class="opt">];</span>
+                <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span> i<span class="opt">&lt;</span>threeEnd<span class="opt">;</span> i<span class="opt">++)</span>
+                    <span class="kwd">check</span><span class="opt">(</span>incrementor<span class="opt">,</span> <span class="kwa">ref</span> rollingKey<span class="opt">,</span> lastBlock<span class="opt">[</span>i<span class="opt">],</span> mask<span class="opt">);</span>
+            <span class="opt">}</span>
             <span class="kwa">return</span> <span class="kwd">summary</span><span class="opt">(</span>dict<span class="opt">);</span>
         <span class="opt">});</span>
     <span class="opt">}</span>
 
-    <span class="kwa">static</span> Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span>Wrapper<span class="opt">&gt;</span> <span class="kwd">countEnding</span><span class="opt">(</span><span class="kwa">int</span> l<span class="opt">,</span> <span class="kwa">long</span> mask<span class="opt">,</span> <span class="kwa">byte</span> b<span class="opt">)</span>
-    <span class="opt">{</span>
-        <span class="kwa">long</span> rollingKey <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
-        <span class="kwa">var</span> firstBlock <span class="opt">=</span> threeBlocks<span class="opt">[</span><span class="num">0</span><span class="opt">];</span>
-        <span class="kwa">var</span> start <span class="opt">=</span> threeStart<span class="opt">;</span>
-        <span class="kwa">while</span><span class="opt">(--</span>l<span class="opt">&gt;</span><span class="num">0</span><span class="opt">)</span> rollingKey <span class="opt">= (</span>rollingKey<span class="opt">&lt;&lt;</span><span class="num">2</span><span class="opt">) |</span> firstBlock<span class="opt">[</span>start<span class="opt">++];</span>
-        <span class="kwa">var</span> dict <span class="opt">=</span> <span class="kwa">new</span> Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span>Wrapper<span class="opt">&gt;();</span>
-        <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span>start<span class="opt">;</span> i<span class="opt">&lt;</span>firstBlock<span class="opt">.</span>Length<span class="opt">;</span> i<span class="opt">++)</span>
-            <span class="kwd">checkEnding</span><span class="opt">(</span>dict<span class="opt">,</span> <span class="kwa">ref</span> rollingKey<span class="opt">,</span> b<span class="opt">,</span> firstBlock<span class="opt">[</span>i<span class="opt">],</span> mask<span class="opt">);</span>
-
-        <span class="kwa">int</span> lastBlockId <span class="opt">=</span> threeBlocks<span class="opt">.</span>Count<span class="opt">-</span><span class="num">1</span><span class="opt">;</span> 
-        <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> bl<span class="opt">=</span><span class="num">1</span><span class="opt">;</span> bl<span class="opt">&lt;</span>lastBlockId<span class="opt">;</span> bl<span class="opt">++)</span>
-        <span class="opt">{</span>
-            <span class="kwa">var</span> bytes <span class="opt">=</span> threeBlocks<span class="opt">[</span>bl<span class="opt">];</span>
-            <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span> i<span class="opt">&lt;</span>bytes<span class="opt">.</span>Length<span class="opt">;</span> i<span class="opt">++)</span>
-                <span class="kwd">checkEnding</span><span class="opt">(</span>dict<span class="opt">,</span> <span class="kwa">ref</span> rollingKey<span class="opt">,</span> b<span class="opt">,</span> bytes<span class="opt">[</span>i<span class="opt">],</span> mask<span class="opt">);</span>
-        <span class="opt">}</span>
-
-        <span class="kwa">var</span> lastBlock <span class="opt">=</span> threeBlocks<span class="opt">[</span>lastBlockId<span class="opt">];</span>
-        <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span> i<span class="opt">&lt;</span>threeEnd<span class="opt">;</span> i<span class="opt">++)</span>
-            <span class="kwd">checkEnding</span><span class="opt">(</span>dict<span class="opt">,</span> <span class="kwa">ref</span> rollingKey<span class="opt">,</span> b<span class="opt">,</span> lastBlock<span class="opt">[</span>i<span class="opt">],</span> mask<span class="opt">);</span>
-        <span class="kwa">return</span> dict<span class="opt">;</span>
-    <span class="opt">}</span>
-
-    <span class="kwa">static</span> Task<span class="opt">&lt;</span><span class="kwa">string</span><span class="opt">&gt;</span> <span class="kwd">count4</span><span class="opt">(</span><span class="kwa">int</span> l<span class="opt">,</span> <span class="kwa">long</span> mask<span class="opt">,</span> Func<span class="opt">&lt;</span>Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span>Wrapper<span class="opt">&gt;,</span><span class="kwa">string</span><span class="opt">&gt;</span> summary<span class="opt">)</span>
-    <span class="opt">{</span>
-        <span class="kwa">return</span> Task<span class="opt">.</span>Factory<span class="opt">.</span><span class="kwd">ContinueWhenAll</span><span class="opt">(</span>
-            <span class="kwa">new</span> <span class="opt">[] {</span>
-                Task<span class="opt">.</span><span class="kwd">Run</span><span class="opt">(() =&gt;</span> <span class="kwd">countEnding</span><span class="opt">(</span>l<span class="opt">,</span> mask<span class="opt">,</span> <span class="num">0</span><span class="opt">)),</span>
-                Task<span class="opt">.</span><span class="kwd">Run</span><span class="opt">(() =&gt;</span> <span class="kwd">countEnding</span><span class="opt">(</span>l<span class="opt">,</span> mask<span class="opt">,</span> <span class="num">1</span><span class="opt">)),</span>
-                Task<span class="opt">.</span><span class="kwd">Run</span><span class="opt">(() =&gt;</span> <span class="kwd">countEnding</span><span class="opt">(</span>l<span class="opt">,</span> mask<span class="opt">,</span> <span class="num">2</span><span class="opt">)),</span>
-                Task<span class="opt">.</span><span class="kwd">Run</span><span class="opt">(() =&gt;</span> <span class="kwd">countEnding</span><span class="opt">(</span>l<span class="opt">,</span> mask<span class="opt">,</span> <span class="num">3</span><span class="opt">))</span>
-            <span class="opt">}</span>
-            <span class="opt">,</span> dicts <span class="opt">=&gt; {</span>
-                <span class="kwa">var</span> d <span class="opt">=</span> <span class="kwa">new</span> Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span>Wrapper<span class="opt">&gt;(</span>dicts<span class="opt">.</span><span class="kwd">Sum</span><span class="opt">(</span>i <span class="opt">=&gt;</span> i<span class="opt">.</span>Result<span class="opt">.</span>Count<span class="opt">));</span>
-                <span class="kwa">for</span><span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span> i<span class="opt">&lt;</span>dicts<span class="opt">.</span>Length<span class="opt">;</span> i<span class="opt">++)</span>
-                    <span class="kwa">foreach</span><span class="opt">(</span><span class="kwa">var</span> kv <span class="kwa">in</span> dicts<span class="opt">[</span>i<span class="opt">].</span>Result<span class="opt">)</span>
-                        d<span class="opt">[(</span>kv<span class="opt">.</span>Key <span class="opt">&lt;&lt;</span> <span class="num">2</span><span class="opt">) | (</span><span class="kwa">long</span><span class="opt">)</span>i<span class="opt">] =</span> kv<span class="opt">.</span>Value<span class="opt">;</span>
-                <span class="kwa">return</span> <span class="kwd">summary</span><span class="opt">(</span>d<span class="opt">);</span>
-            <span class="opt">});</span>
-    <span class="opt">}</span>
-
-    <span class="kwa">static string</span> <span class="kwd">writeFrequencies</span><span class="opt">(</span>Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span>Wrapper<span class="opt">&gt;</span> freq<span class="opt">,</span> <span class="kwa">int</span> fragmentLength<span class="opt">)</span>
+    <span class="kwa">static string</span> <span class="kwd">writeFrequencies</span><span class="opt">(</span>Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span><span class="kwa">int</span><span class="opt">&gt;</span> freq<span class="opt">,</span> <span class="kwa">int</span> fragmentLength<span class="opt">)</span>
     <span class="opt">{</span>
         <span class="kwa">var</span> sb <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">StringBuilder</span><span class="opt">();</span>
-        <span class="kwa">double</span> percent <span class="opt">=</span> <span class="num">100.0</span> <span class="opt">/</span> freq<span class="opt">.</span>Values<span class="opt">.</span><span class="kwd">Sum</span><span class="opt">(</span>i <span class="opt">=&gt;</span> i<span class="opt">.</span>v<span class="opt">);</span>
-        <span class="kwa">foreach</span><span class="opt">(</span><span class="kwa">var</span> kv <span class="kwa">in</span> freq<span class="opt">.</span><span class="kwd">OrderByDescending</span><span class="opt">(</span>i <span class="opt">=&gt;</span> i<span class="opt">.</span>Value<span class="opt">.</span>v<span class="opt">))</span>
+        <span class="kwa">double</span> percent <span class="opt">=</span> <span class="num">100.0</span> <span class="opt">/</span> freq<span class="opt">.</span>Values<span class="opt">.</span><span class="kwd">Sum</span><span class="opt">();</span>
+        <span class="kwa">foreach</span><span class="opt">(</span><span class="kwa">var</span> kv <span class="kwa">in</span> freq<span class="opt">.</span><span class="kwd">OrderByDescending</span><span class="opt">(</span>i <span class="opt">=&gt;</span> i<span class="opt">.</span>Value<span class="opt">))</span>
         <span class="opt">{</span>
             <span class="kwa">var</span> keyChars <span class="opt">=</span> <span class="kwa">new char</span><span class="opt">[</span>fragmentLength<span class="opt">];</span>
             <span class="kwa">var</span> key <span class="opt">=</span> kv<span class="opt">.</span>Key<span class="opt">;</span>
@@ -247,20 +260,19 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
                 keyChars<span class="opt">[</span>i<span class="opt">] =</span> tochar<span class="opt">[</span>key <span class="opt">&amp;</span> <span class="num">0x3</span><span class="opt">];</span>
                 key <span class="opt">&gt;&gt;=</span> <span class="num">2</span><span class="opt">;</span>
             <span class="opt">}</span>
-            sb<span class="opt">.</span><span class="kwd">Append</span><span class="opt">(</span>keyChars<span class="opt">);</span>   
+            sb<span class="opt">.</span><span class="kwd">Append</span><span class="opt">(</span>keyChars<span class="opt">);</span>
             sb<span class="opt">.</span><span class="kwd">Append</span><span class="opt">(</span><span class="str">&quot; &quot;</span><span class="opt">);</span>
-            sb<span class="opt">.</span><span class="kwd">AppendLine</span><span class="opt">((</span>kv<span class="opt">.</span>Value<span class="opt">.</span>v <span class="opt">*</span> percent<span class="opt">).</span><span class="kwd">ToString</span><span class="opt">(</span><span class="str">&quot;F3&quot;</span><span class="opt">));</span>
+            sb<span class="opt">.</span><span class="kwd">AppendLine</span><span class="opt">((</span>kv<span class="opt">.</span>Value <span class="opt">*</span> percent<span class="opt">).</span><span class="kwd">ToString</span><span class="opt">(</span><span class="str">&quot;F3&quot;</span><span class="opt">));</span>
         <span class="opt">}</span>
         <span class="kwa">return</span> sb<span class="opt">.</span><span class="kwd">ToString</span><span class="opt">();</span>
     <span class="opt">}</span>
 
-    <span class="kwa">static string</span> <span class="kwd">writeCount</span><span class="opt">(</span>Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span>Wrapper<span class="opt">&gt;</span> dictionary<span class="opt">,</span> <span class="kwa">string</span> fragment<span class="opt">)</span>
+    <span class="kwa">static string</span> <span class="kwd">writeCount</span><span class="opt">(</span>Dictionary<span class="opt">&lt;</span><span class="kwa">long</span><span class="opt">,</span><span class="kwa">int</span><span class="opt">&gt;</span> dictionary<span class="opt">,</span> <span class="kwa">string</span> fragment<span class="opt">)</span>
     <span class="opt">{</span>
         <span class="kwa">long</span> key <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
         <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">int</span> i<span class="opt">=</span><span class="num">0</span><span class="opt">;</span> i<span class="opt">&lt;</span>fragment<span class="opt">.</span>Length<span class="opt">; ++</span>i<span class="opt">)</span>
             key <span class="opt">= (</span>key <span class="opt">&lt;&lt;</span> <span class="num">2</span><span class="opt">) |</span> tonum<span class="opt">[</span>fragment<span class="opt">[</span>i<span class="opt">]];</span>
-        Wrapper w<span class="opt">;</span>
-        <span class="kwa">var</span> n <span class="opt">=</span> dictionary<span class="opt">.</span><span class="kwd">TryGetValue</span><span class="opt">(</span>key<span class="opt">,</span> <span class="kwa">out</span> w<span class="opt">) ?</span> w<span class="opt">.</span>v <span class="opt">:</span> <span class="num">0</span><span class="opt">;</span>
+        <span class="kwa">var</span> n <span class="opt">=</span> dictionary<span class="opt">.</span><span class="kwd">TryGetValue</span><span class="opt">(</span>key<span class="opt">,</span> <span class="kwa">out var</span> v<span class="opt">) ?</span> v <span class="opt">:</span> <span class="num">0</span><span class="opt">;</span>
         <span class="kwa">return string</span><span class="opt">.</span><span class="kwd">Concat</span><span class="opt">(</span>n<span class="opt">.</span><span class="kwd">ToString</span><span class="opt">(),</span> <span class="str">&quot;</span><span class="esc">\t</span><span class="str">&quot;</span><span class="opt">,</span> fragment<span class="opt">);</span>
     <span class="opt">}</span>
 
@@ -271,7 +283,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
         tonum<span class="opt">[</span><span class="str">&apos;t&apos;</span><span class="opt">] =</span> <span class="num">3</span><span class="opt">;</span> tonum<span class="opt">[</span><span class="str">&apos;T&apos;</span><span class="opt">] =</span> <span class="num">3</span><span class="opt">;</span>
         tonum<span class="opt">[</span><span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">] =</span> <span class="num">255</span><span class="opt">;</span> tonum<span class="opt">[</span><span class="str">&apos;&gt;&apos;</span><span class="opt">] =</span> <span class="num">255</span><span class="opt">;</span> tonum<span class="opt">[</span><span class="num">255</span><span class="opt">] =</span> <span class="num">255</span><span class="opt">;</span>
 
-        <span class="kwd">loadThreeData</span><span class="opt">();</span>
+        <span class="kwd">LoadThreeData</span><span class="opt">();</span>
 
         Parallel<span class="opt">.</span><span class="kwd">ForEach</span><span class="opt">(</span>threeBlocks<span class="opt">,</span> bytes <span class="opt">=&gt;</span>
         <span class="opt">{</span>
@@ -279,21 +291,21 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
                 bytes<span class="opt">[</span>i<span class="opt">] =</span> tonum<span class="opt">[</span>bytes<span class="opt">[</span>i<span class="opt">]];</span>
         <span class="opt">});</span>
 
-        <span class="kwa">var</span> task18 <span class="opt">=</span> <span class="kwd">count4</span><span class="opt">(</span><span class="num">18</span><span class="opt">,</span> <span class="num">34359738367</span><span class="opt">,</span> d <span class="opt">=&gt;</span> <span class="kwd">writeCount</span><span class="opt">(</span>d<span class="opt">,</span> <span class="str">&quot;GGTATTTTAATTTATAGT&quot;</span><span class="opt">));</span>
-        <span class="kwa">var</span> task12 <span class="opt">=</span> <span class="kwd">count4</span><span class="opt">(</span><span class="num">12</span><span class="opt">,</span> <span class="num">8388607</span><span class="opt">,</span> d <span class="opt">=&gt;</span> <span class="kwd">writeCount</span><span class="opt">(</span>d<span class="opt">,</span> <span class="str">&quot;GGTATTTTAATT&quot;</span><span class="opt">));</span>
+        <span class="kwa">var</span> task18 <span class="opt">=</span> <span class="kwd">count</span><span class="opt">(</span><span class="num">18</span><span class="opt">,</span> <span class="num">34359738367</span><span class="opt">,</span> d <span class="opt">=&gt;</span> <span class="kwd">writeCount</span><span class="opt">(</span>d<span class="opt">,</span> <span class="str">&quot;GGTATTTTAATTTATAGT&quot;</span><span class="opt">));</span>
+        <span class="kwa">var</span> task12 <span class="opt">=</span> <span class="kwd">count</span><span class="opt">(</span><span class="num">12</span><span class="opt">,</span> <span class="num">8388607</span><span class="opt">,</span> d <span class="opt">=&gt;</span> <span class="kwd">writeCount</span><span class="opt">(</span>d<span class="opt">,</span> <span class="str">&quot;GGTATTTTAATT&quot;</span><span class="opt">));</span>
         <span class="kwa">var</span> task6 <span class="opt">=</span> <span class="kwd">count</span><span class="opt">(</span><span class="num">6</span><span class="opt">,</span> <span class="num">0</span>b1111111111<span class="opt">,</span> d <span class="opt">=&gt;</span> <span class="kwd">writeCount</span><span class="opt">(</span>d<span class="opt">,</span> <span class="str">&quot;GGTATT&quot;</span><span class="opt">));</span>
-        <span class="kwa">var</span> task4 <span class="opt">=</span> <span class="kwd">count</span><span class="opt">(</span><span class="num">4</span><span class="opt">,</span> <span class="num">0</span>b111111<span class="opt">,</span> d <span class="opt">=&gt;</span> <span class="kwd">writeCount</span><span class="opt">(</span>d<span class="opt">,</span> <span class="str">&quot;GGTA&quot;</span><span class="opt">));</span>
-        <span class="kwa">var</span> task3 <span class="opt">=</span> <span class="kwd">count</span><span class="opt">(</span><span class="num">3</span><span class="opt">,</span> <span class="num">0</span>b1111<span class="opt">,</span> d <span class="opt">=&gt;</span> <span class="kwd">writeCount</span><span class="opt">(</span>d<span class="opt">,</span> <span class="str">&quot;GGT&quot;</span><span class="opt">));</span>
-        <span class="kwa">var</span> task2 <span class="opt">=</span> <span class="kwd">count</span><span class="opt">(</span><span class="num">2</span><span class="opt">,</span> <span class="num">0</span>b11<span class="opt">,</span> d <span class="opt">=&gt;</span> <span class="kwd">writeFrequencies</span><span class="opt">(</span>d<span class="opt">,</span> <span class="num">2</span><span class="opt">));</span>
         <span class="kwa">var</span> task1 <span class="opt">=</span> <span class="kwd">count</span><span class="opt">(</span><span class="num">1</span><span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> d <span class="opt">=&gt;</span> <span class="kwd">writeFrequencies</span><span class="opt">(</span>d<span class="opt">,</span> <span class="num">1</span><span class="opt">));</span>
-
-        Console<span class="opt">.</span>Out<span class="opt">.</span><span class="kwd">WriteLineAsync</span><span class="opt">(</span>task1<span class="opt">.</span>Result<span class="opt">);</span>
-        Console<span class="opt">.</span>Out<span class="opt">.</span><span class="kwd">WriteLineAsync</span><span class="opt">(</span>task2<span class="opt">.</span>Result<span class="opt">);</span>
-        Console<span class="opt">.</span>Out<span class="opt">.</span><span class="kwd">WriteLineAsync</span><span class="opt">(</span>task3<span class="opt">.</span>Result<span class="opt">);</span>
-        Console<span class="opt">.</span>Out<span class="opt">.</span><span class="kwd">WriteLineAsync</span><span class="opt">(</span>task4<span class="opt">.</span>Result<span class="opt">);</span>
-        Console<span class="opt">.</span>Out<span class="opt">.</span><span class="kwd">WriteLineAsync</span><span class="opt">(</span>task6<span class="opt">.</span>Result<span class="opt">);</span>
-        Console<span class="opt">.</span>Out<span class="opt">.</span><span class="kwd">WriteLineAsync</span><span class="opt">(</span>task12<span class="opt">.</span>Result<span class="opt">);</span>
-        Console<span class="opt">.</span>Out<span class="opt">.</span><span class="kwd">WriteLineAsync</span><span class="opt">(</span>task18<span class="opt">.</span>Result<span class="opt">);</span>
+        <span class="kwa">var</span> task2 <span class="opt">=</span> <span class="kwd">count</span><span class="opt">(</span><span class="num">2</span><span class="opt">,</span> <span class="num">0</span>b11<span class="opt">,</span> d <span class="opt">=&gt;</span> <span class="kwd">writeFrequencies</span><span class="opt">(</span>d<span class="opt">,</span> <span class="num">2</span><span class="opt">));</span>
+        <span class="kwa">var</span> task3 <span class="opt">=</span> <span class="kwd">count</span><span class="opt">(</span><span class="num">3</span><span class="opt">,</span> <span class="num">0</span>b1111<span class="opt">,</span> d <span class="opt">=&gt;</span> <span class="kwd">writeCount</span><span class="opt">(</span>d<span class="opt">,</span> <span class="str">&quot;GGT&quot;</span><span class="opt">));</span>
+        <span class="kwa">var</span> task4 <span class="opt">=</span> <span class="kwd">count</span><span class="opt">(</span><span class="num">4</span><span class="opt">,</span> <span class="num">0</span>b111111<span class="opt">,</span> d <span class="opt">=&gt;</span> <span class="kwd">writeCount</span><span class="opt">(</span>d<span class="opt">,</span> <span class="str">&quot;GGTA&quot;</span><span class="opt">));</span>
+        
+        Console<span class="opt">.</span><span class="kwd">WriteLine</span><span class="opt">(</span>task1<span class="opt">.</span>Result<span class="opt">);</span>
+        Console<span class="opt">.</span><span class="kwd">WriteLine</span><span class="opt">(</span>task2<span class="opt">.</span>Result<span class="opt">);</span>
+        Console<span class="opt">.</span><span class="kwd">WriteLine</span><span class="opt">(</span>task3<span class="opt">.</span>Result<span class="opt">);</span>
+        Console<span class="opt">.</span><span class="kwd">WriteLine</span><span class="opt">(</span>task4<span class="opt">.</span>Result<span class="opt">);</span>
+        Console<span class="opt">.</span><span class="kwd">WriteLine</span><span class="opt">(</span>task6<span class="opt">.</span>Result<span class="opt">);</span>
+        Console<span class="opt">.</span><span class="kwd">WriteLine</span><span class="opt">(</span>task12<span class="opt">.</span>Result<span class="opt">);</span>
+        Console<span class="opt">.</span><span class="kwd">WriteLine</span><span class="opt">(</span>task18<span class="opt">.</span>Result<span class="opt">);</span>
     <span class="opt">}</span>
 <span class="opt">}</span>
     </pre>
@@ -308,7 +320,7 @@ sdk/2.1.300
 "System.GC.Server": true
 
 
-Wed, 06 Jun 2018 03:04:52 GMT
+Tue, 17 Jul 2018 04:31:52 GMT
 
 MAKE:
 cp knucleotide.csharpcore-9.csharpcore Program.cs
@@ -323,16 +335,16 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 
   Restoring packages for /home/dunham/benchmarksgame_quadcore/knucleotide/tmp/tmp.csproj...
   Generating MSBuild file /home/dunham/benchmarksgame_quadcore/knucleotide/tmp/obj/tmp.csproj.nuget.g.props.
-  Restore completed in 262.16 ms for /home/dunham/benchmarksgame_quadcore/knucleotide/tmp/tmp.csproj.
+  Restore completed in 742.29 ms for /home/dunham/benchmarksgame_quadcore/knucleotide/tmp/tmp.csproj.
   tmp -&gt; /home/dunham/benchmarksgame_quadcore/knucleotide/tmp/bin/Release/netcoreapp2.1/tmp.dll
 
 Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:02.48
+Time Elapsed 00:00:09.75
 
-3.10s to complete and log all make actions
+13.80s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/dotnet ./bin/Release/netcoreapp2.1/tmp.dll 0 &lt; knucleotide-input25000000.txt

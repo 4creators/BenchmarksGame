@@ -136,20 +136,20 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Erlang/OTP 20 [erts-9.1] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:10] [hipe] [kernel-poll:false]
+Erlang/OTP 21 [erts-10.0] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1] [hipe]
 
 
-Wed, 08 Nov 2017 00:39:32 GMT
+Tue, 17 Jul 2018 19:53:02 GMT
 
 MAKE:
 mv fannkuchredux.hipe fannkuchredux.erl
-/opt/src/otp_src_20.1/bin/erlc +native +&quot;{hipe, [o3]}&quot; fannkuchredux.erl
+/opt/src/otp_src_21.0/bin/erlc +native +&quot;{hipe, [o3]}&quot; fannkuchredux.erl
 rm fannkuchredux.erl
 
-1.02s to complete and log all make actions
+1.07s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/otp_src_20.1/bin/erl -smp enable -noshell -run  fannkuchredux main 12
+/opt/src/otp_src_21.0/bin/erl -smp enable -noshell -run  fannkuchredux main 12
 
 PROGRAM OUTPUT:
 3968050

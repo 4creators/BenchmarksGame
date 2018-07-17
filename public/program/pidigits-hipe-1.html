@@ -87,20 +87,20 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Erlang/OTP 20 [erts-9.1] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:10] [hipe] [kernel-poll:false]
+Erlang/OTP 21 [erts-10.0] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1] [hipe]
 
 
-Wed, 08 Nov 2017 01:00:48 GMT
+Tue, 17 Jul 2018 20:17:39 GMT
 
 MAKE:
 mv pidigits.hipe pidigits.erl
-/opt/src/otp_src_20.1/bin/erlc +native +&quot;{hipe, [o3]}&quot; pidigits.erl
+/opt/src/otp_src_21.0/bin/erlc +native +&quot;{hipe, [o3]}&quot; pidigits.erl
 rm pidigits.erl
 
-0.53s to complete and log all make actions
+0.62s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/otp_src_20.1/bin/erl -smp enable -noshell -run  pidigits main 10000
+/opt/src/otp_src_21.0/bin/erl -smp enable -noshell -run  pidigits main 10000
 
 (TRUNCATED) PROGRAM OUTPUT:
 3141592653	:10

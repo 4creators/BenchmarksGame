@@ -191,19 +191,19 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Erlang/OTP 20 [erts-9.1] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:10] [hipe] [kernel-poll:false]
+Erlang/OTP 21 [erts-10.0] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1] [hipe]
 
 
-Mon, 26 Mar 2018 19:07:15 GMT
+Tue, 17 Jul 2018 20:28:22 GMT
 
 MAKE:
 mv revcomp.hipe-4.hipe revcomp.erl
-/opt/src/otp_src_20.1/bin/erlc +native +&quot;{hipe, [o3]}&quot; revcomp.erl
+/opt/src/otp_src_21.0/bin/erlc +native +&quot;{hipe, [o3]}&quot; revcomp.erl
 
-2.59s to complete and log all make actions
+2.66s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/otp_src_20.1/bin/erl -smp enable -noshell -run  revcomp main 0 &lt; revcomp-input100000000.txt
+/opt/src/otp_src_21.0/bin/erl -smp enable -noshell -run  revcomp main 0 &lt; revcomp-input100000000.txt
 
 (TRUNCATED) PROGRAM OUTPUT:
 &gt;ONE Homo sapiens alu

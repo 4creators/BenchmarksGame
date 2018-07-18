@@ -22,80 +22,80 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-# The Computer Language Benchmarks Game
-# https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
-#
-# contributed by Joerg Baumann
+<span class="slc"># The Computer Language Benchmarks Game</span>
+<span class="slc"># https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">#</span>
+<span class="slc"># contributed by Joerg Baumann</span>
 
-from contextlib import closing
-from itertools import islice
-from os import cpu_count
-from sys import argv, stdout
+<span class="kwa">from</span> contextlib <span class="kwa">import</span> closing
+<span class="kwa">from</span> itertools <span class="kwa">import</span> islice
+<span class="kwa">from</span> os <span class="kwa">import</span> cpu_count
+<span class="kwa">from</span> sys <span class="kwa">import</span> argv<span class="opt">,</span> stdout
 
-def pixels(y, n, abs):
-    range7 = bytearray(range(7))
-    pixel_bits = bytearray(128 &gt;&gt; pos for pos in range(8))
-    c1 = 2. / float(n)
-    c0 = -1.5 + 1j * y * c1 - 1j
-    x = 0
-    while True:
-        pixel = 0
-        c = x * c1 + c0
-        for pixel_bit in pixel_bits:
-            z = c
-            for _ in range7:
-                for _ in range7:
-                    z = z * z + c
-                if abs(z) &gt;= 2.: break
-            else:
-                pixel += pixel_bit
-            c += c1
-        yield pixel
-        x += 8
+<span class="kwa">def</span> <span class="kwd">pixels</span><span class="opt">(</span>y<span class="opt">,</span> n<span class="opt">,</span> <span class="kwb">abs</span><span class="opt">):</span>
+    range7 <span class="opt">=</span> <span class="kwd">bytearray</span><span class="opt">(</span><span class="kwb">range</span><span class="opt">(</span><span class="num">7</span><span class="opt">))</span>
+    pixel_bits <span class="opt">=</span> <span class="kwd">bytearray</span><span class="opt">(</span><span class="num">128</span> <span class="opt">&gt;&gt;</span> pos <span class="kwa">for</span> pos <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span><span class="num">8</span><span class="opt">))</span>
+    c1 <span class="opt">=</span> <span class="num">2</span><span class="opt">. /</span> <span class="kwb">float</span><span class="opt">(</span>n<span class="opt">)</span>
+    c0 <span class="opt">= -</span><span class="num">1.5</span> <span class="opt">+</span> <span class="num">1</span>j <span class="opt">*</span> y <span class="opt">*</span> c1 <span class="opt">-</span> <span class="num">1</span>j
+    x <span class="opt">=</span> <span class="num">0</span>
+    <span class="kwa">while True</span><span class="opt">:</span>
+        pixel <span class="opt">=</span> <span class="num">0</span>
+        c <span class="opt">=</span> x <span class="opt">*</span> c1 <span class="opt">+</span> c0
+        <span class="kwa">for</span> pixel_bit <span class="kwa">in</span> pixel_bits<span class="opt">:</span>
+            z <span class="opt">=</span> c
+            <span class="kwa">for</span> _ <span class="kwa">in</span> range7<span class="opt">:</span>
+                <span class="kwa">for</span> _ <span class="kwa">in</span> range7<span class="opt">:</span>
+                    z <span class="opt">=</span> z <span class="opt">*</span> z <span class="opt">+</span> c
+                <span class="kwa">if</span> <span class="kwb">abs</span><span class="opt">(</span>z<span class="opt">) &gt;=</span> <span class="num">2</span><span class="opt">.:</span> <span class="kwa">break</span>
+            <span class="kwa">else</span><span class="opt">:</span>
+                pixel <span class="opt">+=</span> pixel_bit
+            c <span class="opt">+=</span> c1
+        <span class="kwa">yield</span> pixel
+        x <span class="opt">+=</span> <span class="num">8</span>
 
-def compute_row(p):
-    y, n = p
+<span class="kwa">def</span> <span class="kwd">compute_row</span><span class="opt">(</span>p<span class="opt">):</span>
+    y<span class="opt">,</span> n <span class="opt">=</span> p
 
-    result = bytearray(islice(pixels(y, n, abs), (n + 7) // 8))
-    result[-1] &amp;= 0xff &lt;&lt; (8 - n % 8)
-    return y, result
+    result <span class="opt">=</span> <span class="kwd">bytearray</span><span class="opt">(</span><span class="kwd">islice</span><span class="opt">(</span><span class="kwd">pixels</span><span class="opt">(</span>y<span class="opt">,</span> n<span class="opt">,</span> <span class="kwb">abs</span><span class="opt">), (</span>n <span class="opt">+</span> <span class="num">7</span><span class="opt">) //</span> <span class="num">8</span><span class="opt">))</span>
+    result<span class="opt">[-</span><span class="num">1</span><span class="opt">] &amp;=</span> <span class="num">0xff</span> <span class="opt">&lt;&lt; (</span><span class="num">8</span> <span class="opt">-</span> n <span class="opt">%</span> <span class="num">8</span><span class="opt">)</span>
+    <span class="kwa">return</span> y<span class="opt">,</span> result
 
-def ordered_rows(rows, n):
-    order = [None] * n
-    i = 0
-    j = n
-    while i &lt; len(order):
-        if j &gt; 0:
-            row = next(rows)
-            order[row[0]] = row
-            j -= 1
+<span class="kwa">def</span> <span class="kwd">ordered_rows</span><span class="opt">(</span>rows<span class="opt">,</span> n<span class="opt">):</span>
+    order <span class="opt">= [</span><span class="kwa">None</span><span class="opt">] *</span> n
+    i <span class="opt">=</span> <span class="num">0</span>
+    j <span class="opt">=</span> n
+    <span class="kwa">while</span> i <span class="opt">&lt;</span> <span class="kwb">len</span><span class="opt">(</span>order<span class="opt">):</span>
+        <span class="kwa">if</span> j <span class="opt">&gt;</span> <span class="num">0</span><span class="opt">:</span>
+            row <span class="opt">=</span> <span class="kwd">next</span><span class="opt">(</span>rows<span class="opt">)</span>
+            order<span class="opt">[</span>row<span class="opt">[</span><span class="num">0</span><span class="opt">]] =</span> row
+            j <span class="opt">-=</span> <span class="num">1</span>
 
-        if order[i]:
-            yield order[i]
-            order[i] = None
-            i += 1
+        <span class="kwa">if</span> order<span class="opt">[</span>i<span class="opt">]:</span>
+            <span class="kwa">yield</span> order<span class="opt">[</span>i<span class="opt">]</span>
+            order<span class="opt">[</span>i<span class="opt">] =</span> <span class="kwa">None</span>
+            i <span class="opt">+=</span> <span class="num">1</span>
 
-def compute_rows(n, f):
-    row_jobs = ((y, n) for y in range(n))
+<span class="kwa">def</span> <span class="kwd">compute_rows</span><span class="opt">(</span>n<span class="opt">,</span> f<span class="opt">):</span>
+    row_jobs <span class="opt">= ((</span>y<span class="opt">,</span> n<span class="opt">)</span> <span class="kwa">for</span> y <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span>n<span class="opt">))</span>
 
-    if cpu_count() &lt; 2:
-        yield from map(f, row_jobs)
-    else:
-        from multiprocessing import Pool
-        with Pool() as pool:
-            unordered_rows = pool.imap_unordered(f, row_jobs)
-            yield from ordered_rows(unordered_rows, n)
+    <span class="kwa">if</span> <span class="kwd">cpu_count</span><span class="opt">() &lt;</span> <span class="num">2</span><span class="opt">:</span>
+        <span class="kwa">yield from</span> <span class="kwb">map</span><span class="opt">(</span>f<span class="opt">,</span> row_jobs<span class="opt">)</span>
+    <span class="kwa">else</span><span class="opt">:</span>
+        <span class="kwa">from</span> multiprocessing <span class="kwa">import</span> Pool
+        with <span class="kwd">Pool</span><span class="opt">()</span> <span class="kwa">as</span> pool<span class="opt">:</span>
+            unordered_rows <span class="opt">=</span> pool<span class="opt">.</span><span class="kwd">imap_unordered</span><span class="opt">(</span>f<span class="opt">,</span> row_jobs<span class="opt">)</span>
+            <span class="kwa">yield from</span> <span class="kwd">ordered_rows</span><span class="opt">(</span>unordered_rows<span class="opt">,</span> n<span class="opt">)</span>
 
-def mandelbrot(n):
-    write = stdout.buffer.write
+<span class="kwa">def</span> <span class="kwd">mandelbrot</span><span class="opt">(</span>n<span class="opt">):</span>
+    write <span class="opt">=</span> stdout<span class="opt">.</span><span class="kwb">buffer</span><span class="opt">.</span>write
 
-    with closing(compute_rows(n, compute_row)) as rows:
-        write(&quot;P4\n{0} {0}\n&quot;.format(n).encode())
-        for row in rows:
-            write(row[1])
+    with <span class="kwd">closing</span><span class="opt">(</span><span class="kwd">compute_rows</span><span class="opt">(</span>n<span class="opt">,</span> compute_row<span class="opt">))</span> <span class="kwa">as</span> rows<span class="opt">:</span>
+        <span class="kwd">write</span><span class="opt">(</span><span class="str">&quot;P4</span><span class="esc">\n</span><span class="str"></span><span class="ipl">{0} {0}</span><span class="str"></span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">.</span><span class="kwd">format</span><span class="opt">(</span>n<span class="opt">).</span><span class="kwd">encode</span><span class="opt">())</span>
+        <span class="kwa">for</span> row <span class="kwa">in</span> rows<span class="opt">:</span>
+            <span class="kwd">write</span><span class="opt">(</span>row<span class="opt">[</span><span class="num">1</span><span class="opt">])</span>
 
-if __name__ == &apos;__main__&apos;:
-    mandelbrot(int(argv[1]))
+<span class="kwa">if</span> __name__ <span class="opt">==</span> <span class="str">&apos;__main__&apos;</span><span class="opt">:</span>
+    <span class="kwd">mandelbrot</span><span class="opt">(</span><span class="kwb">int</span><span class="opt">(</span>argv<span class="opt">[</span><span class="num">1</span><span class="opt">]))</span>
     </pre>
   </section>
   <section>
@@ -106,7 +106,7 @@ NOTES:
 Python 3.7.0
 
 
-Thu, 28 Jun 2018 19:35:59 GMT
+Wed, 18 Jul 2018 20:33:10 GMT
 
 MAKE:
 mv mandelbrot.python3-7.python3 mandelbrot.python3-7.py

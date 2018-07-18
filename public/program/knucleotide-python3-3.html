@@ -22,192 +22,192 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-# The Computer Language Benchmarks Game
-# https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
-#
-# submitted by Joerg Baumann
+<span class="slc"># The Computer Language Benchmarks Game</span>
+<span class="slc"># https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">#</span>
+<span class="slc"># submitted by Joerg Baumann</span>
 
-from os import cpu_count
-from sys import stdin
-from collections import defaultdict
-from itertools import starmap, chain
-from multiprocessing import Pool
+<span class="kwa">from</span> os <span class="kwa">import</span> cpu_count
+<span class="kwa">from</span> sys <span class="kwa">import</span> stdin
+<span class="kwa">from</span> collections <span class="kwa">import</span> defaultdict
+<span class="kwa">from</span> itertools <span class="kwa">import</span> starmap<span class="opt">,</span> chain
+<span class="kwa">from</span> multiprocessing <span class="kwa">import</span> Pool
 
-lean_buffer = {}
+lean_buffer <span class="opt">= {}</span>
 
-def lean_args(sequence, reading_frames, i, j):
-    global lean_buffer
+<span class="kwa">def</span> <span class="kwd">lean_args</span><span class="opt">(</span>sequence<span class="opt">,</span> reading_frames<span class="opt">,</span> i<span class="opt">,</span> j<span class="opt">):</span>
+    <span class="kwa">global</span> lean_buffer
 
-    lean_key = len(lean_buffer)
-    lean_buffer[lean_key] = sequence
-    return lean_key, reading_frames, i, j
+    lean_key <span class="opt">=</span> <span class="kwb">len</span><span class="opt">(</span>lean_buffer<span class="opt">)</span>
+    lean_buffer<span class="opt">[</span>lean_key<span class="opt">] =</span> sequence
+    <span class="kwa">return</span> lean_key<span class="opt">,</span> reading_frames<span class="opt">,</span> i<span class="opt">,</span> j
 
-class lean_call:
-    def __init__(self, func):
-        self.func = func
+<span class="kwa">class</span> lean_call<span class="opt">:</span>
+    <span class="kwa">def</span> <span class="kwd">__init__</span><span class="opt">(</span>self<span class="opt">,</span> func<span class="opt">):</span>
+        self<span class="opt">.</span>func <span class="opt">=</span> func
 
-    def __call__(self, lean_key, reading_frames, i, j):
-        global lean_buffer
+    <span class="kwa">def</span> <span class="kwd">__call__</span><span class="opt">(</span>self<span class="opt">,</span> lean_key<span class="opt">,</span> reading_frames<span class="opt">,</span> i<span class="opt">,</span> j<span class="opt">):</span>
+        <span class="kwa">global</span> lean_buffer
 
-        sequence = lean_buffer[lean_key]
-        results = self.func(sequence, reading_frames, i, j)
-        lean_results = []
-        for frame, n, frequences in results:
-            lean_frequences = defaultdict(int)
-            for reading_frame, bits_list in reading_frames:
-                if reading_frame == frame:
-                    for bits in bits_list:
-                        lean_frequences[bits] = frequences[bits]
-            lean_results.append((frame, n, lean_frequences))
-        return lean_results
+        sequence <span class="opt">=</span> lean_buffer<span class="opt">[</span>lean_key<span class="opt">]</span>
+        results <span class="opt">=</span> self<span class="opt">.</span><span class="kwd">func</span><span class="opt">(</span>sequence<span class="opt">,</span> reading_frames<span class="opt">,</span> i<span class="opt">,</span> j<span class="opt">)</span>
+        lean_results <span class="opt">= []</span>
+        <span class="kwa">for</span> frame<span class="opt">,</span> n<span class="opt">,</span> frequences <span class="kwa">in</span> results<span class="opt">:</span>
+            lean_frequences <span class="opt">=</span> <span class="kwd">defaultdict</span><span class="opt">(</span><span class="kwb">int</span><span class="opt">)</span>
+            <span class="kwa">for</span> reading_frame<span class="opt">,</span> bits_list <span class="kwa">in</span> reading_frames<span class="opt">:</span>
+                <span class="kwa">if</span> reading_frame <span class="opt">==</span> frame<span class="opt">:</span>
+                    <span class="kwa">for</span> bits <span class="kwa">in</span> bits_list<span class="opt">:</span>
+                        lean_frequences<span class="opt">[</span>bits<span class="opt">] =</span> frequences<span class="opt">[</span>bits<span class="opt">]</span>
+            lean_results<span class="opt">.</span><span class="kwd">append</span><span class="opt">((</span>frame<span class="opt">,</span> n<span class="opt">,</span> lean_frequences<span class="opt">))</span>
+        <span class="kwa">return</span> lean_results
 
-def count_frequencies(sequence, reading_frames, i, j):
-    frames = tuple(
-        sorted([frame for frame,_ in reading_frames], reverse=True))
-    frequences_mask_list = tuple(
-        ((defaultdict(int), (1 &lt;&lt; (2 * frame)) - 1) for frame in frames))
-    frame = frames[0]
-    frequences, mask = frequences_mask_list[0]
-    short_frame_frequences = frequences_mask_list[1:]
+<span class="kwa">def</span> <span class="kwd">count_frequencies</span><span class="opt">(</span>sequence<span class="opt">,</span> reading_frames<span class="opt">,</span> i<span class="opt">,</span> j<span class="opt">):</span>
+    frames <span class="opt">=</span> <span class="kwb">tuple</span><span class="opt">(</span>
+        <span class="kwb">sorted</span><span class="opt">([</span>frame <span class="kwa">for</span> frame<span class="opt">,</span>_ <span class="kwa">in</span> reading_frames<span class="opt">],</span> reverse<span class="opt">=</span><span class="kwa">True</span><span class="opt">))</span>
+    frequences_mask_list <span class="opt">=</span> <span class="kwb">tuple</span><span class="opt">(</span>
+        <span class="opt">((</span><span class="kwd">defaultdict</span><span class="opt">(</span><span class="kwb">int</span><span class="opt">), (</span><span class="num">1</span> <span class="opt">&lt;&lt; (</span><span class="num">2</span> <span class="opt">*</span> frame<span class="opt">)) -</span> <span class="num">1</span><span class="opt">)</span> <span class="kwa">for</span> frame <span class="kwa">in</span> frames<span class="opt">))</span>
+    frame <span class="opt">=</span> frames<span class="opt">[</span><span class="num">0</span><span class="opt">]</span>
+    frequences<span class="opt">,</span> mask <span class="opt">=</span> frequences_mask_list<span class="opt">[</span><span class="num">0</span><span class="opt">]</span>
+    short_frame_frequences <span class="opt">=</span> frequences_mask_list<span class="opt">[</span><span class="num">1</span><span class="opt">:]</span>
 
-    mono_nucleotides = []
-    frame_tail = len(frames) - 1
-    if frame_tail &gt;= 0 and frames[frame_tail] == 1:
-        freq = frequences_mask_list[frame_tail][0]
-        worklist = sequence[i:j]
-        len_before = len(worklist)
-        while len_before &gt; 0:
-            n = worklist[0:1]
-            worklist = worklist.translate(None, n)
-            len_after = len(worklist)
-            freq[n[0]] = len_before - len_after
-            len_before = len_after
-            mono_nucleotides.append(n)
-        frame_tail -= 1
+    mono_nucleotides <span class="opt">= []</span>
+    frame_tail <span class="opt">=</span> <span class="kwb">len</span><span class="opt">(</span>frames<span class="opt">) -</span> <span class="num">1</span>
+    <span class="kwa">if</span> frame_tail <span class="opt">&gt;=</span> <span class="num">0</span> <span class="kwa">and</span> frames<span class="opt">[</span>frame_tail<span class="opt">] ==</span> <span class="num">1</span><span class="opt">:</span>
+        freq <span class="opt">=</span> frequences_mask_list<span class="opt">[</span>frame_tail<span class="opt">][</span><span class="num">0</span><span class="opt">]</span>
+        worklist <span class="opt">=</span> sequence<span class="opt">[</span>i<span class="opt">:</span>j<span class="opt">]</span>
+        len_before <span class="opt">=</span> <span class="kwb">len</span><span class="opt">(</span>worklist<span class="opt">)</span>
+        <span class="kwa">while</span> len_before <span class="opt">&gt;</span> <span class="num">0</span><span class="opt">:</span>
+            n <span class="opt">=</span> worklist<span class="opt">[</span><span class="num">0</span><span class="opt">:</span><span class="num">1</span><span class="opt">]</span>
+            worklist <span class="opt">=</span> worklist<span class="opt">.</span><span class="kwd">translate</span><span class="opt">(</span><span class="kwa">None</span><span class="opt">,</span> n<span class="opt">)</span>
+            len_after <span class="opt">=</span> <span class="kwb">len</span><span class="opt">(</span>worklist<span class="opt">)</span>
+            freq<span class="opt">[</span>n<span class="opt">[</span><span class="num">0</span><span class="opt">]] =</span> len_before <span class="opt">-</span> len_after
+            len_before <span class="opt">=</span> len_after
+            mono_nucleotides<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span>n<span class="opt">)</span>
+        frame_tail <span class="opt">-=</span> <span class="num">1</span>
 
-    if frame_tail &gt;= 0 and frames[frame_tail] == 2 and mono_nucleotides:
-        freq = frequences_mask_list[frame_tail][0]
-        worklist = sequence[i:min(j+1, len(sequence))]
-        overlaps = []
-        for v in (n + m for n in mono_nucleotides for m in mono_nucleotides):
-            bits = v[0]*4+v[1]
-            freq[bits] = worklist.count(v)
-            if v[1:] == v[:1]:
-                overlaps.append((v, bits, v[:1]+v))
-        for v, bits, pattern in overlaps:
-            count = len(worklist)
-            tmp = worklist.replace(pattern+pattern, b&apos;12&apos;)
-            tmp = tmp.replace(pattern, b&apos;1&apos;)
-            count = (count - len(tmp)) // 2
-            count += tmp.count(b&apos;1&apos;+v)
-            count += tmp.count(b&apos;2&apos;+v[:1])
-            freq[bits] += count
-        frame_tail -= 1
+    <span class="kwa">if</span> frame_tail <span class="opt">&gt;=</span> <span class="num">0</span> <span class="kwa">and</span> frames<span class="opt">[</span>frame_tail<span class="opt">] ==</span> <span class="num">2</span> <span class="kwa">and</span> mono_nucleotides<span class="opt">:</span>
+        freq <span class="opt">=</span> frequences_mask_list<span class="opt">[</span>frame_tail<span class="opt">][</span><span class="num">0</span><span class="opt">]</span>
+        worklist <span class="opt">=</span> sequence<span class="opt">[</span>i<span class="opt">:</span><span class="kwb">min</span><span class="opt">(</span>j<span class="opt">+</span><span class="num">1</span><span class="opt">,</span> <span class="kwb">len</span><span class="opt">(</span>sequence<span class="opt">))]</span>
+        overlaps <span class="opt">= []</span>
+        <span class="kwa">for</span> v <span class="kwa">in</span> <span class="opt">(</span>n <span class="opt">+</span> m <span class="kwa">for</span> n <span class="kwa">in</span> mono_nucleotides <span class="kwa">for</span> m <span class="kwa">in</span> mono_nucleotides<span class="opt">):</span>
+            bits <span class="opt">=</span> v<span class="opt">[</span><span class="num">0</span><span class="opt">]*</span><span class="num">4</span><span class="opt">+</span>v<span class="opt">[</span><span class="num">1</span><span class="opt">]</span>
+            freq<span class="opt">[</span>bits<span class="opt">] =</span> worklist<span class="opt">.</span><span class="kwd">count</span><span class="opt">(</span>v<span class="opt">)</span>
+            <span class="kwa">if</span> v<span class="opt">[</span><span class="num">1</span><span class="opt">:] ==</span> v<span class="opt">[:</span><span class="num">1</span><span class="opt">]:</span>
+                overlaps<span class="opt">.</span><span class="kwd">append</span><span class="opt">((</span>v<span class="opt">,</span> bits<span class="opt">,</span> v<span class="opt">[:</span><span class="num">1</span><span class="opt">]+</span>v<span class="opt">))</span>
+        <span class="kwa">for</span> v<span class="opt">,</span> bits<span class="opt">,</span> pattern <span class="kwa">in</span> overlaps<span class="opt">:</span>
+            count <span class="opt">=</span> <span class="kwb">len</span><span class="opt">(</span>worklist<span class="opt">)</span>
+            tmp <span class="opt">=</span> worklist<span class="opt">.</span><span class="kwd">replace</span><span class="opt">(</span>pattern<span class="opt">+</span>pattern<span class="opt">,</span> b<span class="str">&apos;12&apos;</span><span class="opt">)</span>
+            tmp <span class="opt">=</span> tmp<span class="opt">.</span><span class="kwd">replace</span><span class="opt">(</span>pattern<span class="opt">,</span> b<span class="str">&apos;1&apos;</span><span class="opt">)</span>
+            count <span class="opt">= (</span>count <span class="opt">-</span> <span class="kwb">len</span><span class="opt">(</span>tmp<span class="opt">)) //</span> <span class="num">2</span>
+            count <span class="opt">+=</span> tmp<span class="opt">.</span><span class="kwd">count</span><span class="opt">(</span>b<span class="str">&apos;1&apos;</span><span class="opt">+</span>v<span class="opt">)</span>
+            count <span class="opt">+=</span> tmp<span class="opt">.</span><span class="kwd">count</span><span class="opt">(</span>b<span class="str">&apos;2&apos;</span><span class="opt">+</span>v<span class="opt">[:</span><span class="num">1</span><span class="opt">])</span>
+            freq<span class="opt">[</span>bits<span class="opt">] +=</span> count
+        frame_tail <span class="opt">-=</span> <span class="num">1</span>
 
-    short_frame_frequences = short_frame_frequences[:frame_tail]
-    if len(short_frame_frequences):
-        bits = 0
-        if i == 0:
-            for k in range(i, i + frame - 1):
-                bits = bits * 4 + sequence[k]
-                for t, (f, m) in enumerate(short_frame_frequences, 1):
-                    if k - i + 1 &gt;= frames[t]:
-                        f[bits &amp; m] += 1
-        else:
-            for k in range(i - frame + 1, i):
-                bits = bits * 4 + sequence[k]
+    short_frame_frequences <span class="opt">=</span> short_frame_frequences<span class="opt">[:</span>frame_tail<span class="opt">]</span>
+    <span class="kwa">if</span> <span class="kwb">len</span><span class="opt">(</span>short_frame_frequences<span class="opt">):</span>
+        bits <span class="opt">=</span> <span class="num">0</span>
+        <span class="kwa">if</span> i <span class="opt">==</span> <span class="num">0</span><span class="opt">:</span>
+            <span class="kwa">for</span> k <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span>i<span class="opt">,</span> i <span class="opt">+</span> frame <span class="opt">-</span> <span class="num">1</span><span class="opt">):</span>
+                bits <span class="opt">=</span> bits <span class="opt">*</span> <span class="num">4</span> <span class="opt">+</span> sequence<span class="opt">[</span>k<span class="opt">]</span>
+                <span class="kwa">for</span> t<span class="opt">, (</span>f<span class="opt">,</span> m<span class="opt">)</span> <span class="kwa">in</span> <span class="kwb">enumerate</span><span class="opt">(</span>short_frame_frequences<span class="opt">,</span> <span class="num">1</span><span class="opt">):</span>
+                    <span class="kwa">if</span> k <span class="opt">-</span> i <span class="opt">+</span> <span class="num">1</span> <span class="opt">&gt;=</span> frames<span class="opt">[</span>t<span class="opt">]:</span>
+                        f<span class="opt">[</span>bits <span class="opt">&amp;</span> m<span class="opt">] +=</span> <span class="num">1</span>
+        <span class="kwa">else</span><span class="opt">:</span>
+            <span class="kwa">for</span> k <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span>i <span class="opt">-</span> frame <span class="opt">+</span> <span class="num">1</span><span class="opt">,</span> i<span class="opt">):</span>
+                bits <span class="opt">=</span> bits <span class="opt">*</span> <span class="num">4</span> <span class="opt">+</span> sequence<span class="opt">[</span>k<span class="opt">]</span>
 
-        for byte in sequence[k+1:j]:
-            bits = (bits * 4 + byte) &amp; mask
-            frequences[bits] += 1
-            for f, m in short_frame_frequences:
-                f[bits &amp; m] += 1
+        <span class="kwa">for</span> byte <span class="kwa">in</span> sequence<span class="opt">[</span>k<span class="opt">+</span><span class="num">1</span><span class="opt">:</span>j<span class="opt">]:</span>
+            bits <span class="opt">= (</span>bits <span class="opt">*</span> <span class="num">4</span> <span class="opt">+</span> byte<span class="opt">) &amp;</span> mask
+            frequences<span class="opt">[</span>bits<span class="opt">] +=</span> <span class="num">1</span>
+            <span class="kwa">for</span> f<span class="opt">,</span> m <span class="kwa">in</span> short_frame_frequences<span class="opt">:</span>
+                f<span class="opt">[</span>bits <span class="opt">&amp;</span> m<span class="opt">] +=</span> <span class="num">1</span>
 
-    return [
-        (frame, len(sequence) - frame + 1, frequences_mask_list[i][0])
-            for i, frame in enumerate(frames)]
+    <span class="kwa">return</span> <span class="opt">[</span>
+        <span class="opt">(</span>frame<span class="opt">,</span> <span class="kwb">len</span><span class="opt">(</span>sequence<span class="opt">) -</span> frame <span class="opt">+</span> <span class="num">1</span><span class="opt">,</span> frequences_mask_list<span class="opt">[</span>i<span class="opt">][</span><span class="num">0</span><span class="opt">])</span>
+            <span class="kwa">for</span> i<span class="opt">,</span> frame <span class="kwa">in</span> <span class="kwb">enumerate</span><span class="opt">(</span>frames<span class="opt">)]</span>
 
-def read_sequence(file, header, translation) :
-    for line in file:
-        if line[0] == ord(&apos;&gt;&apos;):
-            if line[1:len(header)+1] == header:
-                break
+<span class="kwa">def</span> <span class="kwd">read_sequence</span><span class="opt">(</span><span class="kwb">file</span><span class="opt">,</span> header<span class="opt">,</span> translation<span class="opt">) :</span>
+    <span class="kwa">for</span> line <span class="kwa">in</span> <span class="kwb">file</span><span class="opt">:</span>
+        <span class="kwa">if</span> line<span class="opt">[</span><span class="num">0</span><span class="opt">] ==</span> <span class="kwb">ord</span><span class="opt">(</span><span class="str">&apos;&gt;&apos;</span><span class="opt">):</span>
+            <span class="kwa">if</span> line<span class="opt">[</span><span class="num">1</span><span class="opt">:</span><span class="kwb">len</span><span class="opt">(</span>header<span class="opt">)+</span><span class="num">1</span><span class="opt">] ==</span> header<span class="opt">:</span>
+                <span class="kwa">break</span>
 
-    sequence = bytearray()
-    for line in file:
-        if line[0] == ord(&apos;&gt;&apos;):
-            break
-        sequence += line
+    sequence <span class="opt">=</span> <span class="kwd">bytearray</span><span class="opt">()</span>
+    <span class="kwa">for</span> line <span class="kwa">in</span> <span class="kwb">file</span><span class="opt">:</span>
+        <span class="kwa">if</span> line<span class="opt">[</span><span class="num">0</span><span class="opt">] ==</span> <span class="kwb">ord</span><span class="opt">(</span><span class="str">&apos;&gt;&apos;</span><span class="opt">):</span>
+            <span class="kwa">break</span>
+        sequence <span class="opt">+=</span> line
 
-    return sequence.translate(translation, b&apos;\n\r\t &apos;)
+    <span class="kwa">return</span> sequence<span class="opt">.</span><span class="kwd">translate</span><span class="opt">(</span>translation<span class="opt">,</span> b<span class="str">&apos;</span><span class="esc">\n\r\t</span> <span class="str">&apos;</span><span class="opt">)</span>
 
-def lookup_frequency(results, frame, bits):
-    n = 1
-    frequency = 0
-    for _, n, frequencies in filter(lambda r: r[0] == frame, results):
-        frequency += frequencies[bits]
-    return frequency, n if n &gt; 0 else 1
+<span class="kwa">def</span> <span class="kwd">lookup_frequency</span><span class="opt">(</span>results<span class="opt">,</span> frame<span class="opt">,</span> bits<span class="opt">):</span>
+    n <span class="opt">=</span> <span class="num">1</span>
+    frequency <span class="opt">=</span> <span class="num">0</span>
+    <span class="kwa">for</span> _<span class="opt">,</span> n<span class="opt">,</span> frequencies <span class="kwa">in</span> <span class="kwb">filter</span><span class="opt">(</span><span class="kwa">lambda</span> r<span class="opt">:</span> r<span class="opt">[</span><span class="num">0</span><span class="opt">] ==</span> frame<span class="opt">,</span> results<span class="opt">):</span>
+        frequency <span class="opt">+=</span> frequencies<span class="opt">[</span>bits<span class="opt">]</span>
+    <span class="kwa">return</span> frequency<span class="opt">,</span> n <span class="kwa">if</span> n <span class="opt">&gt;</span> <span class="num">0</span> <span class="kwa">else</span> <span class="num">1</span>
 
-def display(results, display_list, sort=False, relative=False, end=&apos;\n&apos;):
-    lines = [
-        (k_nucleotide, lookup_frequency(results, frame, bits))
-            for k_nucleotide, frame, bits in display_list
-    ]
-    if sort: lines = sorted(lines, key=lambda v: (-v[1][0], v[0]))
-    for k_nucleotide, (frequency, n) in lines:
-        if relative:
-            print(&quot;{0} {1:.3f}&quot;.format(k_nucleotide, frequency * 100. / n))
-        else:
-            print(&quot;{1}\t{0}&quot;.format(k_nucleotide, frequency))
-    print(end=end)
+<span class="kwa">def</span> <span class="kwd">display</span><span class="opt">(</span>results<span class="opt">,</span> display_list<span class="opt">,</span> sort<span class="opt">=</span><span class="kwa">False</span><span class="opt">,</span> relative<span class="opt">=</span><span class="kwa">False</span><span class="opt">,</span> end<span class="opt">=</span><span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">):</span>
+    lines <span class="opt">= [</span>
+        <span class="opt">(</span>k_nucleotide<span class="opt">,</span> <span class="kwd">lookup_frequency</span><span class="opt">(</span>results<span class="opt">,</span> frame<span class="opt">,</span> bits<span class="opt">))</span>
+            <span class="kwa">for</span> k_nucleotide<span class="opt">,</span> frame<span class="opt">,</span> bits <span class="kwa">in</span> display_list
+    <span class="opt">]</span>
+    <span class="kwa">if</span> sort<span class="opt">:</span> lines <span class="opt">=</span> <span class="kwb">sorted</span><span class="opt">(</span>lines<span class="opt">,</span> key<span class="opt">=</span><span class="kwa">lambda</span> v<span class="opt">: (-</span>v<span class="opt">[</span><span class="num">1</span><span class="opt">][</span><span class="num">0</span><span class="opt">],</span> v<span class="opt">[</span><span class="num">0</span><span class="opt">]))</span>
+    <span class="kwa">for</span> k_nucleotide<span class="opt">, (</span>frequency<span class="opt">,</span> n<span class="opt">)</span> <span class="kwa">in</span> lines<span class="opt">:</span>
+        <span class="kwa">if</span> relative<span class="opt">:</span>
+            <span class="kwa">print</span><span class="opt">(</span><span class="str">&quot;</span><span class="ipl">{0}</span> <span class="str">{1:.3f}&quot;</span><span class="opt">.</span><span class="kwd">format</span><span class="opt">(</span>k_nucleotide<span class="opt">,</span> frequency <span class="opt">*</span> <span class="num">100</span><span class="opt">. /</span> n<span class="opt">))</span>
+        <span class="kwa">else</span><span class="opt">:</span>
+            <span class="kwa">print</span><span class="opt">(</span><span class="str">&quot;</span><span class="ipl">{1}</span><span class="str"></span><span class="esc">\t</span><span class="str"></span><span class="ipl">{0}</span><span class="str">&quot;</span><span class="opt">.</span><span class="kwd">format</span><span class="opt">(</span>k_nucleotide<span class="opt">,</span> frequency<span class="opt">))</span>
+    <span class="kwa">print</span><span class="opt">(</span>end<span class="opt">=</span>end<span class="opt">)</span>
 
-def main():
-    translation = bytes.maketrans(b&apos;GTCAgtca&apos;,
-        b&apos;\x00\x01\x02\x03\x00\x01\x02\x03&apos;)
-    def str_to_bits(text):
-        buffer = text.encode(&apos;latin1&apos;).translate(translation)
-        bits = 0
-        for k in range(len(buffer)):
-            bits = bits * 4 + buffer[k]
-        return bits
-    def display_list(k_nucleotides):
-        return [(n, len(n), str_to_bits(n)) for n in k_nucleotides]
+<span class="kwa">def</span> <span class="kwd">main</span><span class="opt">():</span>
+    translation <span class="opt">=</span> bytes<span class="opt">.</span><span class="kwd">maketrans</span><span class="opt">(</span>b<span class="str">&apos;GTCAgtca&apos;</span><span class="opt">,</span>
+        b<span class="str">&apos;</span><span class="esc">\x00\x01\x02\x03\x00\x01\x02\x03</span><span class="str">&apos;</span><span class="opt">)</span>
+    <span class="kwa">def</span> <span class="kwd">str_to_bits</span><span class="opt">(</span>text<span class="opt">):</span>
+        <span class="kwb">buffer</span> <span class="opt">=</span> text<span class="opt">.</span><span class="kwd">encode</span><span class="opt">(</span><span class="str">&apos;latin1&apos;</span><span class="opt">).</span><span class="kwd">translate</span><span class="opt">(</span>translation<span class="opt">)</span>
+        bits <span class="opt">=</span> <span class="num">0</span>
+        <span class="kwa">for</span> k <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span><span class="kwb">len</span><span class="opt">(</span><span class="kwb">buffer</span><span class="opt">)):</span>
+            bits <span class="opt">=</span> bits <span class="opt">*</span> <span class="num">4</span> <span class="opt">+</span> <span class="kwb">buffer</span><span class="opt">[</span>k<span class="opt">]</span>
+        <span class="kwa">return</span> bits
+    <span class="kwa">def</span> <span class="kwd">display_list</span><span class="opt">(</span>k_nucleotides<span class="opt">):</span>
+        <span class="kwa">return</span> <span class="opt">[(</span>n<span class="opt">,</span> <span class="kwb">len</span><span class="opt">(</span>n<span class="opt">),</span> <span class="kwd">str_to_bits</span><span class="opt">(</span>n<span class="opt">))</span> <span class="kwa">for</span> n <span class="kwa">in</span> k_nucleotides<span class="opt">]</span>
 
-    sequence = read_sequence(stdin.buffer, b&apos;THREE&apos;, translation)
+    sequence <span class="opt">=</span> <span class="kwd">read_sequence</span><span class="opt">(</span>stdin<span class="opt">.</span><span class="kwb">buffer</span><span class="opt">,</span> b<span class="str">&apos;THREE&apos;</span><span class="opt">,</span> translation<span class="opt">)</span>
 
-    mono_nucleotides = (&apos;G&apos;, &apos;A&apos;, &apos;T&apos;, &apos;C&apos;)
-    di_nucleotides = tuple(n + m
-        for n in mono_nucleotides for m in mono_nucleotides)
-    k_nucleotides = (
-        &apos;GGT&apos;, &apos;GGTA&apos;, &apos;GGTATT&apos;, &apos;GGTATTTTAATT&apos;, &apos;GGTATTTTAATTTATAGT&apos;)
+    mono_nucleotides <span class="opt">= (</span><span class="str">&apos;G&apos;</span><span class="opt">,</span> <span class="str">&apos;A&apos;</span><span class="opt">,</span> <span class="str">&apos;T&apos;</span><span class="opt">,</span> <span class="str">&apos;C&apos;</span><span class="opt">)</span>
+    di_nucleotides <span class="opt">=</span> <span class="kwb">tuple</span><span class="opt">(</span>n <span class="opt">+</span> m
+        <span class="kwa">for</span> n <span class="kwa">in</span> mono_nucleotides <span class="kwa">for</span> m <span class="kwa">in</span> mono_nucleotides<span class="opt">)</span>
+    k_nucleotides <span class="opt">= (</span>
+        <span class="str">&apos;GGT&apos;</span><span class="opt">,</span> <span class="str">&apos;GGTA&apos;</span><span class="opt">,</span> <span class="str">&apos;GGTATT&apos;</span><span class="opt">,</span> <span class="str">&apos;GGTATTTTAATT&apos;</span><span class="opt">,</span> <span class="str">&apos;GGTATTTTAATTTATAGT&apos;</span><span class="opt">)</span>
 
-    reading_frames = [
-        (1, tuple(map(str_to_bits, mono_nucleotides))),
-        (2, tuple(map(str_to_bits, di_nucleotides))),
-    ] + list(map(lambda s: (len(s), (str_to_bits(s),)), k_nucleotides))
+    reading_frames <span class="opt">= [</span>
+        <span class="opt">(</span><span class="num">1</span><span class="opt">,</span> <span class="kwb">tuple</span><span class="opt">(</span><span class="kwb">map</span><span class="opt">(</span>str_to_bits<span class="opt">,</span> mono_nucleotides<span class="opt">))),</span>
+        <span class="opt">(</span><span class="num">2</span><span class="opt">,</span> <span class="kwb">tuple</span><span class="opt">(</span><span class="kwb">map</span><span class="opt">(</span>str_to_bits<span class="opt">,</span> di_nucleotides<span class="opt">))),</span>
+    <span class="opt">] +</span> <span class="kwb">list</span><span class="opt">(</span><span class="kwb">map</span><span class="opt">(</span><span class="kwa">lambda</span> s<span class="opt">: (</span><span class="kwb">len</span><span class="opt">(</span>s<span class="opt">), (</span><span class="kwd">str_to_bits</span><span class="opt">(</span>s<span class="opt">),)),</span> k_nucleotides<span class="opt">))</span>
 
-    if len(sequence) &gt; 128 * cpu_count(): n = cpu_count()
-    else: n = 1
-    partitions = [len(sequence) * i // n for i in range(n+1)]
-    count_jobs = [
-        (sequence, reading_frames, partitions[i], partitions[i + 1])
-            for i in range(len(partitions) - 1)]
+    <span class="kwa">if</span> <span class="kwb">len</span><span class="opt">(</span>sequence<span class="opt">) &gt;</span> <span class="num">128</span> <span class="opt">*</span> <span class="kwd">cpu_count</span><span class="opt">():</span> n <span class="opt">=</span> <span class="kwd">cpu_count</span><span class="opt">()</span>
+    <span class="kwa">else</span><span class="opt">:</span> n <span class="opt">=</span> <span class="num">1</span>
+    partitions <span class="opt">= [</span><span class="kwb">len</span><span class="opt">(</span>sequence<span class="opt">) *</span> i <span class="opt">//</span> n <span class="kwa">for</span> i <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span>n<span class="opt">+</span><span class="num">1</span><span class="opt">)]</span>
+    count_jobs <span class="opt">= [</span>
+        <span class="opt">(</span>sequence<span class="opt">,</span> reading_frames<span class="opt">,</span> partitions<span class="opt">[</span>i<span class="opt">],</span> partitions<span class="opt">[</span>i <span class="opt">+</span> <span class="num">1</span><span class="opt">])</span>
+            <span class="kwa">for</span> i <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span><span class="kwb">len</span><span class="opt">(</span>partitions<span class="opt">) -</span> <span class="num">1</span><span class="opt">)]</span>
 
-    if n == 1:
-        results = list(chain(*starmap(count_frequencies, count_jobs)))
-    else:
-        lean_jobs = list(starmap(lean_args, count_jobs))
-        with Pool() as pool:
-            async_results = pool.starmap_async(
-                lean_call(count_frequencies), lean_jobs)
-            results = list(chain(*async_results.get()))
+    <span class="kwa">if</span> n <span class="opt">==</span> <span class="num">1</span><span class="opt">:</span>
+        results <span class="opt">=</span> <span class="kwb">list</span><span class="opt">(</span><span class="kwd">chain</span><span class="opt">(*</span><span class="kwd">starmap</span><span class="opt">(</span>count_frequencies<span class="opt">,</span> count_jobs<span class="opt">)))</span>
+    <span class="kwa">else</span><span class="opt">:</span>
+        lean_jobs <span class="opt">=</span> <span class="kwb">list</span><span class="opt">(</span><span class="kwd">starmap</span><span class="opt">(</span>lean_args<span class="opt">,</span> count_jobs<span class="opt">))</span>
+        with <span class="kwd">Pool</span><span class="opt">()</span> <span class="kwa">as</span> pool<span class="opt">:</span>
+            async_results <span class="opt">=</span> pool<span class="opt">.</span><span class="kwd">starmap_async</span><span class="opt">(</span>
+                <span class="kwd">lean_call</span><span class="opt">(</span>count_frequencies<span class="opt">),</span> lean_jobs<span class="opt">)</span>
+            results <span class="opt">=</span> <span class="kwb">list</span><span class="opt">(</span><span class="kwd">chain</span><span class="opt">(*</span>async_results<span class="opt">.</span><span class="kwd">get</span><span class="opt">()))</span>
 
-    display(results, display_list(mono_nucleotides), relative=True, sort=True)
-    display(results, display_list(di_nucleotides), relative=True, sort=True)
-    display(results, display_list(k_nucleotides), end=&apos;&apos;)
+    <span class="kwd">display</span><span class="opt">(</span>results<span class="opt">,</span> <span class="kwd">display_list</span><span class="opt">(</span>mono_nucleotides<span class="opt">),</span> relative<span class="opt">=</span><span class="kwa">True</span><span class="opt">,</span> sort<span class="opt">=</span><span class="kwa">True</span><span class="opt">)</span>
+    <span class="kwd">display</span><span class="opt">(</span>results<span class="opt">,</span> <span class="kwd">display_list</span><span class="opt">(</span>di_nucleotides<span class="opt">),</span> relative<span class="opt">=</span><span class="kwa">True</span><span class="opt">,</span> sort<span class="opt">=</span><span class="kwa">True</span><span class="opt">)</span>
+    <span class="kwd">display</span><span class="opt">(</span>results<span class="opt">,</span> <span class="kwd">display_list</span><span class="opt">(</span>k_nucleotides<span class="opt">),</span> end<span class="opt">=</span><span class="str">&apos;&apos;</span><span class="opt">)</span>
 
-if __name__==&apos;__main__&apos; :
-    main()
+<span class="kwa">if</span> __name__<span class="opt">==</span><span class="str">&apos;__main__&apos;</span> <span class="opt">:</span>
+    <span class="kwd">main</span><span class="opt">()</span>
     </pre>
   </section>
   <section>
@@ -218,7 +218,7 @@ NOTES:
 Python 3.7.0
 
 
-Thu, 28 Jun 2018 19:18:23 GMT
+Wed, 18 Jul 2018 20:15:32 GMT
 
 MAKE:
 mv knucleotide.python3-3.python3 knucleotide.python3-3.py

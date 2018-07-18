@@ -22,56 +22,56 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-# The Computer Language Benchmarks Game
-# https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
-#
-# contributed by Tupteq
-# modified by Simon Descarpentries
-# modified by Ivan Baldin
-# 2to3 plus Daniel Nanz fix
+<span class="slc"># The Computer Language Benchmarks Game</span>
+<span class="slc"># https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">#</span>
+<span class="slc"># contributed by Tupteq</span>
+<span class="slc"># modified by Simon Descarpentries</span>
+<span class="slc"># modified by Ivan Baldin</span>
+<span class="slc"># 2to3 plus Daniel Nanz fix</span>
 
-import sys
-from array import array
-from multiprocessing import Pool
+<span class="kwa">import</span> sys
+<span class="kwa">from</span> array <span class="kwa">import</span> array
+<span class="kwa">from</span> multiprocessing <span class="kwa">import</span> Pool
 
-def do_row(fy):
-    local_abs = abs
-    two_over_size = 2.0 / size
-    xr_offs = range(7, -1, -1)
-    xr_iter = range(50)
+<span class="kwa">def</span> <span class="kwd">do_row</span><span class="opt">(</span>fy<span class="opt">):</span>
+    local_abs <span class="opt">=</span> <span class="kwb">abs</span>
+    two_over_size <span class="opt">=</span> <span class="num">2.0</span> <span class="opt">/</span> size
+    xr_offs <span class="opt">=</span> <span class="kwb">range</span><span class="opt">(</span><span class="num">7</span><span class="opt">, -</span><span class="num">1</span><span class="opt">, -</span><span class="num">1</span><span class="opt">)</span>
+    xr_iter <span class="opt">=</span> <span class="kwb">range</span><span class="opt">(</span><span class="num">50</span><span class="opt">)</span>
 
-    result = array(&apos;B&apos;)
-    for x in range(7, size, 8):
-        byte_acc = 0
-        for offset in xr_offs:
-            z = 0j
-            c = two_over_size * (x - offset) + fy
+    result <span class="opt">=</span> <span class="kwd">array</span><span class="opt">(</span><span class="str">&apos;B&apos;</span><span class="opt">)</span>
+    <span class="kwa">for</span> x <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span><span class="num">7</span><span class="opt">,</span> size<span class="opt">,</span> <span class="num">8</span><span class="opt">):</span>
+        byte_acc <span class="opt">=</span> <span class="num">0</span>
+        <span class="kwa">for</span> offset <span class="kwa">in</span> xr_offs<span class="opt">:</span>
+            z <span class="opt">=</span> <span class="num">0</span>j
+            c <span class="opt">=</span> two_over_size <span class="opt">* (</span>x <span class="opt">-</span> offset<span class="opt">) +</span> fy
 
-            for i in xr_iter:
-                z = z * z + c
-                if local_abs(z) &gt;= 2:
-                    break
-            else:
-                byte_acc += 1 &lt;&lt; offset
+            <span class="kwa">for</span> i <span class="kwa">in</span> xr_iter<span class="opt">:</span>
+                z <span class="opt">=</span> z <span class="opt">*</span> z <span class="opt">+</span> c
+                <span class="kwa">if</span> <span class="kwd">local_abs</span><span class="opt">(</span>z<span class="opt">) &gt;=</span> <span class="num">2</span><span class="opt">:</span>
+                    <span class="kwa">break</span>
+            <span class="kwa">else</span><span class="opt">:</span>
+                byte_acc <span class="opt">+=</span> <span class="num">1</span> <span class="opt">&lt;&lt;</span> offset
 
-        result.append(byte_acc)
+        result<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span>byte_acc<span class="opt">)</span>
 
-    if x != size - 1:
-        result.append(byte_acc)
+    <span class="kwa">if</span> x <span class="opt">!=</span> size <span class="opt">-</span> <span class="num">1</span><span class="opt">:</span>
+        result<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span>byte_acc<span class="opt">)</span>
 
-    return result.tostring()
+    <span class="kwa">return</span> result<span class="opt">.</span><span class="kwd">tostring</span><span class="opt">()</span>
 
-def main(out):
-    out.write((&apos;P4\n%d %d\n&apos; % (size, size)).encode(&apos;ASCII&apos;))
+<span class="kwa">def</span> <span class="kwd">main</span><span class="opt">(</span>out<span class="opt">):</span>
+    out<span class="opt">.</span><span class="kwd">write</span><span class="opt">((</span><span class="str">&apos;P4</span><span class="esc">\n</span><span class="str"></span><span class="ipl">%d %d</span><span class="str"></span><span class="esc">\n</span><span class="str">&apos;</span> <span class="opt">% (</span>size<span class="opt">,</span> size<span class="opt">)).</span><span class="kwd">encode</span><span class="opt">(</span><span class="str">&apos;ASCII&apos;</span><span class="opt">))</span>
 
-    pool = Pool()
-    step = 2.0j / size
-    for row in pool.imap(do_row, (step*y-(1.5+1j) for y in range(size))):
-        out.write(row)
+    pool <span class="opt">=</span> <span class="kwd">Pool</span><span class="opt">()</span>
+    step <span class="opt">=</span> <span class="num">2.0</span>j <span class="opt">/</span> size
+    <span class="kwa">for</span> row <span class="kwa">in</span> pool<span class="opt">.</span><span class="kwd">imap</span><span class="opt">(</span>do_row<span class="opt">, (</span>step<span class="opt">*</span>y<span class="opt">-(</span><span class="num">1.5</span><span class="opt">+</span><span class="num">1</span>j<span class="opt">)</span> <span class="kwa">for</span> y <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span>size<span class="opt">))):</span>
+        out<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>row<span class="opt">)</span>
 
-if __name__ == &apos;__main__&apos;:
-    size = int(sys.argv[1])
-    main(sys.stdout.buffer)
+<span class="kwa">if</span> __name__ <span class="opt">==</span> <span class="str">&apos;__main__&apos;</span><span class="opt">:</span>
+    size <span class="opt">=</span> <span class="kwb">int</span><span class="opt">(</span>sys<span class="opt">.</span>argv<span class="opt">[</span><span class="num">1</span><span class="opt">])</span>
+    <span class="kwd">main</span><span class="opt">(</span>sys<span class="opt">.</span>stdout<span class="opt">.</span><span class="kwb">buffer</span><span class="opt">)</span>
     </pre>
   </section>
   <section>
@@ -82,7 +82,7 @@ NOTES:
 Python 3.7.0
 
 
-Thu, 28 Jun 2018 19:20:14 GMT
+Wed, 18 Jul 2018 20:17:22 GMT
 
 MAKE:
 mv mandelbrot.python3-5.python3 mandelbrot.python3-5.py

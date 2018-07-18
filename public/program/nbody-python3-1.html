@@ -22,122 +22,122 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-# The Computer Language Benchmarks Game
-# https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
-#
-# originally by Kevin Carson
-# modified by Tupteq, Fredrik Johansson, and Daniel Nanz
-# modified by Maciej Fijalkowski
-# 2to3
+<span class="slc"># The Computer Language Benchmarks Game</span>
+<span class="slc"># https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">#</span>
+<span class="slc"># originally by Kevin Carson</span>
+<span class="slc"># modified by Tupteq, Fredrik Johansson, and Daniel Nanz</span>
+<span class="slc"># modified by Maciej Fijalkowski</span>
+<span class="slc"># 2to3</span>
 
-import sys 
+<span class="kwa">import</span> sys 
 
-def combinations(l):
-    result = []
-    for x in range(len(l) - 1):
-        ls = l[x+1:]
-        for y in ls:
-            result.append((l[x],y))
-    return result
+<span class="kwa">def</span> <span class="kwd">combinations</span><span class="opt">(</span>l<span class="opt">):</span>
+    result <span class="opt">= []</span>
+    <span class="kwa">for</span> x <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span><span class="kwb">len</span><span class="opt">(</span>l<span class="opt">) -</span> <span class="num">1</span><span class="opt">):</span>
+        ls <span class="opt">=</span> l<span class="opt">[</span>x<span class="opt">+</span><span class="num">1</span><span class="opt">:]</span>
+        <span class="kwa">for</span> y <span class="kwa">in</span> ls<span class="opt">:</span>
+            result<span class="opt">.</span><span class="kwd">append</span><span class="opt">((</span>l<span class="opt">[</span>x<span class="opt">],</span>y<span class="opt">))</span>
+    <span class="kwa">return</span> result
 
-PI = 3.14159265358979323
-SOLAR_MASS = 4 * PI * PI
-DAYS_PER_YEAR = 365.24
+PI <span class="opt">=</span> <span class="num">3.14159265358979323</span>
+SOLAR_MASS <span class="opt">=</span> <span class="num">4</span> <span class="opt">*</span> PI <span class="opt">*</span> PI
+DAYS_PER_YEAR <span class="opt">=</span> <span class="num">365.24</span>
 
-BODIES = {
-    &apos;sun&apos;: ([0.0, 0.0, 0.0], [0.0, 0.0, 0.0], SOLAR_MASS),
+BODIES <span class="opt">= {</span>
+    <span class="str">&apos;sun&apos;</span><span class="opt">: ([</span><span class="num">0.0</span><span class="opt">,</span> <span class="num">0.0</span><span class="opt">,</span> <span class="num">0.0</span><span class="opt">], [</span><span class="num">0.0</span><span class="opt">,</span> <span class="num">0.0</span><span class="opt">,</span> <span class="num">0.0</span><span class="opt">],</span> SOLAR_MASS<span class="opt">),</span>
 
-    &apos;jupiter&apos;: ([4.84143144246472090e+00,
-                 -1.16032004402742839e+00,
-                 -1.03622044471123109e-01],
-                [1.66007664274403694e-03 * DAYS_PER_YEAR,
-                 7.69901118419740425e-03 * DAYS_PER_YEAR,
-                 -6.90460016972063023e-05 * DAYS_PER_YEAR],
-                9.54791938424326609e-04 * SOLAR_MASS),
+    <span class="str">&apos;jupiter&apos;</span><span class="opt">: ([</span><span class="num">4.84143144246472090e+00</span><span class="opt">,</span>
+                 <span class="opt">-</span><span class="num">1.16032004402742839e+00</span><span class="opt">,</span>
+                 <span class="opt">-</span><span class="num">1.03622044471123109e-01</span><span class="opt">],</span>
+                <span class="opt">[</span><span class="num">1.66007664274403694e-03</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span>
+                 <span class="num">7.69901118419740425e-03</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span>
+                 <span class="opt">-</span><span class="num">6.90460016972063023e-05</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">],</span>
+                <span class="num">9.54791938424326609e-04</span> <span class="opt">*</span> SOLAR_MASS<span class="opt">),</span>
 
-    &apos;saturn&apos;: ([8.34336671824457987e+00,
-                4.12479856412430479e+00,
-                -4.03523417114321381e-01],
-               [-2.76742510726862411e-03 * DAYS_PER_YEAR,
-                4.99852801234917238e-03 * DAYS_PER_YEAR,
-                2.30417297573763929e-05 * DAYS_PER_YEAR],
-               2.85885980666130812e-04 * SOLAR_MASS),
+    <span class="str">&apos;saturn&apos;</span><span class="opt">: ([</span><span class="num">8.34336671824457987e+00</span><span class="opt">,</span>
+                <span class="num">4.12479856412430479e+00</span><span class="opt">,</span>
+                <span class="opt">-</span><span class="num">4.03523417114321381e-01</span><span class="opt">],</span>
+               <span class="opt">[-</span><span class="num">2.76742510726862411e-03</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span>
+                <span class="num">4.99852801234917238e-03</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span>
+                <span class="num">2.30417297573763929e-05</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">],</span>
+               <span class="num">2.85885980666130812e-04</span> <span class="opt">*</span> SOLAR_MASS<span class="opt">),</span>
 
-    &apos;uranus&apos;: ([1.28943695621391310e+01,
-                -1.51111514016986312e+01,
-                -2.23307578892655734e-01],
-               [2.96460137564761618e-03 * DAYS_PER_YEAR,
-                2.37847173959480950e-03 * DAYS_PER_YEAR,
-                -2.96589568540237556e-05 * DAYS_PER_YEAR],
-               4.36624404335156298e-05 * SOLAR_MASS),
+    <span class="str">&apos;uranus&apos;</span><span class="opt">: ([</span><span class="num">1.28943695621391310e+01</span><span class="opt">,</span>
+                <span class="opt">-</span><span class="num">1.51111514016986312e+01</span><span class="opt">,</span>
+                <span class="opt">-</span><span class="num">2.23307578892655734e-01</span><span class="opt">],</span>
+               <span class="opt">[</span><span class="num">2.96460137564761618e-03</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span>
+                <span class="num">2.37847173959480950e-03</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span>
+                <span class="opt">-</span><span class="num">2.96589568540237556e-05</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">],</span>
+               <span class="num">4.36624404335156298e-05</span> <span class="opt">*</span> SOLAR_MASS<span class="opt">),</span>
 
-    &apos;neptune&apos;: ([1.53796971148509165e+01,
-                 -2.59193146099879641e+01,
-                 1.79258772950371181e-01],
-                [2.68067772490389322e-03 * DAYS_PER_YEAR,
-                 1.62824170038242295e-03 * DAYS_PER_YEAR,
-                 -9.51592254519715870e-05 * DAYS_PER_YEAR],
-                5.15138902046611451e-05 * SOLAR_MASS) }
-
-
-SYSTEM = list(BODIES.values())
-PAIRS = combinations(SYSTEM)
+    <span class="str">&apos;neptune&apos;</span><span class="opt">: ([</span><span class="num">1.53796971148509165e+01</span><span class="opt">,</span>
+                 <span class="opt">-</span><span class="num">2.59193146099879641e+01</span><span class="opt">,</span>
+                 <span class="num">1.79258772950371181e-01</span><span class="opt">],</span>
+                <span class="opt">[</span><span class="num">2.68067772490389322e-03</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span>
+                 <span class="num">1.62824170038242295e-03</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">,</span>
+                 <span class="opt">-</span><span class="num">9.51592254519715870e-05</span> <span class="opt">*</span> DAYS_PER_YEAR<span class="opt">],</span>
+                <span class="num">5.15138902046611451e-05</span> <span class="opt">*</span> SOLAR_MASS<span class="opt">) }</span>
 
 
-def advance(dt, n, bodies=SYSTEM, pairs=PAIRS):
-
-    for i in range(n):
-        for (([x1, y1, z1], v1, m1),
-             ([x2, y2, z2], v2, m2)) in pairs:
-            dx = x1 - x2
-            dy = y1 - y2
-            dz = z1 - z2
-            mag = dt * ((dx * dx + dy * dy + dz * dz) ** (-1.5))
-            b1m = m1 * mag
-            b2m = m2 * mag
-            v1[0] -= dx * b2m
-            v1[1] -= dy * b2m
-            v1[2] -= dz * b2m
-            v2[0] += dx * b1m
-            v2[1] += dy * b1m
-            v2[2] += dz * b1m
-        for (r, [vx, vy, vz], m) in bodies:
-            r[0] += dt * vx
-            r[1] += dt * vy
-            r[2] += dt * vz
+SYSTEM <span class="opt">=</span> <span class="kwb">list</span><span class="opt">(</span>BODIES<span class="opt">.</span><span class="kwd">values</span><span class="opt">())</span>
+PAIRS <span class="opt">=</span> <span class="kwd">combinations</span><span class="opt">(</span>SYSTEM<span class="opt">)</span>
 
 
-def report_energy(bodies=SYSTEM, pairs=PAIRS, e=0.0):
+<span class="kwa">def</span> <span class="kwd">advance</span><span class="opt">(</span>dt<span class="opt">,</span> n<span class="opt">,</span> bodies<span class="opt">=</span>SYSTEM<span class="opt">,</span> pairs<span class="opt">=</span>PAIRS<span class="opt">):</span>
 
-    for (((x1, y1, z1), v1, m1),
-         ((x2, y2, z2), v2, m2)) in pairs:
-        dx = x1 - x2
-        dy = y1 - y2
-        dz = z1 - z2
-        e -= (m1 * m2) / ((dx * dx + dy * dy + dz * dz) ** 0.5)
-    for (r, [vx, vy, vz], m) in bodies:
-        e += m * (vx * vx + vy * vy + vz * vz) / 2.
-    print(&quot;%.9f&quot; % e)
+    <span class="kwa">for</span> i <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span>n<span class="opt">):</span>
+        <span class="kwa">for</span> <span class="opt">(([</span>x1<span class="opt">,</span> y1<span class="opt">,</span> z1<span class="opt">],</span> v1<span class="opt">,</span> m1<span class="opt">),</span>
+             <span class="opt">([</span>x2<span class="opt">,</span> y2<span class="opt">,</span> z2<span class="opt">],</span> v2<span class="opt">,</span> m2<span class="opt">))</span> <span class="kwa">in</span> pairs<span class="opt">:</span>
+            dx <span class="opt">=</span> x1 <span class="opt">-</span> x2
+            dy <span class="opt">=</span> y1 <span class="opt">-</span> y2
+            dz <span class="opt">=</span> z1 <span class="opt">-</span> z2
+            mag <span class="opt">=</span> dt <span class="opt">* ((</span>dx <span class="opt">*</span> dx <span class="opt">+</span> dy <span class="opt">*</span> dy <span class="opt">+</span> dz <span class="opt">*</span> dz<span class="opt">) ** (-</span><span class="num">1.5</span><span class="opt">))</span>
+            b1m <span class="opt">=</span> m1 <span class="opt">*</span> mag
+            b2m <span class="opt">=</span> m2 <span class="opt">*</span> mag
+            v1<span class="opt">[</span><span class="num">0</span><span class="opt">] -=</span> dx <span class="opt">*</span> b2m
+            v1<span class="opt">[</span><span class="num">1</span><span class="opt">] -=</span> dy <span class="opt">*</span> b2m
+            v1<span class="opt">[</span><span class="num">2</span><span class="opt">] -=</span> dz <span class="opt">*</span> b2m
+            v2<span class="opt">[</span><span class="num">0</span><span class="opt">] +=</span> dx <span class="opt">*</span> b1m
+            v2<span class="opt">[</span><span class="num">1</span><span class="opt">] +=</span> dy <span class="opt">*</span> b1m
+            v2<span class="opt">[</span><span class="num">2</span><span class="opt">] +=</span> dz <span class="opt">*</span> b1m
+        <span class="kwa">for</span> <span class="opt">(</span>r<span class="opt">, [</span>vx<span class="opt">,</span> vy<span class="opt">,</span> vz<span class="opt">],</span> m<span class="opt">)</span> <span class="kwa">in</span> bodies<span class="opt">:</span>
+            r<span class="opt">[</span><span class="num">0</span><span class="opt">] +=</span> dt <span class="opt">*</span> vx
+            r<span class="opt">[</span><span class="num">1</span><span class="opt">] +=</span> dt <span class="opt">*</span> vy
+            r<span class="opt">[</span><span class="num">2</span><span class="opt">] +=</span> dt <span class="opt">*</span> vz
 
-def offset_momentum(ref, bodies=SYSTEM, px=0.0, py=0.0, pz=0.0):
 
-    for (r, [vx, vy, vz], m) in bodies:
-        px -= vx * m
-        py -= vy * m
-        pz -= vz * m
-    (r, v, m) = ref
-    v[0] = px / m
-    v[1] = py / m
-    v[2] = pz / m
+<span class="kwa">def</span> <span class="kwd">report_energy</span><span class="opt">(</span>bodies<span class="opt">=</span>SYSTEM<span class="opt">,</span> pairs<span class="opt">=</span>PAIRS<span class="opt">,</span> e<span class="opt">=</span><span class="num">0.0</span><span class="opt">):</span>
 
-def main(n, ref=&apos;sun&apos;):
-    offset_momentum(BODIES[ref])
-    report_energy()
-    advance(0.01, n)
-    report_energy()
+    <span class="kwa">for</span> <span class="opt">(((</span>x1<span class="opt">,</span> y1<span class="opt">,</span> z1<span class="opt">),</span> v1<span class="opt">,</span> m1<span class="opt">),</span>
+         <span class="opt">((</span>x2<span class="opt">,</span> y2<span class="opt">,</span> z2<span class="opt">),</span> v2<span class="opt">,</span> m2<span class="opt">))</span> <span class="kwa">in</span> pairs<span class="opt">:</span>
+        dx <span class="opt">=</span> x1 <span class="opt">-</span> x2
+        dy <span class="opt">=</span> y1 <span class="opt">-</span> y2
+        dz <span class="opt">=</span> z1 <span class="opt">-</span> z2
+        e <span class="opt">-= (</span>m1 <span class="opt">*</span> m2<span class="opt">) / ((</span>dx <span class="opt">*</span> dx <span class="opt">+</span> dy <span class="opt">*</span> dy <span class="opt">+</span> dz <span class="opt">*</span> dz<span class="opt">) **</span> <span class="num">0.5</span><span class="opt">)</span>
+    <span class="kwa">for</span> <span class="opt">(</span>r<span class="opt">, [</span>vx<span class="opt">,</span> vy<span class="opt">,</span> vz<span class="opt">],</span> m<span class="opt">)</span> <span class="kwa">in</span> bodies<span class="opt">:</span>
+        e <span class="opt">+=</span> m <span class="opt">* (</span>vx <span class="opt">*</span> vx <span class="opt">+</span> vy <span class="opt">*</span> vy <span class="opt">+</span> vz <span class="opt">*</span> vz<span class="opt">) /</span> <span class="num">2</span><span class="opt">.</span>
+    <span class="kwa">print</span><span class="opt">(</span><span class="str">&quot;%.9f&quot;</span> <span class="opt">%</span> e<span class="opt">)</span>
 
-if __name__ == &apos;__main__&apos;:
-    main(int(sys.argv[1]))
+<span class="kwa">def</span> <span class="kwd">offset_momentum</span><span class="opt">(</span>ref<span class="opt">,</span> bodies<span class="opt">=</span>SYSTEM<span class="opt">,</span> px<span class="opt">=</span><span class="num">0.0</span><span class="opt">,</span> py<span class="opt">=</span><span class="num">0.0</span><span class="opt">,</span> pz<span class="opt">=</span><span class="num">0.0</span><span class="opt">):</span>
+
+    <span class="kwa">for</span> <span class="opt">(</span>r<span class="opt">, [</span>vx<span class="opt">,</span> vy<span class="opt">,</span> vz<span class="opt">],</span> m<span class="opt">)</span> <span class="kwa">in</span> bodies<span class="opt">:</span>
+        px <span class="opt">-=</span> vx <span class="opt">*</span> m
+        py <span class="opt">-=</span> vy <span class="opt">*</span> m
+        pz <span class="opt">-=</span> vz <span class="opt">*</span> m
+    <span class="opt">(</span>r<span class="opt">,</span> v<span class="opt">,</span> m<span class="opt">) =</span> ref
+    v<span class="opt">[</span><span class="num">0</span><span class="opt">] =</span> px <span class="opt">/</span> m
+    v<span class="opt">[</span><span class="num">1</span><span class="opt">] =</span> py <span class="opt">/</span> m
+    v<span class="opt">[</span><span class="num">2</span><span class="opt">] =</span> pz <span class="opt">/</span> m
+
+<span class="kwa">def</span> <span class="kwd">main</span><span class="opt">(</span>n<span class="opt">,</span> ref<span class="opt">=</span><span class="str">&apos;sun&apos;</span><span class="opt">):</span>
+    <span class="kwd">offset_momentum</span><span class="opt">(</span>BODIES<span class="opt">[</span>ref<span class="opt">])</span>
+    <span class="kwd">report_energy</span><span class="opt">()</span>
+    <span class="kwd">advance</span><span class="opt">(</span><span class="num">0.01</span><span class="opt">,</span> n<span class="opt">)</span>
+    <span class="kwd">report_energy</span><span class="opt">()</span>
+
+<span class="kwa">if</span> __name__ <span class="opt">==</span> <span class="str">&apos;__main__&apos;</span><span class="opt">:</span>
+    <span class="kwd">main</span><span class="opt">(</span><span class="kwb">int</span><span class="opt">(</span>sys<span class="opt">.</span>argv<span class="opt">[</span><span class="num">1</span><span class="opt">]))</span>
     </pre>
   </section>
   <section>
@@ -148,12 +148,12 @@ NOTES:
 Python 3.7.0
 
 
-Thu, 28 Jun 2018 20:30:31 GMT
+Wed, 18 Jul 2018 20:39:27 GMT
 
 MAKE:
 mv nbody.python3 nbody.py
 
-0.03s to complete and log all make actions
+0.01s to complete and log all make actions
 
 COMMAND LINE:
 /opt/src/Python-3.7.0/bin/python3 -OO nbody.py 50000000

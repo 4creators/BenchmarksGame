@@ -22,216 +22,216 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-# The Computer Language Benchmarks Game
-# https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
-#
-# submitted by Joerg Baumann
+<span class="slc"># The Computer Language Benchmarks Game</span>
+<span class="slc"># https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="slc">#</span>
+<span class="slc"># submitted by Joerg Baumann</span>
 
-from bisect import bisect
-from contextlib import closing, contextmanager
-from itertools import accumulate, chain, islice, zip_longest
-from multiprocessing import Lock, RawValue, Process
-from os import cpu_count
-from re import sub
-from sys import argv, stdout
+<span class="kwa">from</span> bisect <span class="kwa">import</span> bisect
+<span class="kwa">from</span> contextlib <span class="kwa">import</span> closing<span class="opt">,</span> contextmanager
+<span class="kwa">from</span> itertools <span class="kwa">import</span> accumulate<span class="opt">,</span> chain<span class="opt">,</span> islice<span class="opt">,</span> zip_longest
+<span class="kwa">from</span> multiprocessing <span class="kwa">import</span> Lock<span class="opt">,</span> RawValue<span class="opt">,</span> Process
+<span class="kwa">from</span> os <span class="kwa">import</span> cpu_count
+<span class="kwa">from</span> re <span class="kwa">import</span> sub
+<span class="kwa">from</span> sys <span class="kwa">import</span> argv<span class="opt">,</span> stdout
 
-write = stdout.buffer.write
+write <span class="opt">=</span> stdout<span class="opt">.</span><span class="kwb">buffer</span><span class="opt">.</span>write
 
-def acquired_lock():
-    lock = Lock()
-    lock.acquire()
-    return lock
+<span class="kwa">def</span> <span class="kwd">acquired_lock</span><span class="opt">():</span>
+    lock <span class="opt">=</span> <span class="kwd">Lock</span><span class="opt">()</span>
+    lock<span class="opt">.</span><span class="kwd">acquire</span><span class="opt">()</span>
+    <span class="kwa">return</span> lock
 
-def started_process(target, args):
-    process = Process(target=target, args=args)
-    process.start()
-    return process
+<span class="kwa">def</span> <span class="kwd">started_process</span><span class="opt">(</span>target<span class="opt">,</span> args<span class="opt">):</span>
+    process <span class="opt">=</span> <span class="kwd">Process</span><span class="opt">(</span>target<span class="opt">=</span>target<span class="opt">,</span> args<span class="opt">=</span>args<span class="opt">)</span>
+    process<span class="opt">.</span><span class="kwd">start</span><span class="opt">()</span>
+    <span class="kwa">return</span> process
 
-&#64;contextmanager
-def lock_pair(pre_lock=None, post_lock=None, locks=None):
-    pre, post = locks if locks else (pre_lock, post_lock)
-    if pre:
-        pre.acquire()
-    yield
-    if post:
-        post.release()
+<span class="kwb">&#64;contextmanager</span>
+<span class="kwa">def</span> <span class="kwd">lock_pair</span><span class="opt">(</span>pre_lock<span class="opt">=</span><span class="kwa">None</span><span class="opt">,</span> post_lock<span class="opt">=</span><span class="kwa">None</span><span class="opt">,</span> locks<span class="opt">=</span><span class="kwa">None</span><span class="opt">):</span>
+    pre<span class="opt">,</span> post <span class="opt">=</span> locks <span class="kwa">if</span> locks <span class="kwa">else</span> <span class="opt">(</span>pre_lock<span class="opt">,</span> post_lock<span class="opt">)</span>
+    <span class="kwa">if</span> pre<span class="opt">:</span>
+        pre<span class="opt">.</span><span class="kwd">acquire</span><span class="opt">()</span>
+    <span class="kwa">yield</span>
+    <span class="kwa">if</span> post<span class="opt">:</span>
+        post<span class="opt">.</span><span class="kwd">release</span><span class="opt">()</span>
 
-def write_lines(
-        sequence, n, width, lines_per_block=10000, newline=b&apos;\n&apos;, table=None):
-    i = 0
-    blocks = (n - width) // width // lines_per_block
-    if blocks:
-        for _ in range(blocks):
-            output = bytearray()
-            for i in range(i, i + width * lines_per_block, width):
-                output += sequence[i:i + width] + newline
-            else:
-                i += width
-            if table:
-                write(output.translate(table))
-            else:
-                write(output)
+<span class="kwa">def</span> <span class="kwd">write_lines</span><span class="opt">(</span>
+        sequence<span class="opt">,</span> n<span class="opt">,</span> width<span class="opt">,</span> lines_per_block<span class="opt">=</span><span class="num">10000</span><span class="opt">,</span> newline<span class="opt">=</span>b<span class="str">&apos;</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">,</span> table<span class="opt">=</span><span class="kwa">None</span><span class="opt">):</span>
+    i <span class="opt">=</span> <span class="num">0</span>
+    blocks <span class="opt">= (</span>n <span class="opt">-</span> width<span class="opt">) //</span> width <span class="opt">//</span> lines_per_block
+    <span class="kwa">if</span> blocks<span class="opt">:</span>
+        <span class="kwa">for</span> _ <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span>blocks<span class="opt">):</span>
+            output <span class="opt">=</span> <span class="kwd">bytearray</span><span class="opt">()</span>
+            <span class="kwa">for</span> i <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span>i<span class="opt">,</span> i <span class="opt">+</span> width <span class="opt">*</span> lines_per_block<span class="opt">,</span> width<span class="opt">):</span>
+                output <span class="opt">+=</span> sequence<span class="opt">[</span>i<span class="opt">:</span>i <span class="opt">+</span> width<span class="opt">] +</span> newline
+            <span class="kwa">else</span><span class="opt">:</span>
+                i <span class="opt">+=</span> width
+            <span class="kwa">if</span> table<span class="opt">:</span>
+                <span class="kwd">write</span><span class="opt">(</span>output<span class="opt">.</span><span class="kwd">translate</span><span class="opt">(</span>table<span class="opt">))</span>
+            <span class="kwa">else</span><span class="opt">:</span>
+                <span class="kwd">write</span><span class="opt">(</span>output<span class="opt">)</span>
 
-    output = bytearray()
-    if i &lt; n - width:
-        for i in range(i, n - width, width):
-            output += sequence[i:i + width] + newline
-        else:
-            i += width
-    output += sequence[i:n] + newline
-    if table:
-        write(output.translate(table))
-    else:
-        write(output)
-    stdout.buffer.flush()
+    output <span class="opt">=</span> <span class="kwd">bytearray</span><span class="opt">()</span>
+    <span class="kwa">if</span> i <span class="opt">&lt;</span> n <span class="opt">-</span> width<span class="opt">:</span>
+        <span class="kwa">for</span> i <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span>i<span class="opt">,</span> n <span class="opt">-</span> width<span class="opt">,</span> width<span class="opt">):</span>
+            output <span class="opt">+=</span> sequence<span class="opt">[</span>i<span class="opt">:</span>i <span class="opt">+</span> width<span class="opt">] +</span> newline
+        <span class="kwa">else</span><span class="opt">:</span>
+            i <span class="opt">+=</span> width
+    output <span class="opt">+=</span> sequence<span class="opt">[</span>i<span class="opt">:</span>n<span class="opt">] +</span> newline
+    <span class="kwa">if</span> table<span class="opt">:</span>
+        <span class="kwd">write</span><span class="opt">(</span>output<span class="opt">.</span><span class="kwd">translate</span><span class="opt">(</span>table<span class="opt">))</span>
+    <span class="kwa">else</span><span class="opt">:</span>
+        <span class="kwd">write</span><span class="opt">(</span>output<span class="opt">)</span>
+    stdout<span class="opt">.</span><span class="kwb">buffer</span><span class="opt">.</span><span class="kwd">flush</span><span class="opt">()</span>
 
-def cumulative_probabilities(alphabet, factor=1.0):
-    probabilities = tuple(accumulate(p * factor for _, p in alphabet))
+<span class="kwa">def</span> <span class="kwd">cumulative_probabilities</span><span class="opt">(</span>alphabet<span class="opt">,</span> factor<span class="opt">=</span><span class="num">1.0</span><span class="opt">):</span>
+    probabilities <span class="opt">=</span> <span class="kwb">tuple</span><span class="opt">(</span><span class="kwd">accumulate</span><span class="opt">(</span>p <span class="opt">*</span> factor <span class="kwa">for</span> _<span class="opt">,</span> p <span class="kwa">in</span> alphabet<span class="opt">))</span>
 
-    table = bytearray.maketrans(
-                bytes(chain(range(len(alphabet)), [255])),
-                bytes(chain((ord(c) for c, _ in alphabet), [10]))
-            )
+    table <span class="opt">=</span> bytearray<span class="opt">.</span><span class="kwd">maketrans</span><span class="opt">(</span>
+                <span class="kwd">bytes</span><span class="opt">(</span><span class="kwd">chain</span><span class="opt">(</span><span class="kwb">range</span><span class="opt">(</span><span class="kwb">len</span><span class="opt">(</span>alphabet<span class="opt">)), [</span><span class="num">255</span><span class="opt">])),</span>
+                <span class="kwd">bytes</span><span class="opt">(</span><span class="kwd">chain</span><span class="opt">((</span><span class="kwb">ord</span><span class="opt">(</span>c<span class="opt">)</span> <span class="kwa">for</span> c<span class="opt">,</span> _ <span class="kwa">in</span> alphabet<span class="opt">), [</span><span class="num">10</span><span class="opt">]))</span>
+            <span class="opt">)</span>
 
-    return probabilities, table
+    <span class="kwa">return</span> probabilities<span class="opt">,</span> table
 
-def copy_from_sequence(header, sequence, n, width, locks=None):
-    sequence = bytearray(sequence, encoding=&apos;utf8&apos;)
-    while len(sequence) &lt; n:
-        sequence.extend(sequence)
+<span class="kwa">def</span> <span class="kwd">copy_from_sequence</span><span class="opt">(</span>header<span class="opt">,</span> sequence<span class="opt">,</span> n<span class="opt">,</span> width<span class="opt">,</span> locks<span class="opt">=</span><span class="kwa">None</span><span class="opt">):</span>
+    sequence <span class="opt">=</span> <span class="kwd">bytearray</span><span class="opt">(</span>sequence<span class="opt">,</span> encoding<span class="opt">=</span><span class="str">&apos;utf8&apos;</span><span class="opt">)</span>
+    <span class="kwa">while</span> <span class="kwb">len</span><span class="opt">(</span>sequence<span class="opt">) &lt;</span> n<span class="opt">:</span>
+        sequence<span class="opt">.</span><span class="kwd">extend</span><span class="opt">(</span>sequence<span class="opt">)</span>
 
-    with lock_pair(locks=locks):
-        write(header)
-        write_lines(sequence, n, width)
+    with <span class="kwd">lock_pair</span><span class="opt">(</span>locks<span class="opt">=</span>locks<span class="opt">):</span>
+        <span class="kwd">write</span><span class="opt">(</span>header<span class="opt">)</span>
+        <span class="kwd">write_lines</span><span class="opt">(</span>sequence<span class="opt">,</span> n<span class="opt">,</span> width<span class="opt">)</span>
 
-def lcg(seed, im, ia, ic):
-    local_seed = seed.value
-    try:
-        while True:
-            local_seed = (local_seed * ia + ic) % im
-            yield local_seed
-    finally:
-        seed.value = local_seed
+<span class="kwa">def</span> <span class="kwd">lcg</span><span class="opt">(</span>seed<span class="opt">,</span> im<span class="opt">,</span> ia<span class="opt">,</span> ic<span class="opt">):</span>
+    local_seed <span class="opt">=</span> seed<span class="opt">.</span>value
+    <span class="kwa">try</span><span class="opt">:</span>
+        <span class="kwa">while True</span><span class="opt">:</span>
+            local_seed <span class="opt">= (</span>local_seed <span class="opt">*</span> ia <span class="opt">+</span> ic<span class="opt">) %</span> im
+            <span class="kwa">yield</span> local_seed
+    <span class="kwa">finally</span><span class="opt">:</span>
+        seed<span class="opt">.</span>value <span class="opt">=</span> local_seed
 
-def lookup(probabilities, values):
-    for value in values:
-        yield bisect(probabilities, value)
+<span class="kwa">def</span> <span class="kwd">lookup</span><span class="opt">(</span>probabilities<span class="opt">,</span> values<span class="opt">):</span>
+    <span class="kwa">for</span> value <span class="kwa">in</span> values<span class="opt">:</span>
+        <span class="kwa">yield</span> <span class="kwd">bisect</span><span class="opt">(</span>probabilities<span class="opt">,</span> value<span class="opt">)</span>
 
-def lcg_lookup_slow(probabilities, seed, im, ia, ic):
-    with closing(lcg(seed, im, ia, ic)) as prng:
-        yield from lookup(probabilities, prng)
+<span class="kwa">def</span> <span class="kwd">lcg_lookup_slow</span><span class="opt">(</span>probabilities<span class="opt">,</span> seed<span class="opt">,</span> im<span class="opt">,</span> ia<span class="opt">,</span> ic<span class="opt">):</span>
+    with <span class="kwd">closing</span><span class="opt">(</span><span class="kwd">lcg</span><span class="opt">(</span>seed<span class="opt">,</span> im<span class="opt">,</span> ia<span class="opt">,</span> ic<span class="opt">))</span> <span class="kwa">as</span> prng<span class="opt">:</span>
+        <span class="kwa">yield from</span> <span class="kwd">lookup</span><span class="opt">(</span>probabilities<span class="opt">,</span> prng<span class="opt">)</span>
 
-def lcg_lookup_fast(probabilities, seed, im, ia, ic):
-    local_seed = seed.value
-    try:
-        while True:
-            local_seed = (local_seed * ia + ic) % im
-            yield bisect(probabilities, local_seed)
-    finally:
-        seed.value = local_seed
+<span class="kwa">def</span> <span class="kwd">lcg_lookup_fast</span><span class="opt">(</span>probabilities<span class="opt">,</span> seed<span class="opt">,</span> im<span class="opt">,</span> ia<span class="opt">,</span> ic<span class="opt">):</span>
+    local_seed <span class="opt">=</span> seed<span class="opt">.</span>value
+    <span class="kwa">try</span><span class="opt">:</span>
+        <span class="kwa">while True</span><span class="opt">:</span>
+            local_seed <span class="opt">= (</span>local_seed <span class="opt">*</span> ia <span class="opt">+</span> ic<span class="opt">) %</span> im
+            <span class="kwa">yield</span> <span class="kwd">bisect</span><span class="opt">(</span>probabilities<span class="opt">,</span> local_seed<span class="opt">)</span>
+    <span class="kwa">finally</span><span class="opt">:</span>
+        seed<span class="opt">.</span>value <span class="opt">=</span> local_seed
 
-def lookup_and_write(
-        header, probabilities, table, values, start, stop, width, locks=None):
-    if isinstance(values, bytearray):
-        output = values
-    else:
-        output = bytearray()
-        output[:stop - start] = lookup(probabilities, values)
+<span class="kwa">def</span> <span class="kwd">lookup_and_write</span><span class="opt">(</span>
+        header<span class="opt">,</span> probabilities<span class="opt">,</span> table<span class="opt">,</span> values<span class="opt">,</span> start<span class="opt">,</span> stop<span class="opt">,</span> width<span class="opt">,</span> locks<span class="opt">=</span><span class="kwa">None</span><span class="opt">):</span>
+    <span class="kwa">if</span> <span class="kwb">isinstance</span><span class="opt">(</span>values<span class="opt">,</span> bytearray<span class="opt">):</span>
+        output <span class="opt">=</span> values
+    <span class="kwa">else</span><span class="opt">:</span>
+        output <span class="opt">=</span> <span class="kwd">bytearray</span><span class="opt">()</span>
+        output<span class="opt">[:</span>stop <span class="opt">-</span> start<span class="opt">] =</span> <span class="kwd">lookup</span><span class="opt">(</span>probabilities<span class="opt">,</span> values<span class="opt">)</span>
 
-    with lock_pair(locks=locks):
-        if start == 0:
-            write(header)
-        write_lines(output, len(output), width, newline=b&apos;\xff&apos;, table=table)
+    with <span class="kwd">lock_pair</span><span class="opt">(</span>locks<span class="opt">=</span>locks<span class="opt">):</span>
+        <span class="kwa">if</span> start <span class="opt">==</span> <span class="num">0</span><span class="opt">:</span>
+            <span class="kwd">write</span><span class="opt">(</span>header<span class="opt">)</span>
+        <span class="kwd">write_lines</span><span class="opt">(</span>output<span class="opt">,</span> <span class="kwb">len</span><span class="opt">(</span>output<span class="opt">),</span> width<span class="opt">,</span> newline<span class="opt">=</span>b<span class="str">&apos;</span><span class="esc">\xff</span><span class="str">&apos;</span><span class="opt">,</span> table<span class="opt">=</span>table<span class="opt">)</span>
 
-def random_selection(header, alphabet, n, width, seed, locks=None):
-    im = 139968.0
-    ia = 3877.0
-    ic = 29573.0
+<span class="kwa">def</span> <span class="kwd">random_selection</span><span class="opt">(</span>header<span class="opt">,</span> alphabet<span class="opt">,</span> n<span class="opt">,</span> width<span class="opt">,</span> seed<span class="opt">,</span> locks<span class="opt">=</span><span class="kwa">None</span><span class="opt">):</span>
+    im <span class="opt">=</span> <span class="num">139968.0</span>
+    ia <span class="opt">=</span> <span class="num">3877.0</span>
+    ic <span class="opt">=</span> <span class="num">29573.0</span>
 
-    probabilities, table = cumulative_probabilities(alphabet, im)
+    probabilities<span class="opt">,</span> table <span class="opt">=</span> <span class="kwd">cumulative_probabilities</span><span class="opt">(</span>alphabet<span class="opt">,</span> im<span class="opt">)</span>
 
-    if not locks:
-        with closing(lcg_lookup_fast(probabilities, seed, im, ia, ic)) as prng:
-            output = bytearray(islice(prng, n))
+    <span class="kwa">if not</span> locks<span class="opt">:</span>
+        with <span class="kwd">closing</span><span class="opt">(</span><span class="kwd">lcg_lookup_fast</span><span class="opt">(</span>probabilities<span class="opt">,</span> seed<span class="opt">,</span> im<span class="opt">,</span> ia<span class="opt">,</span> ic<span class="opt">))</span> <span class="kwa">as</span> prng<span class="opt">:</span>
+            output <span class="opt">=</span> <span class="kwd">bytearray</span><span class="opt">(</span><span class="kwd">islice</span><span class="opt">(</span>prng<span class="opt">,</span> n<span class="opt">))</span>
 
-        lookup_and_write(header, probabilities, table, output, 0, n, width)
-    else:
-        pre_seed, post_seed, pre_write, post_write = locks
+        <span class="kwd">lookup_and_write</span><span class="opt">(</span>header<span class="opt">,</span> probabilities<span class="opt">,</span> table<span class="opt">,</span> output<span class="opt">,</span> <span class="num">0</span><span class="opt">,</span> n<span class="opt">,</span> width<span class="opt">)</span>
+    <span class="kwa">else</span><span class="opt">:</span>
+        pre_seed<span class="opt">,</span> post_seed<span class="opt">,</span> pre_write<span class="opt">,</span> post_write <span class="opt">=</span> locks
 
-        m = cpu_count() * 3 if n &gt; width * 15 else 1
-        partitions = [n // (width * m) * width * i for i in range(1, m)]
+        m <span class="opt">=</span> <span class="kwd">cpu_count</span><span class="opt">() *</span> <span class="num">3</span> <span class="kwa">if</span> n <span class="opt">&gt;</span> width <span class="opt">*</span> <span class="num">15</span> <span class="kwa">else</span> <span class="num">1</span>
+        partitions <span class="opt">= [</span>n <span class="opt">// (</span>width <span class="opt">*</span> m<span class="opt">) *</span> width <span class="opt">*</span> i <span class="kwa">for</span> i <span class="kwa">in</span> <span class="kwb">range</span><span class="opt">(</span><span class="num">1</span><span class="opt">,</span> m<span class="opt">)]</span>
 
-        processes = []
-        pre = pre_write
+        processes <span class="opt">= []</span>
+        pre <span class="opt">=</span> pre_write
 
-        with lock_pair(locks=(pre_seed, post_seed)):
-            with closing(lcg(seed, im, ia, ic)) as prng:
-                for start, stop in zip([0] + partitions, partitions + [n]):
-                    values = list(islice(prng, stop - start))
+        with <span class="kwd">lock_pair</span><span class="opt">(</span>locks<span class="opt">=(</span>pre_seed<span class="opt">,</span> post_seed<span class="opt">)):</span>
+            with <span class="kwd">closing</span><span class="opt">(</span><span class="kwd">lcg</span><span class="opt">(</span>seed<span class="opt">,</span> im<span class="opt">,</span> ia<span class="opt">,</span> ic<span class="opt">))</span> <span class="kwa">as</span> prng<span class="opt">:</span>
+                <span class="kwa">for</span> start<span class="opt">,</span> stop <span class="kwa">in</span> <span class="kwb">zip</span><span class="opt">([</span><span class="num">0</span><span class="opt">] +</span> partitions<span class="opt">,</span> partitions <span class="opt">+ [</span>n<span class="opt">]):</span>
+                    values <span class="opt">=</span> <span class="kwb">list</span><span class="opt">(</span><span class="kwd">islice</span><span class="opt">(</span>prng<span class="opt">,</span> stop <span class="opt">-</span> start<span class="opt">))</span>
 
-                    post = acquired_lock() if stop &lt; n else post_write
+                    post <span class="opt">=</span> <span class="kwd">acquired_lock</span><span class="opt">()</span> <span class="kwa">if</span> stop <span class="opt">&lt;</span> n <span class="kwa">else</span> post_write
 
-                    processes.append(started_process(
-                        lookup_and_write,
-                        (header, probabilities, table, values,
-                         start, stop, width, (pre, post))
-                    ))
+                    processes<span class="opt">.</span><span class="kwd">append</span><span class="opt">(</span><span class="kwd">started_process</span><span class="opt">(</span>
+                        lookup_and_write<span class="opt">,</span>
+                        <span class="opt">(</span>header<span class="opt">,</span> probabilities<span class="opt">,</span> table<span class="opt">,</span> values<span class="opt">,</span>
+                         start<span class="opt">,</span> stop<span class="opt">,</span> width<span class="opt">, (</span>pre<span class="opt">,</span> post<span class="opt">))</span>
+                    <span class="opt">))</span>
 
-                    pre = post
+                    pre <span class="opt">=</span> post
 
-        for p in processes:
-            p.join()
+        <span class="kwa">for</span> p <span class="kwa">in</span> processes<span class="opt">:</span>
+            p<span class="opt">.</span><span class="kwd">join</span><span class="opt">()</span>
 
-def fasta(n):
-    alu = sub(r&apos;\s+&apos;, &apos;&apos;, &quot;&quot;&quot;
-GGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGA
-TCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACT
-AAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAG
-GCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCG
-CCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAA
-&quot;&quot;&quot;)
+<span class="kwa">def</span> <span class="kwd">fasta</span><span class="opt">(</span>n<span class="opt">):</span>
+    alu <span class="opt">=</span> <span class="kwd">sub</span><span class="opt">(</span>r<span class="str">&apos;\s+&apos;</span><span class="opt">,</span> <span class="str">&apos;&apos;</span><span class="opt">,</span> <span class="str">&quot;&quot;&quot;</span>
+<span class="str">GGCCGGGCGCGGTGGCTCACGCCTGTAATCCCAGCACTTTGGGAGGCCGAGGCGGGCGGA</span>
+<span class="str">TCACCTGAGGTCAGGAGTTCGAGACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACT</span>
+<span class="str">AAAAATACAAAAATTAGCCGGGCGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAG</span>
+<span class="str">GCTGAGGCAGGAGAATCGCTTGAACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCG</span>
+<span class="str">CCACTGCACTCCAGCCTGGGCGACAGAGCGAGACTCCGTCTCAAAAA</span>
+<span class="str">&quot;&quot;&quot;</span><span class="opt">)</span>
 
-    iub = list(zip_longest(&apos;acgtBDHKMNRSVWY&apos;,
-                           (.27, .12, .12, .27), fillvalue=.02))
+    iub <span class="opt">=</span> <span class="kwb">list</span><span class="opt">(</span><span class="kwd">zip_longest</span><span class="opt">(</span><span class="str">&apos;acgtBDHKMNRSVWY&apos;</span><span class="opt">,</span>
+                           <span class="opt">(</span><span class="num">.27</span><span class="opt">,</span> <span class="num">.12</span><span class="opt">,</span> <span class="num">.12</span><span class="opt">,</span> <span class="num">.27</span><span class="opt">),</span> fillvalue<span class="opt">=</span><span class="num">.02</span><span class="opt">))</span>
 
-    homosapiens = list(zip(&apos;acgt&apos;, (0.3029549426680, 0.1979883004921,
-                                    0.1975473066391, 0.3015094502008)))
+    homosapiens <span class="opt">=</span> <span class="kwb">list</span><span class="opt">(</span><span class="kwb">zip</span><span class="opt">(</span><span class="str">&apos;acgt&apos;</span><span class="opt">, (</span><span class="num">0.3029549426680</span><span class="opt">,</span> <span class="num">0.1979883004921</span><span class="opt">,</span>
+                                    <span class="num">0.1975473066391</span><span class="opt">,</span> <span class="num">0.3015094502008</span><span class="opt">)))</span>
 
-    seed = RawValue(&apos;f&apos;, 42)
-    width = 60
-    tasks = [
-        (copy_from_sequence,
-         [b&apos;&gt;ONE Homo sapiens alu\n&apos;, alu, n * 2, width]),
-        (random_selection,
-         [b&apos;&gt;TWO IUB ambiguity codes\n&apos;, iub, n * 3, width, seed]),
-        (random_selection,
-         [b&apos;&gt;THREE Homo sapiens frequency\n&apos;, homosapiens, n * 5, width, seed]),
-    ]
+    seed <span class="opt">=</span> <span class="kwd">RawValue</span><span class="opt">(</span><span class="str">&apos;f&apos;</span><span class="opt">,</span> <span class="num">42</span><span class="opt">)</span>
+    width <span class="opt">=</span> <span class="num">60</span>
+    tasks <span class="opt">= [</span>
+        <span class="opt">(</span>copy_from_sequence<span class="opt">,</span>
+         <span class="opt">[</span>b<span class="str">&apos;&gt;ONE Homo sapiens alu</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">,</span> alu<span class="opt">,</span> n <span class="opt">*</span> <span class="num">2</span><span class="opt">,</span> width<span class="opt">]),</span>
+        <span class="opt">(</span>random_selection<span class="opt">,</span>
+         <span class="opt">[</span>b<span class="str">&apos;&gt;TWO IUB ambiguity codes</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">,</span> iub<span class="opt">,</span> n <span class="opt">*</span> <span class="num">3</span><span class="opt">,</span> width<span class="opt">,</span> seed<span class="opt">]),</span>
+        <span class="opt">(</span>random_selection<span class="opt">,</span>
+         <span class="opt">[</span>b<span class="str">&apos;&gt;THREE Homo sapiens frequency</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">,</span> homosapiens<span class="opt">,</span> n <span class="opt">*</span> <span class="num">5</span><span class="opt">,</span> width<span class="opt">,</span> seed<span class="opt">]),</span>
+    <span class="opt">]</span>
 
-    if cpu_count() &lt; 2:
-        for func, args in tasks:
-            func(*args)
-    else:
-        written_1 = acquired_lock()
-        seeded_2 = acquired_lock()
-        written_2 = acquired_lock()
+    <span class="kwa">if</span> <span class="kwd">cpu_count</span><span class="opt">() &lt;</span> <span class="num">2</span><span class="opt">:</span>
+        <span class="kwa">for</span> func<span class="opt">,</span> args <span class="kwa">in</span> tasks<span class="opt">:</span>
+            <span class="kwd">func</span><span class="opt">(*</span>args<span class="opt">)</span>
+    <span class="kwa">else</span><span class="opt">:</span>
+        written_1 <span class="opt">=</span> <span class="kwd">acquired_lock</span><span class="opt">()</span>
+        seeded_2 <span class="opt">=</span> <span class="kwd">acquired_lock</span><span class="opt">()</span>
+        written_2 <span class="opt">=</span> <span class="kwd">acquired_lock</span><span class="opt">()</span>
 
-        locks_sets = [
-            (None, written_1),
-            (None, seeded_2, written_1, written_2),
-            (seeded_2, None, written_2, None),
-        ]
+        locks_sets <span class="opt">= [</span>
+            <span class="opt">(</span><span class="kwa">None</span><span class="opt">,</span> written_1<span class="opt">),</span>
+            <span class="opt">(</span><span class="kwa">None</span><span class="opt">,</span> seeded_2<span class="opt">,</span> written_1<span class="opt">,</span> written_2<span class="opt">),</span>
+            <span class="opt">(</span>seeded_2<span class="opt">,</span> <span class="kwa">None</span><span class="opt">,</span> written_2<span class="opt">,</span> <span class="kwa">None</span><span class="opt">),</span>
+        <span class="opt">]</span>
 
-        processes = [
-            started_process(target, args + [locks_sets[i]])
-                for i, (target, args) in enumerate(tasks)
-        ]
+        processes <span class="opt">= [</span>
+            <span class="kwd">started_process</span><span class="opt">(</span>target<span class="opt">,</span> args <span class="opt">+ [</span>locks_sets<span class="opt">[</span>i<span class="opt">]])</span>
+                <span class="kwa">for</span> i<span class="opt">, (</span>target<span class="opt">,</span> args<span class="opt">)</span> <span class="kwa">in</span> <span class="kwb">enumerate</span><span class="opt">(</span>tasks<span class="opt">)</span>
+        <span class="opt">]</span>
 
-        for p in processes:
-            p.join()
+        <span class="kwa">for</span> p <span class="kwa">in</span> processes<span class="opt">:</span>
+            p<span class="opt">.</span><span class="kwd">join</span><span class="opt">()</span>
 
-if __name__ == &quot;__main__&quot;:
-    fasta(int(argv[1]))
+<span class="kwa">if</span> __name__ <span class="opt">==</span> <span class="str">&quot;__main__&quot;</span><span class="opt">:</span>
+    <span class="kwd">fasta</span><span class="opt">(</span><span class="kwb">int</span><span class="opt">(</span>argv<span class="opt">[</span><span class="num">1</span><span class="opt">]))</span>
     </pre>
   </section>
   <section>
@@ -242,7 +242,7 @@ NOTES:
 Python 3.7.0
 
 
-Thu, 28 Jun 2018 18:46:13 GMT
+Wed, 18 Jul 2018 19:42:48 GMT
 
 MAKE:
 mv fasta.python3-5.python3 fasta.python3-5.py

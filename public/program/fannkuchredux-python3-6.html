@@ -22,62 +22,62 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <h2>source code</h2>
     </div>
     <pre>
-# The Computer Language Benchmarks Game
-# https://salsa.debian.org/benchmarksgame-team/benchmarksgame/
+<span class="slc"># The Computer Language Benchmarks Game</span>
+<span class="slc"># https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
 
-#    contributed by Isaac Gouy
-#    converted to Java by Oleg Mazurov
-#    converted to Python by Buck Golemon
-#    modified by Justin Peel
+<span class="slc">#    contributed by Isaac Gouy</span>
+<span class="slc">#    converted to Java by Oleg Mazurov</span>
+<span class="slc">#    converted to Python by Buck Golemon</span>
+<span class="slc">#    modified by Justin Peel</span>
 
-def fannkuch(n):
-    maxFlipsCount = 0
-    permSign = True
-    checksum = 0
+<span class="kwa">def</span> <span class="kwd">fannkuch</span><span class="opt">(</span>n<span class="opt">):</span>
+    maxFlipsCount <span class="opt">=</span> <span class="num">0</span>
+    permSign <span class="opt">=</span> <span class="kwa">True</span>
+    checksum <span class="opt">=</span> <span class="num">0</span>
 
-    perm1 = list(range(n))
-    count = perm1[:]
-    rxrange = range(2, n - 1)
-    nm = n - 1
-    while 1:
-        k = perm1[0]
-        if k:
-            perm = perm1[:]
-            flipsCount = 1
-            kk = perm[k]
-            while kk:
-                perm[:k+1] = perm[k::-1]
-                flipsCount += 1
-                k = kk
-                kk = perm[kk]
-            if maxFlipsCount &lt; flipsCount:
-                maxFlipsCount = flipsCount
-            checksum += flipsCount if permSign else -flipsCount
+    perm1 <span class="opt">=</span> <span class="kwb">list</span><span class="opt">(</span><span class="kwb">range</span><span class="opt">(</span>n<span class="opt">))</span>
+    count <span class="opt">=</span> perm1<span class="opt">[:]</span>
+    rxrange <span class="opt">=</span> <span class="kwb">range</span><span class="opt">(</span><span class="num">2</span><span class="opt">,</span> n <span class="opt">-</span> <span class="num">1</span><span class="opt">)</span>
+    nm <span class="opt">=</span> n <span class="opt">-</span> <span class="num">1</span>
+    <span class="kwa">while</span> <span class="num">1</span><span class="opt">:</span>
+        k <span class="opt">=</span> perm1<span class="opt">[</span><span class="num">0</span><span class="opt">]</span>
+        <span class="kwa">if</span> k<span class="opt">:</span>
+            perm <span class="opt">=</span> perm1<span class="opt">[:]</span>
+            flipsCount <span class="opt">=</span> <span class="num">1</span>
+            kk <span class="opt">=</span> perm<span class="opt">[</span>k<span class="opt">]</span>
+            <span class="kwa">while</span> kk<span class="opt">:</span>
+                perm<span class="opt">[:</span>k<span class="opt">+</span><span class="num">1</span><span class="opt">] =</span> perm<span class="opt">[</span>k<span class="opt">::-</span><span class="num">1</span><span class="opt">]</span>
+                flipsCount <span class="opt">+=</span> <span class="num">1</span>
+                k <span class="opt">=</span> kk
+                kk <span class="opt">=</span> perm<span class="opt">[</span>kk<span class="opt">]</span>
+            <span class="kwa">if</span> maxFlipsCount <span class="opt">&lt;</span> flipsCount<span class="opt">:</span>
+                maxFlipsCount <span class="opt">=</span> flipsCount
+            checksum <span class="opt">+=</span> flipsCount <span class="kwa">if</span> permSign <span class="kwa">else</span> <span class="opt">-</span>flipsCount
 
-        # Use incremental change to generate another permutation
-        if permSign:
-            perm1[0],perm1[1] = perm1[1],perm1[0]
-            permSign = False
-        else:
-            perm1[1],perm1[2] = perm1[2],perm1[1]
-            permSign = True
-            for r in rxrange:
-                if count[r]:
-                    break
-                count[r] = r
-                perm0 = perm1[0]
-                perm1[:r+1] = perm1[1:r+2]
-                perm1[r+1] = perm0
-            else:
-                r = nm
-                if not count[r]:
-                    print( checksum )
-                    return maxFlipsCount
-            count[r] -= 1
-from sys import argv
-n = int(argv[1])
+        <span class="slc"># Use incremental change to generate another permutation</span>
+        <span class="kwa">if</span> permSign<span class="opt">:</span>
+            perm1<span class="opt">[</span><span class="num">0</span><span class="opt">],</span>perm1<span class="opt">[</span><span class="num">1</span><span class="opt">] =</span> perm1<span class="opt">[</span><span class="num">1</span><span class="opt">],</span>perm1<span class="opt">[</span><span class="num">0</span><span class="opt">]</span>
+            permSign <span class="opt">=</span> <span class="kwa">False</span>
+        <span class="kwa">else</span><span class="opt">:</span>
+            perm1<span class="opt">[</span><span class="num">1</span><span class="opt">],</span>perm1<span class="opt">[</span><span class="num">2</span><span class="opt">] =</span> perm1<span class="opt">[</span><span class="num">2</span><span class="opt">],</span>perm1<span class="opt">[</span><span class="num">1</span><span class="opt">]</span>
+            permSign <span class="opt">=</span> <span class="kwa">True</span>
+            <span class="kwa">for</span> r <span class="kwa">in</span> rxrange<span class="opt">:</span>
+                <span class="kwa">if</span> count<span class="opt">[</span>r<span class="opt">]:</span>
+                    <span class="kwa">break</span>
+                count<span class="opt">[</span>r<span class="opt">] =</span> r
+                perm0 <span class="opt">=</span> perm1<span class="opt">[</span><span class="num">0</span><span class="opt">]</span>
+                perm1<span class="opt">[:</span>r<span class="opt">+</span><span class="num">1</span><span class="opt">] =</span> perm1<span class="opt">[</span><span class="num">1</span><span class="opt">:</span>r<span class="opt">+</span><span class="num">2</span><span class="opt">]</span>
+                perm1<span class="opt">[</span>r<span class="opt">+</span><span class="num">1</span><span class="opt">] =</span> perm0
+            <span class="kwa">else</span><span class="opt">:</span>
+                r <span class="opt">=</span> nm
+                <span class="kwa">if not</span> count<span class="opt">[</span>r<span class="opt">]:</span>
+                    <span class="kwa">print</span><span class="opt">(</span> checksum <span class="opt">)</span>
+                    <span class="kwa">return</span> maxFlipsCount
+            count<span class="opt">[</span>r<span class="opt">] -=</span> <span class="num">1</span>
+<span class="kwa">from</span> sys <span class="kwa">import</span> argv
+n <span class="opt">=</span> <span class="kwb">int</span><span class="opt">(</span>argv<span class="opt">[</span><span class="num">1</span><span class="opt">])</span>
 
-print(( &quot;Pfannkuchen(%i) = %i&quot; % (n, fannkuch(n)) ))
+<span class="kwa">print</span><span class="opt">((</span> <span class="str">&quot;Pfannkuchen(</span><span class="ipl">%i</span><span class="str">) =</span> <span class="ipl">%i</span><span class="str">&quot;</span> <span class="opt">% (</span>n<span class="opt">,</span> <span class="kwd">fannkuch</span><span class="opt">(</span>n<span class="opt">)) ))</span>
     </pre>
   </section>
   <section>
@@ -88,7 +88,7 @@ NOTES:
 Python 3.7.0
 
 
-Thu, 28 Jun 2018 17:54:47 GMT
+Wed, 18 Jul 2018 19:00:07 GMT
 
 MAKE:
 mv fannkuchredux.python3-6.python3 fannkuchredux.python3-6.py

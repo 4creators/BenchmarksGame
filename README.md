@@ -1,8 +1,6 @@
 The Benchmarks Game
 ===================
 
-The project has only recently moved to GitLab, so things are a little messed-up — please show some patience!
-
 Website
 -------
 
@@ -13,7 +11,12 @@ https://benchmarksgame-team.pages.debian.net/benchmarksgame/
 Questions?
 ----------
 
+Where can I get the measurement scripts? [zip'd Python measurement scripts](/public/download/benchmarksgame-script.zip)
+
+Where can I get the program source code? [zip'd program source code](/public/download/benchmarksgame-sourcecode.zip)
+
 Please open a new [Question](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Question) issue.
+
 
 Suggestions?
 ------------
@@ -21,10 +24,12 @@ Suggestions?
 Please open a new [Change](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Change) issue.
 
 
-Contributing
-------------
+Contribute source-code for measurement
+--------------------------------------
 
-We are very happy to accept community contributions. Please refer to [CONTRIBUTING.md](/CONTRIBUTING.md) for details.
+The programs that we measure have been crowd-sourced, contributed to the project by an ever-changing self-selected group.
+
+We are usually happy to accept new programs. Please refer to [CONTRIBUTING.md](/CONTRIBUTING.md) for details.
 
 Available data
 --------------

@@ -17,13 +17,13 @@ Where can I get the program source code?
 Where can I get the measurement scripts? 
  — [zip'd Python measurement scripts](/public/download/benchmarksgame-script.zip)
 
+Where can I get the program measurements? 
+ — [.csv data files](/public/data)
+
+Where can I get the archived program source code? 
+ — [EOL'd Debian Alioth files](https://salsa.debian.org/benchmarksgame-team/archive-alioth-benchmarksgame)
+
 Please open a new [Question](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Question) issue.
-
-
-Suggestions?
-------------
-
-Please open a new [Change](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Change) issue.
 
 
 Contribute source-code for measurement
@@ -33,15 +33,10 @@ The programs that we measure have been crowd-sourced, contributed to the project
 
 We are usually happy to accept new programs. Please refer to [CONTRIBUTING.md](/CONTRIBUTING.md) for details.
 
-Available data
---------------
 
-We are happy for you to use [the program measurements](/public/data/) to do your own analysis and presentation.
+Suggestions?
+------------
+
+Please open a new [Change](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Change) issue.
 
 
-Archive
--------
-
-We are happy for you to use the contributed source-code files in your own projects.
-
-Previously contributed (Alioth benchmarks game project and Alioth "shootout" project) source-code files are available from the [archive-alioth-benchmarksgame](https://salsa.debian.org/benchmarksgame-team/archive-alioth-benchmarksgame) project.

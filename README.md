@@ -21,7 +21,7 @@ Where can I get the program measurements?
  — [.csv data files](/public/data)
 
 Where can I get the archived program source code? 
- — [EOL'd Debian Alioth files](https://salsa.debian.org/benchmarksgame-team/archive-alioth-benchmarksgame)
+ — [Debian Alioth files](https://salsa.debian.org/benchmarksgame-team/archive-alioth-benchmarksgame)
 
 Please open a new [Question](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Question) issue.
 

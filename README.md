@@ -37,6 +37,6 @@ We are usually happy to accept new programs. If you wish to contribute a better 
 Suggestions?
 ------------
 
-If you wish to suggest some kind-of change then please open a new [Change](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Change) issue.
+If you wish to suggest some kind of change then please open a new [Change](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Change) issue.
 
 

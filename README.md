@@ -23,7 +23,7 @@ Where can I get the program measurements?
 Where can I get the archived program source code? 
  — [Debian Alioth files](https://salsa.debian.org/benchmarksgame-team/archive-alioth-benchmarksgame)
 
-Please open a new [Question](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Question) issue.
+If you have other questions then please open a new [Question](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Question) issue.
 
 
 Contribute source-code for measurement
@@ -31,12 +31,12 @@ Contribute source-code for measurement
 
 The programs that we measure have been crowd-sourced, contributed to the project by an ever-changing self-selected group.
 
-We are usually happy to accept new programs. Please refer to [CONTRIBUTING.md](/CONTRIBUTING.md) for details.
+We are usually happy to accept new programs. If you wish to contribute a better program then please refer to [CONTRIBUTING.md](/CONTRIBUTING.md).
 
 
 Suggestions?
 ------------
 
-Please open a new [Change](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Change) issue.
+If you wish to suggest some kind-of change then please open a new [Change](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Change) issue.
 
 

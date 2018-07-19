@@ -1,5 +1,9 @@
 Thank you for your interest in contributing to the benchmarks game!
 
+The programs that we measure have been crowd-sourced, contributed to the project by an ever-changing self-selected group.
+
+We are usually happy to accept better programs.
+
 
 Contribute source-code for measurement
 ======================================

@@ -158,19 +158,19 @@ out<span class="opt">.</span><span class="kwd">flush</span><span class="opt">(</
 NOTES:
 64-bit Ubuntu quad core
 Version 2.9.2
-node.js v10.5.0
+node.js v10.7.0
 
 
-Fri, 29 Jun 2018 21:09:47 GMT
+Thu, 19 Jul 2018 21:24:11 GMT
 
 MAKE:
 mv fasta.typescript fasta.ts
-/opt/src/node-v10.5.0-linux-x64/bin/tsc --alwaysStrict -t ESNEXT  fasta.ts
+/opt/src/node-v10.7.0-linux-x64/bin/tsc --alwaysStrict --removeComments -t ESNEXT  fasta.ts
 
-3.11s to complete and log all make actions
+3.02s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/node-v10.5.0-linux-x64/bin/node --use_strict fasta.js 25000000
+/opt/src/node-v10.7.0-linux-x64/bin/node --use_strict  fasta.js 25000000
 
 (TRUNCATED) PROGRAM OUTPUT:
 &gt;ONE Homo sapiens alu
@@ -342,7 +342,7 @@ GACCAGCCTGGCCAACATGGTGAAACCCCGTCTCTACTAAAAATACAAAAATTAGCCGGG
 CGTGGTGGCGCGCGCCTGTAATCCCAGCTACTCGGGAGGCTGAGGCAGGAGAATCGCTTG
 AACCCGGGAGGCGGAGGTTGCAGTGAGCCGAGATCGCGCCACTGCACTCCAGCCTGGGCG
 ACAGAGCGAGACTCCGTCTCAAAAAGGCCGG
-(node:4425) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+(node:17371) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
     </pre>
   </section>
 </article>

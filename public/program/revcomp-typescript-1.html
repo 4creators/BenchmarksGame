@@ -217,14 +217,14 @@ stdin<span class="opt">.</span><span class="kwd">on</span><span class="opt">(</s
 NOTES:
 64-bit Ubuntu quad core
 Version 2.9.2
-node.js v10.5.0
+node.js v10.7.0
 
 
-Fri, 29 Jun 2018 22:08:14 GMT
+Thu, 19 Jul 2018 21:55:41 GMT
 
 MAKE:
 mv revcomp.typescript revcomp.ts
-/opt/src/node-v10.5.0-linux-x64/bin/tsc --alwaysStrict -t ESNEXT  revcomp.ts
+/opt/src/node-v10.7.0-linux-x64/bin/tsc --alwaysStrict --removeComments -t ESNEXT  revcomp.ts
 revcomp.ts(63,36): error TS2349: Cannot invoke an expression whose type lacks a call signature. Type '((searchString: string, position?: number) =&gt; number) | ((value: string | number | Buffer, byteOf...' has no compatible call signatures.
 revcomp.ts(64,56): error TS2554: Expected 0 arguments, but got 1.
 revcomp.ts(69,30): error TS2349: Cannot invoke an expression whose type lacks a call signature. Type '((searchString: string, position?: number) =&gt; number) | ((value: string | number | Buffer, byteOf...' has no compatible call signatures.
@@ -241,10 +241,10 @@ revcomp.ts(104,21): error TS2322: Type 'string | Buffer' is not assignable to ty
 /home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:649: recipe for target 'revcomp.typescript_run' failed
 make: [revcomp.typescript_run] Error 2 (ignored)
 
-3.55s to complete and log all make actions
+3.08s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/node-v10.5.0-linux-x64/bin/node --use_strict revcomp.js 0 &lt; revcomp-input100000000.txt
+/opt/src/node-v10.7.0-linux-x64/bin/node --use_strict  revcomp.js 0 &lt; revcomp-input100000000.txt
 
 (TRUNCATED) PROGRAM OUTPUT:
 &gt;ONE Homo sapiens alu
@@ -416,7 +416,7 @@ GATCTCGGCTCACTGCAACCTCCGCCTCCCGGGTTCAAGCGATTCTCCTGCCTCAGCCTC
 CCGAGTAGCTGGGATTACAGGCGCGCGCCACCACGCCCGGCTAATTTTTGTATTTTTAGT
 AGAGACGGGGTTTCACCATGTTGGCCAGGCTGGTCTCGAACTCCTGACCTCAGGTGATCC
 GCCCGCCTCGGCCTCCCAAAGTGCTGGGATT
-(node:6469) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+(node:18173) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
     </pre>
   </section>
 </article>

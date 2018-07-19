@@ -79,19 +79,19 @@ process<span class="opt">.</span>stdout<span class="opt">.</span><span class="kw
 NOTES:
 64-bit Ubuntu quad core
 Version 2.9.2
-node.js v10.5.0
+node.js v10.7.0
 
 
-Fri, 29 Jun 2018 21:21:25 GMT
+Thu, 19 Jul 2018 21:27:23 GMT
 
 MAKE:
 mv mandelbrot.typescript mandelbrot.ts
-/opt/src/node-v10.5.0-linux-x64/bin/tsc --alwaysStrict -t ESNEXT  mandelbrot.ts
+/opt/src/node-v10.7.0-linux-x64/bin/tsc --alwaysStrict --removeComments -t ESNEXT  mandelbrot.ts
 
-3.27s to complete and log all make actions
+3.07s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/node-v10.5.0-linux-x64/bin/node --use_strict mandelbrot.js 16000
+/opt/src/node-v10.7.0-linux-x64/bin/node --use_strict --experimental-worker mandelbrot.js 16000
 
 PROGRAM FAILED 
 
@@ -99,17 +99,17 @@ PROGRAM FAILED
 (BINARY) PROGRAM OUTPUT NOT SHOWN
 
 FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
- 1: 0x89a0c0 node::Abort() [/opt/src/node-v10.5.0-linux-x64/bin/node]
- 2: 0x89a10c  [/opt/src/node-v10.5.0-linux-x64/bin/node]
- 3: 0xa879be v8::Utils::ReportOOMFailure(v8::internal::Isolate*, char const*, bool) [/opt/src/node-v10.5.0-linux-x64/bin/node]
- 4: 0xa87bd8 v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, bool) [/opt/src/node-v10.5.0-linux-x64/bin/node]
- 5: 0xe753e2  [/opt/src/node-v10.5.0-linux-x64/bin/node]
- 6: 0xe8130a v8::internal::Heap::PerformGarbageCollection(v8::internal::GarbageCollector, v8::GCCallbackFlags) [/opt/src/node-v10.5.0-linux-x64/bin/node]
- 7: 0xe81c74 v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [/opt/src/node-v10.5.0-linux-x64/bin/node]
- 8: 0xe845a5 v8::internal::Heap::AllocateRawWithRetry(int, v8::internal::AllocationSpace, v8::internal::AllocationAlignment) [/opt/src/node-v10.5.0-linux-x64/bin/node]
- 9: 0xe4cad4 v8::internal::Factory::NewFillerObject(int, bool, v8::internal::AllocationSpace) [/opt/src/node-v10.5.0-linux-x64/bin/node]
-10: 0x10ecdbe v8::internal::Runtime_AllocateInNewSpace(int, v8::internal::Object**, v8::internal::Isolate*) [/opt/src/node-v10.5.0-linux-x64/bin/node]
-11: 0x138bdd1041bd 
+ 1: 0x8b5f80 node::Abort() [/opt/src/node-v10.7.0-linux-x64/bin/node]
+ 2: 0x8b5fcc  [/opt/src/node-v10.7.0-linux-x64/bin/node]
+ 3: 0xab730e v8::Utils::ReportOOMFailure(v8::internal::Isolate*, char const*, bool) [/opt/src/node-v10.7.0-linux-x64/bin/node]
+ 4: 0xab7528 v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, bool) [/opt/src/node-v10.7.0-linux-x64/bin/node]
+ 5: 0xea5152  [/opt/src/node-v10.7.0-linux-x64/bin/node]
+ 6: 0xeb10aa v8::internal::Heap::PerformGarbageCollection(v8::internal::GarbageCollector, v8::GCCallbackFlags) [/opt/src/node-v10.7.0-linux-x64/bin/node]
+ 7: 0xeb1a14 v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [/opt/src/node-v10.7.0-linux-x64/bin/node]
+ 8: 0xeb4345 v8::internal::Heap::AllocateRawWithRetry(int, v8::internal::AllocationSpace, v8::internal::AllocationAlignment) [/opt/src/node-v10.7.0-linux-x64/bin/node]
+ 9: 0xe7c824 v8::internal::Factory::NewFillerObject(int, bool, v8::internal::AllocationSpace) [/opt/src/node-v10.7.0-linux-x64/bin/node]
+10: 0x111e1de v8::internal::Runtime_AllocateInNewSpace(int, v8::internal::Object**, v8::internal::Isolate*) [/opt/src/node-v10.7.0-linux-x64/bin/node]
+11: 0x9ba581041bd 
     </pre>
   </section>
 </article>

@@ -108,44 +108,44 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 NOTES:
 64-bit Ubuntu quad core
 Version 2.9.2
-node.js v10.5.0
+node.js v10.7.0
 
 
-Fri, 29 Jun 2018 21:16:45 GMT
+Thu, 19 Jul 2018 21:25:25 GMT
 
 MAKE:
 mv knucleotide.typescript knucleotide.ts
-/opt/src/node-v10.5.0-linux-x64/bin/tsc --alwaysStrict -t ESNEXT  knucleotide.ts
+/opt/src/node-v10.7.0-linux-x64/bin/tsc --alwaysStrict --removeComments -t ESNEXT  knucleotide.ts
 /opt/src/node-v8.8.1-linux-x64/lib/node_modules/babel-cli/bin/babel.js --plugins transform-es2015-modules-commonjs knucleotide.js -o knucleotide.js
 make: /opt/src/node-v8.8.1-linux-x64/lib/node_modules/babel-cli/bin/babel.js: Command not found
 /home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:649: recipe for target 'knucleotide.typescript_run' failed
 make: [knucleotide.typescript_run] Error 127 (ignored)
 
-3.06s to complete and log all make actions
+3.01s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/node-v10.5.0-linux-x64/bin/node --use_strict knucleotide.js 0 &lt; knucleotide-input250000.txt
+/opt/src/node-v10.7.0-linux-x64/bin/node --use_strict  knucleotide.js 0 &lt; knucleotide-input250000.txt
 
 PROGRAM FAILED 
 
 
 PROGRAM OUTPUT:
 
-/home/dunham/benchmarksgame_quadcore/knucleotide/tmp/knucleotide.js:7
-import { createInterface } from &quot;readline&quot;;
-       ^
+/home/dunham/benchmarksgame_quadcore/knucleotide/tmp/knucleotide.js:1
+(function (exports, require, module, __filename, __dirname) { import { createInterface } from &quot;readline&quot;;
+                                                                     ^
 
 SyntaxError: Unexpected token {
     at new Script (vm.js:74:7)
     at createScript (vm.js:246:10)
     at Object.runInThisContext (vm.js:298:10)
-    at Module._compile (internal/modules/cjs/loader.js:670:28)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:713:10)
-    at Module.load (internal/modules/cjs/loader.js:612:32)
-    at tryModuleLoad (internal/modules/cjs/loader.js:551:12)
-    at Function.Module._load (internal/modules/cjs/loader.js:543:3)
-    at Function.Module.runMain (internal/modules/cjs/loader.js:744:10)
-    at startup (internal/bootstrap/node.js:240:19)
+    at Module._compile (internal/modules/cjs/loader.js:657:28)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Module.load (internal/modules/cjs/loader.js:599:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:530:3)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:742:12)
+    at startup (internal/bootstrap/node.js:266:19)
     </pre>
   </section>
 </article>

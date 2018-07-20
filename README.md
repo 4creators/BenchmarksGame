@@ -31,7 +31,7 @@ Contribute source-code for measurement
 
 The programs that we measure have been crowd-sourced, contributed to the project by an ever-changing self-selected group.
 
-We are usually happy to accept new programs. If you wish to contribute a better program then please refer to [CONTRIBUTING.md](/CONTRIBUTING.md).
+We are usually happy to accept better programs. If you wish to contribute a program then please follow these instructions — [CONTRIBUTING.md](/CONTRIBUTING.md).
 
 
 Suggestions?

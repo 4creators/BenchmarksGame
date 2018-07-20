@@ -25,12 +25,12 @@ Use `diff` to check that whitespace characters match.
 `diff` program-output with the output-file provided in the [description](https://benchmarksgame-team.pages.debian.net/benchmarksgame/description/summary.html).
 
 
-Upload a COMPLETE TESTED source-code file
+Upload a complete tested source-code file
 -----------------------------------------
 
 Open a new [Contribute Source Code](https://salsa.debian.org/benchmarksgame-team/benchmarksgame/issues/new?issuable_template=Contribute Source Code) issue.
 
-Attach your COMPLETE TESTED source-code file.
+Attach your complete tested source-code file.
 
 (patch files will not be accepted.)
 

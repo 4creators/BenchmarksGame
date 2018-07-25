@@ -87,8 +87,8 @@ macro_rules<span class="opt">!</span> regex <span class="opt">{ (</span>$re<span
 
     <span class="kwa">for</span> variant <span class="kwa">in</span> counts<span class="opt">.</span><span class="kwd">join</span><span class="opt">()</span><span class="num">.u</span>nwrap<span class="opt">() {</span>
 	println<span class="opt">!(</span><span class="str">&quot;{}&quot;</span><span class="opt">,</span> variant<span class="opt">)</span>
-    <span class="opt">}</span> 
-    println<span class="opt">!(</span><span class="str">&quot;</span><span class="esc">\</span><span class="str">n{}</span> <span class="esc">\</span><span class="str">n{}</span> <span class="esc">\</span><span class="str">n{:?}&quot;</span><span class="opt">,</span> input_len<span class="opt">,</span> clen<span class="opt">,</span> result<span class="opt">.</span><span class="kwd">join</span><span class="opt">()</span><span class="num">.u</span>nwrap<span class="opt">());</span>
+    <span class="opt">}</span>
+    println<span class="opt">!(</span><span class="str">&quot;</span><span class="esc">\</span><span class="str">n{}</span><span class="esc">\</span><span class="str">n{}</span><span class="esc">\</span><span class="str">n{:?}&quot;</span><span class="opt">,</span> input_len<span class="opt">,</span> clen<span class="opt">,</span> result<span class="opt">.</span><span class="kwd">join</span><span class="opt">()</span><span class="num">.u</span>nwrap<span class="opt">());</span>
 <span class="opt">}</span>
     
     </pre>
@@ -101,39 +101,30 @@ NOTES:
 rustc 1.27.0 (3eda71b00 2018-06-19)
 
 
-Mon, 23 Jul 2018 19:07:18 GMT
+Wed, 25 Jul 2018 16:15:09 GMT
 
 MAKE:
 /opt/src/rust-1.27.0/bin/rustc -C opt-level=3 -C target-cpu=core2 -C lto -C codegen-units=1 -L /opt/src/rust-libs regexredux.rs -o regexredux.rust-4.rust_run
 
-34.80s to complete and log all make actions
+34.81s to complete and log all make actions
 
 COMMAND LINE:
-./regexredux.rust-4.rust_run 0 &lt; regexredux-input50000.txt
-
-UNEXPECTED OUTPUT 
-
-11,12c11,12
-&lt; 508411 
-&lt; 500000 
----
-&gt; 508411
-&gt; 500000
+./regexredux.rust-4.rust_run 0 &lt; regexredux-input5000000.txt
 
 PROGRAM OUTPUT:
-agggtaaa|tttaccct 3
-[cgt]gggtaaa|tttaccc[acg] 12
-a[act]ggtaaa|tttacc[agt]t 43
-ag[act]gtaaa|tttac[agt]ct 27
-agg[act]taaa|ttta[agt]cct 58
-aggg[acg]aaa|ttt[cgt]ccct 16
-agggt[cgt]aa|tt[acg]accct 15
-agggta[cgt]a|t[acg]taccct 18
-agggtaa[cgt]|[acg]ttaccct 20
+agggtaaa|tttaccct 356
+[cgt]gggtaaa|tttaccc[acg] 1250
+a[act]ggtaaa|tttacc[agt]t 4252
+ag[act]gtaaa|tttac[agt]ct 2894
+agg[act]taaa|ttta[agt]cct 5435
+aggg[acg]aaa|ttt[cgt]ccct 1537
+agggt[cgt]aa|tt[acg]accct 1431
+agggta[cgt]a|t[acg]taccct 1608
+agggtaa[cgt]|[acg]ttaccct 2178
 
-508411 
-500000 
-273927
+50833411
+50000000
+27388361
     </pre>
   </section>
 </article>

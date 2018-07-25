@@ -56,7 +56,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
    <span class="slc">// full lines</span>
    <span class="kwa">for</span> <span class="opt">(</span><span class="kwc">$i</span> <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> <span class="kwc">$i</span> <span class="opt">&lt;</span> <span class="kwc">$lines</span><span class="opt">;</span> ++<span class="kwc">$i</span><span class="opt">) {</span>
       <span class="kwc">$pick</span> <span class="opt">=</span> <span class="str">&quot;&quot;</span><span class="opt">;</span>
-      <span class="kwd">gen_random</span><span class="opt">(</span><span class="kwc">$last</span><span class="opt">,</span> <span class="kwc">$randoms</span><span class="opt">);</span>
+      <span class="kwd">gen_random</span><span class="opt">(&amp;</span><span class="kwc">$last</span><span class="opt">, &amp;</span><span class="kwc">$randoms</span><span class="opt">);</span>
       <span class="kwc">$j</span> <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
       <span class="kwa">foreach</span> <span class="opt">(</span><span class="kwc">$randoms</span> <span class="kwa">as</span> <span class="kwc">$r</span><span class="opt">) {</span>
          <span class="kwa">if</span><span class="opt">(</span><span class="kwc">$r</span><span class="opt">&lt;</span><span class="num">0.302954942668</span><span class="opt">){</span>
@@ -77,7 +77,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
    <span class="kwa">if</span> <span class="opt">(</span><span class="kwc">$w</span> <span class="opt">!==</span> <span class="num">0</span><span class="opt">) {</span>
       <span class="kwc">$pick</span> <span class="opt">=</span> <span class="str">&quot;&quot;</span><span class="opt">;</span>
       <span class="kwc">$randoms</span> <span class="opt">=</span> <span class="kwd">array_fill</span><span class="opt">(</span><span class="num">0</span><span class="opt">,</span> <span class="kwc">$w</span><span class="opt">,</span> <span class="num">0.0</span><span class="opt">);</span>
-      <span class="kwd">gen_random</span><span class="opt">(</span><span class="kwc">$last</span><span class="opt">,</span> <span class="kwc">$randoms</span><span class="opt">);</span>
+      <span class="kwd">gen_random</span><span class="opt">(&amp;</span><span class="kwc">$last</span><span class="opt">, &amp;</span><span class="kwc">$randoms</span><span class="opt">);</span>
       <span class="kwc">$j</span> <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
       <span class="kwa">foreach</span> <span class="opt">(</span><span class="kwc">$randoms</span> <span class="kwa">as</span> <span class="kwc">$r</span><span class="opt">) {</span>
          <span class="kwa">if</span><span class="opt">(</span><span class="kwc">$r</span><span class="opt">&lt;</span><span class="num">0.302954942668</span><span class="opt">){</span>
@@ -104,7 +104,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
    <span class="slc">// full lines</span>
    <span class="kwa">for</span> <span class="opt">(</span><span class="kwc">$i</span> <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> <span class="kwc">$i</span> <span class="opt">&lt;</span> <span class="kwc">$lines</span><span class="opt">;</span> ++<span class="kwc">$i</span><span class="opt">) {</span>
       <span class="kwc">$pick</span> <span class="opt">=</span> <span class="str">&quot;&quot;</span><span class="opt">;</span>
-      <span class="kwd">gen_random</span><span class="opt">(</span><span class="kwc">$last</span><span class="opt">,</span> <span class="kwc">$randoms</span><span class="opt">);</span>
+      <span class="kwd">gen_random</span><span class="opt">(&amp;</span><span class="kwc">$last</span><span class="opt">, &amp;</span><span class="kwc">$randoms</span><span class="opt">);</span>
       <span class="kwc">$j</span> <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
       <span class="kwa">foreach</span> <span class="opt">(</span><span class="kwc">$randoms</span> <span class="kwa">as</span> <span class="kwc">$r</span><span class="opt">) {</span>
          <span class="kwc">$pick</span><span class="opt">.=</span><span class="kwc">$genelist</span><span class="opt">[(</span><span class="kwb">int</span><span class="opt">)(</span><span class="kwc">$r</span><span class="opt">*</span><span class="num">100</span><span class="opt">)];</span>
@@ -201,7 +201,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 <span class="kwd">makeRepeatFasta</span><span class="opt">(</span><span class="kwc">$alu</span><span class="opt">,</span> <span class="kwc">$n</span><span class="opt">*</span><span class="num">2</span><span class="opt">);</span>
 
 <span class="kwa">echo</span> <span class="str">&quot;&gt;TWO IUB ambiguity codes</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">;</span>
-<span class="kwd">makeRandomFasta3</span><span class="opt">(</span><span class="kwc">$iub2</span><span class="opt">,</span> <span class="kwc">$n</span><span class="opt">*</span><span class="num">3</span><span class="opt">);</span>
+<span class="kwd">makeRandomFasta3</span><span class="opt">(&amp;</span><span class="kwc">$iub2</span><span class="opt">,</span> <span class="kwc">$n</span><span class="opt">*</span><span class="num">3</span><span class="opt">);</span>
 
 <span class="kwa">echo</span> <span class="str">&quot;&gt;THREE Homo sapiens frequency</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">;</span>
 <span class="kwd">makeRandomFasta2</span><span class="opt">(</span><span class="kwc">$n</span><span class="opt">*</span><span class="num">5</span><span class="opt">);</span>
@@ -213,18 +213,18 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-HipHop VM 3.26.3 (rel)
-Compiler: 1527193607_720265267
-Repo schema: ac3cdc27d1cbfe6b4dc78fec3c3e88dd2ee9b239
+HipHop VM 3.27.1 (rel)
+Compiler: 1532025848_857759529
+Repo schema: 6f2a65dfa3a360d8c159fe76a8bee0e26ba4e45a
 
 
-Tue, 05 Jun 2018 19:05:09 GMT
+Tue, 24 Jul 2018 23:50:33 GMT
 
 MAKE:
 /usr/bin/hh_client
 No errors!
 
-0.22s to complete and log all make actions
+0.12s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/hhvm  -d hhvm.hack.lang.look_for_typechecker=0 fasta.hack-4.hack 25000000

@@ -180,23 +180,23 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-HipHop VM 3.26.3 (rel)
-Compiler: 1527193607_720265267
-Repo schema: ac3cdc27d1cbfe6b4dc78fec3c3e88dd2ee9b239
+HipHop VM 3.27.1 (rel)
+Compiler: 1532025848_857759529
+Repo schema: 6f2a65dfa3a360d8c159fe76a8bee0e26ba4e45a
 
 
-Tue, 05 Jun 2018 19:17:04 GMT
+Tue, 24 Jul 2018 18:40:47 GMT
 
 MAKE:
 /usr/bin/hh_client
 For more detailed logs, try `tail -f $(hh_client --monitor-logname) $(hh_client --logname)`
 Server launched with the following command:
 	'/usr/bin/hh_server' '-d' '/home/dunham/benchmarksgame_quadcore/knucleotide' '--waiting-client' '8'
-Spawned typechecker (child pid=8484)
-Logs will go to /tmp/hh_server/monitor_logs/zShomezSdunhamzSbenchmarksgame_quadcorezSknucleotide-2018-06-05-12-17-03.monitor_log
+Spawned typechecker (child pid=5754)
+Logs will go to /tmp/hh_server/monitor_logs/zShomezSdunhamzSbenchmarksgame_quadcorezSknucleotide-2018-07-24-11-40-46.monitor_log
 No errors!
 
-1.31s to complete and log all make actions
+1.23s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/hhvm  -d hhvm.hack.lang.look_for_typechecker=0 knucleotide.hack-4.hack 0 &lt; knucleotide-input250000.txt
@@ -205,6 +205,78 @@ TIMED OUT after 3600s
 
 
 PROGRAM OUTPUT:
+
+Warning: uasort() expects parameter 1 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 108
+
+Warning: msg_send() expects parameter 6 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 54
+
+Warning: msg_receive() expects parameter 3 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: msg_receive() expects parameter 5 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: pcntl_wait() expects parameter 1 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 67
+
+Warning: uasort() expects parameter 1 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 108
+
+Warning: msg_send() expects parameter 6 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 54
+
+Warning: msg_send() expects parameter 6 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 54
+
+Warning: msg_receive() expects parameter 3 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: msg_receive() expects parameter 3 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: msg_receive() expects parameter 5 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: pcntl_wait() expects parameter 1 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 67
+
+Warning: msg_receive() expects parameter 3 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: msg_receive() expects parameter 3 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: msg_receive() expects parameter 5 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: pcntl_wait() expects parameter 1 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 67
+
+Warning: msg_send() expects parameter 6 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 54
+
+Warning: msg_receive() expects parameter 3 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: msg_receive() expects parameter 3 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: msg_receive() expects parameter 5 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: pcntl_wait() expects parameter 1 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 67
+
+Warning: msg_send() expects parameter 6 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 54
+
+Warning: msg_receive() expects parameter 3 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: msg_receive() expects parameter 3 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: msg_receive() expects parameter 5 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: pcntl_wait() expects parameter 1 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 67
+
+Warning: msg_send() expects parameter 6 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 54
+
+Warning: msg_receive() expects parameter 3 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: msg_receive() expects parameter 3 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: msg_receive() expects parameter 5 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: pcntl_wait() expects parameter 1 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 67
+
+Warning: msg_send() expects parameter 6 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 54
+
+Warning: msg_receive() expects parameter 3 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: msg_receive() expects parameter 3 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: msg_receive() expects parameter 5 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 65
+
+Warning: pcntl_wait() expects parameter 1 by reference, but the call was not annotated with '&amp;' in /home/dunham/8000-benchmarksgame/bench/knucleotide/knucleotide.hack-4.hack on line 67
     </pre>
   </section>
 </article>

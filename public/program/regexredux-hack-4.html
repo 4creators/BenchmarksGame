@@ -83,14 +83,14 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
   <span class="opt">}</span>
    <span class="kwa">if</span><span class="opt">(</span><span class="kwc">$pid</span> <span class="opt">&amp;&amp;</span> <span class="kwc">$key</span> <span class="opt">&gt;</span> <span class="num">7</span><span class="opt">) {</span>
       <span class="kwc">$messages</span><span class="opt">[</span><span class="kwc">$regex</span><span class="opt">] =</span>
-         <span class="kwd">preg_match_all</span><span class="opt">(</span><span class="str">&apos;/&apos;</span> <span class="opt">.</span> <span class="kwc">$regex</span> <span class="opt">.</span> <span class="str">&apos;/iS&apos;</span><span class="opt">,</span> <span class="kwc">$contents</span><span class="opt">,</span> <span class="kwc">$discard</span><span class="opt">);</span>
+         <span class="kwd">preg_match_all</span><span class="opt">(</span><span class="str">&apos;/&apos;</span> <span class="opt">.</span> <span class="kwc">$regex</span> <span class="opt">.</span> <span class="str">&apos;/iS&apos;</span><span class="opt">,</span> <span class="kwc">$contents</span><span class="opt">, &amp;</span><span class="kwc">$discard</span><span class="opt">);</span>
    <span class="opt">}</span>
    <span class="kwa">else if</span><span class="opt">(!</span><span class="kwc">$pid</span><span class="opt">) {</span>
       <span class="kwc">$results</span><span class="opt">[] =</span> <span class="kwc">$regex</span> <span class="opt">.</span> <span class="str">&apos;,&apos;</span> <span class="opt">.</span> 
-         <span class="kwd">preg_match_all</span><span class="opt">(</span><span class="str">&apos;/&apos;</span> <span class="opt">.</span> <span class="kwc">$regex</span> <span class="opt">.</span> <span class="str">&apos;/iS&apos;</span><span class="opt">,</span> <span class="kwc">$contents</span><span class="opt">,</span> <span class="kwc">$discard</span><span class="opt">);</span>
+         <span class="kwd">preg_match_all</span><span class="opt">(</span><span class="str">&apos;/&apos;</span> <span class="opt">.</span> <span class="kwc">$regex</span> <span class="opt">.</span> <span class="str">&apos;/iS&apos;</span><span class="opt">,</span> <span class="kwc">$contents</span><span class="opt">, &amp;</span><span class="kwc">$discard</span><span class="opt">);</span>
       <span class="kwa">if</span><span class="opt">(</span><span class="kwc">$key</span> <span class="opt">==</span> <span class="num">1</span> || <span class="kwc">$key</span> <span class="opt">==</span> <span class="num">3</span> || <span class="kwc">$key</span> <span class="opt">==</span> <span class="num">5</span> || <span class="kwc">$key</span> <span class="opt">==</span> <span class="num">7</span><span class="opt">) {</span>
          <span class="kwc">$results</span><span class="opt">[] =</span> <span class="kwd">strlen</span><span class="opt">(</span><span class="kwd">preg_replace</span><span class="opt">(</span><span class="kwc">$IUB</span><span class="opt">,</span> <span class="kwc">$IUBnew</span><span class="opt">,</span> <span class="kwc">$chunks</span><span class="opt">[(</span><span class="kwb">int</span><span class="opt">)(</span><span class="kwc">$key</span> <span class="opt">/</span> <span class="num">2</span><span class="opt">)]));</span>
-         <span class="kwd">msg_send</span><span class="opt">(</span><span class="kwc">$queue</span><span class="opt">,</span> <span class="num">2</span><span class="opt">,</span> <span class="kwd">implode</span><span class="opt">(</span><span class="str">&apos;;&apos;</span><span class="opt">,</span> <span class="kwc">$results</span><span class="opt">),</span> <span class="kwa">false</span><span class="opt">,</span> <span class="kwa">false</span><span class="opt">,</span> <span class="kwc">$errno</span><span class="opt">);</span>
+         <span class="kwd">msg_send</span><span class="opt">(</span><span class="kwc">$queue</span><span class="opt">,</span> <span class="num">2</span><span class="opt">,</span> <span class="kwd">implode</span><span class="opt">(</span><span class="str">&apos;;&apos;</span><span class="opt">,</span> <span class="kwc">$results</span><span class="opt">),</span> <span class="kwa">false</span><span class="opt">,</span> <span class="kwa">false</span><span class="opt">, &amp;</span><span class="kwc">$errno</span><span class="opt">);</span>
          <span class="kwa">exit</span><span class="opt">;</span>
 	  <span class="opt">}</span>
    <span class="opt">}</span>
@@ -99,8 +99,8 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 <span class="slc">// receive and output the counts</span>
 <span class="kwc">$contentLength</span> <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
 <span class="kwa">foreach</span><span class="opt">(</span><span class="kwc">$workers</span> <span class="kwa">as</span> <span class="kwc">$worker</span><span class="opt">) {</span>
-   <span class="kwd">pcntl_waitpid</span><span class="opt">(</span><span class="kwc">$worker</span><span class="opt">,</span> <span class="kwc">$status</span><span class="opt">);</span>
-   <span class="kwd">msg_receive</span><span class="opt">(</span><span class="kwc">$queue</span><span class="opt">,</span> <span class="num">2</span><span class="opt">,</span> <span class="kwc">$msgtype</span><span class="opt">,</span> <span class="num">4096</span><span class="opt">,</span> <span class="kwc">$message</span><span class="opt">,</span> <span class="kwa">false</span><span class="opt">);</span>
+   <span class="kwd">pcntl_waitpid</span><span class="opt">(</span><span class="kwc">$worker</span><span class="opt">, &amp;</span><span class="kwc">$status</span><span class="opt">);</span>
+   <span class="kwd">msg_receive</span><span class="opt">(</span><span class="kwc">$queue</span><span class="opt">,</span> <span class="num">2</span><span class="opt">, &amp;</span><span class="kwc">$msgtype</span><span class="opt">,</span> <span class="num">4096</span><span class="opt">, &amp;</span><span class="kwc">$message</span><span class="opt">,</span> <span class="kwa">false</span><span class="opt">);</span>
    <span class="kwc">$message</span> <span class="opt">=</span> <span class="kwd">explode</span><span class="opt">(</span><span class="str">&apos;;&apos;</span><span class="opt">,</span> <span class="kwc">$message</span><span class="opt">);</span>
    <span class="kwa">foreach</span><span class="opt">(</span><span class="kwc">$message</span> <span class="kwa">as</span> <span class="kwc">$key</span> <span class="opt">=&gt;</span> <span class="kwc">$line</span><span class="opt">) {</span>
       <span class="kwa">if</span><span class="opt">(</span><span class="kwc">$key</span> <span class="opt">==</span> <span class="num">2</span><span class="opt">)</span>
@@ -126,18 +126,18 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-HipHop VM 3.26.3 (rel)
-Compiler: 1527193607_720265267
-Repo schema: ac3cdc27d1cbfe6b4dc78fec3c3e88dd2ee9b239
+HipHop VM 3.27.1 (rel)
+Compiler: 1532025848_857759529
+Repo schema: 6f2a65dfa3a360d8c159fe76a8bee0e26ba4e45a
 
 
-Tue, 05 Jun 2018 21:17:08 GMT
+Tue, 24 Jul 2018 20:41:20 GMT
 
 MAKE:
 /usr/bin/hh_client
 No errors!
 
-0.11s to complete and log all make actions
+0.12s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/hhvm  -d hhvm.hack.lang.look_for_typechecker=0 regexredux.hack-4.hack 0 &lt; regexredux-input50000.txt

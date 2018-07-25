@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow,noarchive">
+
+<title>pidigits Node js&nbsp;#3 program | Computer Language Benchmarks Game </title>
+<style><!--
+a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,header{margin:auto;width:92%}body{font:100% Droid Sans, Ubuntu, Verdana, sans-serif;margin:0;-webkit-text-size-adjust:100%}h3, h1, h2, li a{font-family:Ubuntu Mono,Consolas,Menlo,monospace}div,footer,header{max-width:31em}footer{padding:2.6em 0 0}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h1,h2{margin:1.5em 0 0}h1{font-size:1.4em;font-weight:normal}h2{font-size:1.2em}li{list-style-type:none;vertical-align:top}li a{display:block;font-size:1.2em;margin: .5em .5em 0;padding: .5em .5em .3em}ul{clear:left;margin:-0.3em 0 1.5em;padding-left:0;text-align:center}p{color:#333;line-height:1.4;margin: .3em 0 0}p a, a span{border-bottom: .1em solid #333;padding-bottom: .1em}.com,.slc{color:#888}.kwa{color:#066}.kwb{color:#900}.kwc{color:#050}.kwa,.kwb,.kwc{font-weight:bold}.dstr,.str,.sym,.num{color:#930}pre{color:#222;font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
+--></style>
+<link rel="shortcut icon" href="./favicon.ico">
+<header>
+  <h3><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h3>
+</header>
+<article>
+  <div>
+    <h1>pidigits Node js&nbsp;#3 program</h1>
+    <aside>
+      <p><a href="../description/pidigits.html#pidigits">description</a>
+    </aside>
+  </div>
+  <section>
+    </div>
+      <h2>source code</h2>
+    </div>
+    <pre>
+<span class="com">/* The Computer Language Benchmarks Game</span>
+<span class="com"> * https://salsa.debian.org/benchmarksgame-team/benchmarksgame/</span>
+<span class="com"> *</span>
+<span class="com"> * contributed by Denis Gribov</span>
+<span class="com"> *    a translation of the C program contributed by Mr Ledhug</span>
+<span class="com"> */</span>
+
+<span class="opt">(</span><span class="kwa">function</span> <span class="kwd">main</span><span class="opt">() {</span>
+
+    <span class="slc">// Int32</span>
+    <span class="kwa">let</span> n <span class="opt">= +</span>process<span class="opt">.</span>argv<span class="opt">[</span><span class="num">2</span><span class="opt">] ||</span> <span class="num">10000</span><span class="opt">,</span>
+        i <span class="opt">=</span> <span class="num">0</span><span class="opt">,</span>
+        k <span class="opt">=</span> <span class="num">0</span><span class="opt">,</span>
+        d <span class="opt">=</span> <span class="num">0</span><span class="opt">,</span>
+        k2 <span class="opt">=</span> <span class="num">0</span><span class="opt">,</span>
+        d3 <span class="opt">=</span> <span class="num">0</span><span class="opt">,</span>
+        d4 <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+
+    <span class="slc">// BigInt</span>
+    <span class="kwa">let</span> tmp1 <span class="opt">=</span> <span class="num">0</span>n<span class="opt">,</span> <span class="slc">// mpz_init(tmp1)</span>
+        tmp2 <span class="opt">=</span> <span class="num">0</span>n<span class="opt">,</span> <span class="slc">// mpz_init(tmp2)</span>
+        acc <span class="opt">=</span> <span class="num">0</span>n<span class="opt">,</span> <span class="slc">// mpz_init_set_ui(acc, 0)</span>
+        den <span class="opt">=</span> <span class="num">1</span>n<span class="opt">,</span> <span class="slc">// mpz_init_set_ui(den, 1)</span>
+        num <span class="opt">=</span> <span class="num">1</span>n<span class="opt">;</span> <span class="slc">// mpz_init_set_ui(num, 1)</span>
+
+    <span class="kwa">const</span> chr_0 <span class="opt">=</span> <span class="str">&quot;0&quot;</span><span class="opt">.</span><span class="kwd">charCodeAt</span><span class="opt">(),</span>
+        chr_t <span class="opt">=</span> <span class="str">&quot;</span><span class="esc">\t</span><span class="str">&quot;</span><span class="opt">.</span><span class="kwd">charCodeAt</span><span class="opt">(),</span>
+        chr_n <span class="opt">=</span> <span class="str">&quot;</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">.</span><span class="kwd">charCodeAt</span><span class="opt">(),</span>
+        chr_c <span class="opt">=</span> <span class="str">&quot;:&quot;</span><span class="opt">.</span><span class="kwd">charCodeAt</span><span class="opt">();</span>
+
+    <span class="slc">// preallocated buffer size</span>
+    <span class="kwa">let</span> bufsize <span class="opt">= (</span><span class="num">10</span><span class="com">/*value of pi*/</span> <span class="opt">+</span> <span class="num">2</span><span class="com">/*\t:*/</span> <span class="opt">+</span> 
+        n<span class="opt">.</span><span class="kwd">toString</span><span class="opt">().</span>length<span class="com">/*index of slice*/</span> <span class="opt">+</span> <span class="num">1</span><span class="com">/*\n*/</span><span class="opt">) * (</span>n <span class="opt">/</span> <span class="num">10</span><span class="opt">)</span><span class="com">/*line count*/</span><span class="opt">;</span>
+    <span class="slc">// croped buffer size</span>
+    <span class="kwa">for</span> <span class="opt">(</span><span class="kwa">let</span> i <span class="opt">=</span> <span class="num">10</span><span class="opt">;</span> i <span class="opt">&lt;</span> n<span class="opt">;</span> i <span class="opt">*=</span> <span class="num">10</span><span class="opt">) {</span>
+        bufsize <span class="opt">-=</span> i <span class="opt">-</span> <span class="num">1</span><span class="opt">;</span>
+    <span class="opt">}</span>
+
+    <span class="kwa">let</span> buf <span class="opt">=</span> Buffer<span class="opt">.</span><span class="kwd">allocUnsafe</span><span class="opt">(</span>bufsize<span class="opt">),</span>
+        bufoffs <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span>
+
+    <span class="kwa">while</span> <span class="opt">(</span>i <span class="opt">&lt;</span> n<span class="opt">) {</span>
+        k<span class="opt">++;</span>
+
+        <span class="slc">//#region inline nextTerm(k)</span>
+        k2 <span class="opt">=</span> k <span class="opt">*</span> <span class="num">2</span> <span class="opt">+</span> <span class="num">1</span><span class="opt">;</span>
+        acc <span class="opt">+=</span> num <span class="opt">*</span> <span class="num">2</span>n<span class="opt">;</span> <span class="slc">// mpz_addmul_ui(acc, num, 2)</span>
+        acc <span class="opt">*=</span> <span class="kwd">BigInt</span><span class="opt">(</span>k2<span class="opt">);</span> <span class="slc">// mpz_mul_ui(acc, acc, k2)</span>
+        den <span class="opt">*=</span> <span class="kwd">BigInt</span><span class="opt">(</span>k2<span class="opt">);</span> <span class="slc">// mpz_mul_ui(den, den, k2)</span>
+        num <span class="opt">*=</span> <span class="kwd">BigInt</span><span class="opt">(</span>k<span class="opt">);</span> <span class="slc">// mpz_mul_ui(num, num, k)</span>
+        <span class="slc">//#endregion inline nextTerm(k)</span>
+
+        <span class="kwa">if</span> <span class="opt">(</span>num <span class="opt">&gt;</span> acc<span class="com">/* mpz_cmp(num, acc) &gt; 0 */</span><span class="opt">)</span> <span class="kwa">continue</span><span class="opt">;</span>
+
+        <span class="slc">//#region inline extractDigit(3);</span>
+        tmp1 <span class="opt">=</span> num <span class="opt">*</span> <span class="num">3</span>n<span class="opt">;</span> <span class="slc">// mpz_mul_ui(tmp1, num, nth);</span>
+        tmp2 <span class="opt">=</span> tmp1 <span class="opt">+</span> acc<span class="opt">;</span> <span class="slc">// mpz_add(tmp2, tmp1, acc);</span>
+        tmp1 <span class="opt">=</span> tmp2 <span class="opt">/</span> den<span class="opt">;</span> <span class="slc">// mpz_tdiv_q(tmp1, tmp2, den);</span>
+        d3 <span class="opt">=</span> <span class="kwd">Number</span><span class="opt">(</span>tmp1<span class="opt">) &gt;&gt;&gt;</span> <span class="num">0</span><span class="opt">;</span> <span class="slc">// mpz_get_ui(tmp1)</span>
+        <span class="slc">//#region inline extractDigit(3);</span>
+
+        d <span class="opt">=</span> d3<span class="opt">;</span>
+
+        <span class="slc">//#region inline extractDigit(4);</span>
+        tmp1 <span class="opt">=</span> num <span class="opt">*</span> <span class="num">4</span>n<span class="opt">;</span> <span class="slc">// mpz_mul_ui(tmp1, num, nth);</span>
+        tmp2 <span class="opt">=</span> tmp1 <span class="opt">+</span> acc<span class="opt">;</span> <span class="slc">// mpz_add(tmp2, tmp1, acc);</span>
+        tmp1 <span class="opt">=</span> tmp2 <span class="opt">/</span> den<span class="opt">;</span> <span class="slc">// mpz_tdiv_q(tmp1, tmp2, den);</span>
+        d4 <span class="opt">=</span> <span class="kwd">Number</span><span class="opt">(</span>tmp1<span class="opt">) &gt;&gt;&gt;</span> <span class="num">0</span><span class="opt">;</span> <span class="slc">// mpz_get_ui(tmp1)</span>
+        <span class="slc">//#region inline extractDigit(4);</span>
+
+        <span class="kwa">if</span> <span class="opt">(</span>d <span class="opt">!==</span> d4<span class="opt">)</span> <span class="kwa">continue</span><span class="opt">;</span>
+
+        buf<span class="opt">.</span><span class="kwd">writeInt8</span><span class="opt">(</span>d <span class="opt">+</span> chr_0<span class="opt">,</span> bufoffs<span class="opt">++);</span>
+
+        <span class="kwa">if</span> <span class="opt">(++</span>i <span class="opt">%</span> <span class="num">10</span> <span class="opt">===</span> <span class="num">0</span><span class="opt">) {</span>
+            buf<span class="opt">.</span><span class="kwd">writeInt8</span><span class="opt">(</span>chr_t<span class="opt">,</span> bufoffs<span class="opt">++);</span>
+            buf<span class="opt">.</span><span class="kwd">writeInt8</span><span class="opt">(</span>chr_c<span class="opt">,</span> bufoffs<span class="opt">++);</span>
+
+            <span class="kwa">let</span> str <span class="opt">=</span> i<span class="opt">.</span><span class="kwd">toString</span><span class="opt">();</span>
+            buf<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>str<span class="opt">,</span> bufoffs<span class="opt">,</span> bufoffs <span class="opt">+=</span> str<span class="opt">.</span>length<span class="opt">);</span>
+
+            buf<span class="opt">.</span><span class="kwd">writeInt8</span><span class="opt">(</span>chr_n<span class="opt">,</span> bufoffs<span class="opt">++);</span>
+        <span class="opt">}</span>
+
+        <span class="slc">//#region inline eliminateDigit(d)</span>
+        acc <span class="opt">-=</span> den <span class="opt">*</span> <span class="kwd">BigInt</span><span class="opt">(</span>d<span class="opt">);</span> <span class="slc">// mpz_submul_ui(acc, den, d)</span>
+        acc <span class="opt">*=</span> <span class="num">10</span>n<span class="opt">;</span> <span class="slc">// mpz_mul_ui(acc, acc, 10)</span>
+        num <span class="opt">*=</span> <span class="num">10</span>n<span class="opt">;</span> <span class="slc">// mpz_mul_ui(num, num, 10)</span>
+        <span class="slc">//#endregion inline eliminateDigit(d)</span>
+    <span class="opt">}</span>
+
+    process<span class="opt">.</span>stdout<span class="opt">.</span><span class="kwd">write</span><span class="opt">(</span>buf<span class="opt">);</span>
+<span class="opt">})();</span>
+    </pre>
+  </section>
+  <section>
+    <h2 id="log">notes, command-line, and program output</h2>
+    <pre>
+NOTES:
+64-bit Ubuntu quad core
+v10.7.0
+
+
+Mon, 23 Jul 2018 19:06:43 GMT
+
+MAKE:
+cp -L pidigits.node-3.node pidigits.node-3.js
+
+0.01s to complete and log all make actions
+
+COMMAND LINE:
+/opt/src/node-v10.7.0-linux-x64/bin/node pidigits.node-3.js 2000
+
+PROGRAM FAILED 
+
+
+PROGRAM OUTPUT:
+
+internal/buffer.js:55
+  throw new ERR_OUT_OF_RANGE(type || 'offset',
+  ^
+
+RangeError [ERR_OUT_OF_RANGE]: The value of &quot;offset&quot; is out of range. It must be &gt;= 0 and &lt;= 2292. Received 2293
+    at boundsError (internal/buffer.js:55:9)
+    at writeU_Int8 (internal/buffer.js:564:5)
+    at Buffer.writeInt8 (internal/buffer.js:692:10)
+    at main (/home/dunham/benchmarksgame_quadcore/pidigits/tmp/pidigits.node-3.js:73:13)
+    at Object.&lt;anonymous&gt; (/home/dunham/benchmarksgame_quadcore/pidigits/tmp/pidigits.node-3.js:93:3)
+    at Module._compile (internal/modules/cjs/loader.js:689:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Module.load (internal/modules/cjs/loader.js:599:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:530:3)
+    </pre>
+  </section>
+</article>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="../license.html"><span>3-Clause BSD License</span></a>
+    </ul>
+  </nav>
+</footer>
+

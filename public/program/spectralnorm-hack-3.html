@@ -43,7 +43,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
    <span class="kwa">for</span> <span class="opt">(</span><span class="kwc">$i</span> <span class="opt">=</span> <span class="kwc">$start</span><span class="opt">;</span> <span class="kwc">$i</span> <span class="opt">&lt;</span> <span class="kwc">$end</span><span class="opt">;</span> ++<span class="kwc">$i</span><span class="opt">) {</span>
       <span class="kwc">$sum</span> <span class="opt">=</span> <span class="num">0.0</span><span class="opt">;</span>
       <span class="kwa">foreach</span><span class="opt">(</span><span class="kwc">$v</span> <span class="kwa">as</span> <span class="kwc">$j</span><span class="opt">=&gt;</span><span class="kwc">$v_j</span><span class="opt">) {</span>
-         <span class="kwc">$sum</span> +<span class="opt">=</span> <span class="kwd">A</span><span class="opt">(</span><span class="kwc">$i</span><span class="opt">,</span><span class="kwc">$j</span><span class="opt">) *</span> <span class="kwc">$v_j</span><span class="opt">;</span>
+         <span class="kwc">$sum</span> +<span class="opt">=</span> <span class="kwd">A</span><span class="opt">(&amp;</span><span class="kwc">$i</span><span class="opt">,&amp;</span><span class="kwc">$j</span><span class="opt">) *</span> <span class="kwc">$v_j</span><span class="opt">;</span>
       <span class="opt">}</span>
       <span class="kwc">$Av</span><span class="opt">[</span><span class="kwc">$i</span><span class="opt">] =</span> <span class="kwc">$sum</span><span class="opt">;</span>
    <span class="opt">}</span>
@@ -56,7 +56,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
    <span class="kwa">for</span><span class="opt">(</span><span class="kwc">$i</span> <span class="opt">=</span> <span class="kwc">$start</span><span class="opt">;</span> <span class="kwc">$i</span> <span class="opt">&lt;</span> <span class="kwc">$end</span><span class="opt">;</span> ++<span class="kwc">$i</span><span class="opt">) {</span>
       <span class="kwc">$sum</span> <span class="opt">=</span> <span class="num">0.0</span><span class="opt">;</span>
       <span class="kwa">foreach</span><span class="opt">(</span><span class="kwc">$v</span> <span class="kwa">as</span> <span class="kwc">$j</span><span class="opt">=&gt;</span><span class="kwc">$v_j</span><span class="opt">) {</span>
-         <span class="kwc">$sum</span> +<span class="opt">=</span> <span class="kwd">A</span><span class="opt">(</span><span class="kwc">$j</span><span class="opt">,</span><span class="kwc">$i</span><span class="opt">) *</span> <span class="kwc">$v_j</span><span class="opt">;</span>
+         <span class="kwc">$sum</span> +<span class="opt">=</span> <span class="kwd">A</span><span class="opt">(&amp;</span><span class="kwc">$j</span><span class="opt">,&amp;</span><span class="kwc">$i</span><span class="opt">) *</span> <span class="kwc">$v_j</span><span class="opt">;</span>
       <span class="opt">}</span>
       <span class="kwc">$Atv</span><span class="opt">[</span><span class="kwc">$i</span><span class="opt">] =</span> <span class="kwc">$sum</span><span class="opt">;</span>
    <span class="opt">}</span>
@@ -65,11 +65,11 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 
 <span class="kwa">function</span> <span class="kwd">AtAv</span><span class="opt">(&amp;</span><span class="kwc">$n</span><span class="opt">,&amp;</span><span class="kwc">$v</span><span class="opt">,&amp;</span><span class="kwc">$start</span><span class="opt">,&amp;</span><span class="kwc">$end</span><span class="opt">,&amp;</span><span class="kwc">$sync</span><span class="opt">){</span>
 
-   <span class="kwc">$tmp</span> <span class="opt">=</span> <span class="kwd">Av</span><span class="opt">(</span><span class="kwc">$n</span><span class="opt">,</span> <span class="kwc">$v</span><span class="opt">,</span> <span class="kwc">$start</span><span class="opt">,</span> <span class="kwc">$end</span><span class="opt">);</span>
-   <span class="kwa">if</span> <span class="opt">(</span><span class="kwc">$sync</span><span class="opt">)</span> <span class="kwd">sync</span><span class="opt">(</span><span class="kwc">$tmp</span><span class="opt">);</span>
+   <span class="kwc">$tmp</span> <span class="opt">=</span> <span class="kwd">Av</span><span class="opt">(&amp;</span><span class="kwc">$n</span><span class="opt">, &amp;</span><span class="kwc">$v</span><span class="opt">, &amp;</span><span class="kwc">$start</span><span class="opt">, &amp;</span><span class="kwc">$end</span><span class="opt">);</span>
+   <span class="kwa">if</span> <span class="opt">(</span><span class="kwc">$sync</span><span class="opt">)</span> <span class="kwd">sync</span><span class="opt">(&amp;</span><span class="kwc">$tmp</span><span class="opt">);</span>
 
-   <span class="kwc">$tmp</span> <span class="opt">=</span> <span class="kwd">Atv</span><span class="opt">(</span><span class="kwc">$n</span><span class="opt">,</span> <span class="kwc">$tmp</span><span class="opt">,</span> <span class="kwc">$start</span><span class="opt">,</span> <span class="kwc">$end</span><span class="opt">);</span>
-   <span class="kwa">if</span> <span class="opt">(</span><span class="kwc">$sync</span><span class="opt">)</span> <span class="kwd">sync</span><span class="opt">(</span><span class="kwc">$tmp</span><span class="opt">);</span>
+   <span class="kwc">$tmp</span> <span class="opt">=</span> <span class="kwd">Atv</span><span class="opt">(&amp;</span><span class="kwc">$n</span><span class="opt">, &amp;</span><span class="kwc">$tmp</span><span class="opt">, &amp;</span><span class="kwc">$start</span><span class="opt">, &amp;</span><span class="kwc">$end</span><span class="opt">);</span>
+   <span class="kwa">if</span> <span class="opt">(</span><span class="kwc">$sync</span><span class="opt">)</span> <span class="kwd">sync</span><span class="opt">(&amp;</span><span class="kwc">$tmp</span><span class="opt">);</span>
 
    <span class="kwa">return</span> <span class="kwc">$tmp</span><span class="opt">;</span>
 <span class="opt">}</span>
@@ -79,7 +79,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
    <span class="kwa">global</span> <span class="kwc">$parent</span><span class="opt">,</span><span class="kwc">$chunk_data_size</span><span class="opt">,</span><span class="kwc">$total_data_size</span><span class="opt">,</span><span class="kwc">$pipe</span><span class="opt">,</span><span class="kwc">$pipes</span><span class="opt">;</span>
 
    <span class="kwa">if</span> <span class="opt">(!</span><span class="kwc">$parent</span><span class="opt">) {</span>
-      <span class="kwd">array_unshift</span><span class="opt">(</span><span class="kwc">$tmp</span><span class="opt">,</span> <span class="str">&apos;d*&apos;</span><span class="opt">);</span>
+      <span class="kwd">array_unshift</span><span class="opt">(&amp;</span><span class="kwc">$tmp</span><span class="opt">,</span> <span class="str">&apos;d*&apos;</span><span class="opt">);</span>
       <span class="kwc">$data</span> <span class="opt">=</span> <span class="kwd">call_user_func_array</span><span class="opt">(</span><span class="str">&apos;pack&apos;</span><span class="opt">,</span> <span class="kwc">$tmp</span><span class="opt">);</span>
       <span class="kwd">safe_write</span><span class="opt">(</span><span class="kwc">$pipe</span><span class="opt">,</span> <span class="kwc">$data</span><span class="opt">);</span>
       <span class="kwc">$tmp</span> <span class="opt">=</span> <span class="kwd">array_merge</span><span class="opt">(</span><span class="kwa">array</span><span class="opt">(),</span> <span class="kwd">unpack</span><span class="opt">(</span><span class="str">&apos;d*&apos;</span><span class="opt">,</span> <span class="kwd">safe_read</span><span class="opt">(</span><span class="kwc">$pipe</span><span class="opt">,</span> <span class="kwc">$total_data_size</span><span class="opt">)));</span>
@@ -95,7 +95,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
       <span class="kwa">foreach</span><span class="opt">(</span><span class="kwc">$pipes</span> <span class="kwa">as</span> <span class="kwc">$pipe</span><span class="opt">) {</span>
          <span class="kwd">safe_write</span><span class="opt">(</span><span class="kwc">$pipe</span><span class="opt">,</span> <span class="kwc">$data</span><span class="opt">);</span>
       <span class="opt">}</span>
-      <span class="kwd">array_shift</span><span class="opt">(</span><span class="kwc">$tmp</span><span class="opt">);</span>
+      <span class="kwd">array_shift</span><span class="opt">(&amp;</span><span class="kwc">$tmp</span><span class="opt">);</span>
    <span class="opt">}</span>
 <span class="opt">}</span>
 
@@ -124,7 +124,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 
 <span class="kwc">$procs</span> <span class="opt">=</span> <span class="num">1</span><span class="opt">;</span>
 <span class="kwa">if</span> <span class="opt">(</span><span class="kwd">file_exists</span><span class="opt">(</span><span class="str">&apos;/proc/cpuinfo&apos;</span><span class="opt">)) {</span>
-   <span class="kwc">$procs</span> <span class="opt">=</span> <span class="kwd">preg_match_all</span><span class="opt">(</span><span class="str">&apos;/^processor\s/m&apos;</span><span class="opt">,</span> <span class="kwd">file_get_contents</span><span class="opt">(</span><span class="str">&apos;/proc/cpuinfo&apos;</span><span class="opt">),</span> <span class="kwc">$discard</span><span class="opt">);</span>
+   <span class="kwc">$procs</span> <span class="opt">=</span> <span class="kwd">preg_match_all</span><span class="opt">(</span><span class="str">&apos;/^processor\s/m&apos;</span><span class="opt">,</span> <span class="kwd">file_get_contents</span><span class="opt">(</span><span class="str">&apos;/proc/cpuinfo&apos;</span><span class="opt">), &amp;</span><span class="kwc">$discard</span><span class="opt">);</span>
 <span class="opt">}</span>
 
 <span class="kwa">if</span> <span class="opt">(</span><span class="kwc">$n</span> <span class="opt">&lt;</span> <span class="kwc">$procs</span><span class="opt">) {</span>
@@ -163,8 +163,8 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 <span class="kwc">$sync</span> <span class="opt">=</span> <span class="kwc">$procs</span> <span class="opt">&gt;</span> <span class="num">0</span><span class="opt">;</span>
 
 <span class="kwa">for</span> <span class="opt">(</span><span class="kwc">$i</span><span class="opt">=</span><span class="num">0</span><span class="opt">;</span> <span class="kwc">$i</span><span class="opt">&lt;</span><span class="num">10</span><span class="opt">;</span> <span class="kwc">$i</span>++<span class="opt">){</span>
-   <span class="kwc">$v</span> <span class="opt">=</span> <span class="kwd">AtAv</span><span class="opt">(</span><span class="kwc">$n</span><span class="opt">,</span><span class="kwc">$u</span><span class="opt">,</span><span class="kwc">$range_begin</span><span class="opt">,</span><span class="kwc">$range_end</span><span class="opt">,</span><span class="kwc">$sync</span><span class="opt">);</span>
-   <span class="kwc">$u</span> <span class="opt">=</span> <span class="kwd">AtAv</span><span class="opt">(</span><span class="kwc">$n</span><span class="opt">,</span><span class="kwc">$v</span><span class="opt">,</span><span class="kwc">$range_begin</span><span class="opt">,</span><span class="kwc">$range_end</span><span class="opt">,</span><span class="kwc">$sync</span><span class="opt">);</span>
+   <span class="kwc">$v</span> <span class="opt">=</span> <span class="kwd">AtAv</span><span class="opt">(&amp;</span><span class="kwc">$n</span><span class="opt">,&amp;</span><span class="kwc">$u</span><span class="opt">,&amp;</span><span class="kwc">$range_begin</span><span class="opt">,&amp;</span><span class="kwc">$range_end</span><span class="opt">,&amp;</span><span class="kwc">$sync</span><span class="opt">);</span>
+   <span class="kwc">$u</span> <span class="opt">=</span> <span class="kwd">AtAv</span><span class="opt">(&amp;</span><span class="kwc">$n</span><span class="opt">,&amp;</span><span class="kwc">$v</span><span class="opt">,&amp;</span><span class="kwc">$range_begin</span><span class="opt">,&amp;</span><span class="kwc">$range_end</span><span class="opt">,&amp;</span><span class="kwc">$sync</span><span class="opt">);</span>
 <span class="opt">}</span>
 
 <span class="kwa">if</span> <span class="opt">(!</span><span class="kwc">$parent</span><span class="opt">) {</span>
@@ -173,7 +173,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 
 <span class="kwc">$childs</span> <span class="opt">=</span> <span class="kwc">$procs</span> <span class="opt">-</span> <span class="num">1</span><span class="opt">;</span>
 <span class="kwa">while</span> <span class="opt">(</span><span class="kwc">$childs</span><span class="opt">--) {</span>
-   <span class="kwd">pcntl_wait</span><span class="opt">(</span><span class="kwc">$s</span><span class="opt">);</span>
+   <span class="kwd">pcntl_wait</span><span class="opt">(&amp;</span><span class="kwc">$s</span><span class="opt">);</span>
 <span class="opt">}</span>
 
 <span class="kwc">$vBv</span> <span class="opt">=</span> <span class="num">0.0</span><span class="opt">;</span>
@@ -193,18 +193,18 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-HipHop VM 3.26.3 (rel)
-Compiler: 1527193607_720265267
-Repo schema: ac3cdc27d1cbfe6b4dc78fec3c3e88dd2ee9b239
+HipHop VM 3.27.1 (rel)
+Compiler: 1532025848_857759529
+Repo schema: 6f2a65dfa3a360d8c159fe76a8bee0e26ba4e45a
 
 
-Tue, 05 Jun 2018 21:20:36 GMT
+Wed, 25 Jul 2018 00:24:38 GMT
 
 MAKE:
 /usr/bin/hh_client
 No errors!
 
-0.11s to complete and log all make actions
+0.12s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/hhvm  -d hhvm.hack.lang.look_for_typechecker=0 spectralnorm.hack-3.hack 5500

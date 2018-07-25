@@ -42,7 +42,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
    <span class="kwa">for</span> <span class="opt">(</span><span class="kwc">$i</span> <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> <span class="kwc">$i</span> <span class="opt">&lt;</span> <span class="kwc">$n</span><span class="opt">;</span> ++<span class="kwc">$i</span><span class="opt">) {</span>
       <span class="kwc">$sum</span> <span class="opt">=</span> <span class="num">0.0</span><span class="opt">;</span>
       <span class="kwa">foreach</span><span class="opt">(</span><span class="kwc">$v</span> <span class="kwa">as</span> <span class="kwc">$j</span><span class="opt">=&gt;</span><span class="kwc">$v_j</span><span class="opt">) {</span>
-         <span class="kwc">$sum</span> +<span class="opt">=</span> <span class="kwd">A</span><span class="opt">(</span><span class="kwc">$i</span><span class="opt">,</span><span class="kwc">$j</span><span class="opt">) *</span> <span class="kwc">$v_j</span><span class="opt">;</span>
+         <span class="kwc">$sum</span> +<span class="opt">=</span> <span class="kwd">A</span><span class="opt">(&amp;</span><span class="kwc">$i</span><span class="opt">,&amp;</span><span class="kwc">$j</span><span class="opt">) *</span> <span class="kwc">$v_j</span><span class="opt">;</span>
       <span class="opt">}</span>
       <span class="kwc">$Av</span><span class="opt">[</span><span class="kwc">$i</span><span class="opt">] =</span> <span class="kwc">$sum</span><span class="opt">;</span>
    <span class="opt">}</span>
@@ -55,7 +55,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
    <span class="kwa">for</span><span class="opt">(</span><span class="kwc">$i</span> <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> <span class="kwc">$i</span> <span class="opt">&lt;</span> <span class="kwc">$n</span><span class="opt">;</span> ++<span class="kwc">$i</span><span class="opt">) {</span>
       <span class="kwc">$sum</span> <span class="opt">=</span> <span class="num">0.0</span><span class="opt">;</span>
       <span class="kwa">foreach</span><span class="opt">(</span><span class="kwc">$v</span> <span class="kwa">as</span> <span class="kwc">$j</span><span class="opt">=&gt;</span><span class="kwc">$v_j</span><span class="opt">) {</span>
-         <span class="kwc">$sum</span> +<span class="opt">=</span> <span class="kwd">A</span><span class="opt">(</span><span class="kwc">$j</span><span class="opt">,</span><span class="kwc">$i</span><span class="opt">) *</span> <span class="kwc">$v_j</span><span class="opt">;</span>
+         <span class="kwc">$sum</span> +<span class="opt">=</span> <span class="kwd">A</span><span class="opt">(&amp;</span><span class="kwc">$j</span><span class="opt">,&amp;</span><span class="kwc">$i</span><span class="opt">) *</span> <span class="kwc">$v_j</span><span class="opt">;</span>
       <span class="opt">}</span>
       <span class="kwc">$Atv</span><span class="opt">[</span><span class="kwc">$i</span><span class="opt">] =</span> <span class="kwc">$sum</span><span class="opt">;</span>
    <span class="opt">}</span>
@@ -63,8 +63,8 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 <span class="opt">}</span>
 
 <span class="kwa">function</span> <span class="kwd">AtAv</span><span class="opt">(&amp;</span><span class="kwc">$n</span><span class="opt">,&amp;</span><span class="kwc">$v</span><span class="opt">){</span>
-   <span class="kwc">$tmp</span> <span class="opt">=</span> <span class="kwd">Av</span><span class="opt">(</span><span class="kwc">$n</span><span class="opt">,</span><span class="kwc">$v</span><span class="opt">);</span>
-   <span class="kwa">return</span> <span class="kwd">Atv</span><span class="opt">(</span><span class="kwc">$n</span><span class="opt">,</span> <span class="kwc">$tmp</span><span class="opt">);</span>
+   <span class="kwc">$tmp</span> <span class="opt">=</span> <span class="kwd">Av</span><span class="opt">(&amp;</span><span class="kwc">$n</span><span class="opt">,&amp;</span><span class="kwc">$v</span><span class="opt">);</span>
+   <span class="kwa">return</span> <span class="kwd">Atv</span><span class="opt">(&amp;</span><span class="kwc">$n</span><span class="opt">, &amp;</span><span class="kwc">$tmp</span><span class="opt">);</span>
 <span class="opt">}</span>
 
 <span class="kwc">$n</span> <span class="opt">=</span> <span class="kwd">intval</span><span class="opt">((</span><span class="kwc">$argc</span> <span class="opt">==</span> <span class="num">2</span><span class="opt">)</span> ? <span class="kwc">$argv</span><span class="opt">[</span><span class="num">1</span><span class="opt">] :</span> <span class="num">1</span><span class="opt">);</span>
@@ -72,8 +72,8 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 <span class="kwc">$_tpl</span> <span class="opt">=</span> <span class="kwd">array_fill</span><span class="opt">(</span><span class="num">0</span><span class="opt">,</span> <span class="kwc">$n</span><span class="opt">,</span> <span class="num">0.0</span><span class="opt">);</span>
 
 <span class="kwa">for</span> <span class="opt">(</span><span class="kwc">$i</span><span class="opt">=</span><span class="num">0</span><span class="opt">;</span> <span class="kwc">$i</span><span class="opt">&lt;</span><span class="num">10</span><span class="opt">;</span> <span class="kwc">$i</span>++<span class="opt">){</span>
-   <span class="kwc">$v</span> <span class="opt">=</span> <span class="kwd">AtAv</span><span class="opt">(</span><span class="kwc">$n</span><span class="opt">,</span><span class="kwc">$u</span><span class="opt">);</span>
-   <span class="kwc">$u</span> <span class="opt">=</span> <span class="kwd">AtAv</span><span class="opt">(</span><span class="kwc">$n</span><span class="opt">,</span><span class="kwc">$v</span><span class="opt">);</span>
+   <span class="kwc">$v</span> <span class="opt">=</span> <span class="kwd">AtAv</span><span class="opt">(&amp;</span><span class="kwc">$n</span><span class="opt">,&amp;</span><span class="kwc">$u</span><span class="opt">);</span>
+   <span class="kwc">$u</span> <span class="opt">=</span> <span class="kwd">AtAv</span><span class="opt">(&amp;</span><span class="kwc">$n</span><span class="opt">,&amp;</span><span class="kwc">$v</span><span class="opt">);</span>
 <span class="opt">}</span>
 
 <span class="kwc">$vBv</span> <span class="opt">=</span> <span class="num">0.0</span><span class="opt">;</span>
@@ -93,12 +93,12 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-HipHop VM 3.26.3 (rel)
-Compiler: 1527193607_720265267
-Repo schema: ac3cdc27d1cbfe6b4dc78fec3c3e88dd2ee9b239
+HipHop VM 3.27.1 (rel)
+Compiler: 1532025848_857759529
+Repo schema: 6f2a65dfa3a360d8c159fe76a8bee0e26ba4e45a
 
 
-Tue, 05 Jun 2018 21:18:15 GMT
+Wed, 25 Jul 2018 00:25:54 GMT
 
 MAKE:
 /usr/bin/hh_client

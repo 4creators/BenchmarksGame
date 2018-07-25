@@ -73,7 +73,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
    <span class="kwa">for</span> <span class="opt">(</span><span class="kwc">$todo</span> <span class="opt">=</span> <span class="kwc">$n</span><span class="opt">;</span> <span class="kwc">$todo</span> <span class="opt">&gt;</span> <span class="num">0</span><span class="opt">;</span> <span class="kwc">$todo</span> <span class="opt">-=</span> LINE_LENGTH<span class="opt">) {</span>
       <span class="kwc">$pick</span> <span class="opt">=</span> <span class="str">&apos;&apos;</span><span class="opt">;</span>
       <span class="kwc">$m</span> <span class="opt">=</span> <span class="kwc">$todo</span> <span class="opt">&lt;</span> LINE_LENGTH ? <span class="kwc">$todo</span> <span class="opt">:</span> LINE_LENGTH<span class="opt">;</span>
-      <span class="kwa">for</span> <span class="opt">(</span><span class="kwc">$i</span><span class="opt">=</span><span class="num">0</span><span class="opt">;</span> <span class="kwc">$i</span> <span class="opt">&lt;</span> <span class="kwc">$m</span><span class="opt">;</span> <span class="kwc">$i</span>++<span class="opt">)</span> <span class="kwc">$pick</span> <span class="opt">.=</span> <span class="kwd">selectRandom</span><span class="opt">(</span><span class="kwc">$genelist</span><span class="opt">);</span>
+      <span class="kwa">for</span> <span class="opt">(</span><span class="kwc">$i</span><span class="opt">=</span><span class="num">0</span><span class="opt">;</span> <span class="kwc">$i</span> <span class="opt">&lt;</span> <span class="kwc">$m</span><span class="opt">;</span> <span class="kwc">$i</span>++<span class="opt">)</span> <span class="kwc">$pick</span> <span class="opt">.=</span> <span class="kwd">selectRandom</span><span class="opt">(&amp;</span><span class="kwc">$genelist</span><span class="opt">);</span>
       <span class="kwc">$pick</span> <span class="opt">.=</span> <span class="str">&quot;</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">;</span>
       <span class="kwa">print</span><span class="opt">(</span> <span class="kwc">$pick</span> <span class="opt">);</span>
    <span class="opt">}</span>
@@ -139,12 +139,12 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 
 <span class="kwa">if</span> <span class="opt">(</span><span class="kwc">$_SERVER</span><span class="opt">[</span><span class="str">&apos;argc&apos;</span><span class="opt">] &gt;</span> <span class="num">1</span><span class="opt">)</span> <span class="kwc">$n</span> <span class="opt">=</span> <span class="kwc">$_SERVER</span><span class="opt">[</span><span class="str">&apos;argv&apos;</span><span class="opt">][</span><span class="num">1</span><span class="opt">];</span>
 
-   <span class="kwd">makeCumulative</span><span class="opt">(</span><span class="kwc">$iub</span><span class="opt">);</span>
-   <span class="kwd">makeCumulative</span><span class="opt">(</span><span class="kwc">$homosapiens</span><span class="opt">);</span>
+   <span class="kwd">makeCumulative</span><span class="opt">(&amp;</span><span class="kwc">$iub</span><span class="opt">);</span>
+   <span class="kwd">makeCumulative</span><span class="opt">(&amp;</span><span class="kwc">$homosapiens</span><span class="opt">);</span>
 
    <span class="kwd">makeRepeatFasta</span><span class="opt">(</span><span class="str">&apos;ONE&apos;</span><span class="opt">,</span> <span class="str">&apos;Homo sapiens alu&apos;</span><span class="opt">,</span> <span class="kwc">$alu</span><span class="opt">,</span> <span class="kwc">$n</span><span class="opt">*</span><span class="num">2</span><span class="opt">);</span>
-   <span class="kwd">makeRandomFasta</span><span class="opt">(</span><span class="str">&apos;TWO&apos;</span><span class="opt">,</span> <span class="str">&apos;IUB ambiguity codes&apos;</span><span class="opt">,</span> <span class="kwc">$iub</span><span class="opt">,</span> <span class="kwc">$n</span><span class="opt">*</span><span class="num">3</span><span class="opt">);</span>
-   <span class="kwd">makeRandomFasta</span><span class="opt">(</span><span class="str">&apos;THREE&apos;</span><span class="opt">,</span> <span class="str">&apos;Homo sapiens frequency&apos;</span><span class="opt">,</span> <span class="kwc">$homosapiens</span><span class="opt">,</span> <span class="kwc">$n</span><span class="opt">*</span><span class="num">5</span><span class="opt">);</span>
+   <span class="kwd">makeRandomFasta</span><span class="opt">(</span><span class="str">&apos;TWO&apos;</span><span class="opt">,</span> <span class="str">&apos;IUB ambiguity codes&apos;</span><span class="opt">, &amp;</span><span class="kwc">$iub</span><span class="opt">,</span> <span class="kwc">$n</span><span class="opt">*</span><span class="num">3</span><span class="opt">);</span>
+   <span class="kwd">makeRandomFasta</span><span class="opt">(</span><span class="str">&apos;THREE&apos;</span><span class="opt">,</span> <span class="str">&apos;Homo sapiens frequency&apos;</span><span class="opt">, &amp;</span><span class="kwc">$homosapiens</span><span class="opt">,</span> <span class="kwc">$n</span><span class="opt">*</span><span class="num">5</span><span class="opt">);</span>
 
     </pre>
   </section>
@@ -153,23 +153,23 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-HipHop VM 3.26.3 (rel)
-Compiler: 1527193607_720265267
-Repo schema: ac3cdc27d1cbfe6b4dc78fec3c3e88dd2ee9b239
+HipHop VM 3.27.1 (rel)
+Compiler: 1532025848_857759529
+Repo schema: 6f2a65dfa3a360d8c159fe76a8bee0e26ba4e45a
 
 
-Tue, 05 Jun 2018 18:59:18 GMT
+Tue, 24 Jul 2018 23:44:51 GMT
 
 MAKE:
 /usr/bin/hh_client
 For more detailed logs, try `tail -f $(hh_client --monitor-logname) $(hh_client --logname)`
 Server launched with the following command:
 	'/usr/bin/hh_server' '-d' '/home/dunham/benchmarksgame_quadcore/fasta' '--waiting-client' '8'
-Spawned typechecker (child pid=8266)
-Logs will go to /tmp/hh_server/monitor_logs/zShomezSdunhamzSbenchmarksgame_quadcorezSfasta-2018-06-05-11-59-07.monitor_log
+Spawned typechecker (child pid=1713)
+Logs will go to /tmp/hh_server/monitor_logs/zShomezSdunhamzSbenchmarksgame_quadcorezSfasta-2018-07-24-16-44-40.monitor_log
 No errors!
 
-1.18s to complete and log all make actions
+3.31s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/hhvm  -d hhvm.hack.lang.look_for_typechecker=0 fasta.hack-2.hack 25000000

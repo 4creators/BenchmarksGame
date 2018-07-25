@@ -97,7 +97,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 
 <span class="kwc">$n</span> <span class="opt">=</span> <span class="kwc">$argv</span><span class="opt">[</span><span class="num">1</span><span class="opt">];</span>
 
-<span class="kwd">printf</span><span class="opt">(</span><span class="str">&quot;</span><span class="ipl">%0</span><span class="str">.9f</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">,</span> <span class="kwd">energy</span><span class="opt">(</span><span class="kwc">$bodies</span><span class="opt">));</span>
+<span class="kwd">printf</span><span class="opt">(</span><span class="str">&quot;</span><span class="ipl">%0</span><span class="str">.9f</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">,</span> <span class="kwd">energy</span><span class="opt">(&amp;</span><span class="kwc">$bodies</span><span class="opt">));</span>
 
 <span class="kwc">$i</span><span class="opt">=</span><span class="num">0</span><span class="opt">;</span> 
 <span class="kwa">do</span> <span class="opt">{</span>
@@ -120,7 +120,7 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 
 <span class="opt">}</span> <span class="kwa">while</span><span class="opt">(</span>++<span class="kwc">$i</span><span class="opt">&lt;</span><span class="kwc">$n</span><span class="opt">);</span>
 
-<span class="kwd">printf</span><span class="opt">(</span><span class="str">&quot;</span><span class="ipl">%0</span><span class="str">.9f</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">,</span> <span class="kwd">energy</span><span class="opt">(</span><span class="kwc">$bodies</span><span class="opt">));</span>
+<span class="kwd">printf</span><span class="opt">(</span><span class="str">&quot;</span><span class="ipl">%0</span><span class="str">.9f</span><span class="esc">\n</span><span class="str">&quot;</span><span class="opt">,</span> <span class="kwd">energy</span><span class="opt">(&amp;</span><span class="kwc">$bodies</span><span class="opt">));</span>
 
     </pre>
   </section>
@@ -129,18 +129,18 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-HipHop VM 3.26.3 (rel)
-Compiler: 1527193607_720265267
-Repo schema: ac3cdc27d1cbfe6b4dc78fec3c3e88dd2ee9b239
+HipHop VM 3.27.1 (rel)
+Compiler: 1532025848_857759529
+Repo schema: 6f2a65dfa3a360d8c159fe76a8bee0e26ba4e45a
 
 
-Tue, 05 Jun 2018 20:47:18 GMT
+Tue, 24 Jul 2018 20:11:26 GMT
 
 MAKE:
 /usr/bin/hh_client
 No errors!
 
-0.11s to complete and log all make actions
+0.12s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/hhvm  -d hhvm.hack.lang.look_for_typechecker=0 nbody.hack-3.hack 50000000

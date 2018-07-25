@@ -36,214 +36,228 @@
 <rect x="58" y="24" width="452" height="288" fill="url(#grade)"  />
 </mask>
 <g id="backgroundText" style="text-anchor: end; font-family: Ubuntu,Verdana,sans-serif; font-size: 1em;">
-<text x="16" y="0" transform="rotate(270,16,0)" xml:space="preserve">   C gcc   C gcc   C gcc   C gcc   C gcc   C gcc   C gcc</text>
-<text x="42" y="0" transform="rotate(270,42,0)" xml:space="preserve">   C++ g++   C++ g++   C++ g++   C++ g++   C++ g++   C++ g++</text>
-<text x="68" y="0" transform="rotate(270,68,0)" xml:space="preserve">Rust   Rust   Rust   Rust   Rust   Rust   Rust   Rust   Rust</text>
+<text x="15" y="0" transform="rotate(270,15,0)" xml:space="preserve">   C++ g++   C++ g++   C++ g++   C++ g++   C++ g++   C++ g++</text>
+<text x="40" y="0" transform="rotate(270,40,0)" xml:space="preserve">   C gcc   C gcc   C gcc   C gcc   C gcc   C gcc   C gcc</text>
+<text x="65" y="0" transform="rotate(270,65,0)" xml:space="preserve">Rust   Rust   Rust   Rust   Rust   Rust   Rust   Rust   Rust</text>
 <br />
 <b>Warning</b>:  Division by zero in <b>/home/dunham/8000-benchmarksgame/website/lib/lib_chartSVG.php</b> on line <b>289</b><br />
 <br />
 <b>Warning</b>:  str_repeat() expects parameter 2 to be integer, float given in <b>/home/dunham/8000-benchmarksgame/website/lib/lib_chartSVG.php</b> on line <b>290</b><br />
-<text x="94" y="0" transform="rotate(270,94,0)" xml:space="preserve"></text>
-<text x="120" y="0" transform="rotate(270,120,0)" xml:space="preserve">da 2005 GNAT   Ada 2005 GNAT   Ada 2005 GNAT   Ada 2005 GNAT</text>
-<text x="146" y="0" transform="rotate(270,146,0)" xml:space="preserve">   Swift   Swift   Swift   Swift   Swift   Swift   Swift</text>
-<text x="172" y="0" transform="rotate(270,172,0)" xml:space="preserve">   Chapel   Chapel   Chapel   Chapel   Chapel   Chapel</text>
-<text x="198" y="0" transform="rotate(270,198,0)" xml:space="preserve">   F# .NET Core   F# .NET Core   F# .NET Core   F# .NET Core</text>
-<text x="224" y="0" transform="rotate(270,224,0)" xml:space="preserve">Java   Java   Java   Java   Java   Java   Java   Java   Java</text>
-<text x="250" y="0" transform="rotate(270,250,0)" xml:space="preserve">ortran Intel   Fortran Intel   Fortran Intel   Fortran Intel</text>
-<text x="276" y="0" transform="rotate(270,276,0)" xml:space="preserve">   C# .NET Core   C# .NET Core   C# .NET Core   C# .NET Core</text>
-<text x="302" y="0" transform="rotate(270,302,0)" xml:space="preserve">   Go   Go   Go   Go   Go   Go   Go   Go   Go   Go   Go   Go</text>
-<text x="328" y="0" transform="rotate(270,328,0)" xml:space="preserve">   Lisp SBCL   Lisp SBCL   Lisp SBCL   Lisp SBCL   Lisp SBCL</text>
-<text x="354" y="0" transform="rotate(270,354,0)" xml:space="preserve">   Free Pascal   Free Pascal   Free Pascal   Free Pascal</text>
-<text x="380" y="0" transform="rotate(270,380,0)" xml:space="preserve">   OCaml   OCaml   OCaml   OCaml   OCaml   OCaml   OCaml</text>
-<text x="406" y="0" transform="rotate(270,406,0)" xml:space="preserve">   Haskell GHC   Haskell GHC   Haskell GHC   Haskell GHC</text>
-<text x="432" y="0" transform="rotate(270,432,0)" xml:space="preserve">   Java AOT   Java AOT   Java AOT   Java AOT   Java AOT</text>
+<text x="90" y="0" transform="rotate(270,90,0)" xml:space="preserve"></text>
+<text x="115" y="0" transform="rotate(270,115,0)" xml:space="preserve">da 2005 GNAT   Ada 2005 GNAT   Ada 2005 GNAT   Ada 2005 GNAT</text>
+<text x="140" y="0" transform="rotate(270,140,0)" xml:space="preserve">ortran Intel   Fortran Intel   Fortran Intel   Fortran Intel</text>
+<br />
+<b>Warning</b>:  Division by zero in <b>/home/dunham/8000-benchmarksgame/website/lib/lib_chartSVG.php</b> on line <b>289</b><br />
+<br />
+<b>Warning</b>:  str_repeat() expects parameter 2 to be integer, float given in <b>/home/dunham/8000-benchmarksgame/website/lib/lib_chartSVG.php</b> on line <b>290</b><br />
+<text x="165" y="0" transform="rotate(270,165,0)" xml:space="preserve"></text>
+<text x="190" y="0" transform="rotate(270,190,0)" xml:space="preserve">   Swift   Swift   Swift   Swift   Swift   Swift   Swift</text>
+<text x="215" y="0" transform="rotate(270,215,0)" xml:space="preserve">   Chapel   Chapel   Chapel   Chapel   Chapel   Chapel</text>
+<text x="240" y="0" transform="rotate(270,240,0)" xml:space="preserve">   Lisp SBCL   Lisp SBCL   Lisp SBCL   Lisp SBCL   Lisp SBCL</text>
+<text x="265" y="0" transform="rotate(270,265,0)" xml:space="preserve">Java   Java   Java   Java   Java   Java   Java   Java   Java</text>
+<text x="290" y="0" transform="rotate(270,290,0)" xml:space="preserve">   C# .NET Core   C# .NET Core   C# .NET Core   C# .NET Core</text>
+<text x="315" y="0" transform="rotate(270,315,0)" xml:space="preserve">   Free Pascal   Free Pascal   Free Pascal   Free Pascal</text>
+<text x="340" y="0" transform="rotate(270,340,0)" xml:space="preserve">   F# .NET Core   F# .NET Core   F# .NET Core   F# .NET Core</text>
+<text x="365" y="0" transform="rotate(270,365,0)" xml:space="preserve">   Go   Go   Go   Go   Go   Go   Go   Go   Go   Go   Go   Go</text>
+<text x="390" y="0" transform="rotate(270,390,0)" xml:space="preserve">   OCaml   OCaml   OCaml   OCaml   OCaml   OCaml   OCaml</text>
+<text x="415" y="0" transform="rotate(270,415,0)" xml:space="preserve">   Haskell GHC   Haskell GHC   Haskell GHC   Haskell GHC</text>
+<text x="440" y="0" transform="rotate(270,440,0)" xml:space="preserve">Dart   Dart   Dart   Dart   Dart   Dart   Dart   Dart   Dart</text>
 </g>
 </defs>
 <use x="60" y="27" xlink:href="#backgroundText"/>
 <rect x="58" y="24" width="452" height="288" fill="white" mask="url(#fade)" />
 <rect x="58" y="264" width="452" height="288" style="fill: white; stroke: white;" />
 <g style="fill: black; stroke: black;">
-<rect x="72" y="256.21" width="1" height="7.79" />
-<rect x="98" y="250.66" width="1" height="13.34" />
-<rect x="124" y="240.44" width="1" height="23.56" />
-<rect x="150" y="708.61" width="1" height="0" />
-<rect x="176" y="205.5" width="1" height="57.8" />
-<rect x="202" y="211" width="1" height="49.73" />
-<rect x="228" y="198.58" width="1" height="65.42" />
-<rect x="254" y="199.9" width="1" height="55.83" />
-<rect x="280" y="200.23" width="1" height="42.42" />
-<rect x="306" y="190.12" width="1" height="73.88" />
-<rect x="332" y="203.32" width="1" height="39.77" />
-<rect x="358" y="191.39" width="1" height="64" />
-<rect x="384" y="184.94" width="1" height="75.09" />
-<rect x="410" y="161.16" width="1" height="100.35" />
-<rect x="436" y="170.35" width="1" height="69.93" />
-<rect x="462" y="171.46" width="1" height="70.57" />
-<rect x="488" y="155.74" width="1" height="78.88" />
+<rect x="72" y="243.09" width="1" height="20.91" />
+<rect x="97" y="238.9" width="1" height="25.1" />
+<rect x="122" y="226.57" width="1" height="35.82" />
+<rect x="147" y="708.61" width="1" height="0" />
+<rect x="172" y="192.62" width="1" height="68.64" />
+<rect x="197" y="193.67" width="1" height="70.33" />
+<rect x="222" y="708.61" width="1" height="0" />
+<rect x="247" y="180.19" width="1" height="80.82" />
+<rect x="272" y="192.32" width="1" height="71.68" />
+<rect x="297" y="192.18" width="1" height="68.13" />
+<rect x="322" y="193.22" width="1" height="43.19" />
+<rect x="347" y="196.23" width="1" height="49.53" />
+<rect x="372" y="185.59" width="1" height="76.2" />
+<rect x="397" y="190.44" width="1" height="48.97" />
+<rect x="422" y="166.22" width="1" height="89.43" />
+<rect x="447" y="174.19" width="1" height="56.34" />
+<rect x="472" y="165.83" width="1" height="60.01" />
+<rect x="497" y="177.9" width="1" height="40.56" />
 </g>
 <g style="fill: white; stroke: black;">
-<rect x="62" y="260.69" width="20" height="3.31" />
-<rect x="88" y="258.1" width="20" height="5.9" />
-<rect x="114" y="246.05" width="20" height="13.6" />
-<rect x="140" y="708.61" width="20" height="0" />
-<rect x="166" y="217.85" width="20" height="43.12" />
-<rect x="192" y="228.31" width="20" height="18.28" />
-<rect x="218" y="203.09" width="20" height="48.83" />
-<rect x="244" y="218.58" width="20" height="20.69" />
-<rect x="270" y="218.32" width="20" height="19.63" />
-<rect x="296" y="215.54" width="20" height="37.45" />
-<rect x="322" y="220.74" width="20" height="18.46" />
-<rect x="348" y="214.17" width="20" height="29.62" />
-<rect x="374" y="200.24" width="20" height="31.67" />
-<rect x="400" y="182.5" width="20" height="53.74" />
-<rect x="426" y="195.43" width="20" height="36.31" />
-<rect x="452" y="179.98" width="20" height="50.79" />
-<rect x="478" y="182.25" width="20" height="41.41" />
+<rect x="62" y="245.13" width="20" height="18.87" />
+<rect x="87" y="251.95" width="20" height="12.05" />
+<rect x="112" y="242.58" width="20" height="16.19" />
+<rect x="137" y="708.61" width="20" height="0" />
+<rect x="162" y="215.54" width="20" height="30.01" />
+<rect x="187" y="217.61" width="20" height="32.82" />
+<rect x="212" y="708.61" width="20" height="0" />
+<rect x="237" y="205.34" width="20" height="36.55" />
+<rect x="262" y="195.53" width="20" height="38.96" />
+<rect x="287" y="207.67" width="20" height="17.07" />
+<rect x="312" y="212.97" width="20" height="22.75" />
+<rect x="337" y="212.03" width="20" height="15.87" />
+<rect x="362" y="204.31" width="20" height="20.76" />
+<rect x="387" y="207.03" width="20" height="17.11" />
+<rect x="412" y="192.51" width="20" height="40.56" />
+<rect x="437" y="192.52" width="20" height="30.81" />
+<rect x="462" y="187.49" width="20" height="36.29" />
+<rect x="487" y="188.71" width="20" height="25.41" />
 </g>
 <g style="fill: black; stroke: black;">
 <line x1="67.5" y1="264" x2="77" y2="264" />
-<line x1="67.5" y1="256.21" x2="77" y2="256.21" />
-<line x1="67.5" y1="251.48" x2="77" y2="251.48" />
-<rect x="72" y="251.48" width="1" height="5" />
+<line x1="67.5" y1="243.09" x2="77" y2="243.09" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="63" y="261.44" width="18" height="1" />
+<rect x="63" y="260.35" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="93.5" y1="264" x2="103" y2="264" />
-<line x1="93.5" y1="250.66" x2="103" y2="250.66" />
-<line x1="93.5" y1="240.77" x2="103" y2="240.77" />
-<rect x="98" y="240.77" width="1" height="5" />
+<line x1="92.5" y1="264" x2="102" y2="264" />
+<line x1="92.5" y1="238.9" x2="102" y2="238.9" />
+<line x1="92.5" y1="219.08" x2="102" y2="219.08" />
+<rect x="97" y="219.08" width="1" height="5" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="89" y="262.18" width="18" height="1" />
+<rect x="88" y="259.71" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="119.5" y1="264" x2="129" y2="264" />
-<line x1="119.5" y1="240.44" x2="129" y2="240.44" />
+<line x1="117.5" y1="262.39" x2="127" y2="262.39" />
+<line x1="117.5" y1="226.57" x2="127" y2="226.57" />
+<line x1="117.5" y1="213.29" x2="127" y2="213.29" />
+<rect x="122" y="213.29" width="1" height="5" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="115" y="257.27" width="18" height="1" />
+<rect x="113" y="246.3" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="145.5" y1="708.61" x2="155" y2="708.61" />
-<line x1="145.5" y1="708.61" x2="155" y2="708.61" />
+<line x1="142.5" y1="708.61" x2="152" y2="708.61" />
+<line x1="142.5" y1="708.61" x2="152" y2="708.61" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="141" y="707.61" width="18" height="1" />
+<rect x="138" y="707.61" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="171.5" y1="263.3" x2="181" y2="263.3" />
-<line x1="171.5" y1="205.5" x2="181" y2="205.5" />
+<line x1="167.5" y1="261.25" x2="177" y2="261.25" />
+<line x1="167.5" y1="192.62" x2="177" y2="192.62" />
+<line x1="167.5" y1="183.97" x2="177" y2="183.97" />
+<rect x="172" y="183.97" width="1" height="5" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="167" y="223.53" width="18" height="1" />
+<rect x="163" y="235.53" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="197.5" y1="260.73" x2="207" y2="260.73" />
-<line x1="197.5" y1="211" x2="207" y2="211" />
-<line x1="197.5" y1="180.8" x2="207" y2="180.8" />
-<rect x="202" y="180.8" width="1" height="5" />
+<line x1="192.5" y1="264" x2="202" y2="264" />
+<line x1="192.5" y1="193.67" x2="202" y2="193.67" />
+<line x1="192.5" y1="180.97" x2="202" y2="180.97" />
+<rect x="197" y="180.97" width="1" height="5" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="193" y="232.79" width="18" height="1" />
+<rect x="188" y="227.71" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="223.5" y1="264" x2="233" y2="264" />
-<line x1="223.5" y1="198.58" x2="233" y2="198.58" />
+<line x1="217.5" y1="708.61" x2="227" y2="708.61" />
+<line x1="217.5" y1="708.61" x2="227" y2="708.61" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="219" y="231.32" width="18" height="1" />
+<rect x="213" y="707.61" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="249.5" y1="255.73" x2="259" y2="255.73" />
-<line x1="249.5" y1="199.9" x2="259" y2="199.9" />
-<line x1="249.5" y1="177.22" x2="259" y2="177.22" />
-<rect x="254" y="177.22" width="1" height="5" />
+<line x1="242.5" y1="261.01" x2="252" y2="261.01" />
+<line x1="242.5" y1="180.19" x2="252" y2="180.19" />
+<line x1="242.5" y1="172.5" x2="252" y2="172.5" />
+<rect x="247" y="172.5" width="1" height="5" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="245" y="229.94" width="18" height="1" />
+<rect x="238" y="232.84" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="275.5" y1="242.65" x2="285" y2="242.65" />
-<line x1="275.5" y1="200.23" x2="285" y2="200.23" />
-<line x1="275.5" y1="188.98" x2="285" y2="188.98" />
-<rect x="280" y="188.98" width="1" height="5" />
+<line x1="267.5" y1="264" x2="277" y2="264" />
+<line x1="267.5" y1="192.32" x2="277" y2="192.32" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="271" y="230.93" width="18" height="1" />
+<rect x="263" y="221.68" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="301.5" y1="264" x2="311" y2="264" />
-<line x1="301.5" y1="190.12" x2="311" y2="190.12" />
-<line x1="301.5" y1="137.93" x2="311" y2="137.93" />
-<rect x="306" y="137.93" width="1" height="5" />
+<line x1="292.5" y1="260.32" x2="302" y2="260.32" />
+<line x1="292.5" y1="192.18" x2="302" y2="192.18" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="297" y="231.85" width="18" height="1" />
+<rect x="288" y="215.77" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="327.5" y1="243.09" x2="337" y2="243.09" />
-<line x1="327.5" y1="203.32" x2="337" y2="203.32" />
-<line x1="327.5" y1="175.23" x2="337" y2="175.23" />
-<rect x="332" y="175.23" width="1" height="5" />
+<line x1="317.5" y1="236.41" x2="327" y2="236.41" />
+<line x1="317.5" y1="193.22" x2="327" y2="193.22" />
+<line x1="317.5" y1="165.61" x2="327" y2="165.61" />
+<rect x="322" y="165.61" width="1" height="5" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="323" y="231" width="18" height="1" />
+<rect x="313" y="224.26" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="353.5" y1="255.39" x2="363" y2="255.39" />
-<line x1="353.5" y1="191.39" x2="363" y2="191.39" />
-<line x1="353.5" y1="150.55" x2="363" y2="150.55" />
-<rect x="358" y="150.55" width="1" height="5" />
+<line x1="342.5" y1="245.76" x2="352" y2="245.76" />
+<line x1="342.5" y1="196.23" x2="352" y2="196.23" />
+<line x1="342.5" y1="150.46" x2="352" y2="150.46" />
+<rect x="347" y="150.46" width="1" height="5" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="349" y="226.9" width="18" height="1" />
+<rect x="338" y="225.33" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="379.5" y1="260.03" x2="389" y2="260.03" />
-<line x1="379.5" y1="184.94" x2="389" y2="184.94" />
+<line x1="367.5" y1="261.79" x2="377" y2="261.79" />
+<line x1="367.5" y1="185.59" x2="377" y2="185.59" />
+<line x1="367.5" y1="177.45" x2="377" y2="177.45" />
+<rect x="372" y="177.45" width="1" height="5" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="375" y="216.4" width="18" height="1" />
+<rect x="363" y="218.52" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="405.5" y1="261.5" x2="415" y2="261.5" />
-<line x1="405.5" y1="161.16" x2="415" y2="161.16" />
+<line x1="392.5" y1="239.4" x2="402" y2="239.4" />
+<line x1="392.5" y1="190.44" x2="402" y2="190.44" />
+<line x1="392.5" y1="150.3" x2="402" y2="150.3" />
+<rect x="397" y="150.3" width="1" height="5" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="401" y="224.08" width="18" height="1" />
+<rect x="388" y="218.48" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="431.5" y1="240.28" x2="441" y2="240.28" />
-<line x1="431.5" y1="170.35" x2="441" y2="170.35" />
-<line x1="431.5" y1="155.75" x2="441" y2="155.75" />
-<rect x="436" y="155.75" width="1" height="5" />
+<line x1="417.5" y1="255.65" x2="427" y2="255.65" />
+<line x1="417.5" y1="166.22" x2="427" y2="166.22" />
+<line x1="417.5" y1="140.71" x2="427" y2="140.71" />
+<rect x="422" y="140.71" width="1" height="5" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="427" y="209.01" width="18" height="1" />
+<rect x="413" y="218.96" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="457.5" y1="242.03" x2="467" y2="242.03" />
-<line x1="457.5" y1="171.46" x2="467" y2="171.46" />
+<line x1="442.5" y1="230.52" x2="452" y2="230.52" />
+<line x1="442.5" y1="174.19" x2="452" y2="174.19" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="453" y="197.58" width="18" height="1" />
+<rect x="438" y="208.32" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="483.5" y1="234.62" x2="493" y2="234.62" />
-<line x1="483.5" y1="155.74" x2="493" y2="155.74" />
-<line x1="483.5" y1="150.58" x2="493" y2="150.58" />
-<rect x="488" y="150.58" width="1" height="5" />
+<line x1="467.5" y1="225.83" x2="477" y2="225.83" />
+<line x1="467.5" y1="165.83" x2="477" y2="165.83" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="479" y="206.44" width="18" height="1" />
+<rect x="463" y="199.61" width="18" height="1" />
+</g>
+<g style="fill: black; stroke: black;">
+<line x1="492.5" y1="218.46" x2="502" y2="218.46" />
+<line x1="492.5" y1="177.9" x2="502" y2="177.9" />
+</g>
+<g style="fill: black; stroke: black;">
+<rect x="488" y="196.07" width="18" height="1" />
 </g>
 <g style="text-anchor: end; font-family: Ubuntu,Verdana,sans-serif; font-size: 0.9em;" >
-<text x="512" y="282" >05 Jul 2018 u64q</text>
+<text x="512" y="282" >25 Jul 2018 u64q</text>
 <text x="58" y="282" style="text-anchor: start;" >benchmarks game</text>
 </g>
-<text x="16" y="144" transform="rotate(270,16,144)" style="text-anchor: middle; font-family: Ubuntu,Verdana,sans-serif; font-size: 0.9em;" >program time / fastest program time</text>
+<text x="16" y="144" transform="rotate(270,16,144)" style="text-anchor: middle; font-family: Ubuntu,Verdana,sans-serif; font-size: 0.9em;" >program CPU time / fastest CPU time</text>
 <text x="285" y="18" style="text-anchor: middle; font-family: Ubuntu,Verdana,sans-serif; font-size: 1.2em;" >How many times slower?</text>
 <g style="stroke: #333;">
 <line x1="58" y1="24" x2="58" y2="264" />

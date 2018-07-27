@@ -5,7 +5,7 @@
 <title>How programs are measured | Computer Language Benchmarks Game</title>
 <link rel="shortcut icon" href="./favicon.ico">
 <style><!-- 
-a{color:black;text-decoration:none}article,footer,header{margin:auto;max-width:31em;width:92%}body{font:100% Droid Sans,Ubuntu,Verdana,sans-serif;margin:0;-webkit-text-size-adjust:100%}code,h3,h2{font-family:Ubuntu Mono,Consolas,Menlo,monospace}footer{padding:2.6em 0 0}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h2{margin:1.5em 0 0}h2{font-size:1.2em}p{color:#333;line-height:1.4;margin: .3em 0 0}p a{border-bottom: .1em solid #333;padding-bottom: .1em}code{font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
+a{color:black;text-decoration:none}article,footer,header{margin:auto;max-width:31em;width:92%}body{font:100% Droid Sans,Ubuntu,Verdana,sans-serif;margin:0;-webkit-text-size-adjust:100%}code,h3,h2{font-family:Ubuntu Mono,Consolas,Menlo,monospace}footer{padding:2.6em 0 0}h3{font-size:1.4em;font-weight:bold;margin:0;padding: .4em}h3, h3 a{color:white;background-color:#dd4814}h3 small{font-size:0.64em}h2{margin:1.5em 0 0}h2{font-size:1.2em}p{color:#333;line-height:1.4;margin: .3em 0 0}p a{border-bottom: .1em solid #333;padding-bottom: .1em}table{font-family:Menlo,Consolas,Ubuntu Monospace,Andale Mono,monospace;margin:.7em 0;text-align:right}td{border-bottom:.15em dotted #eee;padding:.7em .7em 0 0}td:first-child,th:first-child{text-align:left}th{font-weight:400;padding:0 .7em 0 0;text-align:left}code{font-size:1em;overflow-wrap:break-word;white-space:pre-wrap;word-wrap:break-word}@media only screen and (min-width: 60em){article,footer,header{font-size:1.25em}}
 --></style>
 <header>
   <h3><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The&nbsp;<small>Computer&nbsp;Language</small><br>Benchmarks&nbsp;Game</a></h3>
@@ -56,6 +56,93 @@ a{color:black;text-decoration:none}article,footer,header{margin:auto;max-width:3
     <h2 id="source-code">How source code size is measured</h2>
     <p>We start with the source-code markup you can see, remove comments, remove duplicate whitespace characters, and then apply minimum GZip compression. The measurement is the size in bytes of that GZip compressed source-code file.
     <p>Thanks to Brian Hurt for the idea of using <b>size of compressed source code</b> instead of lines of code.
+
+    <table>
+      <tr>
+        <th colspan="2">median source code gzip (July 2018)
+      <tr>
+        <td>Perl
+        <td>513
+      <tr>
+        <td>TypeScript
+        <td>532
+      <tr>
+        <td>Lua
+        <td>553
+      <tr>
+        <td>Ruby
+        <td>568
+      <tr>
+        <td>Dart
+        <td>610
+      <tr>
+        <td>Chapel
+        <td>632
+      <tr>
+        <td>Racket
+        <td>638
+      <tr>
+        <td>Python
+        <td>672
+      <tr>
+        <td>PHP
+        <td>736
+      <tr>
+        <td>Hack
+        <td>745
+      <tr>
+        <td>JavaScript
+        <td>779
+      <tr>
+        <td>Erlang
+        <td>792
+      <tr>
+        <td>Go
+        <td>829
+      <tr>
+        <td>Haskell
+        <td>842
+      <tr>
+        <td>Pascal
+        <td>846
+      <tr>
+        <td>F#
+        <td>876
+      <tr>
+        <td>OCaml
+        <td>914
+      <tr>
+        <td>Java
+        <td>945
+      <tr>
+        <td>Smalltalk
+        <td>950
+      <tr>
+        <td>Lisp
+        <td>1004
+      <tr>
+        <td>Fortran
+        <td>1019
+      <tr>
+        <td>C++
+        <td>1044
+      <tr>
+        <td>C#
+        <td>1059
+      <tr>
+        <td>C
+        <td>1115
+      <tr>
+        <td>Swift
+        <td>1164
+      <tr>
+        <td>Rust
+        <td>1319
+      <tr>
+        <td>Ada
+        <td>1819
+    </table>
+
     <p>(Note: There is some evidence that <a href="http://my.safaribooksonline.com/book/software-engineering-and-development/9780596808310/general-principles-of-searching-for-and-using-evidence/herraiz_hassan_metrics">complexity metrics don't provide any more information than SLoC or LoC</a>.)
   </section>
   <section>

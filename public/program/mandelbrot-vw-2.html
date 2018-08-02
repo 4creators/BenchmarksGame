@@ -52,9 +52,9 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
 
 <span class="kwb">splitCombinePutMandelbrot:</span> anInteger <span class="kwb">on:</span> aStream
    <span class="kwd">| chunks chunkSize extent first last nprocs workers |</span>
-   nprocs <span class="opt">:</span><span class="kwb">=</span> <span class="opt">(</span><span class="kwc">ExternalProcess</span> <span class="kwb">shOne:</span> <span class="str">&apos;nproc&apos;</span><span class="opt">)</span> asNumber<span class="opt">.</span>
-      <span class="com">&quot;Somethings broken about this program at 16000 with 4 workers&quot;</span>
-   workers <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">MatriX</span><span class="opt">.</span><span class="kwc">VirtualMachines</span> <span class="kwb">new:</span> <span class="num">3</span><span class="opt">.</span>
+   nprocs <span class="opt">:</span><span class="kwb">=</span> <span class="opt">(</span><span class="kwc">ExternalProcess</span> <span class="kwb">shOne:</span> <span class="str">&apos;nproc&apos;</span><span class="opt">)</span> asNumber <span class="kwb">+</span> <span class="num">5</span><span class="opt">.</span>
+
+   workers <span class="opt">:</span><span class="kwb">=</span> <span class="kwc">MatriX</span><span class="opt">.</span><span class="kwc">VirtualMachines</span> <span class="kwb">new:</span> nprocs<span class="opt">.</span>
    <span class="opt">[</span>   
       chunkSize <span class="opt">:</span><span class="kwb">=</span> anInteger <span class="kwb">//</span> nprocs <span class="kwb">+</span> <span class="num">1</span><span class="opt">.</span>
       first <span class="opt">:</span><span class="kwb">=</span> <span class="opt">(</span><span class="num">0</span> <span class="kwb">to:</span> <span class="opt">(</span>nprocs <span class="kwb">-</span> <span class="num">1</span><span class="opt">))</span> <span class="kwb">collect:</span> <span class="opt">[</span><span class="kwd">:each</span>| <span class="opt">(</span>each <span class="kwb">*</span> chunkSize <span class="kwb">+</span> <span class="num">1</span><span class="opt">)</span> <span class="kwb">-</span> <span class="num">1</span><span class="opt">].</span>
@@ -129,7 +129,7 @@ VisualWorks&#174; 8.3 Aug 19 2017
 
 
 
-Tue, 12 Jun 2018 18:45:52 GMT
+Thu, 02 Aug 2018 02:00:17 GMT
 
 MAKE:
 cp /opt/src/vw8.3pul/image/visualnc64.im mandelbrot.vw-2.vw_run.im
@@ -148,15 +148,11 @@ BenchmarksGame class&lt;benchmarks game
 Stream&lt;benchmarks game
 Do you want to add Root.Smalltalk.Core.Stream&gt;&gt;nl to the previously unchanged package, Collections-Streams
 						OK to continue?
-/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/mandelbrot.vw-2.vw_run.im created at June 12, 2018 11:45:34 AM
-4.56s to complete and log all make actions
+/home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/mandelbrot.vw-2.vw_run.im created at August 1, 2018 6:59:58 PM
+4.40s to complete and log all make actions
 
 COMMAND LINE:
 /opt/src/vw8.3pul/bin/visual mandelbrot.vw-2.vw_run.im -nogui -evaluate &quot;BenchmarksGame program&quot; -a 16000
-
-UNEXPECTED OUTPUT 
-
-cmp: EOF on _out which is empty
 
 (BINARY) PROGRAM OUTPUT NOT SHOWN
     </pre>

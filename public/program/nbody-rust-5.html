@@ -296,15 +296,15 @@ macro_rules<span class="opt">!</span> simd_op <span class="opt">{</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-rustc 1.27.0 (3eda71b00 2018-06-19)
+rustc 1.28.0 (9634041f0 2018-07-30)
 
 
-Thu, 28 Jun 2018 22:03:37 GMT
+Thu, 02 Aug 2018 17:49:16 GMT
 
 MAKE:
-/opt/src/rust-1.27.0/bin/rustc -C opt-level=3 -C target-cpu=core2 -C lto -C codegen-units=1 -C llvm-args='-unroll-threshold=500' nbody.rs -o nbody.rust-5.rust_run
+/opt/src/rust-1.28.0/bin/rustc -C opt-level=3 -C target-cpu=core2 -C lto -C codegen-units=1 -C llvm-args='-unroll-threshold=500' nbody.rs -o nbody.rust-5.rust_run
 
-6.13s to complete and log all make actions
+5.25s to complete and log all make actions
 
 COMMAND LINE:
 ./nbody.rust-5.rust_run 50000000

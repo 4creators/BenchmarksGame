@@ -164,13 +164,13 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-rustc 1.27.0 (3eda71b00 2018-06-19)
+rustc 1.28.0 (9634041f0 2018-07-30)
 
 
-Thu, 21 Jun 2018 20:33:22 GMT
+Thu, 02 Aug 2018 17:36:05 GMT
 
 MAKE:
-/opt/src/rust-1.27.0/bin/rustc -C opt-level=3 -C target-cpu=core2 -C lto -C codegen-units=1 -L /opt/src/rust-libs knucleotide.rs -o knucleotide.rust_run
+/opt/src/rust-1.28.0/bin/rustc -C opt-level=3 -C target-cpu=core2 -C lto -C codegen-units=1 -L /opt/src/rust-libs knucleotide.rs -o knucleotide.rust_run
 warning: unused `std::result::Result` which must be used
    --&gt; knucleotide.rs:120:9
     |
@@ -180,10 +180,11 @@ warning: unused `std::result::Result` which must be used
     | |___________^
     |
     = note: #[warn(unused_must_use)] on by default
+    = note: this `Result` may be an `Err` variant, which should be handled
 
 rm knucleotide.rs
 
-9.57s to complete and log all make actions
+8.38s to complete and log all make actions
 
 COMMAND LINE:
 ./knucleotide.rust_run 0 &lt; knucleotide-input25000000.txt

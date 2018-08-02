@@ -44,7 +44,7 @@
 <br />
 <b>Warning</b>:  str_repeat() expects parameter 2 to be integer, float given in <b>/home/dunham/8000-benchmarksgame/website/lib/lib_chartSVG.php</b> on line <b>290</b><br />
 <text x="90" y="0" transform="rotate(270,90,0)" xml:space="preserve"></text>
-<text x="115" y="0" transform="rotate(270,115,0)" xml:space="preserve">da 2005 GNAT   Ada 2005 GNAT   Ada 2005 GNAT   Ada 2005 GNAT</text>
+<text x="115" y="0" transform="rotate(270,115,0)" xml:space="preserve">da 2012 GNAT   Ada 2012 GNAT   Ada 2012 GNAT   Ada 2012 GNAT</text>
 <text x="140" y="0" transform="rotate(270,140,0)" xml:space="preserve">ortran Intel   Fortran Intel   Fortran Intel   Fortran Intel</text>
 <br />
 <b>Warning</b>:  Division by zero in <b>/home/dunham/8000-benchmarksgame/website/lib/lib_chartSVG.php</b> on line <b>289</b><br />
@@ -70,7 +70,7 @@
 <g style="fill: black; stroke: black;">
 <rect x="72" y="243.09" width="1" height="20.91" />
 <rect x="97" y="238.9" width="1" height="25.1" />
-<rect x="122" y="226.57" width="1" height="35.82" />
+<rect x="122" y="230.86" width="1" height="31.4" />
 <rect x="147" y="708.61" width="1" height="0" />
 <rect x="172" y="192.62" width="1" height="68.64" />
 <rect x="197" y="193.67" width="1" height="70.33" />
@@ -90,7 +90,7 @@
 <g style="fill: white; stroke: black;">
 <rect x="62" y="245.13" width="20" height="18.87" />
 <rect x="87" y="251.95" width="20" height="12.05" />
-<rect x="112" y="242.58" width="20" height="16.19" />
+<rect x="112" y="245.08" width="20" height="13.59" />
 <rect x="137" y="708.61" width="20" height="0" />
 <rect x="162" y="215.54" width="20" height="30.01" />
 <rect x="187" y="217.61" width="20" height="32.82" />
@@ -124,13 +124,13 @@
 <rect x="88" y="259.71" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
-<line x1="117.5" y1="262.39" x2="127" y2="262.39" />
-<line x1="117.5" y1="226.57" x2="127" y2="226.57" />
-<line x1="117.5" y1="213.29" x2="127" y2="213.29" />
-<rect x="122" y="213.29" width="1" height="5" />
+<line x1="117.5" y1="262.26" x2="127" y2="262.26" />
+<line x1="117.5" y1="230.86" x2="127" y2="230.86" />
+<line x1="117.5" y1="213.24" x2="127" y2="213.24" />
+<rect x="122" y="213.24" width="1" height="5" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="113" y="246.3" width="18" height="1" />
+<rect x="113" y="246.11" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
 <line x1="142.5" y1="708.61" x2="152" y2="708.61" />
@@ -194,7 +194,7 @@
 <rect x="322" y="165.61" width="1" height="5" />
 </g>
 <g style="fill: black; stroke: black;">
-<rect x="313" y="224.26" width="18" height="1" />
+<rect x="313" y="224.24" width="18" height="1" />
 </g>
 <g style="fill: black; stroke: black;">
 <line x1="342.5" y1="245.76" x2="352" y2="245.76" />
@@ -254,7 +254,7 @@
 <rect x="488" y="196.07" width="18" height="1" />
 </g>
 <g style="text-anchor: end; font-family: Ubuntu,Verdana,sans-serif; font-size: 0.9em;" >
-<text x="512" y="282" >25 Jul 2018 u64q</text>
+<text x="512" y="282" >02 Aug 2018 u64q</text>
 <text x="58" y="282" style="text-anchor: start;" >benchmarks game</text>
 </g>
 <text x="16" y="144" transform="rotate(270,16,144)" style="text-anchor: middle; font-family: Ubuntu,Verdana,sans-serif; font-size: 0.9em;" >program CPU time / fastest CPU time</text>

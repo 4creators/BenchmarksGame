@@ -177,12 +177,14 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-sdk/2.1.300
+sdk/2.1.302
 .NETCore.App 2.1.0
-"System.GC.Server": true
+&lt;TieredCompilation&gt;true
+&lt;ServerGarbageCollection&gt;true
+&lt;ConcurrentGarbageCollection&gt;true
 
 
-Wed, 06 Jun 2018 03:47:05 GMT
+Sat, 04 Aug 2018 19:49:22 GMT
 
 MAKE:
 cp pidigits.csharpcore-2.csharpcore Program.cs
@@ -197,7 +199,7 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 
   Restoring packages for /home/dunham/benchmarksgame_quadcore/pidigits/tmp/tmp.csproj...
   Generating MSBuild file /home/dunham/benchmarksgame_quadcore/pidigits/tmp/obj/tmp.csproj.nuget.g.props.
-  Restore completed in 261.67 ms for /home/dunham/benchmarksgame_quadcore/pidigits/tmp/tmp.csproj.
+  Restore completed in 263.12 ms for /home/dunham/benchmarksgame_quadcore/pidigits/tmp/tmp.csproj.
 Program.cs(9,21): error CS0246: The type or namespace name 'Mono' could not be found (are you missing a using directive or an assembly reference?) [/home/dunham/benchmarksgame_quadcore/pidigits/tmp/tmp.csproj]
 
 Build FAILED.
@@ -210,7 +212,7 @@ Time Elapsed 00:00:02.25
 /home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:235: recipe for target 'pidigits.csharpcore-2.csharpcore_run' failed
 make: [pidigits.csharpcore-2.csharpcore_run] Error 1 (ignored)
 
-2.88s to complete and log all make actions
+2.86s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/dotnet ./bin/Release/netcoreapp2.1/tmp.dll 2000

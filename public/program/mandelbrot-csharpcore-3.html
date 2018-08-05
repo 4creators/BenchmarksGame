@@ -98,12 +98,14 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-sdk/2.1.300
+sdk/2.1.302
 .NETCore.App 2.1.0
-"System.GC.Server": true
+&lt;TieredCompilation&gt;true
+&lt;ServerGarbageCollection&gt;true
+&lt;ConcurrentGarbageCollection&gt;true
 
 
-Wed, 06 Jun 2018 03:18:54 GMT
+Sat, 04 Aug 2018 19:28:07 GMT
 
 MAKE:
 cp mandelbrot.csharpcore-3.csharpcore Program.cs
@@ -118,7 +120,7 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 
   Restoring packages for /home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/tmp.csproj...
   Generating MSBuild file /home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/obj/tmp.csproj.nuget.g.props.
-  Restore completed in 262.01 ms for /home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/tmp.csproj.
+  Restore completed in 262.43 ms for /home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/tmp.csproj.
   tmp -&gt; /home/dunham/benchmarksgame_quadcore/mandelbrot/tmp/bin/Release/netcoreapp2.1/tmp.dll
 
 Build succeeded.
@@ -127,7 +129,7 @@ Build succeeded.
 
 Time Elapsed 00:00:02.31
 
-2.95s to complete and log all make actions
+2.92s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/dotnet ./bin/Release/netcoreapp2.1/tmp.dll 16000

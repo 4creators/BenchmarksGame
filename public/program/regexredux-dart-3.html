@@ -175,33 +175,27 @@ import <span class="str">&apos;dart:isolate&apos;</span><span class="opt">;</spa
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Dart VM version: 2.0.0-dev.58.0 (Wed May 23 20:44:51 2018 +0200) on "linux_x64"
+Dart VM version: 2.0.0 (Fri Aug 3 10:53:23 2018 +0200) on "linux_x64"
 
 
-Sat, 26 May 2018 23:05:16 GMT
+Tue, 07 Aug 2018 19:13:38 GMT
 
 MAKE:
 make: 'regexredux.dart-3.dart_run' is up to date.
 
-0.02s to complete and log all make actions
+0.01s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/dartsdk-linux-x64-release/dart-sdk/bin/dart  regexredux.dart-3.dart 0 &lt; regexredux-input5000000.txt
+/opt/src/dartsdk-linux-x64-release/dart-sdk/bin/dart  regexredux.dart-3.dart 0 &lt; regexredux-input50000.txt
+
+PROGRAM FAILED 
+
 
 PROGRAM OUTPUT:
-agggtaaa|tttaccct 356
-[cgt]gggtaaa|tttaccc[acg] 1250
-a[act]ggtaaa|tttacc[agt]t 4252
-ag[act]gtaaa|tttac[agt]ct 2894
-agg[act]taaa|ttta[agt]cct 5435
-aggg[acg]aaa|ttt[cgt]ccct 1537
-agggt[cgt]aa|tt[acg]accct 1431
-agggta[cgt]a|t[acg]taccct 1608
-agggtaa[cgt]|[acg]ttaccct 2178
 
-50833411
-50000000
-27388361
+regexredux.dart-3.dart:36:19: Error: Getter not found: 'LATIN1'.
+  stdin.transform(LATIN1.decoder).join().then(regexAllTheThings);
+                  ^^^^^^
     </pre>
   </section>
 </article>

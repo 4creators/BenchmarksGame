@@ -132,10 +132,10 @@ import <span class="str">&apos;dart:typed_data&apos;</span><span class="opt">;</
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Dart VM version: 2.0.0-dev.58.0 (Wed May 23 20:44:51 2018 +0200) on "linux_x64"
+Dart VM version: 2.0.0 (Fri Aug 3 10:53:23 2018 +0200) on "linux_x64"
 
 
-Sat, 26 May 2018 22:55:38 GMT
+Tue, 07 Aug 2018 19:13:35 GMT
 
 MAKE:
 make: 'mandelbrot.dart_run' is up to date.
@@ -143,9 +143,17 @@ make: 'mandelbrot.dart_run' is up to date.
 0.01s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/dartsdk-linux-x64-release/dart-sdk/bin/dart  mandelbrot.dart 16000
+/opt/src/dartsdk-linux-x64-release/dart-sdk/bin/dart  mandelbrot.dart 1000
+
+PROGRAM FAILED 
+
 
 (BINARY) PROGRAM OUTPUT NOT SHOWN
+
+mandelbrot.dart:46:15: Error: The argument type 'dart.core::List&lt;dynamic&gt;' can't be assigned to the parameter type 'dart.core::Iterable&lt;dart.async::Future&lt;dynamic&gt;&gt;'.
+Try changing the type of the parameter, or casting the argument to 'dart.core::Iterable&lt;dart.async::Future&lt;dynamic&gt;&gt;'.
+  Future.wait(segmentFutures).then((segments) {
+              ^
     </pre>
   </section>
 </article>

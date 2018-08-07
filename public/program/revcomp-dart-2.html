@@ -120,10 +120,10 @@ import <span class="str">&apos;dart:io&apos;</span><span class="opt">;</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Dart VM version: 2.0.0-dev.58.0 (Wed May 23 20:44:51 2018 +0200) on "linux_x64"
+Dart VM version: 2.0.0 (Fri Aug 3 10:53:23 2018 +0200) on "linux_x64"
 
 
-Sat, 26 May 2018 23:06:06 GMT
+Tue, 07 Aug 2018 19:13:40 GMT
 
 MAKE:
 make: 'revcomp.dart-2.dart_run' is up to date.
@@ -142,20 +142,24 @@ PROGRAM OUTPUT:
 Exhausted heap space, trying to allocate 2147483664 bytes.
 Unhandled exception:
 Out of Memory
-#0      List._allocateData (dart:core-patch/dart:core/growable_array.dart:8)
-#1      main.&lt;anonymous closure&gt; (file:///home/dunham/benchmarksgame_quadcore/revcomp/tmp/revcomp.dart-2.dart:92:1)
-#2      _RootZone.runUnaryGuarded (dart:async/zone.dart:1316)
-#3      _BufferingStreamSubscription._sendData (dart:async/stream_impl.dart:330)
-#4      _FileStream._readBlock.&lt;anonymous closure&gt; (dart:io/file_impl.dart:190)
-#5      _FutureListener.handleValue (dart:async/future_impl.dart)
-#6      Future._propagateToListeners.handleValueCallback (dart:async/future_impl.dart:633)
-#7      Future._propagateToListeners (dart:async/future_impl.dart)
-#8      Future._completeWithValue (dart:async/future_impl.dart:477)
-#9      Future._asyncComplete.&lt;anonymous closure&gt; (dart:async/future_impl.dart:507)
-#10     _microtaskLoop (dart:async/schedule_microtask.dart:41)
-#11     _startMicrotaskLoop (dart:async/schedule_microtask.dart:50)
-#12     _runPendingImmediateCallback (dart:isolate-patch/dart:isolate/isolate_patch.dart:113)
-#13     _RawReceivePortImpl._handleMessage (dart:isolate-patch/dart:isolate/isolate_patch.dart:166)
+#0      List._allocateData (dart:core/runtime/libgrowable_array.dart)
+#1      List._grow (dart:core/runtime/libgrowable_array.dart:243:19)
+#2      main.&lt;anonymous closure&gt; (file:///home/dunham/benchmarksgame_quadcore/revcomp/tmp/revcomp.dart-2.dart:93:2138)
+#3      _RootZone.runUnaryGuarded (dart:async/zone.dart:1314:10)
+#4      _BufferingStreamSubscription._sendData (dart:async/stream_impl.dart:336:11)
+#5      _BufferingStreamSubscription._add (dart:async/stream_impl.dart:263:7)
+#6      _SyncStreamController._sendData (dart:async/stream_controller.dart:763:19)
+#7      _StreamController._add (dart:async/stream_controller.dart:639:7)
+#8      _FileStream._readBlock.&lt;anonymous closure&gt; (dart:io/file_impl.dart:757:12)
+#9      _FutureListener.handleValue (dart:async/future_impl.dart)
+#10     Future._propagateToListeners.handleValueCallback (dart:async/future_impl.dart:642:45)
+#11     Future._propagateToListeners (dart:async/future_impl.dart)
+#12     Future._completeWithValue (dart:async/future_impl.dart:486:5)
+#13     Future._asyncComplete.&lt;anonymous closure&gt; (dart:async/future_impl.dart:516:7)
+#14     _microtaskLoop (dart:async/schedule_microtask.dart:41:21)
+#15     _startMicrotaskLoop (dart:async/schedule_microtask.dart:50:5)
+#16     _runPendingImmediateCallback (dart:isolate/runtime/libisolate_patch.dart:113:13)
+#17     _RawReceivePortImpl._handleMessage (dart:isolate/runtime/libisolate_patch.dart:166:5)
     </pre>
   </section>
 </article>

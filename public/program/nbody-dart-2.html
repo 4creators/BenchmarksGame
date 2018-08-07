@@ -181,10 +181,10 @@ import <span class="str">&apos;dart:math&apos;</span> as <span class="kwb">Math<
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Dart VM version: 2.0.0-dev.58.0 (Wed May 23 20:44:51 2018 +0200) on "linux_x64"
+Dart VM version: 2.0.0 (Fri Aug 3 10:53:23 2018 +0200) on "linux_x64"
 
 
-Sat, 26 May 2018 22:57:46 GMT
+Tue, 07 Aug 2018 19:13:35 GMT
 
 MAKE:
 make: 'nbody.dart-2.dart_run' is up to date.
@@ -192,11 +192,19 @@ make: 'nbody.dart-2.dart_run' is up to date.
 0.01s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/dartsdk-linux-x64-release/dart-sdk/bin/dart  nbody.dart-2.dart 50000000
+/opt/src/dartsdk-linux-x64-release/dart-sdk/bin/dart  nbody.dart-2.dart 500000
+
+PROGRAM FAILED 
+
 
 PROGRAM OUTPUT:
--0.169075164
--0.169059907
+
+nbody.dart-2.dart:29:44: Error: Getter not found: 'PI'.
+  static const double solarmass = 4 * Math.PI * Math.PI;
+                                           ^
+nbody.dart-2.dart:29:54: Error: Getter not found: 'PI'.
+  static const double solarmass = 4 * Math.PI * Math.PI;
+                                                     ^
     </pre>
   </section>
 </article>

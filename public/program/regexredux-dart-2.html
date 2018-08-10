@@ -35,8 +35,8 @@ import <span class="str">&apos;dart:io&apos;</span><span class="opt">;</span>
 import <span class="str">&apos;dart:convert&apos;</span><span class="opt">;</span>
 
 <span class="kwa">void</span> <span class="kwd">main</span><span class="opt">() {</span>
-  <span class="kwa">var</span> text <span class="opt">=</span> <span class="kwa">new</span> <span class="kwb">StringBuffer</span><span class="opt">();</span>
-  <span class="kwa">var</span> src <span class="opt">=</span> stdin<span class="opt">.</span><span class="kwd">transform</span><span class="opt">(</span>UTF8<span class="opt">.</span>decoder<span class="opt">).</span><span class="kwd">transform</span><span class="opt">(</span><span class="kwa">new</span> <span class="kwb">LineSplitter</span><span class="opt">());</span>
+  <span class="kwa">var</span> text <span class="opt">=</span> <span class="kwb">StringBuffer</span><span class="opt">();</span>
+  <span class="kwa">var</span> src <span class="opt">=</span> stdin<span class="opt">.</span><span class="kwd">transform</span><span class="opt">(</span><span class="kwb">Utf</span><span class="num">8</span><span class="kwb">Decoder</span><span class="opt">()).</span><span class="kwd">transform</span><span class="opt">(</span><span class="kwb">LineSplitter</span><span class="opt">());</span>
 
   src<span class="opt">.</span><span class="kwd">listen</span><span class="opt">((</span>line<span class="opt">) {</span>
     <span class="kwa">if</span> <span class="opt">(</span>line <span class="opt">!=</span> <span class="kwa">null</span><span class="opt">) {</span>
@@ -66,7 +66,7 @@ import <span class="str">&apos;dart:convert&apos;</span><span class="opt">;</spa
     <span class="opt">];</span>
     <span class="kwa">var</span> regexp <span class="opt">= [];</span>
     <span class="kwa">for</span><span class="opt">(</span><span class="kwa">var</span> p <span class="kwa">in</span> pattern<span class="opt">) {</span>
-      regexp<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span><span class="kwa">new</span> <span class="kwb">RegExp</span><span class="opt">(</span>p<span class="opt">,</span> caseSensitive<span class="opt">:</span> <span class="kwa">false</span><span class="opt">));</span>
+      regexp<span class="opt">.</span><span class="kwd">add</span><span class="opt">(</span><span class="kwb">RegExp</span><span class="opt">(</span>p<span class="opt">,</span> caseSensitive<span class="opt">:</span> <span class="kwa">false</span><span class="opt">));</span>
     <span class="opt">}</span>
     <span class="kwa">return</span> regexp<span class="opt">;</span>
   <span class="opt">}());</span>
@@ -81,7 +81,7 @@ import <span class="str">&apos;dart:convert&apos;</span><span class="opt">;</spa
 
   lengthA <span class="opt">=</span> fullText<span class="opt">.</span>length<span class="opt">;</span>
 
-  fullText <span class="opt">=</span> fullText<span class="opt">.</span><span class="kwd">replaceAll</span><span class="opt">(</span><span class="kwa">new</span> <span class="kwb">RegExp</span><span class="opt">(</span><span class="str">&apos;^&gt;.*</span><span class="esc">\n</span><span class="str">|</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">,</span> multiLine<span class="opt">:</span> <span class="kwa">true</span><span class="opt">),</span> <span class="str">&apos;&apos;</span><span class="opt">);</span> <span class="slc">// still ridiculously slow with r21658</span>
+  fullText <span class="opt">=</span> fullText<span class="opt">.</span><span class="kwd">replaceAll</span><span class="opt">(</span><span class="kwb">RegExp</span><span class="opt">(</span><span class="str">&apos;^&gt;.*</span><span class="esc">\n</span><span class="str">|</span><span class="esc">\n</span><span class="str">&apos;</span><span class="opt">,</span> multiLine<span class="opt">:</span> <span class="kwa">true</span><span class="opt">),</span> <span class="str">&apos;&apos;</span><span class="opt">);</span> <span class="slc">// still ridiculously slow with r21658</span>
 
   lengthB <span class="opt">=</span> fullText<span class="opt">.</span>length<span class="opt">;</span>
 
@@ -90,7 +90,7 @@ import <span class="str">&apos;dart:convert&apos;</span><span class="opt">;</spa
   <span class="opt">}</span>
 
   <span class="kwa">for</span><span class="opt">(</span><span class="kwa">var</span> i <span class="opt">= -</span><span class="num">1</span><span class="opt">;</span> i <span class="opt">&lt;</span> replacements<span class="opt">.</span>length <span class="opt">-</span> <span class="num">1</span><span class="opt">;) {</span>
-    fullText <span class="opt">=</span> fullText<span class="opt">.</span><span class="kwd">replaceAll</span><span class="opt">(</span><span class="kwa">new</span> <span class="kwb">RegExp</span><span class="opt">(</span>replacements<span class="opt">[++</span>i<span class="opt">]),</span> replacements<span class="opt">[++</span>i<span class="opt">]);</span>
+    fullText <span class="opt">=</span> fullText<span class="opt">.</span><span class="kwd">replaceAll</span><span class="opt">(</span><span class="kwb">RegExp</span><span class="opt">(</span>replacements<span class="opt">[++</span>i<span class="opt">]),</span> replacements<span class="opt">[++</span>i<span class="opt">]);</span>
   <span class="opt">}</span>
 
   lengthC <span class="opt">=</span> fullText<span class="opt">.</span>length<span class="opt">;</span>
@@ -107,7 +107,7 @@ NOTES:
 Dart VM version: 2.0.0 (Fri Aug 3 10:53:23 2018 +0200) on "linux_x64"
 
 
-Tue, 07 Aug 2018 19:13:38 GMT
+Fri, 10 Aug 2018 20:10:41 GMT
 
 MAKE:
 make: 'regexredux.dart-2.dart_run' is up to date.
@@ -115,16 +115,22 @@ make: 'regexredux.dart-2.dart_run' is up to date.
 0.01s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/dartsdk-linux-x64-release/dart-sdk/bin/dart  regexredux.dart-2.dart 0 &lt; regexredux-input50000.txt
-
-PROGRAM FAILED 
-
+/opt/src/dartsdk-linux-x64-release/dart-sdk/bin/dart  regexredux.dart-2.dart 0 &lt; regexredux-input5000000.txt
 
 PROGRAM OUTPUT:
+agggtaaa|tttaccct 356
+[cgt]gggtaaa|tttaccc[acg] 1250
+a[act]ggtaaa|tttacc[agt]t 4252
+ag[act]gtaaa|tttac[agt]ct 2894
+agg[act]taaa|ttta[agt]cct 5435
+aggg[acg]aaa|ttt[cgt]ccct 1537
+agggt[cgt]aa|tt[acg]accct 1431
+agggta[cgt]a|t[acg]taccct 1608
+agggtaa[cgt]|[acg]ttaccct 2178
 
-regexredux.dart-2.dart:15:29: Error: Getter not found: 'UTF8'.
-  var src = stdin.transform(UTF8.decoder).transform(new LineSplitter());
-                            ^^^^
+50833411
+50000000
+27388361
     </pre>
   </section>
 </article>

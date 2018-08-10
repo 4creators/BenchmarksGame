@@ -36,7 +36,7 @@ import <span class="str">&apos;dart:typed_data&apos;</span><span class="opt">;</
 <span class="kwa">void</span> <span class="kwd">main</span><span class="opt">(</span>args<span class="opt">) {</span>
   <span class="kwb">int</span> n <span class="opt">=</span> args<span class="opt">.</span>length <span class="opt">&gt;</span> <span class="num">0</span> ? <span class="kwb">int</span><span class="opt">.</span><span class="kwd">parse</span><span class="opt">(</span>args<span class="opt">[</span><span class="num">0</span><span class="opt">]) :</span> <span class="num">0</span><span class="opt">;</span>
 
-  NBodySystem system <span class="opt">=</span> <span class="kwa">new</span> <span class="kwd">NBodySystem</span><span class="opt">();</span>
+  NBodySystem system <span class="opt">=</span> <span class="kwd">NBodySystem</span><span class="opt">();</span>
   <span class="kwd">print</span><span class="opt">(</span>system<span class="opt">.</span><span class="kwd">energy</span><span class="opt">().</span><span class="kwd">toStringAsFixed</span><span class="opt">(</span><span class="num">9</span><span class="opt">));</span>
   <span class="kwa">for</span> <span class="opt">(</span><span class="kwb">int</span> i <span class="opt">=</span> <span class="num">0</span><span class="opt">;</span> i <span class="opt">&lt;</span> n<span class="opt">;</span> i<span class="opt">++) {</span>
     system<span class="opt">.</span><span class="kwd">advance</span><span class="opt">(</span><span class="num">0.01</span><span class="opt">);</span>
@@ -45,7 +45,7 @@ import <span class="str">&apos;dart:typed_data&apos;</span><span class="opt">;</
 <span class="opt">}</span>
 
 <span class="kwa">class</span> <span class="kwb">Body</span> <span class="opt">{</span>
-  <span class="kwa">final</span> <span class="kwb">Float</span><span class="num">64L</span>ist _data <span class="opt">=</span> <span class="kwa">new</span> <span class="kwb">Float</span><span class="num">64L</span>ist<span class="opt">(</span><span class="num">7</span><span class="opt">);</span>
+  <span class="kwa">final</span> <span class="kwb">Float</span><span class="num">64L</span>ist _data <span class="opt">=</span> <span class="kwb">Float</span><span class="num">64L</span>ist<span class="opt">(</span><span class="num">7</span><span class="opt">);</span>
   get x <span class="opt">=&gt;</span> _data<span class="opt">[</span><span class="num">0</span><span class="opt">];</span>
   get y <span class="opt">=&gt;</span> _data<span class="opt">[</span><span class="num">1</span><span class="opt">];</span>
   get z <span class="opt">=&gt;</span> _data<span class="opt">[</span><span class="num">2</span><span class="opt">];</span>
@@ -76,16 +76,16 @@ import <span class="str">&apos;dart:typed_data&apos;</span><span class="opt">;</
 <span class="kwa">class</span> NBodySystem <span class="opt">{</span>
   <span class="kwa">var</span> bodies<span class="opt">;</span>
 
-  <span class="kwa">static const</span> <span class="kwb">double</span> solarmass <span class="opt">=</span> <span class="num">4</span> <span class="opt">*</span> <span class="kwb">Math</span><span class="opt">.</span>PI <span class="opt">*</span> <span class="kwb">Math</span><span class="opt">.</span>PI<span class="opt">;</span>
-  <span class="kwa">static const</span> <span class="kwb">double</span> daysPeryear <span class="opt">=</span> <span class="num">365.24</span><span class="opt">;</span>
+  <span class="kwa">static</span> <span class="kwb">double</span> solarmass <span class="opt">=</span> <span class="num">4</span> <span class="opt">*</span> <span class="kwb">Math</span><span class="opt">.</span>pi <span class="opt">*</span> <span class="kwb">Math</span><span class="opt">.</span>pi<span class="opt">;</span>
+  <span class="kwa">static</span> <span class="kwb">double</span> daysPeryear <span class="opt">=</span> <span class="num">365.24</span><span class="opt">;</span>
 
   <span class="kwd">NBodySystem</span><span class="opt">() {</span>
-    bodies <span class="opt">=</span> <span class="kwa">new</span> <span class="kwb">List</span><span class="opt">&lt;</span><span class="kwb">Body</span><span class="opt">&gt;();</span>
+    bodies <span class="opt">=</span> <span class="kwb">List</span><span class="opt">&lt;</span><span class="kwb">Body</span><span class="opt">&gt;();</span>
     bodies<span class="opt">.</span><span class="kwd">addAll</span><span class="opt">([</span>
       <span class="slc">// Sun</span>
 
 
-      <span class="kwa">new</span> <span class="kwb">Body</span><span class="opt">(</span>
+      <span class="kwb">Body</span><span class="opt">(</span>
         x<span class="opt">:</span> <span class="num">0.0</span><span class="opt">,</span>
         y<span class="opt">:</span> <span class="num">0.0</span><span class="opt">,</span>
         z<span class="opt">:</span> <span class="num">0.0</span><span class="opt">,</span>
@@ -97,7 +97,7 @@ import <span class="str">&apos;dart:typed_data&apos;</span><span class="opt">;</
       <span class="slc">// Jupiter</span>
 
 
-      <span class="kwa">new</span> <span class="kwb">Body</span><span class="opt">(</span>
+      <span class="kwb">Body</span><span class="opt">(</span>
         x<span class="opt">:</span> <span class="num">4.84143144246472090e+00</span><span class="opt">,</span>
         y<span class="opt">: -</span><span class="num">1.16032004402742839e+00</span><span class="opt">,</span>
         z<span class="opt">: -</span><span class="num">1.03622044471123109e-01</span><span class="opt">,</span>
@@ -109,7 +109,7 @@ import <span class="str">&apos;dart:typed_data&apos;</span><span class="opt">;</
       <span class="slc">// Saturn</span>
 
 
-      <span class="kwa">new</span> <span class="kwb">Body</span><span class="opt">(</span>
+      <span class="kwb">Body</span><span class="opt">(</span>
         x<span class="opt">:</span> <span class="num">8.34336671824457987e+00</span><span class="opt">,</span>
         y<span class="opt">:</span> <span class="num">4.12479856412430479e+00</span><span class="opt">,</span>
         z<span class="opt">: -</span><span class="num">4.03523417114321381e-01</span><span class="opt">,</span>
@@ -121,7 +121,7 @@ import <span class="str">&apos;dart:typed_data&apos;</span><span class="opt">;</
       <span class="slc">// Uranus</span>
 
 
-      <span class="kwa">new</span> <span class="kwb">Body</span><span class="opt">(</span>
+      <span class="kwb">Body</span><span class="opt">(</span>
         x<span class="opt">:</span> <span class="num">1.28943695621391310e+01</span><span class="opt">,</span>
         y<span class="opt">: -</span><span class="num">1.51111514016986312e+01</span><span class="opt">,</span>
         z<span class="opt">: -</span><span class="num">2.23307578892655734e-01</span><span class="opt">,</span>
@@ -133,7 +133,7 @@ import <span class="str">&apos;dart:typed_data&apos;</span><span class="opt">;</
       <span class="slc">// Neptune</span>
 
 
-      <span class="kwa">new</span> <span class="kwb">Body</span><span class="opt">(</span>
+      <span class="kwb">Body</span><span class="opt">(</span>
         x<span class="opt">:</span> <span class="num">1.53796971148509165e+01</span><span class="opt">,</span>
         y<span class="opt">: -</span><span class="num">2.59193146099879641e+01</span><span class="opt">,</span>
         z<span class="opt">:</span> <span class="num">1.79258772950371181e-01</span><span class="opt">,</span>
@@ -215,27 +215,19 @@ NOTES:
 Dart VM version: 2.0.0 (Fri Aug 3 10:53:23 2018 +0200) on "linux_x64"
 
 
-Tue, 07 Aug 2018 19:13:36 GMT
+Fri, 10 Aug 2018 20:07:47 GMT
 
 MAKE:
 make: 'nbody.dart-3.dart_run' is up to date.
 
-0.01s to complete and log all make actions
+0.00s to complete and log all make actions
 
 COMMAND LINE:
-/opt/src/dartsdk-linux-x64-release/dart-sdk/bin/dart  nbody.dart-3.dart 500000
-
-PROGRAM FAILED 
-
+/opt/src/dartsdk-linux-x64-release/dart-sdk/bin/dart  nbody.dart-3.dart 50000000
 
 PROGRAM OUTPUT:
-
-nbody.dart-3.dart:55:44: Error: Getter not found: 'PI'.
-  static const double solarmass = 4 * Math.PI * Math.PI;
-                                           ^
-nbody.dart-3.dart:55:54: Error: Getter not found: 'PI'.
-  static const double solarmass = 4 * Math.PI * Math.PI;
-                                                     ^
+-0.169075164
+-0.169059907
     </pre>
   </section>
 </article>

@@ -161,21 +161,21 @@ defer <span class="opt">{</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Swift version 4.2-dev (LLVM a38ff55b31, Clang 5272858825, Swift defc3e9073)
+Swift version 4.2-dev (LLVM da1c9a3ae4, Clang 78aa734eee, Swift a710c2f169)
 Target: x86_64-unknown-linux-gnu
 
 
 
 
-Wed, 06 Jun 2018 22:41:13 GMT
+Sat, 11 Aug 2018 15:52:54 GMT
 
 MAKE:
-/opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-06-05-a-ubuntu16.10/usr/bin/swiftc nbody.swift-4.swift -Ounchecked -Xllvm -unroll-count=5 -Xllvm -unroll-threshold=500 -o nbody.swift-4.swift_run
+/opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-08-10-a-ubuntu16.10/usr/bin/swiftc nbody.swift-4.swift -Ounchecked -Xllvm -unroll-count=5 -Xllvm -unroll-threshold=500 -o nbody.swift-4.swift_run
 nbody.swift-4.swift:55:12: warning: 'deallocate(capacity:)' is deprecated: Swift currently only supports freeing entire heap blocks, use deallocate() instead
     bodies.deallocate(capacity: nPlanets)
            ^
 
-2.41s to complete and log all make actions
+2.52s to complete and log all make actions
 
 COMMAND LINE:
 ./nbody.swift-4.swift_run 500000
@@ -185,7 +185,7 @@ PROGRAM FAILED
 
 PROGRAM OUTPUT:
 
-./nbody.swift-4.swift_run: /usr/lib/x86_64-linux-gnu/libcurl.so.4: version `CURL_OPENSSL_3' not found (required by /opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-06-05-a-ubuntu16.10/usr/lib/swift/linux/libFoundation.so)
+./nbody.swift-4.swift_run: /usr/lib/x86_64-linux-gnu/libcurl.so.4: version `CURL_OPENSSL_3' not found (required by /opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-08-10-a-ubuntu16.10/usr/lib/swift/linux/libFoundation.so)
     </pre>
   </section>
 </article>

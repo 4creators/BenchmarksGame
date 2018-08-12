@@ -286,16 +286,16 @@ defer <span class="opt">{</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-Swift version 4.2-dev (LLVM a38ff55b31, Clang 5272858825, Swift defc3e9073)
+Swift version 4.2-dev (LLVM da1c9a3ae4, Clang 78aa734eee, Swift a710c2f169)
 Target: x86_64-unknown-linux-gnu
 
 
 
 
-Wed, 06 Jun 2018 22:31:00 GMT
+Sat, 11 Aug 2018 15:39:31 GMT
 
 MAKE:
-/opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-06-05-a-ubuntu16.10/usr/bin/swiftc fasta.swift-3.swift -Ounchecked  -o fasta.swift-3.swift_run
+/opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-08-10-a-ubuntu16.10/usr/bin/swiftc fasta.swift-3.swift -Ounchecked  -o fasta.swift-3.swift_run
 fasta.swift-3.swift:75:10: warning: 'deallocate(capacity:)' is deprecated: Swift currently only supports freeing entire heap blocks, use deallocate() instead
         bufs[i].deallocate(capacity: rndBufSize)
                 ^
@@ -306,7 +306,7 @@ fasta.swift-3.swift:109:17: warning: 'deallocate(capacity:)' is deprecated: Swif
         blockNl.deallocate(capacity: (block.utf16.count)+s.utf16.count*linewidth-1)
                 ^
 
-3.83s to complete and log all make actions
+4.05s to complete and log all make actions
 
 COMMAND LINE:
 ./fasta.swift-3.swift_run 250000
@@ -316,7 +316,7 @@ PROGRAM FAILED
 
 PROGRAM OUTPUT:
 
-./fasta.swift-3.swift_run: /usr/lib/x86_64-linux-gnu/libcurl.so.4: version `CURL_OPENSSL_3' not found (required by /opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-06-05-a-ubuntu16.10/usr/lib/swift/linux/libFoundation.so)
+./fasta.swift-3.swift_run: /usr/lib/x86_64-linux-gnu/libcurl.so.4: version `CURL_OPENSSL_3' not found (required by /opt/src/swift-4.2-DEVELOPMENT-SNAPSHOT-2018-08-10-a-ubuntu16.10/usr/lib/swift/linux/libFoundation.so)
     </pre>
   </section>
 </article>

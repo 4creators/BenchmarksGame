@@ -83,12 +83,13 @@ run <span class="str">&quot;&quot;</span> <span class="opt">[]</span>
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-sdk/2.1.300
-.NETCore.App 2.1.0
-"System.GC.Server": true
+sdk/2.1.400
+.NETCore.App 2.1.2
+&lt;ServerGarbageCollection&gt;true
+&lt;ConcurrentGarbageCollection&gt;true
 
 
-Wed, 30 May 2018 23:39:09 GMT
+Wed, 15 Aug 2018 21:33:13 GMT
 
 MAKE:
 cp revcomp.fsharpcore Program.fs
@@ -99,7 +100,7 @@ cp Include/fsharpcore/project.assets.json ./obj
 cp Include/fsharpcore/tmp.fsproj.nuget.g.props ./obj
 cp Include/fsharpcore/tmp.fsproj.nuget.g.targets ./obj
 /usr/bin/dotnet build -c Release --no-restore
-Microsoft (R) Build Engine version 15.7.179.6572 for .NET Core
+Microsoft (R) Build Engine version 15.8.166+gd4e8d81a88 for .NET Core
 Copyright (C) Microsoft Corporation. All rights reserved.
 
   tmp -&gt; /home/dunham/benchmarksgame_quadcore/revcomp/tmp/bin/Release/netcoreapp2.1/tmp.dll
@@ -108,9 +109,9 @@ Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:05.66
+Time Elapsed 00:00:08.98
 
-6.27s to complete and log all make actions
+10.62s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/dotnet ./bin/Release/netcoreapp2.1/tmp.dll 0 &lt; revcomp-input100000000.txt

@@ -139,12 +139,13 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-sdk/2.1.300
-.NETCore.App 2.1.0
-"System.GC.Server": true
+sdk/2.1.400
+.NETCore.App 2.1.2
+&lt;ServerGarbageCollection&gt;true
+&lt;ConcurrentGarbageCollection&gt;true
 
 
-Wed, 30 May 2018 23:00:04 GMT
+Wed, 15 Aug 2018 20:48:55 GMT
 
 MAKE:
 cp fasta.fsharpcore-2.fsharpcore Program.fs
@@ -155,7 +156,7 @@ cp Include/fsharpcore/project.assets.json ./obj
 cp Include/fsharpcore/tmp.fsproj.nuget.g.props ./obj
 cp Include/fsharpcore/tmp.fsproj.nuget.g.targets ./obj
 /usr/bin/dotnet build -c Release --no-restore
-Microsoft (R) Build Engine version 15.7.179.6572 for .NET Core
+Microsoft (R) Build Engine version 15.8.166+gd4e8d81a88 for .NET Core
 Copyright (C) Microsoft Corporation. All rights reserved.
 
   tmp -&gt; /home/dunham/benchmarksgame_quadcore/fasta/tmp/bin/Release/netcoreapp2.1/tmp.dll
@@ -164,9 +165,9 @@ Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:05.80
+Time Elapsed 00:00:05.92
 
-6.40s to complete and log all make actions
+6.53s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/dotnet ./bin/Release/netcoreapp2.1/tmp.dll 25000000

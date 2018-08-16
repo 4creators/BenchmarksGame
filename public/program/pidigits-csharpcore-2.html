@@ -177,13 +177,13 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-sdk/2.1.302
-.NETCore.App 2.1.0
+sdk/2.1.400
+.NETCore.App 2.1.2
 &lt;ServerGarbageCollection&gt;true
 &lt;ConcurrentGarbageCollection&gt;true
 
 
-Sun, 05 Aug 2018 19:48:49 GMT
+Thu, 16 Aug 2018 00:25:23 GMT
 
 MAKE:
 cp pidigits.csharpcore-2.csharpcore Program.cs
@@ -193,12 +193,12 @@ mkdir obj
 cp Include/csharpcore/tmp.csproj.nuget.g.props ./obj
 cp Include/csharpcore/tmp.csproj.nuget.g.targets ./obj
 /usr/bin/dotnet build -c Release
-Microsoft (R) Build Engine version 15.7.179.6572 for .NET Core
+Microsoft (R) Build Engine version 15.8.166+gd4e8d81a88 for .NET Core
 Copyright (C) Microsoft Corporation. All rights reserved.
 
   Restoring packages for /home/dunham/benchmarksgame_quadcore/pidigits/tmp/tmp.csproj...
   Generating MSBuild file /home/dunham/benchmarksgame_quadcore/pidigits/tmp/obj/tmp.csproj.nuget.g.props.
-  Restore completed in 262.36 ms for /home/dunham/benchmarksgame_quadcore/pidigits/tmp/tmp.csproj.
+  Restore completed in 276.96 ms for /home/dunham/benchmarksgame_quadcore/pidigits/tmp/tmp.csproj.
 Program.cs(9,21): error CS0246: The type or namespace name 'Mono' could not be found (are you missing a using directive or an assembly reference?) [/home/dunham/benchmarksgame_quadcore/pidigits/tmp/tmp.csproj]
 
 Build FAILED.
@@ -207,11 +207,11 @@ Program.cs(9,21): error CS0246: The type or namespace name 'Mono' could not be f
     0 Warning(s)
     1 Error(s)
 
-Time Elapsed 00:00:02.25
+Time Elapsed 00:00:02.35
 /home/dunham/8000-benchmarksgame/nanobench/makefiles/u64q.programs.Makefile:235: recipe for target 'pidigits.csharpcore-2.csharpcore_run' failed
 make: [pidigits.csharpcore-2.csharpcore_run] Error 1 (ignored)
 
-2.86s to complete and log all make actions
+2.95s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/dotnet ./bin/Release/netcoreapp2.1/tmp.dll 2000

@@ -93,18 +93,23 @@ a{color:black;text-decoration:none}article{padding:0 0 2.9em}article,div,footer,
     <pre>
 NOTES:
 64-bit Ubuntu quad core
-HipHop VM 3.27.1 (rel)
-Compiler: 1532025848_857759529
-Repo schema: 6f2a65dfa3a360d8c159fe76a8bee0e26ba4e45a
+HipHop VM 3.27.2 (rel)
+Compiler: 1534356719_967452753
+Repo schema: 95ea01991dc819bb6fb84515da43b28a97e0ac62
 
 
-Tue, 24 Jul 2018 17:27:32 GMT
+Sat, 18 Aug 2018 17:38:08 GMT
 
 MAKE:
 /usr/bin/hh_client
+For more detailed logs, try `tail -f $(hh_client --monitor-logname) $(hh_client --logname)`
+Server launched with the following command:
+	'/usr/bin/hh_server' '-d' '/home/dunham/benchmarksgame_quadcore/binarytrees' '--waiting-client' '8'
+Spawned typechecker (child pid=3937)
+Logs will go to /tmp/hh_server/monitor_logs/zShomezSdunhamzSbenchmarksgame_quadcorezSbinarytrees-2018-08-18-10-38-02.monitor_log
 No errors!
 
-0.11s to complete and log all make actions
+3.07s to complete and log all make actions
 
 COMMAND LINE:
 /usr/bin/hhvm  -d hhvm.hack.lang.look_for_typechecker=0 binarytrees.hack 21
